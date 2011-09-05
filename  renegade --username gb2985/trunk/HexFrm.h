@@ -63,13 +63,12 @@ class HexFrm : public wxFrame
         wxString* groups;
         int* group;
         wxString* preset;
-        xApp* apps;
+		void hexLBSoftwareSelected(wxCommandEvent& event);
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxChoice *hexDBGroup;
 		wxPanel *hexNB7;
 		wxPanel *hexNB6;
 		wxPanel *hexNB5;
@@ -119,6 +118,7 @@ class HexFrm : public wxFrame
 		wxChoice *hexDBSSize;
 		wxStaticText *hexLBLSSize;
 		wxPanel *hexNB2;
+		wxChoice *hexDBGroup;
 		wxButton *hexBTNSoftware;
 		wxDirPickerCtrl *hexDIRDump;
 		wxStaticText *hexLBLDump;
@@ -164,7 +164,6 @@ class HexFrm : public wxFrame
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_HEXDBGROUP = 1103,
 			ID_HEXNB7 = 1008,
 			ID_HEXNB6 = 1007,
 			ID_HEXNB5 = 1006,
@@ -214,6 +213,7 @@ class HexFrm : public wxFrame
 			ID_HEXDBSSIZE = 1049,
 			ID_HEXLBLSSIZE = 1048,
 			ID_HEXNB2 = 1003,
+			ID_HEXDBGROUP = 1103,
 			ID_HEXBTNSOFTWARE = 1102,
 			ID_HEXDIRDUMP = 1047,
 			ID_HEXLBLDUMP = 1046,

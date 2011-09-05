@@ -3,7 +3,7 @@ object frmNewForm: TfrmNewForm
   Top = 8
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
-  Caption = 'New Dialog'
+  Caption = 'HackerEx'
   ClientHeight = 442
   ClientWidth = 624
   Color = clAppWorkSpace
@@ -937,6 +937,7 @@ object frmNewForm: TfrmNewForm
         Height = 380
         ItemHeight = 15
         TabOrder = 25
+        EVT_LISTBOX = 'hexLBSoftwareSelected'
         Wx_BGColor = clBlack
         Wx_Class = 'wxListBox'
         Wx_ControlOrientation = wxControlVertical

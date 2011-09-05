@@ -18,6 +18,8 @@
 //#include <iostream>
 #include <string.h>
 #include <wx/string.h>
+#include <wx/dynarray.h>
+#include <wx/arrimpl.cpp>
 #ifdef WIN32
 #include <windows.h>
 #include <tlhelp32.h>
@@ -37,6 +39,7 @@ BEGIN_EVENT_TABLE(HexFrm,wxFrame)
 	EVT_IDLE(HexFrm::HexFrmIdle)
 	EVT_CHOICE(ID_HEXDBGROUP,HexFrm::hexDBGroupSelected)
 	EVT_BUTTON(ID_HEXBTNSOFTWARE,HexFrm::hexBTNSoftwareOnClick)
+	EVT_LISTBOX(ID_HEXLBSOFTWARE,HexFrm::hexLBSoftwareSelected)
 END_EVENT_TABLE()
 ////Event Table End
 DWORD getAppId(const wxString appName) {
@@ -167,6 +170,17 @@ void HexFrm::CreateGUIControls()
 
 	hexBTNSoftware = new wxButton(hexNB1, ID_HEXBTNSOFTWARE, wxT("Active Software"), wxPoint(330, 5), wxSize(100, 25), 0, wxDefaultValidator, wxT("hexBTNSoftware"));
 
+	wxArrayString arrayStringFor_hexDBGroup;
+	arrayStringFor_hexDBGroup.Add(wxT("Nintendo 64"));
+	arrayStringFor_hexDBGroup.Add(wxT("Nintendo DS / DSi / 3DS"));
+	arrayStringFor_hexDBGroup.Add(wxT("Nintendo Gameboy"));
+	arrayStringFor_hexDBGroup.Add(wxT("Nintendo Wii"));
+	arrayStringFor_hexDBGroup.Add(wxT("PC"));
+	arrayStringFor_hexDBGroup.Add(wxT("Sony Playstation 1"));
+	arrayStringFor_hexDBGroup.Add(wxT("Sony Playstation 2"));
+	hexDBGroup = new wxChoice(hexNB1, ID_HEXDBGROUP, wxPoint(75, 5), wxSize(145, 23), arrayStringFor_hexDBGroup, 0, wxDefaultValidator, wxT("hexDBGroup"));
+	hexDBGroup->SetSelection(4);
+
 	hexNB2 = new wxPanel(hexNB, ID_HEXNB2, wxPoint(4, 26), wxSize(617, 415));
 	hexNB->AddPage(hexNB2, wxT("Search"));
 
@@ -293,18 +307,7 @@ void HexFrm::CreateGUIControls()
 	hexNB7 = new wxPanel(hexNB, ID_HEXNB7, wxPoint(4, 26), wxSize(617, 415));
 	hexNB->AddPage(hexNB7, wxT("About"));
 
-	wxArrayString arrayStringFor_hexDBGroup;
-	arrayStringFor_hexDBGroup.Add(wxT("Nintendo 64"));
-	arrayStringFor_hexDBGroup.Add(wxT("Nintendo DS / DSi / 3DS"));
-	arrayStringFor_hexDBGroup.Add(wxT("Nintendo Gameboy"));
-	arrayStringFor_hexDBGroup.Add(wxT("Nintendo Wii"));
-	arrayStringFor_hexDBGroup.Add(wxT("PC"));
-	arrayStringFor_hexDBGroup.Add(wxT("Sony Playstation 1"));
-	arrayStringFor_hexDBGroup.Add(wxT("Sony Playstation 2"));
-	hexDBGroup = new wxChoice(hexNB1, ID_HEXDBGROUP, wxPoint(75, 5), wxSize(145, 23), arrayStringFor_hexDBGroup, 0, wxDefaultValidator, wxT("hexDBGroup"));
-	hexDBGroup->SetSelection(4);
-
-	SetTitle(wxT("New Dialog"));
+	SetTitle(wxT("HackerEx"));
 	SetIcon(wxNullIcon);
 	SetSize(8,8,640,480);
 	Center();
@@ -356,43 +359,46 @@ BOOL CALLBACK getWin(HWND hwnd, LPARAM i) {
         catch (e) {}
     } return TRUE;
 }
+WX_DECLARE_OBJARRAY(xApp, apps);
+WX_DEFINE_OBJARRAY(apps);
 void HexFrm::getApps(bool user) {
 #ifdef WIN32
     if (appWait > 500 || user == true) {
         appWait = 0;
-        //PROCESSENTRY32 pe32;
-        //pe32.dwSize = sizeof(PROCESSENTRY32);
-        //HANDLE app = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-        int i = 0;
-        //if (app != INVALID_HANDLE_VALUE && Process32First(app, &pe32)) {
-            //do {
-                //i = pe32.th32ProcessID;
-        if (EnumWindows(getWin, (long)&i)) {
-            appLen = i;
-            appS = new wxString [i];
-            EnumWindows(getWin, (long)&i);
-            for (i = 0;i < appLen;i++) {
-                hexLBSoftware->Append(appS[i]);
-            }
-        }
-            //} while (Process32Next(app, &pe32));
-        //}
-        /*THREADENTRY32 te32 = {0}; GUITHREADINFO *ti32;
+        wxString s;
+        xApp a;
+        PROCESSENTRY32 pe32;
+        THREADENTRY32 te32 = {0};
+        GUITHREADINFO ti32;
+        LPTSTR t;
+        int tl;
+        HWND hwnd;
+        pe32.dwSize = sizeof(PROCESSENTRY32);
         te32.dwSize = sizeof(THREADENTRY32);
-        LPTSTR t; DWORD pid;
+        HANDLE hp = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        HANDLE ht;
         hexLBSoftware->Clear();
-        if (app != INVALID_HANDLE_VALUE) {
-            wxString s; int i = 0;
-            if (Thread32First(app, &te32)) {
+        if (hp != INVALID_HANDLE_VALUE && Process32First(hp, &pe32)) {
+            do {
+                ht = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, pe32.th32ProcessID);
+                Thread32First(ht, &te32);
                 do {
-                    if (GetGUIThreadInfo(te32.th32ThreadID,ti32) != 0)// && IsWindow(ti32->hwndActive))
-                    {
-                        //pe32 = getApp(te32.th32OwnerProcessID);
-                        //if (pe32.th32ProcessID != 0)
-                            i++;
-                    }
-                } while(Thread32Next(app, &te32));
-                Thread32First(app, &te32);
+                    GetGUIThreadInfo(te32.th32ThreadID,&ti32) != 0;
+                    hwnd = GetWindow(ti32.hwndActive, GW_OWNER);
+                    if (hwnd == NULL) hwnd = ti32.hwndActive;
+                    tl = GetWindowTextLength(hwnd);
+                    if (GetWindowText(hwnd, t, tl)) {
+                        s.Printf("%s: %s", pe32.szExeFile, t);
+                        break;
+                    } s.Printf(pe32.szExeFile);
+                } while (Thread32Next(ht,&te32));
+                if (s != "") {
+                    hexLBSoftware->Append(s);
+                } //apps->Add((xApp)a, 1);
+            } while (Process32Next(hp, &pe32));
+        }
+        /*if (app != INVALID_HANDLE_VALUE) {
+            wxString s; int i = 0;
                 apps = new xApp [i]; i = 0;
                 do {
                     pid = te32.th32OwnerProcessID;
@@ -410,9 +416,10 @@ void HexFrm::getApps(bool user) {
                         //}
                     }
                 } while(Thread32Next(app, &te32)); appLen = i;
-                apps[i - 1].last = true; CloseHandle(app);
+                apps[i - 1].last = true;
             }
         }*/
+        CloseHandle(ht); CloseHandle(hp);
     } else { appWait++; }
 #endif
 }
@@ -439,4 +446,12 @@ void HexFrm::hexDBGroupSelected(wxCommandEvent& event )
             hexDBPreset->Append(preset[i]);
         }
     }
+}
+
+/*
+ * hexLBSoftwareSelected
+ */
+void HexFrm::hexLBSoftwareSelected(wxCommandEvent& event)
+{
+	hexTXTName->ChangeValue(hexLBSoftware->GetStringSelection());
 }
