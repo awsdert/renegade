@@ -364,19 +364,12 @@ WX_DEFINE_OBJARRAY(apps);
 void HexFrm::getApps(bool user) {
 #ifdef WIN32
     if (appWait > 500 || user == true) {
-        appWait = 0;
-        wxString s;
-        xApp a;
-        PROCESSENTRY32 pe32;
-        THREADENTRY32 te32 = {0};
-        GUITHREADINFO ti32;
-        LPTSTR t;
-        int tl;
-        HWND hwnd;
-        pe32.dwSize = sizeof(PROCESSENTRY32);
-        te32.dwSize = sizeof(THREADENTRY32);
+        // variable creation
+        appWait = 0; wxString s; xApp a; char* t; WPARAM tl; HWND hwnd; HANDLE ht;
+        PROCESSENTRY32 pe32; THREADENTRY32 te32 = {0}; GUITHREADINFO ti32;
+        pe32.dwSize = sizeof(PROCESSENTRY32); te32.dwSize = sizeof(THREADENTRY32);
         HANDLE hp = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-        HANDLE ht;
+        // main code
         hexLBSoftware->Clear();
         if (hp != INVALID_HANDLE_VALUE && Process32First(hp, &pe32)) {
             do {
@@ -385,38 +378,30 @@ void HexFrm::getApps(bool user) {
                 do {
                     GetGUIThreadInfo(te32.th32ThreadID,&ti32) != 0;
                     hwnd = GetWindow(ti32.hwndActive, GW_OWNER);
-                    if (hwnd == NULL) hwnd = ti32.hwndActive;
-                    tl = GetWindowTextLength(hwnd);
-                    if (GetWindowText(hwnd, t, tl)) {
+                    if (hwnd == NULL)
+                        hwnd = ti32.hwndActive;
+                    tl = SendMessage(hwnd, WM_GETTEXTLENGTH, 0, 0);
+                    if (tl > 0) {
+                        SendMessage(hwnd, WM_GETTEXT, tl, (LPARAM)&t);
                         s.Printf("%s: %s", pe32.szExeFile, t);
                         break;
                     } s.Printf(pe32.szExeFile);
                 } while (Thread32Next(ht,&te32));
                 if (s != "") {
                     hexLBSoftware->Append(s);
-                } //apps->Add((xApp)a, 1);
+                    //apps->Add((xApp)a, 1);
+                }
             } while (Process32Next(hp, &pe32));
         }
-        /*if (app != INVALID_HANDLE_VALUE) {
-            wxString s; int i = 0;
-                apps = new xApp [i]; i = 0;
-                do {
-                    pid = te32.th32OwnerProcessID;
-                    if (GetGUIThreadInfo(te32.th32ThreadID,ti32) != 0)// && IsWindow(ti32->hwndActive))
-                    {
-                        pe32 = getApp(pid);
-                        //if (pe32.th32ProcessID != 0) {
-                            apps[i].id = pid;
-                            apps[i].exe.Printf(pe32.szExeFile);
-                            GetWindowText(ti32->hwndActive,t,sizeof(LPTSTR));
-                            apps[i].name.Printf(t);
-                            apps[i].hwnd = ti32->hwndActive;
-                            s = apps[i].exe << " - " << apps[i].name;
-                            hexLBSoftware->Append(s); i++;
-                        //}
-                    }
-                } while(Thread32Next(app, &te32)); appLen = i;
-                apps[i - 1].last = true;
+        /*
+            if (pe32.th32ProcessID != 0) {
+                apps[i].id = pid;
+                apps[i].exe.Printf(pe32.szExeFile);
+                GetWindowText(ti32->hwndActive,t,sizeof(LPTSTR));
+                apps[i].name.Printf(t);
+                apps[i].hwnd = ti32->hwndActive;
+                s = apps[i].exe << " - " << apps[i].name;
+                hexLBSoftware->Append(s); i++;
             }
         }*/
         CloseHandle(ht); CloseHandle(hp);
