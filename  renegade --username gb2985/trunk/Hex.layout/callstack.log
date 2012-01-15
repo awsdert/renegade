@@ -1,0 +1,8 @@
+#0 67B4A7CF	wxStringBase::AllocBeforeWrite() (E:\WIN32\Tools\CodeBlocks\wxWidgets2.8\lib\gcc_dll\wxmsw28u_gcc.dll:??)
+#1 67B4A855	wxString::GetWriteBuf() (E:\WIN32\Tools\CodeBlocks\wxWidgets2.8\lib\gcc_dll\wxmsw28u_gcc.dll:??)
+#2 67B4B460	wxString::PrintfV() (E:\WIN32\Tools\CodeBlocks\wxWidgets2.8\lib\gcc_dll\wxmsw28u_gcc.dll:??)
+#3 67B4B4EF	wxString::Printf() (E:\WIN32\Tools\CodeBlocks\wxWidgets2.8\lib\gcc_dll\wxmsw28u_gcc.dll:??)
+#4 00000000	0x00401ad3 in appList3() (??:??)
+#5 7503946A	USER32!LockSetForegroundWindow() (C:\Windows\syswow64\user32.dll:??)
+#6 00000000	0x000401b0 in ??() (??:??)
+#7 00000000	0x00000000 in ??() (??:??)
