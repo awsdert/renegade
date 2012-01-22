@@ -621,8 +621,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	fgSizer29->Add( fgSizer30, 1, wxEXPAND, 5 );
 	
-	treeHack = new wxTreeCtrl( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS|wxTR_HIDE_ROOT );
-	treeHack->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed:\nDel / Delete = Remove Hack / Node\nCTRL + Arrow = Move Hack / Node in that direction") );
+	treeHack = new wxTreeCtrl( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
+	treeHack->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
 	
 	fgSizer29->Add( treeHack, 0, wxALL|wxEXPAND, 5 );
 	
@@ -824,7 +824,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::OnClose ) );
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
 	cbGroup->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::groupOnBlur ), NULL, this );
 	bGroup->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::groupOnClick ), NULL, this );
@@ -836,13 +836,13 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bAppUse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
 	bAddHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
 	bDelHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
-	treeHack->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
+	treeHack->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
 }
 
 HEXFRM::~HEXFRM()
 {
 	// Disconnect Events
-	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::OnClose ) );
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
 	cbGroup->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::groupOnBlur ), NULL, this );
 	bGroup->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::groupOnClick ), NULL, this );
@@ -854,6 +854,6 @@ HEXFRM::~HEXFRM()
 	bAppUse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
 	bAddHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
 	bDelHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
-	treeHack->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
+	treeHack->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
 	
 }

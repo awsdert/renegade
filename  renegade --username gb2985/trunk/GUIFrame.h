@@ -149,7 +149,7 @@ class HEXFRM : public wxFrame
 		wxStatusBar* SB;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+		virtual void HEXFORMCLOSE( wxCloseEvent& event ) { event.Skip(); }
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
 		virtual void groupOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void groupOnClick( wxCommandEvent& event ) { event.Skip(); }

@@ -11,24 +11,35 @@
 #define HEXMAIN_H
 #include "hexApp.h"
 #include "GUIFrame.h"
+WX_DEFINE_ARRAY(DWORD32*, DW32A);
+class HACK: public wxTreeItemData {
+	public:
+		HACK();
+		~HACK();
+	public:
+		int length;
+		DW32A cPart1;
+		DW32A cPart2;
+}; //HACK* Hack();
 class hexWin: public HEXFRM {
     public:
         hexWin(wxFrame *frame);
         ~hexWin();
     private:
-        virtual void OnClose(wxCloseEvent& event);
-        virtual void OnQuit(wxCommandEvent& event);
-        virtual void OnAbout(wxCommandEvent& event);
+        virtual void HEXFORMCLOSE(wxCloseEvent& event);
 	public:
 		wxTreeItemId treeHackRoot(void);
-		wxTreeItemId treeHackRoot(wxTreeItemId i);
-		wxTreeItemId treeHackAdd(wxTreeItemId r, wxString l, int where);
-		wxTreeItemId treeHackAdd(wxTreeItemId r, wxString l, int where, wxTreeItemData* d);
-		wxTreeItemId treeHackAdd(wxTreeItemId r, wxString l, int where, wxTreeItemId i, wxTreeItemData* d);
-		wxTreeItemId treeHackAdd(wxTreeItemId r, wxString l, int where, wxTreeItemId i);
-		wxTreeItemId treeHackFind(wxTreeItemId r, wxString l);
+		wxTreeItemId treeHackRoot(wxTreeItemId& i);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, HACK* d);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where);
+		wxTreeItemId treeHackFind(wxTreeItemId& r, wxString l);
+		int treeHackCount(wxTreeItemId& r);
 		void treeHackDel(void);
+		void treeHackDel(wxTreeItemId i);
 		void treeHackMove(int direction);
+		void treeHackMove(wxTreeItemId& root, wxTreeItemId& new_root);
 		void HEXFORMIDLE(wxIdleEvent& event);
 		void bAppListOnClick(wxCommandEvent& event);
 		void bAppUseOnClick(wxCommandEvent& event);

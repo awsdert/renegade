@@ -92,7 +92,7 @@
             <event name="OnAuiPaneRestore"></event>
             <event name="OnAuiRender"></event>
             <event name="OnChar"></event>
-            <event name="OnClose">OnClose</event>
+            <event name="OnClose">HEXFORMCLOSE</event>
             <event name="OnEnterWindow"></event>
             <event name="OnEraseBackground"></event>
             <event name="OnHibernate"></event>
@@ -6364,10 +6364,10 @@
                                                     <property name="row"></property>
                                                     <property name="show">1</property>
                                                     <property name="size"></property>
-                                                    <property name="style">wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS|wxTR_HIDE_ROOT</property>
+                                                    <property name="style">wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS</property>
                                                     <property name="subclass"></property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip">When a Hack / Node is selected the following actions can be peformed:&#x0A;Del / Delete = Remove Hack / Node&#x0A;CTRL + Arrow = Move Hack / Node in that direction</property>
+                                                    <property name="tooltip">When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:&#x0A;Add = Add Hack / Node to List (List box decides position)&#x0A;Minus = Remove Hack / Node&#x0A;Arrow = Move Hack / Node in that direction</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -6378,8 +6378,8 @@
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
-                                                    <event name="OnKeyDown"></event>
-                                                    <event name="OnKeyUp">treeHackOnKeyDown</event>
+                                                    <event name="OnKeyDown">treeHackOnKeyDown</event>
+                                                    <event name="OnKeyUp"></event>
                                                     <event name="OnKillFocus"></event>
                                                     <event name="OnLeaveWindow"></event>
                                                     <event name="OnLeftDClick"></event>
