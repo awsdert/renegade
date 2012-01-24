@@ -17,7 +17,6 @@
 
 #include "hexApp.h"
 #include "hexMain.h"
-#include "hexM.h"
 IMPLEMENT_APP(hexApp);
 hexWin* frame;
 bool hexApp::OnInit()

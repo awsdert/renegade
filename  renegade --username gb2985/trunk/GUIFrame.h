@@ -116,31 +116,32 @@ class HEXFRM : public wxFrame
 		wxButton* bAddHack;
 		wxButton* bDelHack;
 		wxTreeCtrl* treeHack;
-		wxButton* m_button15;
-		wxChoice* m_choice4;
-		wxScrolledWindow* m_scrolledWindow31;
-		wxRadioButton* m_radioBtn9;
-		wxRadioButton* m_radioBtn10;
-		wxRadioButton* m_radioBtn111;
-		wxRadioButton* m_radioBtn151;
-		wxRadioButton* m_radioBtn16;
-		wxRadioButton* m_radioBtn12;
-		wxRadioButton* m_radioBtn13;
-		wxRadioButton* m_radioBtn14;
-		wxRadioButton* m_radioBtn15;
-		wxRadioButton* m_radioBtn131;
-		wxRadioButton* m_radioBtn141;
-		wxCheckBox* m_checkBox1;
-		wxSpinCtrl* m_spinCtrl2;
-		wxStaticText* m_staticText11;
-		wxTextCtrl* m_textCtrl12;
-		wxStaticText* m_staticText12;
-		wxTextCtrl* m_textCtrl13;
-		wxStaticText* m_staticText13;
-		wxTextCtrl* m_textCtrl14;
-		wxButton* m_button13;
-		wxButton* m_button14;
-		wxGrid* m_grid5;
+		wxButton* bHackMove;
+		wxChoice* cbHackMove;
+		wxScrolledWindow* wHackScroll;
+		wxStaticText* sHackType;
+		wxChoice* mHackType;
+		wxCheckBox* cHackR;
+		wxStaticText* sHackRAM;
+		wxChoice* mHackRAM;
+		wxSpinCtrl* nHackR;
+		wxStaticText* sHackA;
+		wxTextCtrl* tHackA;
+		wxChoice* mHackA;
+		wxStaticText* sHackV;
+		wxTextCtrl* tHackV;
+		wxChoice* mHackV;
+		wxStaticText* sHackADI;
+		wxTextCtrl* tHachADI;
+		wxStaticText* noteHackADI;
+		wxStaticText* sHackVDI;
+		wxTextCtrl* tHackVDI;
+		wxStaticText* noteHackVDI;
+		wxButton* bHackLoad;
+		wxCheckBox* cHackUse;
+		wxButton* bHackCAdd;
+		wxButton* bHackCDel;
+		wxGrid* gCodelist;
 		wxPanel* nbAbout;
 		wxStaticText* m_staticText10;
 		wxHyperlinkCtrl* m_hyperlink2;
@@ -161,6 +162,8 @@ class HEXFRM : public wxFrame
 		virtual void bAddHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bDelHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void treeHackOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void bHackCAddOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void bHackCDelOnClick( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

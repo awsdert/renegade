@@ -14,7 +14,6 @@
 #ifdef __BORLANDC__
 #pragma hdrstop
 #endif //__BORLANDC__
-#include "hexM.h"
 #include "hexMain.h"
 #include <string.h>
 #include <wx/string.h>
@@ -49,6 +48,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 HACK::HACK() : wxTreeItemData() { length = 0; }
+HACK::HACK(wxTreeItemData*) : wxTreeItemData() {}
 HACK::~HACK() {
 	length = 0;
 	cPart1.Empty();
@@ -102,20 +102,22 @@ wxTreeItemId hexWin::treeHackRoot(wxTreeItemId& i) {
 	if (i) { return treeHack->GetItemParent(i); }
 	else { return treeHack->GetRootItem(); }
 }
+wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
+	wxTreeItemId& i, HACK d) { return treeHackAdd(r, l, where, i, &d); }
 wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d) {
-	wxTreeItemId c; bool b = !!i;
+	wxTreeItemId c;
 	switch (where) {
 	case 0: c = treeHack->PrependItem(r, l, -1, -1, d); break;
 	case 1:
-		if (b) {
+		if (!!i) {
 			i = treeHack->GetPrevSibling(i);
 			if (!i) {
 				c = treeHack->PrependItem(r, l, -1, -1, d);
 				break;
-			} b = true;
+			}
 		}
 	case 2:
-		if (b) {
+		if (!!i) {
 			c = treeHack->InsertItem(r, i, l, -1, -1, d);
 			break;
 		}
@@ -125,13 +127,13 @@ wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeI
 	return c;
 }
 wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
-	wxTreeItemId& i) { HACK* d; return treeHackAdd(r, l, where, i, d); }
+	wxTreeItemId& i) { HACK* d = new HACK; return treeHackAdd(r, l, where, i, d); }
 wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
-	HACK* d) { wxTreeItemId i; return treeHackAdd(r, l, where, i, d); }
+	HACK d) { wxTreeItemId i; return treeHackAdd(r, l, where, i, d); }
 wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where) {
-	wxTreeItemId i; HACK* d; return treeHackAdd(r, l, where, i, d); }
+	wxTreeItemId i; HACK* d = new HACK; return treeHackAdd(r, l, where, i, d); }
 void hexWin::bAddHackOnClick(wxCommandEvent& event) {
-	wxTreeItemId i = treeHack->GetSelection(), p, r; HACK* d;
+	wxTreeItemId i = treeHack->GetSelection(), p, r; HACK* d = new HACK;
 	wxString s; r = treeHackRoot(i); int w = cbAddHack->GetSelection();
 	if (cAddHack->GetValue() == false) {
 		s.Printf(wxT("New Hack %i"), treeHackCount(r));
@@ -202,6 +204,7 @@ void hexWin::treeHackOnKeyDown(wxKeyEvent& event) {
 	int kc = event.GetKeyCode();
 	if (event.ControlDown()) {
 		switch (kc) {
+		case WXK_SPACE: cHackUse->SetValue(!cHackUse->GetValue()); break;
 		case WXK_EXECUTE: case WXK_ADD: case WXK_NUMPAD_ADD:
 			r = treeHackRoot(i);
 			s.Printf(wxT("New Hack %i"), treeHackCount(r));
@@ -216,6 +219,7 @@ void hexWin::treeHackOnKeyDown(wxKeyEvent& event) {
 		default: break; }
 	} else {
 		switch (kc) {
+		case WXK_SPACE: cHackUse->SetValue(!cHackUse->GetValue()); break;
 		case WXK_UP:
 			r = treeHack->GetPrevSibling(i);
 			if (!r) { r = treeHackRoot(i); }
@@ -236,6 +240,41 @@ void hexWin::treeHackOnKeyDown(wxKeyEvent& event) {
 		break;
 		default: break; }
 	}
+}
+int HACK::GetLen() { return length; }
+void HACK::SetLen(int l) { length = l; }
+DWORD32 hexWin::getHEX(wxString s) {
+	long unsigned int v;
+	s = (!s) ? wxT("00000000") : s;
+	s.ToULong(&v, 16);
+	return (unsigned int)v;
+}
+void hexWin::bHackCAddOnClick(wxCommandEvent& event) {
+	wxTreeItemId ti = treeHack->GetSelection();
+	wxString s; HACK* d = (HACK*)treeHack->GetItemData(ti);
+	unsigned int t; int l = d->GetLen();
+	DWORD32 cp1 = getHEX(tHackA->GetValue()), cp2 = getHEX(tHackV->GetValue()),
+		cp3 = 0x00000000, cp4 = 0x00000000;
+	t = mHackType->GetSelection(); cp1 += t * 0x20000000;
+	t = mHackV->GetSelection(); cp1 += t * 0x04000000;
+	if (cHackR->GetValue()) { cp1 += 0x02000000; }
+	gCodelist->AppendRows(1);
+	s.Printf(wxT("%08X"), cp1);
+	gCodelist->SetCellValue(l, 0, s);
+	s.Printf(wxT("%08X"), cp2);
+	gCodelist->SetCellValue(l, 1, s);
+	l++; d->SetLen(l);
+	if (cp3 > 0x00000000) {
+		gCodelist->AppendRows(1);
+		s.Printf(wxT("%08X"), cp3);
+		gCodelist->SetCellValue(l, 0, s);
+		s.Printf(wxT("%08X"), cp4);
+		gCodelist->SetCellValue(l, 0, s);
+		l++; d->SetLen(l);
+	}
+}
+void hexWin::bHackCDelOnClick(wxCommandEvent& event) {
+
 }
 void hexWin::mWaitOnChange(wxCommandEvent& event) {
 	int i, sec = 1000, min = 60000;

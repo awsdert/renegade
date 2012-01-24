@@ -15,11 +15,15 @@ WX_DEFINE_ARRAY(DWORD32*, DW32A);
 class HACK: public wxTreeItemData {
 	public:
 		HACK();
+		HACK(wxTreeItemData*);
 		~HACK();
 	public:
+		bool use;
 		int length;
 		DW32A cPart1;
 		DW32A cPart2;
+		int GetLen();
+		void SetLen(int l);
 }; //HACK* Hack();
 class hexWin: public HEXFRM {
     public:
@@ -30,11 +34,13 @@ class hexWin: public HEXFRM {
 	public:
 		wxTreeItemId treeHackRoot(void);
 		wxTreeItemId treeHackRoot(wxTreeItemId& i);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK d);
 		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d);
 		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, HACK* d);
+		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, HACK d);
 		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where);
 		wxTreeItemId treeHackFind(wxTreeItemId& r, wxString l);
+		DWORD32 getHEX(wxString s);
 		int treeHackCount(wxTreeItemId& r);
 		void treeHackDel(void);
 		void treeHackDel(wxTreeItemId i);
@@ -46,13 +52,16 @@ class hexWin: public HEXFRM {
 		void mWaitOnChange(wxCommandEvent& event);
 		void bAddHackOnClick(wxCommandEvent& event);
 		void bDelHackOnClick(wxCommandEvent& event);
+		void bHackCAddOnClick(wxCommandEvent& event);
+		void bHackCDelOnClick(wxCommandEvent& event);
 		void treeHackOnKeyDown(wxKeyEvent& event);
 		void setWait(int i);
 		int getAppLen(void);
-		DWORD AI;
-		wxString AE;
 		void setApps(void);
         void addApp(int row, wxString id, wxString app, wxString title);
+        // Variables
+		DWORD AI;
+		wxString AE;
 		int pLen, gLen;
 		wxLongLong appWait, appWaitU;
 		int appWaitB, appLen;
