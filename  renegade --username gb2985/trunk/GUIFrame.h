@@ -32,10 +32,8 @@
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/radiobut.h>
-#include <wx/listbox.h>
-#include <wx/checkbox.h>
 #include <wx/treectrl.h>
+#include <wx/checkbox.h>
 #include <wx/spinctrl.h>
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
@@ -97,19 +95,21 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* m_textCtrl11;
 		wxGrid* m_grid4;
 		wxPanel* nbDB;
-		wxScrolledWindow* m_scrolledWindow3;
-		wxRadioButton* m_radioBtn1;
-		wxRadioButton* m_radioBtn11;
-		wxRadioButton* m_radioBtn5;
-		wxRadioButton* m_radioBtn6;
-		wxRadioButton* m_radioBtn7;
-		wxListBox* m_listBox1;
-		wxPanel* m_panel9;
-		wxStaticText* m_staticText7;
-		wxTextCtrl* m_textCtrl7;
-		wxStaticText* m_staticText8;
-		wxTextCtrl* m_textCtrl8;
-		wxTextCtrl* m_textCtrl9;
+		wxStaticText* dbListRS;
+		wxChoice* dbListRM;
+		wxButton* dbListAddB;
+		wxButton* dbListDelB;
+		wxTreeCtrl* dbList;
+		wxPanel* dbListInfoP;
+		wxCheckBox* dbListRuk;
+		wxCheckBox* dbListRus;
+		wxCheckBox* dbListRjp;
+		wxCheckBox* dbListRde;
+		wxStaticText* dbListSIDS;
+		wxTextCtrl* dbListSIDT;
+		wxStaticText* dbListAFS;
+		wxTextCtrl* dbListAFT;
+		wxTextCtrl* dbListNotes;
 		wxPanel* nbHack;
 		wxChoice* cbAddHack;
 		wxCheckBox* cAddHack;
@@ -154,14 +154,19 @@ class HEXFRM : public wxFrame
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
 		virtual void groupOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void groupOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void afHookBClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void appOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void appOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppListOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppUseOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void dbListAddBClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void dbListSelectC( wxTreeEvent& event ) { event.Skip(); }
 		virtual void bAddHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bDelHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void treeHackOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void treeHackOnChangeSelM( wxMouseEvent& event ) { event.Skip(); }
+		virtual void treeHackOnChangeSel( wxTreeEvent& event ) { event.Skip(); }
 		virtual void bHackCAddOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bHackCDelOnClick( wxCommandEvent& event ) { event.Skip(); }
 		

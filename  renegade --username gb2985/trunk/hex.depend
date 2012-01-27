@@ -3694,7 +3694,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1327314416 source:z:\hex\svn\trunk\hexmain.cpp
+1327672818 source:z:\hex\svn\trunk\hexmain.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>
@@ -3710,16 +3710,20 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1327007532 z:\hex\svn\trunk\hexapp.h
+1327668644 z:\hex\svn\trunk\hexapp.h
 	<wx/app.h>
 	<windows.h>
 	<tlhelp32.h>
 
-1327314728 z:\hex\svn\trunk\hexmain.h
+1327674260 z:\hex\svn\trunk\hexmain.h
+	<wx/filefn.h>
+	<wx/textfile.h>
+	<wx/dir.h>
+	<wx/stdpaths.h>
 	"hexApp.h"
 	"GUIFrame.h"
 
-1327398640 z:\hex\svn\trunk\guiframe.h
+1327666144 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3744,10 +3748,8 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
-	<wx/radiobut.h>
-	<wx/listbox.h>
-	<wx/checkbox.h>
 	<wx/treectrl.h>
+	<wx/checkbox.h>
 	<wx/spinctrl.h>
 	<wx/hyperlink.h>
 	<wx/notebook.h>
@@ -3762,12 +3764,12 @@
 1189864952 source:z:\hex\svn\trunk\resource.rc
 	"wx/msw/wx.rc"
 
-1327234686 source:z:\hex\svn\trunk\hexapp.cpp
+1327668644 source:z:\hex\svn\trunk\hexapp.cpp
 	"wx_pch.h"
 	"hexApp.h"
 	"hexMain.h"
 
-1327401246 source:z:\hex\svn\trunk\guiframe.cpp
+1327666144 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4143,4 +4145,45 @@
 
 1309443162 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\generic\helpext.h
 	"wx/helpbase.h"
+
+1327594258 source:z:\hex\svn\trunk\treehack.cpp
+	"wx_pch.h"
+	"hexMain.h"
+	<string.h>
+	<wx/string.h>
+	<wx/dynarray.h>
+	<wx/arrimpl.cpp>
+
+1327674260 source:z:\hex\svn\trunk\dblist.cpp
+	"wx_pch.h"
+	"hexMain.h"
+	<string.h>
+	<wx/string.h>
+	<wx/dynarray.h>
+	<wx/arrimpl.cpp>
+
+1309443176 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\stdpaths.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/filefn.h"
+	"wx/msw/stdpaths.h"
+	"wx/mac/corefoundation/stdpaths.h"
+	"wx/os2/stdpaths.h"
+	"wx/unix/stdpaths.h"
+	"wx/palmos/stdpaths.h"
+
+1309443116 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\msw\stdpaths.h
+
+1309443074 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\mac\corefoundation\stdpaths.h
+	"wx/unix/stdpaths.h"
+
+1309443058 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\unix\stdpaths.h
+
+1309443132 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\os2\stdpaths.h
+
+1309443098 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\palmos\stdpaths.h
+
+1309443176 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\dir.h
+	"wx/longlong.h"
+	"wx/string.h"
 
