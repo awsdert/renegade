@@ -34,7 +34,6 @@
 #include <wx/icon.h>
 #include <wx/treectrl.h>
 #include <wx/checkbox.h>
-#include <wx/valtext.h>
 #include <wx/spinctrl.h>
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
@@ -96,36 +95,36 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* m_textCtrl11;
 		wxGrid* m_grid4;
 		wxPanel* nbDB;
-		wxStaticText* dbListRS;
-		wxChoice* dbListRM;
-		wxButton* dbListAddB;
-		wxButton* dbListDelB;
-		wxTreeCtrl* dbList;
+		wxStaticText* DBRS;
+		wxChoice* DBRM;
+		wxButton* DBAddB;
+		wxButton* DBDelB;
+		wxTreeCtrl* DB;
 		wxButton* DBLoadB;
 		wxButton* DBSaveB;
-		wxPanel* dbListInfoP;
-		wxCheckBox* dbListRuk;
-		wxCheckBox* dbListRus;
-		wxCheckBox* dbListRjp;
-		wxCheckBox* dbListRde;
-		wxStaticText* dbListSIDS;
-		wxTextCtrl* dbListSIDT;
-		wxStaticText* dbListAFS;
-		wxTextCtrl* dbListAFT;
+		wxPanel* DBInfoP;
+		wxCheckBox* DBRuk;
+		wxCheckBox* DBRus;
+		wxCheckBox* DBRjp;
+		wxCheckBox* DBRde;
+		wxStaticText* DBSIDS;
+		wxTextCtrl* DBSIDT;
+		wxStaticText* DBAFS;
+		wxTextCtrl* DBAFT;
 		wxStaticText* DBFileS;
 		wxTextCtrl* DBFileT;
-		wxTextCtrl* dbListNotes;
-		wxPanel* nbHack;
-		wxChoice* cbAddHack;
-		wxCheckBox* cAddHack;
-		wxButton* bAddHack;
-		wxButton* bDelHack;
-		wxTreeCtrl* treeHack;
+		wxTextCtrl* DBNotes;
+		wxPanel* HTP;
+		wxChoice* HTAddD;
+		wxCheckBox* HTAddC;
+		wxButton* HTAddB;
+		wxButton* HTDelB;
+		wxTreeCtrl* HT;
 		wxButton* bHackMove;
 		wxChoice* cbHackMove;
 		wxButton* bHTLoad;
 		wxButton* bHTSave;
-		wxScrolledWindow* wHackScroll;
+		wxPanel* HCP;
 		wxStaticText* sHackType;
 		wxChoice* mHackType;
 		wxCheckBox* cHackR;
@@ -138,17 +137,19 @@ class HEXFRM : public wxFrame
 		wxStaticText* sHackV;
 		wxTextCtrl* tHackV;
 		wxChoice* mHackV;
-		wxStaticText* sHackADI;
-		wxTextCtrl* tHachADI;
-		wxStaticText* noteHackADI;
-		wxStaticText* sHackVDI;
-		wxTextCtrl* tHackVDI;
-		wxStaticText* noteHackVDI;
-		wxButton* bHackLoad;
-		wxCheckBox* cHackUse;
-		wxButton* bHackCAdd;
-		wxButton* bHackCDel;
-		wxGrid* gCodelist;
+		wxPanel* HCAW;
+		wxStaticText* HCAS1;
+		wxTextCtrl* HCAT;
+		wxStaticText* HCAS2;
+		wxPanel* HCVW;
+		wxStaticText* HCVS1;
+		wxTextCtrl* HCVT;
+		wxStaticText* HCVS2;
+		wxCheckBox* HCUseC;
+		wxButton* HCAddB;
+		wxButton* HCLoadB;
+		wxButton* HCDelB;
+		wxGrid* HCG;
 		wxPanel* nbAbout;
 		wxStaticText* m_staticText10;
 		wxHyperlinkCtrl* m_hyperlink2;
@@ -167,20 +168,22 @@ class HEXFRM : public wxFrame
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppListOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppUseOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void dbListAddBClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void dbListSelectC( wxTreeEvent& event ) { event.Skip(); }
+		virtual void DBAddBClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DBDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DBSelectC( wxTreeEvent& event ) { event.Skip(); }
 		virtual void DBLoadBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBSaveBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBFileTOnKeyD( wxKeyEvent& event ) { event.Skip(); }
 		virtual void bAddHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bDelHackOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void treeHackOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
-		virtual void treeHackOnChangeSelM( wxMouseEvent& event ) { event.Skip(); }
-		virtual void treeHackOnChangeSel( wxTreeEvent& event ) { event.Skip(); }
+		virtual void HTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void HTOnChangeSelT( wxTreeEvent& event ) { event.Skip(); }
 		virtual void bHTLoadOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bHTSaveOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void bHackCAddOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void bHackCDelOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCAddBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCChangeR( wxGridRangeSelectEvent& event ) { event.Skip(); }
+		virtual void HCChangeC( wxGridEvent& event ) { event.Skip(); }
 		
 	
 	public:

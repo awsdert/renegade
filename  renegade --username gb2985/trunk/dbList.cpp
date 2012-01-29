@@ -1,5 +1,5 @@
 /***************************************************************
- * Name:      dbList.cpp
+ * Name:      DB.cpp
  * Purpose:   Code for Application Frame
  * Author:    awsdert ()
  * Created:   2012-01-11
@@ -41,19 +41,19 @@ void hexWin::DBSet(void) {
 	p << d << wxT("db");
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
 	s << p << d << dbFile[afi] << wxT(".hexdb");
-	if (!db.Open(s)) {
-		db.Create(s);
-		db.Open(s);
+	if (!dbf.Open(s)) {
+		dbf.Create(s);
+		dbf.Open(s);
 	}
 }
 void hexWin::DBLoad(void) {
 	DBSet();
 	wxString t, t1, t2, t3;
-	dbList->Delete(rdi);
+	DB->Delete(rdi);
 	DBI* cv = new DBI; int j, m = 0, m2;
-	for (t = db.GetFirstLine(); !db.Eof(); t = db.GetNextLine()) {
+	for (t = dbf.GetFirstLine(); !dbf.Eof(); t = dbf.GetNextLine()) {
 		switch (m) {
-		case 1: dbListAdd(t1, cv);
+		case 1: DBAdd(t1, cv);
 			cv = new DBI;
 			cv->afp = t3;
 			m = 0; t1.Clear();
@@ -81,7 +81,7 @@ void hexWin::DBLoad(void) {
 				m = 2;
 			}
 		}
-	} if (!!t1) { dbListAdd(t1, cv); }
+	} if (!!t1) { DBAdd(t1, cv); }
 }
 void hexWin::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
 void hexWin::DBSave(void) {
@@ -89,43 +89,63 @@ void hexWin::DBSave(void) {
 	wxTreeItemId i;
 	wxTreeItemIdValue v; DBI* d;
 	wxTextFileType t = wxTextFileType_Dos;
-	i = dbList->GetFirstChild(rdi, v);
+	i = DB->GetFirstChild(rdi, v);
 	while (i.IsOk()) {
-		d = (DBI*)dbList->GetItemData(i);
+		d = (DBI*)DB->GetItemData(i);
 		s = wxT("[") + d->afp + wxT("]");
-		wxMessageBox(s);
-		db.AddLine(s, t);
-		l = dbList->GetItemText(i);
+		dbf.AddLine(s, t);
+		l = DB->GetItemText(i);
 		n.Printf(wxT("%04X"), d->afi);
 		s = c + l + c + wxT("uk") + c + d->afs + c + n;
-		db.AddLine(s, t);
-		i = dbList->GetNextChild(rdi, v);
-	} db.Write(t);
-	db.Close();
+		dbf.AddLine(s, t);
+		i = DB->GetNextChild(rdi, v);
+	} dbf.Write(t);
+	dbf.Close();
+}
+wxTreeItemId hexWin::DBRoot(void) { return DB->GetRootItem(); }
+wxTreeItemId hexWin::DBRoot(wxTreeItemId& i) {
+	if (i.IsOk()) { i = DB->GetItemParent(i); }
+	if (!i.IsOk()) { i = DB->GetRootItem(); }
+	return i;
 }
 void hexWin::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }
-void hexWin::dbListAdd(void) {
+void hexWin::DBDel(void) { wxTreeItemId i = DB->GetSelection(); DBDel(i); }
+void hexWin::DBDel(wxTreeItemId& i) { DB->Delete(i); }
+void hexWin::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
+void hexWin::DBAdd(void) {
 	DBI* cv = new DBI;
 	wxString s;
 	s.Printf(wxT("New Hack Tree %i"), dl);
+	cv->afp = s;
 	cv->afn = wxT("Notes");
-	dbListAdd(s, cv);
+	DBAdd(s, cv);
 }
-void hexWin::dbListAdd(wxString s, DBI* cv) {
-	if (dl < 1) { rdi = dbList->GetRootItem(); }
-	di = dbList->AppendItem(rdi, s, -1, -1, cv);
-	if (dl < 1) { rdi = dbList->GetItemParent(di); }
-	dbList->SelectItem(di); dl++;
+void hexWin::DBAdd(wxString s, DBI* cv) {
+	if (dl < 1) { rdi = DBRoot(); }
+	di = DB->AppendItem(rdi, s, -1, -1, cv);
+	if (dl < 1) { rdi = DBRoot(di); }
+	DB->SelectItem(di); dl++;
 }
-void hexWin::dbListAddBClick(wxCommandEvent& event) { dbListAdd(); }
-void hexWin::dbListSelect(void) {
+void hexWin::DBAddBClick(wxCommandEvent& event) { DBAdd(); }
+void hexWin::DBSelect(void) {
 	if (di != pdi) {
 		pdi = di;
-		DBI* cv = (DBI*)dbList->GetItemData(di);
-		dbListNotes->SetValue(cv->afn);
+		DBI* cv = (DBI*)DB->GetItemData(di);
+		DBNotes->SetValue(cv->afn);
 	}
 }
-void hexWin::dbListSelectC(wxTreeEvent& event) {
+void hexWin::DBSelectC(wxTreeEvent& event) {
 	di = event.GetItem();
-	dbListSelect();
+	DBSelect();
+}
+void hexWin::DBFileTOnKeyD(wxKeyEvent& event) {
+	int k = event.GetKeyCode();
+	wxChar c = event.GetUnicodeKey();
+	wxString s = wxT("01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ (-)"), t;
+	t = s.Lower();
+	if (k == 8 || k == WXK_DELETE || k == WXK_INSERT ||
+		(k >= 35 && k <= 40) || k > 255) { event.Skip(); }
+	else if (s.Contains(c) || t.Contains(c)) {
+		DBFileT->WriteText(c);
+	}
 }

@@ -79,7 +79,7 @@ hexWin::hexWin(wxFrame *frame) : HEXFRM(frame) {
 	pfName[PS2].Add(wxT("PCSX2 0.9.7+"));
 	int i;
 	for (i = 0;i < HPFL;i++) { cbGroup->Append(osName[i]); }
-	dl = 0;// rdi = dbList->GetRootItem();
+	dl = 0;// rdi = DB->GetRootItem();
 	appLen = -1;
 	appWait = 0; appWaitU = 0;
 	appWaitB = 0;
@@ -109,23 +109,19 @@ void hexWin::bAppUseOnClick(wxCommandEvent& event) {
 	}
 }
 void hexWin::bAddHackOnClick(wxCommandEvent& event) {
-	wxTreeItemId i = treeHack->GetSelection(), p, r; HACK* d = new HACK;
-	wxString s; r = treeHackRoot(i); int w = cbAddHack->GetSelection();
-	if (cAddHack->GetValue() == false) {
-		s.Printf(wxT("New Hack %i"), treeHackCount(r));
-		treeHackAdd(r, s, w, i, d);
+	wxTreeItemId i = HT->GetSelection(), p, r; HACK* d = new HACK;
+	wxString s; r = HTRoot(i); int w = HTAddD->GetSelection();
+	if (HTAddC->GetValue() == false) {
+		s.Printf(wxT("New Hack %i"), HTCount(r));
+		HTAdd(r, s, w, i, d);
 	} else {
-		s.Printf(wxT("New Hack %i"), treeHackCount(i));
-		treeHackAdd(i, s, w);
-	} treeHackChange();
+		s.Printf(wxT("New Hack %i"), HTCount(i));
+		HTAdd(i, s, w);
+	} HTChange();
 }
-void hexWin::bDelHackOnClick(wxCommandEvent& event) { treeHackDel(); }
+void hexWin::bDelHackOnClick(wxCommandEvent& event) { HTDel(); }
 int HACK::GetLen() { return (int)length; }
-void HACK::SetLen(int l) {
-	/*wxString s; s.Printf(wxT("%i"), (unsigned int)l);
-	wxMessageBox(s);//*/
-	length = (unsigned int)l;
-}
+void HACK::SetLen(int l) { length = (unsigned int)l; }
 DWORD32 hexWin::getHEX(wxString s) {
 	long unsigned int v;
 	s = (!s) ? wxT("00000000") : s;
@@ -140,10 +136,10 @@ void hexWin::groupOnBlur(wxFocusEvent& event) {
 	}
 }
 void hexWin::groupOnClick(wxCommandEvent& event) {}
-void hexWin::bHackCAddOnClick(wxCommandEvent& event) {
-	ti = treeHack->GetSelection();
-	wxString s; HACK* d = (HACK*)treeHack->GetItemData(ti);
-	unsigned int t0, t1, t2; bool t3 = cHackR->GetValue(); int l = d->GetLen();
+void hexWin::HCAddBOnClick(wxCommandEvent& event) {
+	ti = HT->GetSelection();
+	wxString s; HACK* d = (HACK*)HT->GetItemData(ti);
+	unsigned int t0, t1, t2, rows = 1; bool t3 = cHackR->GetValue(); int l = d->GetLen();
 	DWORD32 cp0 = getHEX(tHackA->GetValue()), cp1 = 0x00000000,
 		cp2 = getHEX(tHackV->GetValue()), cp3 = 0x00000000, cp4 = 0x00000000,
 		cp5 = 0x00000000, cp6 = 0x00000000;
@@ -153,6 +149,7 @@ void hexWin::bHackCAddOnClick(wxCommandEvent& event) {
 	// Comments within these if statements indicate max lines per code (excludes List code)
 	if (cp0 > 0x01FFFFFF || (t0 > 0 && cp0 > 0x0001FFFF)) {
 		// E0EXXX00 YYYYYYYY TTTTTTTT 00000000 VVVVVVVV IIIIIIII
+		rows = 2;
 		cp1 = 0xE0E00000 + (t0 * 0x00010000);
 		cp5 = cp3; cp3 = cp0;
 		cp6 = cp4; cp4 = 0x00000000;
@@ -172,22 +169,25 @@ void hexWin::bHackCAddOnClick(wxCommandEvent& event) {
 			cp1 += t2 * 0x04000000;
 			if (t3) { cp1 += 0x02000000; }
 		}
-	} gCodelist->AppendRows(1);
+	} HCG->AppendRows(1);
 	s.Printf(wxT("%08X"), cp1);
+	HCG->SetCellValue(l, 0, s);
 	d->cPart1.Add(s);
-	gCodelist->SetCellValue(l, 0, s);
 	s.Printf(wxT("%08X"), cp2);
+	HCG->SetCellValue(l, 1, s);
 	d->cPart2.Add(s);
-	gCodelist->SetCellValue(l, 1, s);
+	s.Printf(wxT("%i"), rows);
+	HCG->SetCellValue(l, 2, s);
 	l++; d->SetLen(l);
 	if (cp3 > 0x00000000) {
-		gCodelist->AppendRows(1);
+		HCG->AppendRows(1);
 		s.Printf(wxT("%08X"), cp3);
-		gCodelist->SetCellValue(l, 0, s);
+		HCG->SetCellValue(l, 0, s);
 		s.Printf(wxT("%08X"), cp4);
-		gCodelist->SetCellValue(l, 0, s);
+		HCG->SetCellValue(l, 0, s);
+		HCG->SetCellValue(l, 2, wxT("0"));
 		l++; d->SetLen(l);
-	} treeHack->SetItemData(ti, d);
+	} HT->SetItemData(ti, d);
 }
 void hexWin::bHackCDelOnClick(wxCommandEvent& event) {}
 void hexWin::mWaitOnChange(wxCommandEvent& event) {

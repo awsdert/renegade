@@ -475,117 +475,117 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	lDB->SetFlexibleDirection( wxBOTH );
 	lDB->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* dbListMain;
-	dbListMain = new wxFlexGridSizer( 0, 1, 0, 0 );
-	dbListMain->AddGrowableCol( 0 );
-	dbListMain->AddGrowableRow( 1 );
-	dbListMain->SetFlexibleDirection( wxBOTH );
-	dbListMain->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBMain;
+	DBMain = new wxFlexGridSizer( 0, 1, 0, 0 );
+	DBMain->AddGrowableCol( 0 );
+	DBMain->AddGrowableRow( 1 );
+	DBMain->SetFlexibleDirection( wxBOTH );
+	DBMain->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* dbListHead;
-	dbListHead = new wxFlexGridSizer( 0, 4, 0, 0 );
-	dbListHead->AddGrowableCol( 1 );
-	dbListHead->SetFlexibleDirection( wxBOTH );
-	dbListHead->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBHead;
+	DBHead = new wxFlexGridSizer( 0, 4, 0, 0 );
+	DBHead->AddGrowableCol( 1 );
+	DBHead->SetFlexibleDirection( wxBOTH );
+	DBHead->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	dbListRS = new wxStaticText( nbDB, wxID_ANY, wxT("Region"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListRS->Wrap( -1 );
-	dbListHead->Add( dbListRS, 0, wxALL|wxEXPAND, 5 );
+	DBRS = new wxStaticText( nbDB, wxID_ANY, wxT("Region"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBRS->Wrap( -1 );
+	DBHead->Add( DBRS, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString dbListRMChoices[] = { wxT("All"), wxT("UK - United Kingdom"), wxT("US - America"), wxT("JP - Japan"), wxT("DE - Germany") };
-	int dbListRMNChoices = sizeof( dbListRMChoices ) / sizeof( wxString );
-	dbListRM = new wxChoice( nbDB, wxID_ANY, wxDefaultPosition, wxDefaultSize, dbListRMNChoices, dbListRMChoices, 0 );
-	dbListRM->SetSelection( 0 );
-	dbListRM->SetMinSize( wxSize( 75,-1 ) );
+	wxString DBRMChoices[] = { wxT("All"), wxT("UK - United Kingdom"), wxT("US - America"), wxT("JP - Japan"), wxT("DE - Germany") };
+	int DBRMNChoices = sizeof( DBRMChoices ) / sizeof( wxString );
+	DBRM = new wxChoice( nbDB, wxID_ANY, wxDefaultPosition, wxDefaultSize, DBRMNChoices, DBRMChoices, 0 );
+	DBRM->SetSelection( 0 );
+	DBRM->SetMinSize( wxSize( 75,-1 ) );
 	
-	dbListHead->Add( dbListRM, 0, wxALL|wxEXPAND, 5 );
+	DBHead->Add( DBRM, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListAddB = new wxButton( nbDB, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListHead->Add( dbListAddB, 0, wxALL, 5 );
+	DBAddB = new wxButton( nbDB, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBHead->Add( DBAddB, 0, wxALL, 5 );
 	
-	dbListDelB = new wxButton( nbDB, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListHead->Add( dbListDelB, 0, wxALL, 5 );
+	DBDelB = new wxButton( nbDB, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBHead->Add( DBDelB, 0, wxALL, 5 );
 	
-	dbListMain->Add( dbListHead, 1, wxEXPAND, 5 );
+	DBMain->Add( DBHead, 1, wxEXPAND, 5 );
 	
-	dbList = new wxTreeCtrl( nbDB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_FULL_ROW_HIGHLIGHT|wxTR_HIDE_ROOT|wxTR_NO_LINES|wxTR_SINGLE );
-	dbListMain->Add( dbList, 0, wxALL|wxEXPAND, 5 );
+	DB = new wxTreeCtrl( nbDB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_EDIT_LABELS|wxTR_FULL_ROW_HIGHLIGHT|wxTR_HIDE_ROOT|wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_SINGLE );
+	DBMain->Add( DB, 0, wxALL|wxEXPAND, 5 );
 	
-	wxFlexGridSizer* fgSizer32;
-	fgSizer32 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer32->SetFlexibleDirection( wxBOTH );
-	fgSizer32->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBFoot;
+	DBFoot = new wxFlexGridSizer( 0, 2, 0, 0 );
+	DBFoot->SetFlexibleDirection( wxBOTH );
+	DBFoot->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	DBLoadB = new wxButton( nbDB, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer32->Add( DBLoadB, 0, wxALL, 5 );
+	DBFoot->Add( DBLoadB, 0, wxALL, 5 );
 	
 	DBSaveB = new wxButton( nbDB, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer32->Add( DBSaveB, 0, wxALL, 5 );
+	DBFoot->Add( DBSaveB, 0, wxALL, 5 );
 	
-	dbListMain->Add( fgSizer32, 1, wxEXPAND, 5 );
+	DBMain->Add( DBFoot, 1, wxEXPAND, 5 );
 	
-	lDB->Add( dbListMain, 0, wxEXPAND, 5 );
+	lDB->Add( DBMain, 0, wxEXPAND, 5 );
 	
-	dbListInfoP = new wxPanel( nbDB, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), wxTAB_TRAVERSAL );
-	dbListInfoP->SetMinSize( wxSize( 300,-1 ) );
-	dbListInfoP->SetMaxSize( wxSize( 300,-1 ) );
+	DBInfoP = new wxPanel( nbDB, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), wxTAB_TRAVERSAL );
+	DBInfoP->SetMinSize( wxSize( 300,-1 ) );
+	DBInfoP->SetMaxSize( wxSize( 300,-1 ) );
 	
-	wxFlexGridSizer* dbListInfoL;
-	dbListInfoL = new wxFlexGridSizer( 0, 1, 0, 0 );
-	dbListInfoL->AddGrowableCol( 0 );
-	dbListInfoL->AddGrowableRow( 4 );
-	dbListInfoL->SetFlexibleDirection( wxBOTH );
-	dbListInfoL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBInfoL;
+	DBInfoL = new wxFlexGridSizer( 0, 1, 0, 0 );
+	DBInfoL->AddGrowableCol( 0 );
+	DBInfoL->AddGrowableRow( 4 );
+	DBInfoL->SetFlexibleDirection( wxBOTH );
+	DBInfoL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	dbListInfoL->SetMinSize( wxSize( 300,-1 ) ); 
-	wxFlexGridSizer* dbListRL;
-	dbListRL = new wxFlexGridSizer( 0, 8, 0, 0 );
-	dbListRL->SetFlexibleDirection( wxBOTH );
-	dbListRL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	DBInfoL->SetMinSize( wxSize( 300,-1 ) ); 
+	wxFlexGridSizer* DBRL;
+	DBRL = new wxFlexGridSizer( 0, 8, 0, 0 );
+	DBRL->SetFlexibleDirection( wxBOTH );
+	DBRL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	dbListRuk = new wxCheckBox( dbListInfoP, wxID_ANY, wxT("UK"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListRL->Add( dbListRuk, 0, wxALL, 5 );
+	DBRuk = new wxCheckBox( DBInfoP, wxID_ANY, wxT("UK"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBRL->Add( DBRuk, 0, wxALL, 5 );
 	
-	dbListRus = new wxCheckBox( dbListInfoP, wxID_ANY, wxT("US"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListRL->Add( dbListRus, 0, wxALL, 5 );
+	DBRus = new wxCheckBox( DBInfoP, wxID_ANY, wxT("US"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBRL->Add( DBRus, 0, wxALL, 5 );
 	
-	dbListRjp = new wxCheckBox( dbListInfoP, wxID_ANY, wxT("JP"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListRL->Add( dbListRjp, 0, wxALL, 5 );
+	DBRjp = new wxCheckBox( DBInfoP, wxID_ANY, wxT("JP"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBRL->Add( DBRjp, 0, wxALL, 5 );
 	
-	dbListRde = new wxCheckBox( dbListInfoP, wxID_ANY, wxT("DE"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListRL->Add( dbListRde, 0, wxALL, 5 );
+	DBRde = new wxCheckBox( DBInfoP, wxID_ANY, wxT("DE"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBRL->Add( DBRde, 0, wxALL, 5 );
 	
-	dbListInfoL->Add( dbListRL, 1, wxEXPAND, 5 );
+	DBInfoL->Add( DBRL, 1, wxEXPAND, 5 );
 	
-	wxFlexGridSizer* dbListSIDL;
-	dbListSIDL = new wxFlexGridSizer( 0, 2, 0, 0 );
-	dbListSIDL->AddGrowableCol( 1 );
-	dbListSIDL->SetFlexibleDirection( wxBOTH );
-	dbListSIDL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBSIDL;
+	DBSIDL = new wxFlexGridSizer( 0, 2, 0, 0 );
+	DBSIDL->AddGrowableCol( 1 );
+	DBSIDL->SetFlexibleDirection( wxBOTH );
+	DBSIDL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	dbListSIDS = new wxStaticText( dbListInfoP, wxID_ANY, wxT("Serial ID"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListSIDS->Wrap( -1 );
-	dbListSIDL->Add( dbListSIDS, 0, wxALL|wxEXPAND, 5 );
+	DBSIDS = new wxStaticText( DBInfoP, wxID_ANY, wxT("Serial ID"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBSIDS->Wrap( -1 );
+	DBSIDL->Add( DBSIDS, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListSIDT = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dbListSIDL->Add( dbListSIDT, 0, wxALL|wxEXPAND, 5 );
+	DBSIDT = new wxTextCtrl( DBInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	DBSIDL->Add( DBSIDT, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListInfoL->Add( dbListSIDL, 0, wxEXPAND, 5 );
+	DBInfoL->Add( DBSIDL, 0, wxEXPAND, 5 );
 	
-	wxFlexGridSizer* dbListAFL;
-	dbListAFL = new wxFlexGridSizer( 0, 2, 0, 0 );
-	dbListAFL->AddGrowableCol( 1 );
-	dbListAFL->SetFlexibleDirection( wxBOTH );
-	dbListAFL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* DBAFL;
+	DBAFL = new wxFlexGridSizer( 0, 2, 0, 0 );
+	DBAFL->AddGrowableCol( 1 );
+	DBAFL->SetFlexibleDirection( wxBOTH );
+	DBAFL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	dbListAFS = new wxStaticText( dbListInfoP, wxID_ANY, wxT("App / File ID"), wxDefaultPosition, wxDefaultSize, 0 );
-	dbListAFS->Wrap( -1 );
-	dbListAFL->Add( dbListAFS, 0, wxALL, 5 );
+	DBAFS = new wxStaticText( DBInfoP, wxID_ANY, wxT("App / File ID"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBAFS->Wrap( -1 );
+	DBAFL->Add( DBAFS, 0, wxALL, 5 );
 	
-	dbListAFT = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dbListAFL->Add( dbListAFT, 0, wxALL|wxEXPAND, 5 );
+	DBAFT = new wxTextCtrl( DBInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	DBAFL->Add( DBAFT, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListInfoL->Add( dbListAFL, 0, wxEXPAND, 5 );
+	DBInfoL->Add( DBAFL, 0, wxEXPAND, 5 );
 	
 	wxFlexGridSizer* DBFileL;
 	DBFileL = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -593,256 +593,287 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	DBFileL->SetFlexibleDirection( wxBOTH );
 	DBFileL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	DBFileS = new wxStaticText( dbListInfoP, wxID_ANY, wxT("Filename"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBFileS = new wxStaticText( DBInfoP, wxID_ANY, wxT("Filename"), wxDefaultPosition, wxDefaultSize, 0 );
 	DBFileS->Wrap( -1 );
 	DBFileL->Add( DBFileS, 0, wxALL, 5 );
 	
-	DBFileT = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	DBFileT = new wxTextCtrl( DBInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	DBFileL->Add( DBFileT, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListInfoL->Add( DBFileL, 1, wxEXPAND, 5 );
+	DBInfoL->Add( DBFileL, 1, wxEXPAND, 5 );
 	
-	dbListNotes = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB );
-	dbListInfoL->Add( dbListNotes, 0, wxALL|wxEXPAND, 5 );
+	DBNotes = new wxTextCtrl( DBInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB );
+	DBInfoL->Add( DBNotes, 0, wxALL|wxEXPAND, 5 );
 	
-	dbListInfoP->SetSizer( dbListInfoL );
-	dbListInfoP->Layout();
-	lDB->Add( dbListInfoP, 0, wxALL|wxEXPAND, 5 );
+	DBInfoP->SetSizer( DBInfoL );
+	DBInfoP->Layout();
+	lDB->Add( DBInfoP, 0, wxALL|wxEXPAND, 5 );
 	
 	nbDB->SetSizer( lDB );
 	nbDB->Layout();
 	lDB->Fit( nbDB );
 	NB->AddPage( nbDB, wxT("Database"), false );
-	nbHack = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxFlexGridSizer* lHack;
-	lHack = new wxFlexGridSizer( 0, 2, 0, 0 );
-	lHack->AddGrowableCol( 0 );
-	lHack->AddGrowableRow( 0 );
-	lHack->SetFlexibleDirection( wxBOTH );
-	lHack->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	HTP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* HTL;
+	HTL = new wxFlexGridSizer( 0, 2, 0, 0 );
+	HTL->AddGrowableCol( 0 );
+	HTL->AddGrowableRow( 0 );
+	HTL->SetFlexibleDirection( wxBOTH );
+	HTL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* lHackTree;
-	lHackTree = new wxFlexGridSizer( 0, 1, 0, 0 );
-	lHackTree->AddGrowableCol( 0 );
-	lHackTree->AddGrowableRow( 1 );
-	lHackTree->SetFlexibleDirection( wxBOTH );
-	lHackTree->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* HTTL;
+	HTTL = new wxFlexGridSizer( 0, 1, 0, 0 );
+	HTTL->AddGrowableCol( 0 );
+	HTTL->AddGrowableRow( 1 );
+	HTTL->SetFlexibleDirection( wxBOTH );
+	HTTL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* lHackAddDel;
-	lHackAddDel = new wxFlexGridSizer( 0, 4, 0, 0 );
-	lHackAddDel->AddGrowableCol( 0 );
-	lHackAddDel->AddGrowableCol( 1 );
-	lHackAddDel->AddGrowableCol( 2 );
-	lHackAddDel->AddGrowableCol( 3 );
-	lHackAddDel->SetFlexibleDirection( wxBOTH );
-	lHackAddDel->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* HTHead;
+	HTHead = new wxFlexGridSizer( 0, 4, 0, 0 );
+	HTHead->AddGrowableCol( 0 );
+	HTHead->AddGrowableCol( 1 );
+	HTHead->AddGrowableCol( 2 );
+	HTHead->AddGrowableCol( 3 );
+	HTHead->SetFlexibleDirection( wxBOTH );
+	HTHead->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxString cbAddHackChoices[] = { wxT("Start"), wxT("Before"), wxT("After"), wxT("End") };
-	int cbAddHackNChoices = sizeof( cbAddHackChoices ) / sizeof( wxString );
-	cbAddHack = new wxChoice( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbAddHackNChoices, cbAddHackChoices, 0 );
-	cbAddHack->SetSelection( 3 );
-	cbAddHack->SetMinSize( wxSize( 50,-1 ) );
+	wxString HTAddDChoices[] = { wxT("Start"), wxT("Before"), wxT("After"), wxT("End") };
+	int HTAddDNChoices = sizeof( HTAddDChoices ) / sizeof( wxString );
+	HTAddD = new wxChoice( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, HTAddDNChoices, HTAddDChoices, 0 );
+	HTAddD->SetSelection( 3 );
+	HTAddD->SetMinSize( wxSize( 50,-1 ) );
 	
-	lHackAddDel->Add( cbAddHack, 0, wxALL|wxEXPAND, 5 );
+	HTHead->Add( HTAddD, 0, wxALL|wxEXPAND, 5 );
 	
-	cAddHack = new wxCheckBox( nbHack, wxID_ANY, wxT("Chilld"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackAddDel->Add( cAddHack, 0, wxALL|wxEXPAND, 5 );
+	HTAddC = new wxCheckBox( HTP, wxID_ANY, wxT("Chilld"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTHead->Add( HTAddC, 0, wxALL|wxEXPAND, 5 );
 	
-	bAddHack = new wxButton( nbHack, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackAddDel->Add( bAddHack, 0, wxALL|wxEXPAND, 5 );
+	HTAddB = new wxButton( HTP, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTHead->Add( HTAddB, 0, wxALL|wxEXPAND, 5 );
 	
-	bDelHack = new wxButton( nbHack, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackAddDel->Add( bDelHack, 0, wxALL|wxEXPAND, 5 );
+	HTDelB = new wxButton( HTP, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTHead->Add( HTDelB, 0, wxALL|wxEXPAND, 5 );
 	
-	lHackTree->Add( lHackAddDel, 1, wxEXPAND, 5 );
+	HTTL->Add( HTHead, 1, wxEXPAND, 5 );
 	
-	treeHack = new wxTreeCtrl( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
-	treeHack->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
+	HT = new wxTreeCtrl( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
+	HT->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
 	
-	lHackTree->Add( treeHack, 0, wxALL|wxEXPAND, 5 );
+	HTTL->Add( HT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxFlexGridSizer* lHackMove;
-	lHackMove = new wxFlexGridSizer( 0, 4, 0, 0 );
-	lHackMove->SetFlexibleDirection( wxBOTH );
-	lHackMove->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* HTFoot;
+	HTFoot = new wxFlexGridSizer( 0, 4, 0, 0 );
+	HTFoot->SetFlexibleDirection( wxBOTH );
+	HTFoot->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	bHackMove = new wxButton( nbHack, wxID_ANY, wxT("Move"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackMove->Add( bHackMove, 0, wxALL, 5 );
+	bHackMove = new wxButton( HTP, wxID_ANY, wxT("Move"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTFoot->Add( bHackMove, 0, wxALL, 5 );
 	
 	wxString cbHackMoveChoices[] = { wxT("Up"), wxT("Down"), wxT("Left"), wxT("Right") };
 	int cbHackMoveNChoices = sizeof( cbHackMoveChoices ) / sizeof( wxString );
-	cbHackMove = new wxChoice( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbHackMoveNChoices, cbHackMoveChoices, 0 );
+	cbHackMove = new wxChoice( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbHackMoveNChoices, cbHackMoveChoices, 0 );
 	cbHackMove->SetSelection( 0 );
 	cbHackMove->SetMinSize( wxSize( 45,-1 ) );
 	
-	lHackMove->Add( cbHackMove, 1, wxALL, 5 );
+	HTFoot->Add( cbHackMove, 1, wxALL, 5 );
 	
-	bHTLoad = new wxButton( nbHack, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackMove->Add( bHTLoad, 0, wxALL, 5 );
+	bHTLoad = new wxButton( HTP, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTFoot->Add( bHTLoad, 0, wxALL, 5 );
 	
-	bHTSave = new wxButton( nbHack, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	lHackMove->Add( bHTSave, 0, wxALL, 5 );
+	bHTSave = new wxButton( HTP, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	HTFoot->Add( bHTSave, 0, wxALL, 5 );
 	
-	lHackTree->Add( lHackMove, 1, wxEXPAND, 5 );
+	HTTL->Add( HTFoot, 1, wxEXPAND, 5 );
 	
-	lHack->Add( lHackTree, 1, wxEXPAND, 5 );
+	HTL->Add( HTTL, 1, wxEXPAND, 5 );
 	
-	wHackScroll = new wxScrolledWindow( nbHack, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), wxHSCROLL|wxVSCROLL );
-	wHackScroll->SetScrollRate( 0, 5 );
-	wHackScroll->SetMinSize( wxSize( 300,-1 ) );
-	wHackScroll->SetMaxSize( wxSize( 300,-1 ) );
+	HCP = new wxPanel( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* HCL;
+	HCL = new wxFlexGridSizer( 0, 1, 0, 0 );
+	HCL->AddGrowableCol( 0 );
+	HCL->AddGrowableRow( 2 );
+	HCL->SetFlexibleDirection( wxBOTH );
+	HCL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* lHackCodes;
-	lHackCodes = new wxFlexGridSizer( 0, 1, 0, 0 );
-	lHackCodes->AddGrowableCol( 0 );
-	lHackCodes->AddGrowableRow( 1 );
-	lHackCodes->SetFlexibleDirection( wxBOTH );
-	lHackCodes->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	HCL->SetMinSize( wxSize( 300,-1 ) ); 
+	wxFlexGridSizer* HCHead;
+	HCHead = new wxFlexGridSizer( 0, 3, 0, 0 );
+	HCHead->AddGrowableCol( 1 );
+	HCHead->SetFlexibleDirection( wxBOTH );
+	HCHead->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	lHackCodes->SetMinSize( wxSize( 300,-1 ) ); 
-	wxFlexGridSizer* fgSizer30;
-	fgSizer30 = new wxFlexGridSizer( 0, 3, 0, 0 );
-	fgSizer30->AddGrowableCol( 1 );
-	fgSizer30->SetFlexibleDirection( wxBOTH );
-	fgSizer30->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	sHackType = new wxStaticText( wHackScroll, wxID_ANY, wxT("Code Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	sHackType = new wxStaticText( HCP, wxID_ANY, wxT("Code Type"), wxDefaultPosition, wxDefaultSize, 0 );
 	sHackType->Wrap( -1 );
-	fgSizer30->Add( sHackType, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( sHackType, 0, wxALL|wxEXPAND, 5 );
 	
 	wxString mHackTypeChoices[] = { wxT("Write"), wxT("Copy"), wxT("Test"), wxT("Increment"), wxT("Decrement"), wxT("List Write") };
 	int mHackTypeNChoices = sizeof( mHackTypeChoices ) / sizeof( wxString );
-	mHackType = new wxChoice( wHackScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackTypeNChoices, mHackTypeChoices, 0 );
+	mHackType = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackTypeNChoices, mHackTypeChoices, 0 );
 	mHackType->SetSelection( 0 );
-	fgSizer30->Add( mHackType, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( mHackType, 0, wxALL|wxEXPAND, 5 );
 	
-	cHackR = new wxCheckBox( wHackScroll, wxID_ANY, wxT("Repeats"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( cHackR, 1, wxALL|wxEXPAND, 5 );
+	cHackR = new wxCheckBox( HCP, wxID_ANY, wxT("Repeats"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( cHackR, 1, wxALL|wxEXPAND, 5 );
 	
-	sHackRAM = new wxStaticText( wHackScroll, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	sHackRAM = new wxStaticText( HCP, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	sHackRAM->Wrap( -1 );
-	fgSizer30->Add( sHackRAM, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( sHackRAM, 0, wxALL|wxEXPAND, 5 );
 	
 	wxString mHackRAMChoices[] = { wxT("Main") };
 	int mHackRAMNChoices = sizeof( mHackRAMChoices ) / sizeof( wxString );
-	mHackRAM = new wxChoice( wHackScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackRAMNChoices, mHackRAMChoices, 0 );
+	mHackRAM = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackRAMNChoices, mHackRAMChoices, 0 );
 	mHackRAM->SetSelection( 0 );
-	fgSizer30->Add( mHackRAM, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( mHackRAM, 0, wxALL|wxEXPAND, 5 );
 	
-	nHackR = new wxSpinCtrl( wHackScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 255, 0 );
+	nHackR = new wxSpinCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 255, 0 );
 	nHackR->SetToolTip( wxT("Repeats on how many Addresses") );
 	nHackR->SetMinSize( wxSize( 50,-1 ) );
 	
-	fgSizer30->Add( nHackR, 1, wxALL|wxEXPAND, 5 );
+	HCHead->Add( nHackR, 1, wxALL|wxEXPAND, 5 );
 	
-	sHackA = new wxStaticText( wHackScroll, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	sHackA = new wxStaticText( HCP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	sHackA->Wrap( -1 );
-	fgSizer30->Add( sHackA, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( sHackA, 0, wxALL|wxEXPAND, 5 );
 	
-	tHackA = new wxTextCtrl( wHackScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( tHackA, 0, wxALL|wxEXPAND, 5 );
+	tHackA = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( tHackA, 0, wxALL|wxEXPAND, 5 );
 	
 	wxString mHackAChoices[] = { wxT("Fixed"), wxT("Pointer") };
 	int mHackANChoices = sizeof( mHackAChoices ) / sizeof( wxString );
-	mHackA = new wxChoice( wHackScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackANChoices, mHackAChoices, 0 );
+	mHackA = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackANChoices, mHackAChoices, 0 );
 	mHackA->SetSelection( 0 );
-	fgSizer30->Add( mHackA, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( mHackA, 0, wxALL|wxEXPAND, 5 );
 	
-	sHackV = new wxStaticText( wHackScroll, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	sHackV = new wxStaticText( HCP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	sHackV->Wrap( -1 );
-	fgSizer30->Add( sHackV, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( sHackV, 0, wxALL|wxEXPAND, 5 );
 	
-	tHackV = new wxTextCtrl( wHackScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( tHackV, 0, wxALL|wxEXPAND, 5 );
+	tHackV = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( tHackV, 0, wxALL|wxEXPAND, 5 );
 	
 	wxString mHackVChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
 	int mHackVNChoices = sizeof( mHackVChoices ) / sizeof( wxString );
-	mHackV = new wxChoice( wHackScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackVNChoices, mHackVChoices, 0 );
+	mHackV = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackVNChoices, mHackVChoices, 0 );
 	mHackV->SetSelection( 0 );
-	fgSizer30->Add( mHackV, 0, wxALL|wxEXPAND, 5 );
+	HCHead->Add( mHackV, 0, wxALL|wxEXPAND, 5 );
 	
-	sHackADI = new wxStaticText( wHackScroll, wxID_ANY, wxT("Add / Minus"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-	sHackADI->Wrap( -1 );
-	fgSizer30->Add( sHackADI, 0, wxALL|wxEXPAND, 5 );
+	HCL->Add( HCHead, 1, wxEXPAND, 5 );
 	
-	tHachADI = new wxTextCtrl( wHackScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( tHachADI, 0, wxALL|wxEXPAND, 5 );
+	wxBoxSizer* HCMain;
+	HCMain = new wxBoxSizer( wxVERTICAL );
 	
-	noteHackADI = new wxStaticText( wHackScroll, wxID_ANY, wxT("x 1 (Address)"), wxDefaultPosition, wxDefaultSize, 0 );
-	noteHackADI->Wrap( -1 );
-	fgSizer30->Add( noteHackADI, 0, wxALL|wxEXPAND, 5 );
+	HCAW = new wxPanel( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HCAW->Hide();
 	
-	sHackVDI = new wxStaticText( wHackScroll, wxID_ANY, wxT("Add / Minus"), wxDefaultPosition, wxDefaultSize, 0 );
-	sHackVDI->Wrap( -1 );
-	fgSizer30->Add( sHackVDI, 0, wxALL|wxEXPAND, 5 );
+	wxFlexGridSizer* HCAL;
+	HCAL = new wxFlexGridSizer( 0, 3, 0, 0 );
+	HCAL->AddGrowableCol( 1 );
+	HCAL->SetFlexibleDirection( wxBOTH );
+	HCAL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	tHackVDI = new wxTextCtrl( wHackScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( tHackVDI, 0, wxALL|wxEXPAND, 5 );
+	HCAS1 = new wxStaticText( HCAW, wxID_ANY, wxT("Add / Minus"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	HCAS1->Wrap( -1 );
+	HCAL->Add( HCAS1, 0, wxALL|wxEXPAND, 5 );
 	
-	noteHackVDI = new wxStaticText( wHackScroll, wxID_ANY, wxT("(Value)"), wxDefaultPosition, wxDefaultSize, 0 );
-	noteHackVDI->Wrap( -1 );
-	fgSizer30->Add( noteHackVDI, 0, wxALL, 5 );
+	HCAT = new wxTextCtrl( HCAW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCAL->Add( HCAT, 0, wxALL|wxEXPAND, 5 );
 	
-	bHackLoad = new wxButton( wHackScroll, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
-	bHackLoad->SetMinSize( wxSize( 50,-1 ) );
+	HCAS2 = new wxStaticText( HCAW, wxID_ANY, wxT("x 1 (Address)"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCAS2->Wrap( -1 );
+	HCAL->Add( HCAS2, 0, wxALL|wxEXPAND, 5 );
 	
-	fgSizer30->Add( bHackLoad, 0, wxALL|wxEXPAND, 5 );
+	HCAW->SetSizer( HCAL );
+	HCAW->Layout();
+	HCAL->Fit( HCAW );
+	HCMain->Add( HCAW, 1, wxEXPAND, 5 );
 	
-	wxFlexGridSizer* fgSizer29;
-	fgSizer29 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer29->AddGrowableCol( 1 );
-	fgSizer29->SetFlexibleDirection( wxBOTH );
-	fgSizer29->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	HCVW = new wxPanel( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HCVW->Hide();
 	
-	cHackUse = new wxCheckBox( wHackScroll, wxID_ANY, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer29->Add( cHackUse, 0, wxALL|wxEXPAND, 5 );
+	wxFlexGridSizer* HCVL;
+	HCVL = new wxFlexGridSizer( 0, 3, 0, 0 );
+	HCVL->AddGrowableCol( 1 );
+	HCVL->SetFlexibleDirection( wxBOTH );
+	HCVL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	bHackCAdd = new wxButton( wHackScroll, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer29->Add( bHackCAdd, 0, wxALIGN_RIGHT|wxALL, 5 );
+	HCVS1 = new wxStaticText( HCVW, wxID_ANY, wxT("Add / Minus"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCVS1->Wrap( -1 );
+	HCVL->Add( HCVS1, 0, wxALL|wxEXPAND, 5 );
 	
-	fgSizer30->Add( fgSizer29, 1, wxEXPAND, 5 );
+	HCVT = new wxTextCtrl( HCVW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCVL->Add( HCVT, 0, wxALL|wxEXPAND, 5 );
 	
-	bHackCDel = new wxButton( wHackScroll, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer30->Add( bHackCDel, 0, wxALL, 5 );
+	HCVS2 = new wxStaticText( HCVW, wxID_ANY, wxT("(Value)"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCVS2->Wrap( -1 );
+	HCVL->Add( HCVS2, 0, wxALL, 5 );
 	
-	lHackCodes->Add( fgSizer30, 1, wxEXPAND, 5 );
+	HCVW->SetSizer( HCVL );
+	HCVW->Layout();
+	HCVL->Fit( HCVW );
+	HCMain->Add( HCVW, 1, wxEXPAND, 5 );
 	
-	gCodelist = new wxGrid( wHackScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	wxFlexGridSizer* HCAction;
+	HCAction = new wxFlexGridSizer( 0, 4, 0, 0 );
+	HCAction->SetFlexibleDirection( wxBOTH );
+	HCAction->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	HCUseC = new wxCheckBox( HCP, wxID_ANY, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCAction->Add( HCUseC, 0, wxALL|wxEXPAND, 5 );
+	
+	HCAddB = new wxButton( HCP, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCAction->Add( HCAddB, 0, wxALIGN_RIGHT|wxALL, 5 );
+	
+	HCLoadB = new wxButton( HCP, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCAction->Add( HCLoadB, 0, wxALL|wxEXPAND, 5 );
+	
+	HCDelB = new wxButton( HCP, wxID_ANY, wxT("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	HCAction->Add( HCDelB, 0, wxALL, 5 );
+	
+	HCMain->Add( HCAction, 1, wxEXPAND, 5 );
+	
+	HCL->Add( HCMain, 1, wxEXPAND, 5 );
+	
+	HCG = new wxGrid( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	
 	// Grid
-	gCodelist->CreateGrid( 0, 2 );
-	gCodelist->EnableEditing( true );
-	gCodelist->EnableGridLines( true );
-	gCodelist->EnableDragGridSize( false );
-	gCodelist->SetMargins( 0, 0 );
+	HCG->CreateGrid( 0, 3 );
+	HCG->EnableEditing( true );
+	HCG->EnableGridLines( true );
+	HCG->EnableDragGridSize( false );
+	HCG->SetMargins( 0, 0 );
 	
 	// Columns
-	gCodelist->SetColSize( 0, 140 );
-	gCodelist->SetColSize( 1, 140 );
-	gCodelist->EnableDragColMove( false );
-	gCodelist->EnableDragColSize( true );
-	gCodelist->SetColLabelSize( 15 );
-	gCodelist->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	HCG->SetColSize( 0, 100 );
+	HCG->SetColSize( 1, 100 );
+	HCG->SetColSize( 2, 50 );
+	HCG->EnableDragColMove( false );
+	HCG->EnableDragColSize( true );
+	HCG->SetColLabelSize( 15 );
+	HCG->SetColLabelValue( 0, wxT("Code / Data") );
+	HCG->SetColLabelValue( 1, wxT("Data") );
+	HCG->SetColLabelValue( 2, wxT("Lines") );
+	HCG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	gCodelist->EnableDragRowSize( true );
-	gCodelist->SetRowLabelSize( 20 );
-	gCodelist->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	HCG->EnableDragRowSize( true );
+	HCG->SetRowLabelSize( 20 );
+	HCG->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Label Appearance
 	
 	// Cell Defaults
-	gCodelist->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	lHackCodes->Add( gCodelist, 0, wxEXPAND, 5 );
+	HCG->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	HCL->Add( HCG, 0, wxEXPAND, 5 );
 	
-	wHackScroll->SetSizer( lHackCodes );
-	wHackScroll->Layout();
-	lHack->Add( wHackScroll, 1, wxEXPAND | wxALL, 5 );
+	HCP->SetSizer( HCL );
+	HCP->Layout();
+	HCL->Fit( HCP );
+	HTL->Add( HCP, 1, wxEXPAND | wxALL, 5 );
 	
-	nbHack->SetSizer( lHack );
-	nbHack->Layout();
-	lHack->Fit( nbHack );
-	NB->AddPage( nbHack, wxT("Hack"), false );
+	HTP->SetSizer( HTL );
+	HTP->Layout();
+	HTL->Fit( HTP );
+	NB->AddPage( HTP, wxT("Hack"), false );
 	nbAbout = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
@@ -886,21 +917,22 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bFile->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
 	bAppList->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppListOnClick ), NULL, this );
 	bAppUse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
-	dbListAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dbListAddBClick ), NULL, this );
-	dbList->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::dbListSelectC ), NULL, this );
+	DBAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBAddBClick ), NULL, this );
+	DBDelB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBDelBOnClick ), NULL, this );
+	DB->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::DBSelectC ), NULL, this );
 	DBLoadB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBLoadBOnClick ), NULL, this );
 	DBSaveB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBSaveBOnClick ), NULL, this );
-	DBFileT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
-	bAddHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
-	bDelHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
-	treeHack->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
-	treeHack->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( HEXFRM::treeHackOnChangeSelM ), NULL, this );
-	treeHack->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
-	treeHack->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
+	DBFileT->Connect( wxEVT_CHAR, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
+	HTAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
+	HTDelB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
+	HT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::HTOnKeyDown ), NULL, this );
+	HT->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::HTOnChangeSelT ), NULL, this );
 	bHTLoad->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
 	bHTSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
-	bHackCAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCAddOnClick ), NULL, this );
-	bHackCDel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCDelOnClick ), NULL, this );
+	HCAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
+	HCDelB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCDelBOnClick ), NULL, this );
+	HCG->Connect( wxEVT_GRID_RANGE_SELECT, wxGridRangeSelectEventHandler( HEXFRM::HCChangeR ), NULL, this );
+	HCG->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::HCChangeC ), NULL, this );
 }
 
 HEXFRM::~HEXFRM()
@@ -917,20 +949,21 @@ HEXFRM::~HEXFRM()
 	bFile->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
 	bAppList->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppListOnClick ), NULL, this );
 	bAppUse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
-	dbListAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dbListAddBClick ), NULL, this );
-	dbList->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::dbListSelectC ), NULL, this );
+	DBAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBAddBClick ), NULL, this );
+	DBDelB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBDelBOnClick ), NULL, this );
+	DB->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::DBSelectC ), NULL, this );
 	DBLoadB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBLoadBOnClick ), NULL, this );
 	DBSaveB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBSaveBOnClick ), NULL, this );
-	DBFileT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
-	bAddHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
-	bDelHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
-	treeHack->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
-	treeHack->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( HEXFRM::treeHackOnChangeSelM ), NULL, this );
-	treeHack->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
-	treeHack->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
+	DBFileT->Disconnect( wxEVT_CHAR, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
+	HTAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
+	HTDelB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
+	HT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::HTOnKeyDown ), NULL, this );
+	HT->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::HTOnChangeSelT ), NULL, this );
 	bHTLoad->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
 	bHTSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
-	bHackCAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCAddOnClick ), NULL, this );
-	bHackCDel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCDelOnClick ), NULL, this );
+	HCAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
+	HCDelB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCDelBOnClick ), NULL, this );
+	HCG->Disconnect( wxEVT_GRID_RANGE_SELECT, wxGridRangeSelectEventHandler( HEXFRM::HCChangeR ), NULL, this );
+	HCG->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::HCChangeC ), NULL, this );
 	
 }

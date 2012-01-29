@@ -3690,11 +3690,12 @@
 	"hexMain.h"
 	"hexM.h"
 
-1326629398 source:z:\hex\svn\trunk\wx_pch.h
+1327878792 source:z:\hex\svn\trunk\wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
+	"hexVar.h"
 
-1327796338 source:z:\hex\svn\trunk\hexmain.cpp
+1327879434 source:z:\hex\svn\trunk\hexmain.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>
@@ -3702,28 +3703,30 @@
 	<wx/dynarray.h>
 	<wx/arrimpl.cpp>
 
-1326629398 z:\hex\svn\trunk\wx_pch.h
+1327878792 z:\hex\svn\trunk\wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
+	"hexVar.h"
 
 1326630964 z:\hex\svn\trunk\hexm.h
 	"hexApp.h"
 	"hexMain.h"
 
-1327668644 z:\hex\svn\trunk\hexapp.h
+1327831926 z:\hex\svn\trunk\hexapp.h
 	<wx/app.h>
 	<windows.h>
 	<tlhelp32.h>
 
-1327796630 z:\hex\svn\trunk\hexmain.h
+1327879434 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/textfile.h>
 	<wx/dir.h>
 	<wx/stdpaths.h>
 	"hexApp.h"
 	"GUIFrame.h"
+	"hexVar.h"
 
-1327796626 z:\hex\svn\trunk\guiframe.h
+1327879472 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3750,7 +3753,6 @@
 	<wx/icon.h>
 	<wx/treectrl.h>
 	<wx/checkbox.h>
-	<wx/valtext.h>
 	<wx/spinctrl.h>
 	<wx/hyperlink.h>
 	<wx/notebook.h>
@@ -3770,7 +3772,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1327796626 source:z:\hex\svn\trunk\guiframe.cpp
+1327875946 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4147,7 +4149,7 @@
 1309443162 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\generic\helpext.h
 	"wx/helpbase.h"
 
-1327794634 source:z:\hex\svn\trunk\treehack.cpp
+1327878602 source:z:\hex\svn\trunk\treehack.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>
@@ -4155,7 +4157,7 @@
 	<wx/dynarray.h>
 	<wx/arrimpl.cpp>
 
-1327674260 source:z:\hex\svn\trunk\dblist.cpp
+1327877982 source:z:\hex\svn\trunk\dblist.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>
@@ -4187,4 +4189,8 @@
 1309443176 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\dir.h
 	"wx/longlong.h"
 	"wx/string.h"
+
+1327878896 z:\hex\svn\trunk\hexvar.h
+	"hexApp.h"
+	"GUIFrame.h"
 

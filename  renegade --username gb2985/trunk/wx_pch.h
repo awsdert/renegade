@@ -22,7 +22,7 @@
 #endif
 
 #ifdef WX_PRECOMP
-    // put here all your rarely-changing header files
+#include "hexVar.h"
 #endif // WX_PRECOMP
 
 #endif // WX_PCH_H_INCLUDED

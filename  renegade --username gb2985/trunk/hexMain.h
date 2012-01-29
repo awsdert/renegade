@@ -15,36 +15,7 @@
 #include <wx/stdpaths.h>
 #include "hexApp.h"
 #include "GUIFrame.h"
-enum HPF {
-	PC32 = 0, PC64,
-	PS1, PS2,
-	N64, NGB, NDS, NWII,
-	HPFL
-}; // Hack Platform
-class DBI: public wxTreeItemData {
-	public:
-		DBI(void);
-		DBI(wxTreeItemData*);
-		~DBI(void);
-	public:
-		CHAR afr;
-		WORD afi;
-		wxString afn, afs, afp;
-};
-class HACK: public wxTreeItemData {
-	public:
-		HACK();
-		HACK(wxTreeItemData*);
-		~HACK();
-	public:
-		bool use;
-		WORD hid;
-		unsigned int length;
-		wxArrayString cPart1;
-		wxArrayString cPart2;
-		int GetLen();
-		void SetLen(int l);
-};
+#include "hexVar.h"
 class hexWin: public HEXFRM {
     public:
         hexWin(wxFrame *frame);
@@ -55,7 +26,7 @@ class hexWin: public HEXFRM {
 		wxString myExe;
 		wxChar myDiv;
 		wxStandardPaths myPaths;
-		wxTextFile db, ht; // DataBase, Hack Tree
+		wxTextFile dbf, htf; // DataBase, Hack Tree
 		wxDir dir;
 		wxArrayString dbFile, osName;
 		wxArrayString* pfName;
@@ -70,40 +41,50 @@ class hexWin: public HEXFRM {
 		void DBLoadBOnClick(wxCommandEvent& event);
 		void DBSave(void);
 		void DBSaveBOnClick(wxCommandEvent& event);
-		void dbListAdd(void);
-		void dbListAdd(wxString s, DBI* cv);
-		void dbListAddBClick(wxCommandEvent& event);
-		void dbListSelect(void);
-		void dbListSelectC(wxTreeEvent& event);
+		void DBFileTOnKeyD(wxKeyEvent& event);
+		void DBDel(void);
+		void DBDel(wxTreeItemId& i);
+		void DBDelBOnClick(wxCommandEvent& event);
+		void DBAdd(void);
+		void DBAdd(wxString s, DBI* cv);
+		void DBAddBClick(wxCommandEvent& event);
+		void DBSelect(void);
+		void DBSelectC(wxTreeEvent& event);
+		wxTreeItemId DBRoot(void);
+		wxTreeItemId DBRoot(wxTreeItemId& i);
 		// Hack Tree
 		wxString treeFile, ht1, ht2, ht3, ht4;
 		wxTreeItemId ti, pti; // Current Item, Previous Item
-		wxTreeItemId treeHackRoot(void);
-		wxTreeItemId treeHackRoot(wxTreeItemId& i);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK d);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where, HACK d);
-		wxTreeItemId treeHackAdd(wxTreeItemId& r, wxString l, int where);
-		wxTreeItemId treeHackFind(wxTreeItemId& r, wxString l);
-		int treeHackCount(wxTreeItemId& r);
+		wxTreeItemId HTRoot(void);
+		wxTreeItemId HTRoot(wxTreeItemId& i);
+		wxTreeItemId HTAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK d);
+		wxTreeItemId HTAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d);
+		wxTreeItemId HTAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i);
+		wxTreeItemId HTAdd(wxTreeItemId& r, wxString l, int where, HACK d);
+		wxTreeItemId HTAdd(wxTreeItemId& r, wxString l, int where);
+		wxTreeItemId HTFind(wxTreeItemId& r, wxString l);
+		int HTCount(wxTreeItemId& r);
 		void HTSet(void);
 		void HTSave(void);
 		WORD HTSave(wxTreeItemId& r, WORD j, WORD l);
 		void HTLoad(void);
 		wxTreeItemId HTFind(WORD j);
 		wxTreeItemId HTFind(WORD j, wxTreeItemId& r);
-		wxString HTLoad(wxTreeItemId& r, WORD j, wxString s, int m);
+		wxString HTLoad(wxTreeItemId& r, wxString s, int m);
 		void bHTSaveOnClick(wxCommandEvent& event);
 		void bHTLoadOnClick(wxCommandEvent& event);
-		void treeHackDel(void);
-		void treeHackDel(wxTreeItemId i);
-		void treeHackMove(int direction);
-		void treeHackMove(wxTreeItemId& root, wxTreeItemId& new_root);
-		void treeHackChange(void);
-		void treeHackOnChangeSelT(wxTreeEvent& event);
-		void treeHackOnChangeSelM(wxMouseEvent& event);
-		void treeHackOnChangeSel(wxCommandEvent& event);
+		void HTDel(void);
+		void HTDel(wxTreeItemId i);
+		void HTMove(int direction);
+		void HTMove(wxTreeItemId& root, wxTreeItemId& new_root);
+		void HTChange(void);
+		void HTChange(wxTreeItemId& i);
+		void HTOnChangeSelT(wxTreeEvent& event);
+		int HCRow, HCRows;
+		void HCLoad(void);
+		void HCChange(int r);
+		void HCChangeC(wxGridEvent& event);
+		void HCChangeR(wxGridEvent& event);
 		// Other
 		DWORD32 getHEX(wxString s);
 		void HEXFORMIDLE(wxIdleEvent& event);
@@ -114,9 +95,9 @@ class hexWin: public HEXFRM {
 		void mWaitOnChange(wxCommandEvent& event);
 		void bAddHackOnClick(wxCommandEvent& event);
 		void bDelHackOnClick(wxCommandEvent& event);
-		void bHackCAddOnClick(wxCommandEvent& event);
+		void HCAddBOnClick(wxCommandEvent& event);
 		void bHackCDelOnClick(wxCommandEvent& event);
-		void treeHackOnKeyDown(wxKeyEvent& event);
+		void HTOnKeyDown(wxKeyEvent& event);
 		void setWait(int i);
 		int getAppLen(void);
 		void setApps(void);

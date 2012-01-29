@@ -1,5 +1,5 @@
 /***************************************************************
- * Name:      treeHack.cpp
+ * Name:      HT.cpp
  * Purpose:   Code for Application Frame
  * Author:    awsdert ()
  * Created:   2012-01-11
@@ -27,15 +27,15 @@ HACK::~HACK() {
 	cPart1.Empty();
 	cPart2.Empty();
 }
-wxTreeItemId hexWin::treeHackRoot(void) { return treeHack->GetRootItem(); }
-wxTreeItemId hexWin::treeHackRoot(wxTreeItemId& i) {
-	if (i.IsOk()) { i = treeHack->GetItemParent(i); }
-	if (!i.IsOk()) { i = treeHack->GetRootItem(); }
+wxTreeItemId hexWin::HTRoot(void) { return HT->GetRootItem(); }
+wxTreeItemId hexWin::HTRoot(wxTreeItemId& i) {
+	if (i.IsOk()) { i = HT->GetItemParent(i); }
+	if (!i.IsOk()) { i = HT->GetRootItem(); }
 	return i;
 }
 void hexWin::HTSet(void) {
 	wxString d = myDiv, p = wxGetCwd(), s;
-	DBI* k = (DBI*)dbList->GetItemData(di);
+	DBI* k = (DBI*)DB->GetItemData(di);
 	int afi = cbGroup->GetSelection();
 	if (afi < 0) { afi = PS2; }
 	p << d << wxT("db");
@@ -44,43 +44,46 @@ void hexWin::HTSet(void) {
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
 	treeFile = p << d << k->afp << wxT(".hexcl");
 	s = treeFile;
-	if (!ht.Open(s)) {
-		ht.Create(s);
-		ht.Open(s);
+	if (!htf.Open(s)) {
+		htf.Create(s);
+		htf.Open(s);
 	}
 }
 wxTreeItemId hexWin::HTFind(WORD j) {
-	wxTreeItemId r = treeHackRoot();
+	wxTreeItemId r = HTRoot();
 	return HTFind(j, r);
 }
 wxTreeItemId hexWin::HTFind(WORD j, wxTreeItemId& r) {
 	wxTreeItemId i, c;
 	wxTreeItemIdValue v;
-	HACK* d = (HACK*)treeHack->GetItemData(r);
+	HACK* d = (HACK*)HT->GetItemData(r);
 	if (j != d->hid) {
-		i = treeHack->GetFirstChild(r, v);
+		i = HT->GetFirstChild(r, v);
 		while (i.IsOk() && !c.IsOk()) {
 			c = HTFind(j, i);
-			i = treeHack->GetNextChild(r, v);
+			i = HT->GetNextChild(r, v);
 		}
 	} else { c = r; }
 	return c;
 }
 void hexWin::HTLoad(void) {
-	wxString s; HTSet();
-	WORD k = 0x0000;
-	treeHack->DeleteAllItems();
-	wxTreeItemId r = treeHackRoot(), i;
-	i = treeHackAdd(r, wxT("(m)"), 3);
-	r = treeHackRoot(i);
-	s = ht.GetFirstLine();
-	HTLoad(r, k, s, 0);
+	wxTreeItemId r = HTRoot(), i = DB->GetSelection();
+	if (i.IsOk()) {
+		di = i;
+		wxString s; HTSet();
+		HT->DeleteAllItems();
+		i = HTAdd(r, wxT("(m)"), 3);
+		r = HTRoot(i);
+		s = htf.GetFirstLine();
+		HTLoad(r, s, 0);
+	}
 }
-wxString hexWin::HTLoad(wxTreeItemId& r, WORD j, wxString s, int m) {
+wxString hexWin::HTLoad(wxTreeItemId& r, wxString s, int m) {
 	wxTreeItemId i, p; bool u = false;
 	wxString s1, s2, s3, t; WORD k = 0x0000, n;
-	int l = 0; HACK* d = new HACK;
-	while (!ht.Eof()) {
+	int l = 0;
+	HACK *d = new HACK, *h = (HACK*)HT->GetItemData(r);
+	while (!htf.Eof()) {
 		switch (m) {
 		case 1:
 			ht1 = s.SubString(0, 3);
@@ -89,22 +92,22 @@ wxString hexWin::HTLoad(wxTreeItemId& r, WORD j, wxString s, int m) {
 			ht4 = s.SubString(13, 16);
 			n = (WORD)getHEX(ht2);
 			k = (WORD)getHEX(ht4);
-			if (k != j) {
+			if (k != h->hid) {
 				p = HTFind(k);
 				u = true;
 			} d->hid = n;
 			d->SetLen(0);
-			treeHack->SetItemData(i, d);
+			HT->SetItemData(i, d);
 			l = 0; m = 2;
 			break;
 		case 2:
 			s3 = s.SubString(0, 0);
 			if (s3.Cmp(wxT('"')) == 0) {
-				if (u) { HTLoad(p, k, s, 0); u = false; }
+				if (u) { HTLoad(p, s, 0); u = false; }
 				else {
 					t = s.SubString(1, s.length() - 2);
-					if (t.Cmp(wxT("(m)")) == 0) { i = treeHackRoot(); }
-					else { i = treeHackAdd(r, t, 3); }
+					if (t.Cmp(wxT("(m)")) == 0) { i = HTRoot(); }
+					else { i = HTAdd(r, t, 3); }
 					m = 1; d = new HACK;
 				}
 			} else {
@@ -113,191 +116,219 @@ wxString hexWin::HTLoad(wxTreeItemId& r, WORD j, wxString s, int m) {
 				d->cPart1.Add(s1);
 				d->cPart2.Add(s2);
 				l++; d->SetLen(l);
-				treeHack->SetItemData(i, d);
+				HT->SetItemData(i, d);
 			} break;
 		default:
 			s3 = s.SubString(0, 0);
 			if (s3.Cmp(wxT("\"")) == 0) {
 				t = s.SubString(1, s.length() - 2);
-				if (t.Cmp(wxT("(m)")) == 0) { i = treeHackRoot(); }
-				else { i = treeHackAdd(r, t, 3); }
+				if (t.Cmp(wxT("(m)")) == 0) { i = HTRoot(); }
+				else { i = HTAdd(r, t, 3); }
 				m = 1; d = new HACK;
 			}
-		} if (!ht.Eof()) { s = ht.GetNextLine(); }
+		} if (!htf.Eof()) { s = htf.GetNextLine(); }
 	} return s;
 }
-void hexWin::treeHackChange(void) {
-	ti = treeHack->GetSelection();
-	if (ti != pti) {
-		pti = ti;
-		HACK* td = (HACK*)treeHack->GetItemData(ti);
-		int i, l = td->GetLen(); wxString s;
-		gCodelist->DeleteRows(0, gCodelist->GetRows(), false);
-		for (i = 0;i < l;i++) {
-			gCodelist->AppendRows(1, false);
-			gCodelist->SetCellValue(i, 0, td->cPart1[i]);
-			gCodelist->SetCellValue(i, 1, td->cPart2[i]);
+void hexWin::HTChange(void) {
+	wxTreeItemId i = HT->GetSelection();
+	HTChange(i);
+}
+void hexWin::HTChange(wxTreeItemId& i) {
+	if (i != pti) {
+		pti = i;
+		HACK* td = (HACK*)HT->GetItemData(i);
+		int j, l = td->GetLen(); wxString s;
+		HCG->DeleteRows(0, HCG->GetRows(), false);
+		for (j = 0;j < l;j++) {
+			HCG->AppendRows(1, false);
+			HCG->SetCellValue(j, 0, td->cPart1[j]);
+			HCG->SetCellValue(j, 1, td->cPart2[j]);
 		}
 	}
 }
 void hexWin::HTSave(void) {
 	WORD j = 0x0001, m = 0x0000;
-	wxTreeItemId r = treeHackRoot();
-	HTSet(); ht.Clear();
+	wxTreeItemId r = HTRoot();
+	HTSet(); htf.Clear();
 	while (r.IsOk()) {
 		j = HTSave(r, j, m);
-		r = treeHack->GetNextSibling(r);
-	} ht.Write(wxTextFileType_Dos); ht.Close();
+		r = HT->GetNextSibling(r);
+	} htf.Write(wxTextFileType_Dos); htf.Close();
 }
 WORD hexWin::HTSave(wxTreeItemId& r, WORD j, WORD l) {
 	wxTreeItemId i;
 	wxTreeItemIdValue v;
 	wxString s; WORD m = j;
-	HACK* h = (HACK*)treeHack->GetItemData(r);
-	DBI* d = (DBI*)dbList->GetItemData(di); int k;
-	s << wxT("\"") << treeHack->GetItemText(r) << wxT("\"");
-	ht.AddLine(s, wxTextFileType_Dos); s.Clear();
+	HACK* h = (HACK*)HT->GetItemData(r);
+	DBI* d = (DBI*)DB->GetItemData(di); int k;
+	s << wxT("\"") << HT->GetItemText(r) << wxT("\"");
+	htf.AddLine(s, wxTextFileType_Dos); s.Clear();
 	s.Printf(wxT("%04X%04X 0000%04X"), d->afi, j, l);
-	ht.AddLine(s, wxTextFileType_Dos); s.Clear(); j++;
+	htf.AddLine(s, wxTextFileType_Dos); s.Clear(); j++;
 	for (k = 0;k < (int)h->length;k++) {
 		s << h->cPart1[k] << wxT(" ") << h->cPart2[k];
-		ht.AddLine(s); s.Clear();
-	} i = treeHack->GetFirstChild(r, v);
+		htf.AddLine(s); s.Clear();
+	} i = HT->GetFirstChild(r, v);
 	while (i.IsOk()) {
 		j = HTSave(i, j, m);
-		i = treeHack->GetNextChild(r, v);
+		i = HT->GetNextChild(r, v);
 	} return j;
 }
 void hexWin::bHTSaveOnClick(wxCommandEvent& event) { HTSave(); }
 void hexWin::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
-wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
-	wxTreeItemId& i, HACK d) { return treeHackAdd(r, l, where, i, &d); }
-wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d) {
+wxTreeItemId hexWin::HTAdd(wxTreeItemId& r, wxString l, int where,
+	wxTreeItemId& i, HACK d) { return HTAdd(r, l, where, i, &d); }
+wxTreeItemId hexWin::HTAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d) {
 	wxTreeItemId c;
 	switch (where) {
-	case 0: c = treeHack->PrependItem(r, l, -1, -1, d); break;
+	case 0: c = HT->PrependItem(r, l, -1, -1, d); break;
 	case 1:
 		if (!!i) {
-			i = treeHack->GetPrevSibling(i);
+			i = HT->GetPrevSibling(i);
 			if (!i) {
-				c = treeHack->PrependItem(r, l, -1, -1, d);
+				c = HT->PrependItem(r, l, -1, -1, d);
 				break;
 			}
 		}
 	case 2:
 		if (!!i) {
-			c = treeHack->InsertItem(r, i, l, -1, -1, d);
+			c = HT->InsertItem(r, i, l, -1, -1, d);
 			break;
 		}
 	default:
-		c = treeHack->AppendItem(r, l, -1, -1, d);
-	} treeHack->Expand(r); treeHack->SelectItem(c);
+		c = HT->AppendItem(r, l, -1, -1, d);
+	} HT->Expand(r); HT->SelectItem(c);
 	return c;
 }
-wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
-	wxTreeItemId& i) { HACK* d = new HACK; return treeHackAdd(r, l, where, i, d); }
-wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where,
-	HACK d) { wxTreeItemId i; return treeHackAdd(r, l, where, i, d); }
-wxTreeItemId hexWin::treeHackAdd(wxTreeItemId& r, wxString l, int where) {
-	wxTreeItemId i; HACK* d = new HACK; return treeHackAdd(r, l, where, i, d); }
-void hexWin::treeHackDel(void) { treeHackDel(treeHack->GetSelection()); }
-void hexWin::treeHackDel(wxTreeItemId i) {	if (i) { treeHack->Delete(i); } }
-wxTreeItemId hexWin::treeHackFind(wxTreeItemId& r, wxString l) {
+wxTreeItemId hexWin::HTAdd(wxTreeItemId& r, wxString l, int where,
+	wxTreeItemId& i) { HACK* d = new HACK; return HTAdd(r, l, where, i, d); }
+wxTreeItemId hexWin::HTAdd(wxTreeItemId& r, wxString l, int where,
+	HACK d) { wxTreeItemId i; return HTAdd(r, l, where, i, d); }
+wxTreeItemId hexWin::HTAdd(wxTreeItemId& r, wxString l, int where) {
+	wxTreeItemId i; HACK* d = new HACK; return HTAdd(r, l, where, i, d); }
+void hexWin::HTDel(void) { HTDel(HT->GetSelection()); }
+void hexWin::HTDel(wxTreeItemId i) {	if (i) { HT->Delete(i); } }
+wxTreeItemId hexWin::HTFind(wxTreeItemId& r, wxString l) {
 	wxTreeItemId i, c; wxTreeItemIdValue v;
-	c = treeHack->GetFirstChild(r, v);
+	c = HT->GetFirstChild(r, v);
 	while (c) {
-		if (treeHack->GetItemText(c) == l) {
+		if (HT->GetItemText(c) == l) {
 			return c;
-		} c = treeHack->GetNextChild(r, v);
+		} c = HT->GetNextChild(r, v);
 	} return i;
 }
-int hexWin::treeHackCount(wxTreeItemId& r)
-	{ return treeHack->GetChildrenCount(r, false); }
-void hexWin::treeHackMove(wxTreeItemId& r, wxTreeItemId& nr) {
+int hexWin::HTCount(wxTreeItemId& r)
+	{ return HT->GetChildrenCount(r, false); }
+void hexWin::HTMove(wxTreeItemId& r, wxTreeItemId& nr) {
 	wxTreeItemId c, nc; wxTreeItemIdValue v;
-	while (treeHackCount(r) > 0) {
-		c = treeHack->GetFirstChild(r, v);
-		nc = treeHackAdd(nr, treeHack->GetItemText(c), 3, (HACK*)treeHack->GetItemData(c));
-		treeHackMove(c, nc);
-	} treeHackDel(r);
+	while (HTCount(r) > 0) {
+		c = HT->GetFirstChild(r, v);
+		nc = HTAdd(nr, HT->GetItemText(c), 3, (HACK*)HT->GetItemData(c));
+		HTMove(c, nc);
+	} HTDel(r);
 }
-void hexWin::treeHackMove(int direction) {
-	wxTreeItemId c, i = treeHack->GetSelection(), ni, p, r;
-	if (i == treeHackRoot()) { return; }
-	HACK* d = (HACK*)treeHack->GetItemData(i);
-	wxString s = treeHack->GetItemText(i), s2;
-	int w = cbAddHack->GetSelection(), t;
-	r = treeHackRoot(i); p = treeHackRoot(r);
+void hexWin::HTMove(int direction) {
+	wxTreeItemId c, i = HT->GetSelection(), ni, p, r;
+	if (i == HTRoot()) { return; }
+	HACK* d = (HACK*)HT->GetItemData(i);
+	wxString s = HT->GetItemText(i), s2;
+	int w = HTAddD->GetSelection(), t;
+	r = HTRoot(i); p = HTRoot(r);
 	switch (direction) {
 	case 1:
-		c = treeHack->GetNextSibling(i);
-		if (c) { ni = treeHackAdd(r, s, 2, c, d); }
-		else { ni = treeHackAdd(r, s, 3, d); }
+		c = HT->GetNextSibling(i);
+		if (c) { ni = HTAdd(r, s, 2, c, d); }
+		else { ni = HTAdd(r, s, 3, d); }
 		break;
 	case 2:
-		if (r == treeHackRoot()) { p = r; }
-		ni = treeHackAdd(p, s, w, d);
+		if (r == HTRoot()) { p = r; }
+		ni = HTAdd(p, s, w, d);
 		break;
 	case 3:
-		t = treeHackCount(r);
+		t = HTCount(r);
 		do {
 			s2.Printf(wxT("New Hack %i"), t);
-			c = treeHackFind(r, s2); t++;
+			c = HTFind(r, s2); t++;
 		} while (!c == false);
-		r = treeHackAdd(r, s2, w);
-		ni = treeHackAdd(r, s, 3, d);
+		r = HTAdd(r, s2, w);
+		ni = HTAdd(r, s, 3, d);
 		break;
 	default:
-		c = treeHack->GetPrevSibling(i);
-		if (c) { ni = treeHackAdd(r, s, 1, c, d); }
-		else { ni = treeHackAdd(r, s, 0, d); }
-	} treeHackMove(i, ni);
-	treeHack->SelectItem(ni);
-	treeHackChange();
+		c = HT->GetPrevSibling(i);
+		if (c) { ni = HTAdd(r, s, 1, c, d); }
+		else { ni = HTAdd(r, s, 0, d); }
+	} HTMove(i, ni);
+	HT->SelectItem(ni);
+	HTChange();
 }
-void hexWin::treeHackOnKeyDown(wxKeyEvent& event) {
-	wxTreeItemId r, i = treeHack->GetSelection();
+void hexWin::HTOnKeyDown(wxKeyEvent& event) {
+	wxTreeItemId r, i = HT->GetSelection();
 	wxTreeItemIdValue v; wxString s;
 	int kc = event.GetKeyCode();
 	if (event.ControlDown()) {
 		switch (kc) {
-		case WXK_SPACE: cHackUse->SetValue(!cHackUse->GetValue()); break;
+		case WXK_SPACE: HTAddC->SetValue(!HTAddC->GetValue()); break;
 		case WXK_EXECUTE: case WXK_ADD: case WXK_NUMPAD_ADD:
-			r = treeHackRoot(i);
-			s.Printf(wxT("New Hack %i"), treeHackCount(r));
-			treeHackAdd(r, s, cbAddHack->GetSelection(), i);
+			r = HTRoot(i);
+			s.Printf(wxT("New Hack %i"), HTCount(r));
+			HTAdd(r, s, HTAddD->GetSelection(), i);
 		break;
 		case WXK_DELETE: case WXK_SUBTRACT: case WXK_NUMPAD_SUBTRACT:
-			treeHackDel(i); break;
-		case WXK_UP: treeHackMove(0); break;
-		case WXK_DOWN: treeHackMove(1); break;
-		case WXK_LEFT: treeHackMove(2); break;
-		case WXK_RIGHT: treeHackMove(3); break;
+			HTDel(i); break;
+		case WXK_UP: HTMove(0); break;
+		case WXK_DOWN: HTMove(1); break;
+		case WXK_LEFT: HTMove(2); break;
+		case WXK_RIGHT: HTMove(3); break;
 		default: break; }
 	} else {
 		switch (kc) {
-		case WXK_SPACE: cHackUse->SetValue(!cHackUse->GetValue()); break;
+		case WXK_SPACE: HTAddC->SetValue(!HTAddC->GetValue()); break;
 		case WXK_UP:
-			r = treeHack->GetPrevSibling(i);
-			if (!r) { r = treeHackRoot(i); }
-			if (r) { treeHack->SelectItem(r); }
+			r = HT->GetPrevSibling(i);
+			if (!r) { r = HTRoot(i); }
+			if (r) { HT->SelectItem(r); }
 		break;
 		case WXK_DOWN:
-			r = treeHack->GetNextSibling(i);
-			if (!r) { r = treeHack->GetFirstChild(i, v); }
-			if (r) { treeHack->SelectItem(r); }
+			r = HT->GetNextSibling(i);
+			if (!r) { r = HT->GetFirstChild(i, v); }
+			if (r) { HT->SelectItem(r); }
 		break;
 		case WXK_LEFT:
-			r = treeHackRoot(i);
-			if (r) { treeHack->SelectItem(r); }
+			r = HTRoot(i);
+			if (r) { HT->SelectItem(r); }
 		break;
 		case WXK_RIGHT:
-			r = treeHack->GetFirstChild(i, v);
-			if (r) { treeHack->SelectItem(r); }
+			r = HT->GetFirstChild(i, v);
+			if (r) { HT->SelectItem(r); }
 		break;
 		default: break; }
 	}
 }
-void hexWin::treeHackOnChangeSelT(wxTreeEvent& event) { treeHackChange(); }
-void hexWin::treeHackOnChangeSelM(wxMouseEvent& event) { treeHackChange(); }
-void hexWin::treeHackOnChangeSel(wxCommandEvent& event) { treeHackChange(); }
+void hexWin::HTOnChangeSelT(wxTreeEvent& event) {
+	wxTreeItemId i = event.GetItem();
+	HTChange(i);
+}
+void hexWin::HCLoad(void) {}
+void hexWin::HCChange(int r) {
+	if (r != HCRow) {
+		if (r < HCRow || (r > HCRow + HCRows)) {
+			wxString s = HCG->GetCellValue(r, 2);
+			long int v;
+			while (r > 0) {
+				if (s.Cmp(wxT("0")) != 0) { break; }
+				r--; s = HCG->GetCellValue(r, 2);
+			} s.ToLong(&v, 10);
+			HCRows = (int)v;
+			HCRow = r;
+			HCLoad();
+		}
+	}
+}
+void hexWin::HCChangeC(wxGridEvent& event) {
+	int r = event.GetRow();
+	HCChange(r); event.Skip();
+}
+void hexWin::HCChangeR(wxGridEvent& event) {
+	int r = event.GetRow();
+	HCChange(r); event.Skip();
+}
