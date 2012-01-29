@@ -3694,7 +3694,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1327672818 source:z:\hex\svn\trunk\hexmain.cpp
+1327796338 source:z:\hex\svn\trunk\hexmain.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>
@@ -3715,7 +3715,7 @@
 	<windows.h>
 	<tlhelp32.h>
 
-1327674260 z:\hex\svn\trunk\hexmain.h
+1327796630 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/textfile.h>
 	<wx/dir.h>
@@ -3723,12 +3723,12 @@
 	"hexApp.h"
 	"GUIFrame.h"
 
-1327666144 z:\hex\svn\trunk\guiframe.h
+1327796626 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
 	<wx/string.h>
-	<wx/combobox.h>
+	<wx/choice.h>
 	<wx/gdicmn.h>
 	<wx/font.h>
 	<wx/colour.h>
@@ -3741,7 +3741,7 @@
 	<wx/bmpcbox.h>
 	<wx/textctrl.h>
 	<wx/stattext.h>
-	<wx/choice.h>
+	<wx/combobox.h>
 	<wx/scrolwin.h>
 	<wx/grid.h>
 	<wx/panel.h>
@@ -3750,6 +3750,7 @@
 	<wx/icon.h>
 	<wx/treectrl.h>
 	<wx/checkbox.h>
+	<wx/valtext.h>
 	<wx/spinctrl.h>
 	<wx/hyperlink.h>
 	<wx/notebook.h>
@@ -3769,7 +3770,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1327666144 source:z:\hex\svn\trunk\guiframe.cpp
+1327796626 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4146,7 +4147,7 @@
 1309443162 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\generic\helpext.h
 	"wx/helpbase.h"
 
-1327594258 source:z:\hex\svn\trunk\treehack.cpp
+1327794634 source:z:\hex\svn\trunk\treehack.cpp
 	"wx_pch.h"
 	"hexMain.h"
 	<string.h>

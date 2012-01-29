@@ -70,16 +70,12 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bsHook2->SetFlexibleDirection( wxBOTH );
 	bsHook2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	cbGroup = new wxComboBox( wHookScroll, wxID_ANY, wxT("Playstation 2"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	cbGroup->Append( wxT("Nintendo DS") );
-	cbGroup->Append( wxT("Nintendo Wii") );
-	cbGroup->Append( wxT("Playstation 1") );
-	cbGroup->Append( wxT("Playstation 2") );
-	cbGroup->Append( wxT("PC 32") );
-	cbGroup->Append( wxT("PC 64") );
+	wxArrayString cbGroupChoices;
+	cbGroup = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbGroupChoices, 0 );
+	cbGroup->SetSelection( 0 );
 	bsHook2->Add( cbGroup, 0, wxALL|wxEXPAND, 5 );
 	
-	bGroup = new wxButton( wHookScroll, wxID_ANY, wxT("Add Group"), wxDefaultPosition, wxDefaultSize, 0 );
+	bGroup = new wxButton( wHookScroll, wxID_ANY, wxT("Use Group"), wxDefaultPosition, wxDefaultSize, 0 );
 	bsHook2->Add( bGroup, 0, wxALL, 5 );
 	
 	wxString rbHookChoices[] = { wxT("Application"), wxT("File") };
@@ -515,6 +511,19 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	dbList = new wxTreeCtrl( nbDB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_FULL_ROW_HIGHLIGHT|wxTR_HIDE_ROOT|wxTR_NO_LINES|wxTR_SINGLE );
 	dbListMain->Add( dbList, 0, wxALL|wxEXPAND, 5 );
 	
+	wxFlexGridSizer* fgSizer32;
+	fgSizer32 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer32->SetFlexibleDirection( wxBOTH );
+	fgSizer32->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	DBLoadB = new wxButton( nbDB, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer32->Add( DBLoadB, 0, wxALL, 5 );
+	
+	DBSaveB = new wxButton( nbDB, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer32->Add( DBSaveB, 0, wxALL, 5 );
+	
+	dbListMain->Add( fgSizer32, 1, wxEXPAND, 5 );
+	
 	lDB->Add( dbListMain, 0, wxEXPAND, 5 );
 	
 	dbListInfoP = new wxPanel( nbDB, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), wxTAB_TRAVERSAL );
@@ -524,7 +533,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxFlexGridSizer* dbListInfoL;
 	dbListInfoL = new wxFlexGridSizer( 0, 1, 0, 0 );
 	dbListInfoL->AddGrowableCol( 0 );
-	dbListInfoL->AddGrowableRow( 3 );
+	dbListInfoL->AddGrowableRow( 4 );
 	dbListInfoL->SetFlexibleDirection( wxBOTH );
 	dbListInfoL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -577,6 +586,21 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	dbListAFL->Add( dbListAFT, 0, wxALL|wxEXPAND, 5 );
 	
 	dbListInfoL->Add( dbListAFL, 0, wxEXPAND, 5 );
+	
+	wxFlexGridSizer* DBFileL;
+	DBFileL = new wxFlexGridSizer( 0, 2, 0, 0 );
+	DBFileL->AddGrowableCol( 1 );
+	DBFileL->SetFlexibleDirection( wxBOTH );
+	DBFileL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	DBFileS = new wxStaticText( dbListInfoP, wxID_ANY, wxT("Filename"), wxDefaultPosition, wxDefaultSize, 0 );
+	DBFileS->Wrap( -1 );
+	DBFileL->Add( DBFileS, 0, wxALL, 5 );
+	
+	DBFileT = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	DBFileL->Add( DBFileT, 0, wxALL|wxEXPAND, 5 );
+	
+	dbListInfoL->Add( DBFileL, 1, wxEXPAND, 5 );
 	
 	dbListNotes = new wxTextCtrl( dbListInfoP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB );
 	dbListInfoL->Add( dbListNotes, 0, wxALL|wxEXPAND, 5 );
@@ -632,13 +656,13 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	lHackTree->Add( lHackAddDel, 1, wxEXPAND, 5 );
 	
-	treeHack = new wxTreeCtrl( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS|wxTR_HIDE_ROOT );
+	treeHack = new wxTreeCtrl( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
 	treeHack->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
 	
 	lHackTree->Add( treeHack, 0, wxALL|wxEXPAND, 5 );
 	
 	wxFlexGridSizer* lHackMove;
-	lHackMove = new wxFlexGridSizer( 0, 2, 0, 0 );
+	lHackMove = new wxFlexGridSizer( 0, 4, 0, 0 );
 	lHackMove->SetFlexibleDirection( wxBOTH );
 	lHackMove->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -649,7 +673,15 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	int cbHackMoveNChoices = sizeof( cbHackMoveChoices ) / sizeof( wxString );
 	cbHackMove = new wxChoice( nbHack, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbHackMoveNChoices, cbHackMoveChoices, 0 );
 	cbHackMove->SetSelection( 0 );
-	lHackMove->Add( cbHackMove, 0, wxALL, 5 );
+	cbHackMove->SetMinSize( wxSize( 45,-1 ) );
+	
+	lHackMove->Add( cbHackMove, 1, wxALL, 5 );
+	
+	bHTLoad = new wxButton( nbHack, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	lHackMove->Add( bHTLoad, 0, wxALL, 5 );
+	
+	bHTSave = new wxButton( nbHack, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	lHackMove->Add( bHTSave, 0, wxALL, 5 );
 	
 	lHackTree->Add( lHackMove, 1, wxEXPAND, 5 );
 	
@@ -856,12 +888,17 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bAppUse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
 	dbListAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dbListAddBClick ), NULL, this );
 	dbList->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::dbListSelectC ), NULL, this );
+	DBLoadB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBLoadBOnClick ), NULL, this );
+	DBSaveB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBSaveBOnClick ), NULL, this );
+	DBFileT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
 	bAddHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
 	bDelHack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
 	treeHack->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
 	treeHack->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( HEXFRM::treeHackOnChangeSelM ), NULL, this );
 	treeHack->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
 	treeHack->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
+	bHTLoad->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
+	bHTSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
 	bHackCAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCAddOnClick ), NULL, this );
 	bHackCDel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCDelOnClick ), NULL, this );
 }
@@ -882,12 +919,17 @@ HEXFRM::~HEXFRM()
 	bAppUse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
 	dbListAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dbListAddBClick ), NULL, this );
 	dbList->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::dbListSelectC ), NULL, this );
+	DBLoadB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBLoadBOnClick ), NULL, this );
+	DBSaveB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBSaveBOnClick ), NULL, this );
+	DBFileT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::DBFileTOnKeyD ), NULL, this );
 	bAddHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAddHackOnClick ), NULL, this );
 	bDelHack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bDelHackOnClick ), NULL, this );
 	treeHack->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::treeHackOnKeyDown ), NULL, this );
 	treeHack->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( HEXFRM::treeHackOnChangeSelM ), NULL, this );
 	treeHack->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
 	treeHack->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::treeHackOnChangeSel ), NULL, this );
+	bHTLoad->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
+	bHTSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
 	bHackCAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCAddOnClick ), NULL, this );
 	bHackCDel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHackCDelOnClick ), NULL, this );
 	

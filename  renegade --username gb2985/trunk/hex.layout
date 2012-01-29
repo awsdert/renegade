@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
-	<File name="dbList.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="821" topLine="22" />
+	<ActiveTarget name="release" />
+	<File name="dbList.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="1848" topLine="58" />
 	</File>
-	<File name="hexApp.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="487" topLine="38" />
-	</File>
-	<File name="hexApp.h" open="1" top="0" tabpos="6">
-		<Cursor position="530" topLine="2" />
-	</File>
-	<File name="hexMain.cpp" open="1" top="1" tabpos="4">
-		<Cursor position="3105" topLine="104" />
+	<File name="hexMain.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="2520" topLine="81" />
 	</File>
 	<File name="hexMain.h" open="1" top="0" tabpos="1">
-		<Cursor position="1488" topLine="51" />
+		<Cursor position="1572" topLine="60" />
 	</File>
-	<File name="treeHack.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="2009" topLine="51" />
+	<File name="treeHack.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="4234" topLine="147" />
 	</File>
 </CodeBlocks_layout_file>

@@ -47,13 +47,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
     return wxbuild;
 }
-HACK::HACK() : wxTreeItemData() { length = 0; }
-HACK::HACK(wxTreeItemData*) : wxTreeItemData() {}
-HACK::~HACK() {
-	length = 0;
-	cPart1.Empty();
-	cPart2.Empty();
-} //HACK* Hack() { return new HACK(); }
 hexWin::hexWin(wxFrame *frame) : HEXFRM(frame) {
 #if wxUSE_STATUSBAR
     SB->SetStatusText(_("Hacker Tool"), 0);
@@ -65,31 +58,31 @@ hexWin::hexWin(wxFrame *frame) : HEXFRM(frame) {
 	myExe << wxT("hex.exe");
 #endif
 	dbFile.Add(wxT("UNKOWN"), HPFL);
-	pfName.Add(wxT("UNKOWN"), HPFL);
+	osName.Add(wxT("UNKOWN"), HPFL);
 	dbFile[PC32] = wxT("pc32");
-	pfName[PC32] = wxT("PC 32bit");
+	osName[PC32] = wxT("PC 32bit");
 	dbFile[PC64] = wxT("pc64");
-	pfName[PC64] = wxT("PC 64bit");
+	osName[PC64] = wxT("PC 64bit");
 	dbFile[PS1] = wxT("sony_ps1");
-	pfName[PS2] = wxT("Sony PS1");
+	osName[PS1] = wxT("Sony PS1");
 	dbFile[PS2] = wxT("sony_ps2");
-	pfName[PS2] = wxT("Sony PS2");
+	osName[PS2] = wxT("Sony PS2");
 	dbFile[N64] = wxT("nintendo_64");
-	pfName[N64] = wxT("Nintendo 64");
+	osName[N64] = wxT("Nintendo 64");
 	dbFile[NGB] = wxT("nintendo_gb");
-	pfName[NGB] = wxT("Nintendo GameBoy");
+	osName[NGB] = wxT("Nintendo GameBoy");
 	dbFile[NDS] = wxT("nintendo_ds");
-	pfName[NDS] = wxT("Nintendo DS / DSi / 3DS");
+	osName[NDS] = wxT("Nintendo DS / DSi / 3DS");
 	dbFile[NWII] = wxT("nintendo_wii");
-	pfName[NWII] = wxT("Nintendo Wii");
+	osName[NWII] = wxT("Nintendo Wii");
+	pfName = new wxArrayString[HPFL];
+	pfName[PS2].Add(wxT("PCSX2 0.9.7+"));
+	int i;
+	for (i = 0;i < HPFL;i++) { cbGroup->Append(osName[i]); }
 	dl = 0;// rdi = dbList->GetRootItem();
-	gLen = 7; pLen = 1; appLen = -1;
+	appLen = -1;
 	appWait = 0; appWaitU = 0;
-	groups = new wxString [gLen];
-	group = new int [pLen];
-	preset = new wxString [pLen];
-	group[0] = 6;
-	preset[0] = wxT("PCSX2 0.9.7+");
+	appWaitB = 0;
 }
 hexWin::~hexWin() {}
 void hexWin::setApps(void) {
@@ -102,26 +95,7 @@ void hexWin::setApps(void) {
 	EnumWindows(appList3, NULL);
 #endif
 }
-void hexWin::afHook(void) {
-	int afi = cbGroup->GetSelection();
-	if (afi < 0) { afi = PS2; }
-	wxString p, s, t, t1; p = wxGetCwd();
-	if (!myDiv) { myDiv = (p.Find(wxT('\\'))) ? wxT('\\') : wxT('/'); }
-	wxChar d = myDiv;
-	dir.Open(p);
-	p  << d << wxT("db");
-	if (!dir.Open(p)) { wxMkdir(p); dir.Open(p); }
-	s << p << d << dbFile[afi] << wxT(".hext");
-	if (!db.Open(s)) {
-		db.Create(s);
-		db.Open(s);
-	}
-	DBI* cv = new DBI; int m = 0;
-	for (t = db.GetFirstLine(); !db.Eof(); t = db.GetNextLine()) {
-		switch (m) {
-		default: dbListAdd(t, cv); m = 0; cv = new DBI; }
-	}
-}
+void hexWin::afHook(void) { DBLoad(); }
 void hexWin::afHookBClick(wxCommandEvent& event) { afHook(); }
 void hexWin::setWait(int i) { appWait = i; }
 int hexWin::getAppLen(void) { return appLen; }
@@ -146,14 +120,26 @@ void hexWin::bAddHackOnClick(wxCommandEvent& event) {
 	} treeHackChange();
 }
 void hexWin::bDelHackOnClick(wxCommandEvent& event) { treeHackDel(); }
-int HACK::GetLen() { return length; }
-void HACK::SetLen(int l) { length = l; }
+int HACK::GetLen() { return (int)length; }
+void HACK::SetLen(int l) {
+	/*wxString s; s.Printf(wxT("%i"), (unsigned int)l);
+	wxMessageBox(s);//*/
+	length = (unsigned int)l;
+}
 DWORD32 hexWin::getHEX(wxString s) {
 	long unsigned int v;
 	s = (!s) ? wxT("00000000") : s;
 	s.ToULong(&v, 16);
 	return (unsigned int)v;
 }
+void hexWin::groupOnBlur(wxFocusEvent& event) {
+	unsigned int i = cbGroup->GetSelection(), j;
+	cbApp->Clear();
+	for (j = 0;j < pfName[i].GetCount();j++) {
+		cbApp->Append(pfName[i][j]);
+	}
+}
+void hexWin::groupOnClick(wxCommandEvent& event) {}
 void hexWin::bHackCAddOnClick(wxCommandEvent& event) {
 	ti = treeHack->GetSelection();
 	wxString s; HACK* d = (HACK*)treeHack->GetItemData(ti);
