@@ -91,6 +91,7 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* EVT;
 		wxStaticText* EUS;
 		wxChoice* EUD;
+		wxChoice* EMD;
 		wxGrid* EG;
 		wxPanel* DBP;
 		wxStaticText* DBRS;
@@ -210,7 +211,7 @@ class HEXFRM : public wxFrame
 	
 	public:
 		
-		HEXFRM( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,658 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		HEXFRM( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,480 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~HEXFRM();
 	

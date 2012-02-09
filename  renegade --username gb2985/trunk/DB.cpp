@@ -26,12 +26,15 @@ void ME::DBLoad(void) {
 	DBSet();
 	xStr s, t, t1, t2, t3;
 	xStrT st; dl = 0;
+	// This and DB->Delete don't seem to do their job
 	DB->CollapseAndReset(rdi); bool u = false;
+	// Ignore this, works fine
 	DBI* cv = new DBI; u8 m = 0, m2;
 	for (t = dbf.GetFirstLine(); !dbf.Eof(); t = dbf.GetNextLine()) {
 		s = t.SubString(0, 0);
 		switch (m) {
 		case 1: m2 = 0;
+			// Read generic data, no problems here
 			st.SetString(t, wxT(";"));
 			while (st.HasMoreTokens()) {
 				s = st.GetNextToken();
@@ -42,24 +45,24 @@ void ME::DBLoad(void) {
 			} m = 2; break;
 		case 2:
 			if (s.Cmp(wxT("[")) == 0) {
-				DBAdd(t1, cv);
+				DBAdd(t1, cv); // Add then reset DBI data below
 				cv->afp = t.SubString(1, t.length() - 2);
 				cv->afn.Clear();
 				m = 1;
 			} else {
 				if (s.Cmp(wxT("\\")) == 0) { t = t.SubString(1, -1); }
-				cv->afn += t;
+				cv->afn += t; // Append to notes
 			}
 			break;
 		default:
 			if (s.Cmp(wxT("[")) == 0) {
+				// Get filename
 				cv->afp = t.SubString(1, t.length() - 2);
 				m = 1; u = true;
 			}
 		}
 	} if (u) { DBAdd(t1, cv); }
-	delete cv;
-	xTIDV v;
+	delete cv; xTIDV v;
 	di = DB->GetFirstChild(rdi, v);
 	DB->SelectItem(di);
 }
@@ -72,9 +75,7 @@ void ME::DBSelect(void) {
 		//HTLoad();
 	}
 }
-void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
-void ME::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
-void ME::DBSave(void) {
+void ME::DBSave(void) { // Convert all hack items to a list that can re-build from
 	DBSet(); dbf.Clear();
 	xStr s, l, n; wxChar c = wxT(';');
 	xTID i;
@@ -104,37 +105,34 @@ void ME::DBSave(void) {
 }
 xTID ME::DBRoot(void) { return DB->GetRootItem(); }
 xTID ME::DBRoot(xTID& i) {
-	xTID c;
+	xTID c; // Prevents overide of child id
 	if (i.IsOk() && i != rdi) { c = DB->GetItemParent(i); }
-	else { c = rdi; }
-	return c;
+	else { c = rdi; } return c;
 }
-void ME::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }
 void ME::DBDel(void) { xTID i = DB->GetSelection(); DBDel(i); }
 void ME::DBDel(xTID& i) { DB->Delete(i); }
-void ME::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
 DBI* ME::DBCopy(DBI* from, DBI* to) {
-	to->afi = from->afi;
-	to->afn = from->afn;
-	to->afp = from->afp;
-	to->afr = from->afr;
-	to->afs = from->afs;
+	to->afi = from->afi; // App ID - used only for export once implimented
+	to->afn = from->afn; // Notes
+	to->afp = from->afp; // Hacklist Filename
+	to->afr = from->afr; // Region - not in use yet
+	to->afs = from->afs; // Serial ID - mainly for games
 	return to;
 }
 void ME::DBAdd(void) {
-	DBI* cv = new DBI;
+	DBI* cv = new DBI; // Subclass of wxTreeItemData, used for generic Profile data
 	xStr s;
 	s.Printf(wxT("New Hack Tree %i"), dl);
-	cv->afp = s;
+	cv->afp = s; // Set Profile's file name to s
 	cv->afn = wxT("Notes");
 	DBAdd(s, cv);
 	delete cv;
 }
 void ME::DBAdd(xStr s, DBI* cv) {
 	DBI* t = new DBI;
-	t = DBCopy(cv, t);
-	di = DB->AppendItem(rdi, s, -1, -1, t);
-	rdi = DBRoot(di);
+	t = DBCopy(cv, t); // Calling code might still need it's object so transfer data to new object
+	di = DB->AppendItem(rdi, s, -1, -1, t); // rdi = root
+	rdi = DBRoot(di); // Force rdi to contain correct id should it change
 	DB->SelectItem(di); dl++;
 }
 void ME::DBAddBClick(wxCommandEvent& event) { DBAdd(); }

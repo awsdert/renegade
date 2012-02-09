@@ -28,9 +28,11 @@ void ME::PFSet(void) {
 }
 void ME::PFLoad(void) {
 	HDTI = PFD->GetSelection(); PFSet();
-	u8 m = 0, i = 0; APPD->Clear(); PFEA.Clear();
+	u8 m = 0, i = 0;
+	APPD->Clear(); PFEA.Clear(); // Don't seem to work
 	xStr s, t, x; xStrT st;
 	RAMG->DeleteRows(0, RAMG->GetRows(), false);
+	EMD->Clear(); // Don't seem to work either
 	for (s = pff.GetFirstLine();!pff.Eof();s = pff.GetNextLine()) {
 		switch (m) {
 		case 0:
@@ -57,15 +59,16 @@ void ME::PFLoad(void) {
 				t = s.SubString(2, -1);
 				st.SetString(t, wxT(";"));
 				RAMG->AppendRows(1);
-				x = st.GetNextToken();
+				x = st.GetNextToken(); // Name
 				RAMG->SetCellValue(i, 0, x);
-				x = st.GetNextToken();
+				EMD->Append(x);
+				x = st.GetNextToken(); // Fixed?
 				RAMG->SetCellValue(i, 1, x);
-				x = st.GetNextToken();
+				x = st.GetNextToken(); // Address
 				RAMG->SetCellValue(i, 2, x);
-				x = st.GetNextToken();
+				x = st.GetNextToken(); // Size
 				RAMG->SetCellValue(i, 3, x);
-				x.Printf(wxT("%X"), i);
+				x.Printf(wxT("%X"), i); // ID to use in Codes
 				RAMG->SetRowLabelValue(i, x);
 				i++; m = 1;
 			} break;

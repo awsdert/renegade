@@ -281,7 +281,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	nbHook->SetSizer( bsHook );
 	nbHook->Layout();
 	bsHook->Fit( nbHook );
-	NB->AddPage( nbHook, wxT("Hook"), true );
+	NB->AddPage( nbHook, wxT("Hook"), false );
 	nbFind = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	NB->AddPage( nbFind, wxT("Find"), false );
 	nbResults = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -428,6 +428,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	ELHead->Add( EVB, 0, wxALL, 5 );
 	
 	EVT = new wxTextCtrl( EP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	EVT->SetMinSize( wxSize( 100,-1 ) );
+	
 	ELHead->Add( EVT, 0, wxALL, 5 );
 	
 	EUS = new wxStaticText( EP, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -437,7 +439,16 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxArrayString EUDChoices;
 	EUD = new wxChoice( EP, wxID_ANY, wxDefaultPosition, wxDefaultSize, EUDChoices, 0 );
 	EUD->SetSelection( 0 );
+	EUD->SetMinSize( wxSize( 90,-1 ) );
+	
 	ELHead->Add( EUD, 0, wxALL, 5 );
+	
+	wxArrayString EMDChoices;
+	EMD = new wxChoice( EP, wxID_ANY, wxDefaultPosition, wxDefaultSize, EMDChoices, 0 );
+	EMD->SetSelection( 0 );
+	EMD->SetMinSize( wxSize( 75,-1 ) );
+	
+	ELHead->Add( EMD, 0, wxALL, 5 );
 	
 	EL->Add( ELHead, 1, wxEXPAND, 5 );
 	
@@ -489,7 +500,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	EP->SetSizer( EL );
 	EP->Layout();
 	EL->Fit( EP );
-	NB->AddPage( EP, wxT("Editor"), false );
+	NB->AddPage( EP, wxT("Editor"), true );
 	DBP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* lDB;
 	lDB = new wxFlexGridSizer( 0, 2, 0, 0 );

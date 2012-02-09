@@ -65,3 +65,8 @@ void ME::EGOnChange(wxGridEvent& event) {
 		HANDLE p = GAP(); HCWrite(p, i, 1, v);
 	} else { EAT->SetValue(s); EA(); }
 }
+// - Database Tab
+void ME::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }
+void ME::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
+void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
+void ME::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
