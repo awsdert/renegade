@@ -7,10 +7,6 @@
  * License:
  **************************************************************/
 
-#ifdef WX_PRECOMP
-#include "wx_pch.h"
-#endif
-
 #ifdef __BORLANDC__
 #pragma hdrstop
 #endif //__BORLANDC__
@@ -47,68 +43,83 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
     return wxbuild;
 }
-hexWin::hexWin(wxFrame *frame) : HEXFRM(frame) {
-#if wxUSE_STATUSBAR
+ME::ME(wxFrame *frame) : HEXFRM(frame) {
     SB->SetStatusText(_("Hacker Tool"), 0);
     SB->SetStatusText(wxbuildinfo(long_f), 1);
-#endif
-#if WXDEBUG
+/*#if WXDEBUG
 	myExe << wxT("hex_dbg.exe");
 #else
 	myExe << wxT("hex.exe");
-#endif
-	dbFile.Add(wxT("UNKOWN"), HPFL);
-	osName.Add(wxT("UNKOWN"), HPFL);
-	dbFile[PC32] = wxT("pc32");
-	osName[PC32] = wxT("PC 32bit");
-	dbFile[PC64] = wxT("pc64");
-	osName[PC64] = wxT("PC 64bit");
-	dbFile[PS1] = wxT("sony_ps1");
-	osName[PS1] = wxT("Sony PS1");
-	dbFile[PS2] = wxT("sony_ps2");
-	osName[PS2] = wxT("Sony PS2");
-	dbFile[N64] = wxT("nintendo_64");
-	osName[N64] = wxT("Nintendo 64");
-	dbFile[NGB] = wxT("nintendo_gb");
-	osName[NGB] = wxT("Nintendo GameBoy");
-	dbFile[NDS] = wxT("nintendo_ds");
-	osName[NDS] = wxT("Nintendo DS / DSi / 3DS");
-	dbFile[NWII] = wxT("nintendo_wii");
-	osName[NWII] = wxT("Nintendo Wii");
-	pfName = new wxArrayString[HPFL];
-	pfName[PS2].Add(wxT("PCSX2 0.9.7+"));
+#endif*/
 	int i;
-	for (i = 0;i < HPFL;i++) { cbGroup->Append(osName[i]); }
-	dl = 0;// rdi = DB->GetRootItem();
-	appLen = -1;
-	appWait = 0; appWaitU = 0;
-	appWaitB = 0;
+	HDT.Add(0); HSTR.Add(wxT("Never"));
+	HDT.Add(500); HSTR.Add(wxT("Every 500 Miliseconds"));
+	HDT.Add(1000); HSTR.Add(wxT("Every Second"));
+	HDT.Add(5000); HSTR.Add(wxT("Every 5 Seconds"));
+	HDT.Add(30000); HSTR.Add(wxT("Every 30 Seconds"));
+	HDT.Add(60000); HSTR.Add(wxT("Every Minute"));
+	HDT.Add(300000); HSTR.Add(wxT("Every 5 Minutes"));
+	HDT.Add(1800000); HSTR.Add(wxT("Every 30 Minutes"));
+	HDT.Add(3600000); HSTR.Add(wxT("Every Hour"));
+	HDTL = HDT.GetCount();
+	for (i = 0;i < HDTL;i++) {
+		HKWD->Append(HSTR[i]);
+		EUD->Append(HSTR[i]);
+	}
+	HKWD->SetSelection(0);
+	EUD->SetSelection(0);
+	DBFA.Add(wxT("UNKOWN"), HPFL);
+	OSNA.Add(wxT("UNKOWN"), HPFL);
+	DBFA[PC32] = wxT("pc32");
+	OSNA[PC32] = wxT("PC 32bit");
+	DBFA[PC64] = wxT("pc64");
+	OSNA[PC64] = wxT("PC 64bit");
+	DBFA[PS1] = wxT("sony_ps1");
+	OSNA[PS1] = wxT("Sony PS1");
+	DBFA[PS2] = wxT("sony_ps2");
+	OSNA[PS2] = wxT("Sony PS2");
+	DBFA[N64] = wxT("nintendo_64");
+	OSNA[N64] = wxT("Nintendo 64");
+	DBFA[NGB] = wxT("nintendo_gb");
+	OSNA[NGB] = wxT("Nintendo GameBoy");
+	DBFA[NDS] = wxT("nintendo_ds");
+	OSNA[NDS] = wxT("Nintendo DS / DSi / 3DS");
+	DBFA[NWII] = wxT("nintendo_wii");
+	OSNA[NWII] = wxT("Nintendo Wii");
+	for (i = 0;i < HPFL;i++) { cbGroup->Append(OSNA[i]); }
+	cbGroup->SetSelection(PS2);
+	dl = 0;
+	appLen = -1; endian = 0;
+	AW = 0; AWU = 0; AWB = 0;
+	HW = 0; HWU = 0; HWB = 0;
+	EW = 0; EWU = 0; EWB = 0;
+	HTJ = 0; HDTI = PS2; HTFT = true;
+	rdi = DBRoot(); rti = HTRoot();
 }
-hexWin::~hexWin() {}
-void hexWin::setApps(void) {
+ME::~ME() {}
+void ME::setApps(void) {
 	int i = gApp->GetNumberRows();
 	if (i > -1) {
 		gApp->DeleteRows(0, i, false);
 	} appLen = -1;
-	appWaitU = wxGetLocalTimeMillis() + appWaitB;
+	AWU = wxGetLocalTimeMillis() + AWB;
 #ifdef WIN32
 	EnumWindows(appList3, NULL);
 #endif
 }
-void hexWin::afHook(void) { DBLoad(); }
-void hexWin::afHookBClick(wxCommandEvent& event) { afHook(); }
-void hexWin::setWait(int i) { appWait = i; }
-int hexWin::getAppLen(void) { return appLen; }
-void hexWin::bAppListOnClick(wxCommandEvent& event) { setApps(); }
-void hexWin::bAppUseOnClick(wxCommandEvent& event) {
+void ME::HCHookOnClick(wxCommandEvent& event) { HWB = 1000; HCHook(); }
+void ME::setWait(int i) { AW = i; }
+int ME::getAppLen(void) { return appLen; }
+void ME::bAppListOnClick(wxCommandEvent& event) { setApps(); }
+void ME::bAppUseOnClick(wxCommandEvent& event) {
 	wxArrayInt a = gApp->GetSelectedRows();
 	wxString s;
 	if (a.GetCount() > 0) {
 		s = gApp->GetCellValue(a[0], 0);
 		tApp->SetValue(s);
-	}
+	} DBLoad();
 }
-void hexWin::bAddHackOnClick(wxCommandEvent& event) {
+void ME::bAddHackOnClick(wxCommandEvent& event) {
 	wxTreeItemId i = HT->GetSelection(), p, r; HACK* d = new HACK;
 	wxString s; r = HTRoot(i); int w = HTAddD->GetSelection();
 	if (HTAddC->GetValue() == false) {
@@ -119,91 +130,64 @@ void hexWin::bAddHackOnClick(wxCommandEvent& event) {
 		HTAdd(i, s, w);
 	} HTChange();
 }
-void hexWin::bDelHackOnClick(wxCommandEvent& event) { HTDel(); }
-int HACK::GetLen() { return (int)length; }
-void HACK::SetLen(int l) { length = (unsigned int)l; }
-DWORD32 hexWin::getHEX(wxString s) {
+void ME::PFSet(void) {
+	wxString d = myDiv, p = wxGetCwd(), s;
+	p << d << wxT("pf");
+	dir.Open(p);
+	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
+	s = p << d << DBFA[HDTI] << wxT(".hexpf");
+	if (!pff.Open(s)) {
+		pff.Create(s);
+		pff.Open(s);
+	}
+}
+void ME::PFOnChange(wxCommandEvent& event) { HDTI = cbGroup->GetSelection(); }
+void ME::bDelHackOnClick(wxCommandEvent& event) { HTDel(ti); }
+u32 ME::getHEX(wxString s) {
 	long unsigned int v;
 	s = (!s) ? wxT("00000000") : s;
 	s.ToULong(&v, 16);
 	return (unsigned int)v;
 }
-void hexWin::groupOnBlur(wxFocusEvent& event) {
-	unsigned int i = cbGroup->GetSelection(), j;
-	cbApp->Clear();
-	for (j = 0;j < pfName[i].GetCount();j++) {
-		cbApp->Append(pfName[i][j]);
-	}
-}
-void hexWin::groupOnClick(wxCommandEvent& event) {}
-void hexWin::HCAddBOnClick(wxCommandEvent& event) {
-	ti = HT->GetSelection();
-	wxString s; HACK* d = (HACK*)HT->GetItemData(ti);
-	unsigned int t0, t1, t2, rows = 1; bool t3 = cHackR->GetValue(); int l = d->GetLen();
-	DWORD32 cp0 = getHEX(tHackA->GetValue()), cp1 = 0x00000000,
-		cp2 = getHEX(tHackV->GetValue()), cp3 = 0x00000000, cp4 = 0x00000000,
-		cp5 = 0x00000000, cp6 = 0x00000000;
-	t0 = mHackRAM->GetSelection();
-	t1 = mHackType->GetSelection();
-	t2 = mHackV->GetSelection();
-	// Comments within these if statements indicate max lines per code (excludes List code)
-	if (cp0 > 0x01FFFFFF || (t0 > 0 && cp0 > 0x0001FFFF)) {
-		// E0EXXX00 YYYYYYYY TTTTTTTT 00000000 VVVVVVVV IIIIIIII
-		rows = 2;
-		cp1 = 0xE0E00000 + (t0 * 0x00010000);
-		cp5 = cp3; cp3 = cp0;
-		cp6 = cp4; cp4 = 0x00000000;
-		cp1 += t1 * 0x00002000;
-		cp1 += t2 * 0x00000400;
-		if (t3) { cp1 += 0x00000200; }
-	} else {
-		if (t0 > 0) {
-			// EXXXTTTT YYYYYYYY VVVVVVVV IIIIIIII
-			cp1 = 0xE0000000 + (t0 * 0x01000000) + cp0;
-			cp1 += t1 * 0x00200000;
-			cp1 += t1 * 0x00040000;
-			if (t3) { cp1 += 0x00020000; }
-		} else {
-			// XXTTTTTT YYYYYYYY VVVVVVVV IIIIIIII
-			cp1 += t1 * 0x20000000;
-			cp1 += t2 * 0x04000000;
-			if (t3) { cp1 += 0x02000000; }
+void ME::groupOnBlur(wxFocusEvent& event) {
+	HDTI = cbGroup->GetSelection(); PFSet();
+	u8 m = 0, i; APFD->Clear(); PFEA.Clear();
+	wxString s, t, x; wxStringTokenizer st;
+	for (s = pff.GetFirstLine();!pff.Eof();s = pff.GetNextLine()) {
+		switch (m) {
+		case 0:
+			t = s.SubString(0, 0);
+			if (t.Cmp(wxT("[")) == 0) {
+				t = s.SubString(1, s.length() - 2);
+				APFD->Append(t);
+				m = 1;
+			} break;
+		case 1:
+			t = s.SubString(0, 0);
+			if (t.Cmp(wxT(";")) == 0) {
+				t = s.SubString(1, -1);
+				PFEA.Add(t);
+				m = 2;
+			} break;
+		case 2:
+			if (i == 0) {
+				t = s.SubString(2, -1);
+				st.SetString(t, wxT(";"));
+				x = st.GetNextToken();
+				x = st.GetNextToken();
+				tRAMStart->SetValue(x);
+				x = st.GetNextToken();
+				tRAMSize->SetValue(x);
+				i++; m = 1;
+			} break;
 		}
-	} HCG->AppendRows(1);
-	s.Printf(wxT("%08X"), cp1);
-	HCG->SetCellValue(l, 0, s);
-	d->cPart1.Add(s);
-	s.Printf(wxT("%08X"), cp2);
-	HCG->SetCellValue(l, 1, s);
-	d->cPart2.Add(s);
-	s.Printf(wxT("%i"), rows);
-	HCG->SetCellValue(l, 2, s);
-	l++; d->SetLen(l);
-	if (cp3 > 0x00000000) {
-		HCG->AppendRows(1);
-		s.Printf(wxT("%08X"), cp3);
-		HCG->SetCellValue(l, 0, s);
-		s.Printf(wxT("%08X"), cp4);
-		HCG->SetCellValue(l, 0, s);
-		HCG->SetCellValue(l, 2, wxT("0"));
-		l++; d->SetLen(l);
-	} HT->SetItemData(ti, d);
+	} APFD->SetSelection(0);
 }
-void hexWin::bHackCDelOnClick(wxCommandEvent& event) {}
-void hexWin::mWaitOnChange(wxCommandEvent& event) {
-	int i, sec = 1000, min = 60000;
-	switch (mWait->GetSelection()) {
-	case 1: i = 500; break;
-	case 2: i = sec; break;
-	case 3: i = sec * 5; break;
-	case 4: i = sec * 30; break;
-	case 5: i = min; break;
-	case 6: i = min * 5; break;
-	case 7: i = min * 30; break;
-	case 8: i = 360000; break;
-	default: i = 0; } appWaitB = i;
+void ME::groupOnClick(wxCommandEvent& event) {}
+void ME::mWaitOnChange(wxCommandEvent& event) {
+	AWB = HDT[HKWD->GetSelection()];
 }
-void hexWin::addApp(int row, wxString id, wxString app, wxString title) {
+void ME::addApp(int row, wxString id, wxString app, wxString title) {
 	int i = row; appLen = i;
 	if (i > -1) {
 		gApp->AppendRows(1);
@@ -213,12 +197,28 @@ void hexWin::addApp(int row, wxString id, wxString app, wxString title) {
 		gApp->AutoSizeColumns(50);
 	}
 }
-void hexWin::HEXFORMCLOSE(wxCloseEvent& event) { Destroy(); }
-void hexWin::HEXFORMIDLE(wxIdleEvent& event) {
-	if (appWaitB > 0) {
-		appWait = wxGetLocalTimeMillis();
-		if (appWait >= appWaitU) {
+HANDLE ME::GAP(void) { return getAppId(tApp->GetValue()); }
+u32 ME::GAR(void) { return getHEX(tRAMStart->GetValue()); }
+void ME::HEXFORMCLOSE(wxCloseEvent& event) { AWB = 0; HWB = 0; EWB = 0; Destroy(); }
+void ME::HEXFORMIDLE(wxIdleEvent& event) {
+	bool rm = false;
+	if (AWB > 0) {
+		AW = wxGetLocalTimeMillis();
+		if (AW >= AWU) {
 			setApps();
-		} event.RequestMore(true);
+		} rm = true;
 	}
+	if (HWB > 0) {
+		HW = wxGetLocalTimeMillis();
+		if (HW >= HWU) { HCHook();
+			HWU = wxGetLocalTimeMillis() + HWB;
+		} rm = true;
+	}
+	if (EWB > 0 && EP->IsShownOnScreen()) {
+		EW = wxGetLocalTimeMillis();
+		if (EW >= EWU) { EA();
+			EWU = wxGetLocalTimeMillis() + EWB;
+		} rm = true;
+	}
+	event.RequestMore(rm);
 }

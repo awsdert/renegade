@@ -60,11 +60,11 @@ class HEXFRM : public wxFrame
 		wxButton* bHook;
 		wxButton* bLaunch;
 		wxDirPickerCtrl* URL;
-		wxBitmapComboBox* cbApp;
+		wxBitmapComboBox* APFD;
 		wxButton* bApp;
 		wxTextCtrl* tApp;
-		wxStaticText* sWait;
-		wxChoice* mWait;
+		wxStaticText* HKWS;
+		wxChoice* HKWD;
 		wxComboBox* cbFile;
 		wxTextCtrl* tFile;
 		wxButton* bFile;
@@ -88,13 +88,15 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* m_textCtrl5;
 		wxStaticText* m_staticText6;
 		wxTextCtrl* m_textCtrl6;
-		wxPanel* nbEdit;
-		wxButton* m_button9;
-		wxTextCtrl* m_textCtrl10;
-		wxButton* m_button10;
-		wxTextCtrl* m_textCtrl11;
-		wxGrid* m_grid4;
-		wxPanel* nbDB;
+		wxPanel* EP;
+		wxButton* EAB;
+		wxTextCtrl* EAT;
+		wxButton* EVB;
+		wxTextCtrl* EVT;
+		wxStaticText* EUS;
+		wxChoice* EUD;
+		wxGrid* EG;
+		wxPanel* DBP;
 		wxStaticText* DBRS;
 		wxChoice* DBRM;
 		wxButton* DBAddB;
@@ -125,18 +127,23 @@ class HEXFRM : public wxFrame
 		wxButton* bHTLoad;
 		wxButton* bHTSave;
 		wxPanel* HCP;
-		wxStaticText* sHackType;
-		wxChoice* mHackType;
-		wxCheckBox* cHackR;
-		wxStaticText* sHackRAM;
-		wxChoice* mHackRAM;
-		wxSpinCtrl* nHackR;
+		wxStaticText* HCCS;
+		wxChoice* HCCD;
+		wxCheckBox* HCRC;
+		wxStaticText* HCRAMS;
+		wxChoice* HCRAMD;
+		wxSpinCtrl* HCRN;
 		wxStaticText* sHackA;
 		wxTextCtrl* tHackA;
 		wxChoice* mHackA;
 		wxStaticText* sHackV;
 		wxTextCtrl* tHackV;
 		wxChoice* mHackV;
+		wxPanel* HCTW;
+		wxStaticText* HCTS1;
+		wxChoice* HCTD1;
+		wxStaticText* HCTS2;
+		wxChoice* HCTD2;
 		wxPanel* HCAW;
 		wxStaticText* HCAS1;
 		wxTextCtrl* HCAT;
@@ -160,14 +167,21 @@ class HEXFRM : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void HEXFORMCLOSE( wxCloseEvent& event ) { event.Skip(); }
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
+		virtual void PFOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void groupOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void groupOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void afHookBClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCHookOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APFDOnChangeI( wxCommandEvent& event ) { event.Skip(); }
 		virtual void appOnBlur( wxFocusEvent& event ) { event.Skip(); }
+		virtual void APFDOnChangeT( wxCommandEvent& event ) { event.Skip(); }
 		virtual void appOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppListOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bAppUseOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void EGOnChange( wxGridEvent& event ) { event.Skip(); }
 		virtual void DBAddBClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBSelectC( wxTreeEvent& event ) { event.Skip(); }
@@ -177,11 +191,16 @@ class HEXFRM : public wxFrame
 		virtual void bAddHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bDelHackOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void HTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void HTOnChangeSelT( wxTreeEvent& event ) { event.Skip(); }
 		virtual void bHTLoadOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bHTSaveOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCCDOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCRCOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCUOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCAddBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCChangeD( wxGridEvent& event ) { event.Skip(); }
 		virtual void HCChangeR( wxGridRangeSelectEvent& event ) { event.Skip(); }
 		virtual void HCChangeC( wxGridEvent& event ) { event.Skip(); }
 		

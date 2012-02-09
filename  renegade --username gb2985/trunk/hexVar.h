@@ -13,32 +13,45 @@ class CL {
 		CL(void);
 		~CL(void);
 	public:
-		CHAR c1, c2, c3, c4, repeat;
-		DWORD32 address, incA, decA;
-		DWORD32 value, incV, decV;
+	/*
+		T = Code Type
+		S = Code Size
+		R = Repeat
+		M = Memory ID
+		I? = In/Decrement Value
+		J = In/Decrement Address
+		V? = Value
+		L = Code Lines
+		F = Fixed Address?
+	*/
+		int l;
+		u8 t, s, r, m;
+		u16 j;
+		u32 x, v, i;
+		wxArrayString ca;
+		bool f;
 };
 class DBI: public wxTreeItemData {
 	public:
 		DBI(void);
 		DBI(wxTreeItemData*);
-		~DBI(void);
+		//~DBI(void);
 	public:
-		CHAR afr;
-		WORD afi;
+		u8 afr;
+		u16 afi;
 		wxString afn, afs, afp;
 };
 class HACK: public wxTreeItemData {
 	public:
 		HACK();
 		HACK(wxTreeItemData*);
-		~HACK();
+		//~HACK();
 	public:
 		bool use;
-		WORD hid;
-		unsigned int length;
+		u16 hid;
 		wxArrayString cPart1;
 		wxArrayString cPart2;
+		wxArrayInt cLines;
 		int GetLen();
-		void SetLen(int l);
 };
 #endif
