@@ -72,7 +72,7 @@ void ME::DBSelect(void) {
 		DBI* cv = (DBI*)DB->GetItemData(di);
 		DBFileT->SetValue(cv->afp);
 		DBNotes->SetValue(cv->afn);
-		HTLoad();
+		//HTLoad();
 	}
 }
 void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
