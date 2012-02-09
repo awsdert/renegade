@@ -12,10 +12,7 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 void ME::DBSet(void) {
-	xStr p, s; p = wxGetCwd();
-	if (p.Find(wxT('\\'))) { myDiv = wxT('\\'); }
-	else { myDiv = wxT('/'); }
-	wxChar d = myDiv;
+	xStr d = myDiv, p, s; p = wxGetCwd();
 	dir.Open(p);
 	p << d << wxT("db");
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }

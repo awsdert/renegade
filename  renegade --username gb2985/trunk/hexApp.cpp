@@ -17,16 +17,15 @@
 IMPLEMENT_APP(hexApp);
 ME* frame;
 void MB(xStr text, xStr title) { wxMessageBox(text, title); }
-bool hexApp::OnInit()
-{
+bool hexApp::OnInit() {
 	frame = new ME(0L);
     frame->SetIcon(wxICON(NULL)); // To Set App Icon
     frame->Show();
-    frame->DBLoad();
+    frame->Maximize();
     return true;
 }
 #ifdef WIN32
-BOOL CALLBACK appList3(HWND hwnd, LPARAM AL) {
+BOOL CALLBACK listApps(HWND hwnd, LPARAM AL) {
 	if (IsWindowVisible(hwnd)) {
 		int a = frame->appLen++;
 		xStr s1, s2, s3;

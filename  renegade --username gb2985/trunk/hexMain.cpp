@@ -36,7 +36,11 @@ xStr wxbuildinfo(wxbuildinfoformat format) {
 	} return wxbuild;
 }
 ME::ME(wxFrame *frame) : HEXFRM(frame) {
-	int i;
+	u8 i, l; // Index, List
+	xAStr HSTR, OSNA; // Hook Time Label List
+	xStr s = wxGetCwd();
+	if (s.Find(wxT('\\'))) { myDiv = wxT('\\'); }
+	else { myDiv = wxT('/'); }
     SB->SetStatusText(_("Hacker Tool"), 0);
     SB->SetStatusText(wxbuildinfo(long_f), 1);
 	HDT.Add(0); HSTR.Add(wxT("Never"));
@@ -48,12 +52,12 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	HDT.Add(300000); HSTR.Add(wxT("Every 5 Minutes"));
 	HDT.Add(1800000); HSTR.Add(wxT("Every 30 Minutes"));
 	HDT.Add(3600000); HSTR.Add(wxT("Every Hour"));
-	HDTL = HDT.GetCount();
-	for (i = 0;i < HDTL;i++) {
-		HKWD->Append(HSTR[i]);
+	l = HDT.GetCount();
+	for (i = 0;i < l;i++) { // Fill different Choice Menus with choices
+		APPCheck->Append(HSTR[i]);
 		EUD->Append(HSTR[i]);
 	}
-	HKWD->SetSelection(0);
+	APPCheck->SetSelection(0);
 	EUD->SetSelection(0);
 	DBFA.Add(wxT("UNKOWN"), HPFL);
 	OSNA.Add(wxT("UNKOWN"), HPFL);
@@ -73,39 +77,20 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	OSNA[NDS] = wxT("Nintendo DS / DSi / 3DS");
 	DBFA[NWII] = wxT("nintendo_wii");
 	OSNA[NWII] = wxT("Nintendo Wii");
-	for (i = 0;i < HPFL;i++) { cbGroup->Append(OSNA[i]); }
+	// Fill Platform Choice menu with choices
+	for (i = 0;i < HPFL;i++) { PFD->Append(OSNA[i]); }
 	dl = 0; appLen = -1; endian = 0;
-	AW = 0; AWU = 0; AWB = 0;
-	HW = 0; HWU = 0; HWB = 0;
-	EW = 0; EWU = 0; EWB = 0;
-	HTJ = 0; HTFT = true;
-	rdi = DBRoot(); rti = HTRoot();
-	cbGroup->SetSelection(PS2);
-}
-ME::~ME() {}
-void ME::setApps(void) {
-	int i = gApp->GetNumberRows();
-	if (i > -1) {
-		gApp->DeleteRows(0, i, false);
-	} appLen = -1;
-	AWU = wxGetLocalTimeMillis() + AWB;
-#ifdef WIN32
-	EnumWindows(appList3, NULL);
-#endif
-}
-void ME::setWait(int i) { AW = i; }
+	// Time based variables
+	AW = 0; AWU = 0; AWB = 0; // Capture Windows variables
+	HW = 0; HWU = 0; HWB = 0; // Hack variables
+	EW = 0; EWU = 0; EWB = 0; // Update Memory Editor variables
+	// Hack Tree
+	HTJ = 0; // New Hack Item's ID (incremented after use, reset when loading file
+	// HTFT = true; // Hack Tree is being used for first time
+	rdi = DBRoot(); rti = HTRoot(); HDTI = PS2;
+	PFD->SetSelection(PS2); // Set default profile list
+} ME::~ME() {}
 int ME::getAppLen(void) { return appLen; }
-void ME::PFSet(void) {
-	xStr d = myDiv, p = wxGetCwd(), s;
-	p << d << wxT("pf");
-	dir.Open(p);
-	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
-	s = p << d << DBFA[HDTI] << wxT(".hexpf");
-	if (!pff.Open(s)) {
-		pff.Create(s);
-		pff.Open(s);
-	}
-}
 u32 ME::getHEX(xStr s) {
 	long unsigned int v;
 	s = (!s) ? wxT("00000000") : s;
@@ -115,13 +100,16 @@ u32 ME::getHEX(xStr s) {
 void ME::addApp(int row, xStr id, xStr app, xStr title) {
 	int i = row; appLen = i;
 	if (i > -1) {
-		gApp->AppendRows(1);
-		gApp->SetCellValue(i, 0, app);
-		gApp->SetCellValue(i, 1, title);
-		gApp->SetRowLabelValue(i, id);
-		gApp->AutoSizeColumns(50);
+		APPG->AppendRows(1);
+		APPG->SetCellValue(i, 0, app);
+		APPG->SetCellValue(i, 1, title);
+		APPG->SetRowLabelValue(i, id);
+		APPG->AutoSizeColumns(50);
 	}
 }
-HANDLE ME::GAP(void) { return getAppId(tApp->GetValue()); }
-u32 ME::GAR(void) { return getHEX(tRAMStart->GetValue()); }
-u32 ME::GAR(u8 i) { return getHEX(RAMG->GetCellValue(i, 2)); }
+HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
+// Get RAM Data
+xStr ME::GARAM(u8 r, u8 c) { return RAMG->GetCellValue(r, 2); }
+bool ME::GART(u8 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
+u32 ME::GARS(u8 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
+u32 ME::GARM(u8 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size

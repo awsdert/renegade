@@ -55,164 +55,135 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* bsHookScroll;
 	bsHookScroll = new wxBoxSizer( wxVERTICAL );
 	
-	wxStaticBoxSizer* bsHook0;
-	bsHook0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Hook") ), wxVERTICAL );
+	wxStaticBoxSizer* PFL0;
+	PFL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Hook") ), wxVERTICAL );
 	
-	wxFlexGridSizer* bsHook1;
-	bsHook1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	bsHook1->AddGrowableCol( 0 );
-	bsHook1->SetFlexibleDirection( wxBOTH );
-	bsHook1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* PFL1;
+	PFL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	PFL1->AddGrowableCol( 0 );
+	PFL1->SetFlexibleDirection( wxBOTH );
+	PFL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* bsHook2;
-	bsHook2 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	bsHook2->AddGrowableCol( 0 );
-	bsHook2->SetFlexibleDirection( wxBOTH );
-	bsHook2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* PFL2;
+	PFL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	PFL2->AddGrowableCol( 0 );
+	PFL2->SetFlexibleDirection( wxBOTH );
+	PFL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxArrayString cbGroupChoices;
-	cbGroup = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, cbGroupChoices, 0 );
-	cbGroup->SetSelection( 0 );
-	bsHook2->Add( cbGroup, 0, wxALL|wxEXPAND, 5 );
+	wxArrayString PFDChoices;
+	PFD = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, PFDChoices, 0 );
+	PFD->SetSelection( 0 );
+	PFL2->Add( PFD, 0, wxALL|wxEXPAND, 5 );
 	
-	bGroup = new wxButton( wHookScroll, wxID_ANY, wxT("Use Group"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsHook2->Add( bGroup, 0, wxALL, 5 );
+	PFB = new wxButton( wHookScroll, wxID_ANY, wxT("Use Group"), wxDefaultPosition, wxDefaultSize, 0 );
+	PFL2->Add( PFB, 0, wxALL, 5 );
 	
-	wxString rbHookChoices[] = { wxT("Application"), wxT("File") };
-	int rbHookNChoices = sizeof( rbHookChoices ) / sizeof( wxString );
-	rbHook = new wxRadioBox( wHookScroll, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, rbHookNChoices, rbHookChoices, 2, wxRA_SPECIFY_COLS );
-	rbHook->SetSelection( 0 );
-	bsHook2->Add( rbHook, 0, wxALL|wxEXPAND, 5 );
+	wxString PFRChoices[] = { wxT("Application"), wxT("File") };
+	int PFRNChoices = sizeof( PFRChoices ) / sizeof( wxString );
+	PFR = new wxRadioBox( wHookScroll, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, PFRNChoices, PFRChoices, 2, wxRA_SPECIFY_COLS );
+	PFR->SetSelection( 0 );
+	PFL2->Add( PFR, 0, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* bsHook3;
-	bsHook3 = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* PFL3;
+	PFL3 = new wxBoxSizer( wxVERTICAL );
 	
-	bHook = new wxButton( wHookScroll, wxID_ANY, wxT("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsHook3->Add( bHook, 0, wxALL, 5 );
+	PFGetB = new wxButton( wHookScroll, wxID_ANY, wxT("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
+	PFL3->Add( PFGetB, 0, wxALL, 5 );
 	
-	bLaunch = new wxButton( wHookScroll, wxID_ANY, wxT("Launch"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsHook3->Add( bLaunch, 0, wxALL, 5 );
+	PFStartB = new wxButton( wHookScroll, wxID_ANY, wxT("Launch"), wxDefaultPosition, wxDefaultSize, 0 );
+	PFL3->Add( PFStartB, 0, wxALL, 5 );
 	
-	bsHook2->Add( bsHook3, 1, wxEXPAND, 5 );
+	PFL2->Add( PFL3, 1, wxEXPAND, 5 );
 	
-	bsHook1->Add( bsHook2, 1, wxEXPAND, 5 );
+	PFL1->Add( PFL2, 1, wxEXPAND, 5 );
+	
+	PFL0->Add( PFL1, 1, wxEXPAND, 5 );
+	
+	bsHookScroll->Add( PFL0, 0, wxEXPAND|wxRIGHT, 5 );
 	
 	URL = new wxDirPickerCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE );
-	bsHook1->Add( URL, 0, wxALL|wxEXPAND, 5 );
+	bsHookScroll->Add( URL, 0, wxALL|wxEXPAND, 5 );
 	
-	bsHook0->Add( bsHook1, 1, wxEXPAND, 5 );
+	wxStaticBoxSizer* APPL0;
+	APPL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("App") ), wxVERTICAL );
 	
-	bsHookScroll->Add( bsHook0, 0, wxEXPAND|wxRIGHT, 5 );
+	wxFlexGridSizer* APPL1;
+	APPL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	APPL1->AddGrowableCol( 0 );
+	APPL1->SetFlexibleDirection( wxBOTH );
+	APPL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* bsApp0;
-	bsApp0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("App") ), wxVERTICAL );
+	APPD = new wxBitmapComboBox( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	APPL1->Add( APPD, 0, wxALL|wxEXPAND, 5 );
 	
-	wxFlexGridSizer* bsApp1;
-	bsApp1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	bsApp1->AddGrowableCol( 0 );
-	bsApp1->SetFlexibleDirection( wxBOTH );
-	bsApp1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* APPL2;
+	APPL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	APPL2->AddGrowableCol( 1 );
+	APPL2->SetFlexibleDirection( wxBOTH );
+	APPL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	APFD = new wxBitmapComboBox( wHookScroll, wxID_ANY, wxT("PCSX2 9.7+"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	bsApp1->Add( APFD, 0, wxALL|wxEXPAND, 5 );
+	APPB = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	APPL2->Add( APPB, 0, wxALL, 5 );
 	
-	wxFlexGridSizer* bsApp2;
-	bsApp2 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	bsApp2->AddGrowableCol( 1 );
-	bsApp2->SetFlexibleDirection( wxBOTH );
-	bsApp2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	APPT = new wxTextCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	APPL2->Add( APPT, 0, wxALL|wxEXPAND, 5 );
 	
-	bApp = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsApp2->Add( bApp, 0, wxALL, 5 );
+	APPS = new wxStaticText( wHookScroll, wxID_ANY, wxT("Check"), wxDefaultPosition, wxDefaultSize, 0 );
+	APPS->Wrap( -1 );
+	APPL2->Add( APPS, 0, wxALL, 5 );
 	
-	tApp = new wxTextCtrl( wHookScroll, wxID_ANY, wxT("pcsx2.exe"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsApp2->Add( tApp, 0, wxALL|wxEXPAND, 5 );
+	wxArrayString APPCheckChoices;
+	APPCheck = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, APPCheckChoices, 0 );
+	APPCheck->SetSelection( 0 );
+	APPCheck->SetToolTip( wxT("Check if App is Active") );
 	
-	HKWS = new wxStaticText( wHookScroll, wxID_ANY, wxT("Check"), wxDefaultPosition, wxDefaultSize, 0 );
-	HKWS->Wrap( -1 );
-	bsApp2->Add( HKWS, 0, wxALL, 5 );
+	APPL2->Add( APPCheck, 0, wxALL|wxEXPAND, 5 );
 	
-	wxArrayString HKWDChoices;
-	HKWD = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, HKWDChoices, 0 );
-	HKWD->SetSelection( 0 );
-	HKWD->SetToolTip( wxT("Check if App is Active") );
+	APPL1->Add( APPL2, 1, wxEXPAND, 5 );
 	
-	bsApp2->Add( HKWD, 0, wxALL|wxEXPAND, 5 );
+	APPL0->Add( APPL1, 1, wxEXPAND, 5 );
 	
-	bsApp1->Add( bsApp2, 1, wxEXPAND, 5 );
+	bsHookScroll->Add( APPL0, 0, wxEXPAND|wxRIGHT, 5 );
 	
-	bsApp0->Add( bsApp1, 1, wxEXPAND, 5 );
+	wxStaticBoxSizer* BINL0;
+	BINL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("File") ), wxVERTICAL );
 	
-	bsHookScroll->Add( bsApp0, 0, wxEXPAND|wxRIGHT, 5 );
+	wxFlexGridSizer* BINL1;
+	BINL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	BINL1->AddGrowableCol( 0 );
+	BINL1->SetFlexibleDirection( wxBOTH );
+	BINL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* bsFile0;
-	bsFile0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("File") ), wxVERTICAL );
+	BINProfile = new wxComboBox( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	BINL1->Add( BINProfile, 0, wxALL|wxEXPAND, 5 );
 	
-	wxFlexGridSizer* bsFile1;
-	bsFile1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	bsFile1->AddGrowableCol( 0 );
-	bsFile1->SetFlexibleDirection( wxBOTH );
-	bsFile1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* BINL2;
+	BINL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	BINL2->AddGrowableCol( 0 );
+	BINL2->SetFlexibleDirection( wxBOTH );
+	BINL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	cbFile = new wxComboBox( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	bsFile1->Add( cbFile, 0, wxALL|wxEXPAND, 5 );
+	BINT = new wxTextCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	BINL2->Add( BINT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxFlexGridSizer* bsFile2;
-	bsFile2 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	bsFile2->AddGrowableCol( 0 );
-	bsFile2->SetFlexibleDirection( wxBOTH );
-	bsFile2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	BINB = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	BINL2->Add( BINB, 0, wxALL, 5 );
 	
-	tFile = new wxTextCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bsFile2->Add( tFile, 0, wxALL|wxEXPAND, 5 );
+	BINL1->Add( BINL2, 1, wxEXPAND, 5 );
 	
-	bFile = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsFile2->Add( bFile, 0, wxALL, 5 );
+	BINL0->Add( BINL1, 1, wxEXPAND, 5 );
 	
-	bsFile1->Add( bsFile2, 1, wxEXPAND, 5 );
+	bsHookScroll->Add( BINL0, 0, wxEXPAND|wxRIGHT, 5 );
 	
-	bsFile0->Add( bsFile1, 1, wxEXPAND, 5 );
+	wxStaticBoxSizer* RAML0;
+	RAML0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Memory") ), wxVERTICAL );
 	
-	bsHookScroll->Add( bsFile0, 0, wxEXPAND|wxRIGHT, 5 );
+	wxFlexGridSizer* RAML1;
+	RAML1 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	RAML1->SetFlexibleDirection( wxBOTH );
+	RAML1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* bsRAM0;
-	bsRAM0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Memory") ), wxVERTICAL );
-	
-	wxFlexGridSizer* bsRAM1;
-	bsRAM1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	bsRAM1->AddGrowableCol( 0 );
-	bsRAM1->SetFlexibleDirection( wxBOTH );
-	bsRAM1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxString rbRAMChoices[] = { wxT("Static"), wxT("Pointer") };
-	int rbRAMNChoices = sizeof( rbRAMChoices ) / sizeof( wxString );
-	rbRAM = new wxRadioBox( wHookScroll, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, rbRAMNChoices, rbRAMChoices, 2, wxRA_SPECIFY_COLS );
-	rbRAM->SetSelection( 0 );
-	bsRAM1->Add( rbRAM, 0, wxALL|wxEXPAND, 5 );
-	
-	wxFlexGridSizer* bsRAM2;
-	bsRAM2 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	bsRAM2->AddGrowableCol( 1 );
-	bsRAM2->SetFlexibleDirection( wxBOTH );
-	bsRAM2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	sRAMStart = new wxStaticText( wHookScroll, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
-	sRAMStart->Wrap( -1 );
-	bsRAM2->Add( sRAMStart, 0, wxALL, 5 );
-	
-	tRAMStart = new wxTextCtrl( wHookScroll, wxID_ANY, wxT("20000000"), wxDefaultPosition, wxDefaultSize, wxTE_CAPITALIZE|wxTE_RIGHT );
-	bsRAM2->Add( tRAMStart, 0, wxALL|wxEXPAND, 5 );
-	
-	sRAMSize = new wxStaticText( wHookScroll, wxID_ANY, wxT("Size"), wxDefaultPosition, wxDefaultSize, 0 );
-	sRAMSize->Wrap( -1 );
-	bsRAM2->Add( sRAMSize, 0, wxALL, 5 );
-	
-	tRAMSize = new wxTextCtrl( wHookScroll, wxID_ANY, wxT("1FFFFFF"), wxDefaultPosition, wxDefaultSize, wxTE_CAPITALIZE|wxTE_RIGHT );
-	tRAMSize->SetToolTip( wxT("Set 0 if using until end of App / File") );
-	
-	bsRAM2->Add( tRAMSize, 0, wxALL|wxEXPAND, 5 );
-	
-	bsRAM1->Add( bsRAM2, 1, wxEXPAND, 5 );
+	RAML0->Add( RAML1, 0, wxEXPAND, 5 );
 	
 	RAMG = new wxGrid( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -249,11 +220,9 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	RAMG->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
 	RAMG->SetMinSize( wxSize( 100,100 ) );
 	
-	bsRAM1->Add( RAMG, 1, wxALL|wxEXPAND, 5 );
+	RAML0->Add( RAMG, 0, wxALL|wxEXPAND, 5 );
 	
-	bsRAM0->Add( bsRAM1, 1, wxEXPAND, 5 );
-	
-	bsHookScroll->Add( bsRAM0, 0, wxEXPAND|wxRIGHT, 5 );
+	bsHookScroll->Add( RAML0, 0, wxEXPAND|wxRIGHT, 5 );
 	
 	wHookScroll->SetSizer( bsHookScroll );
 	wHookScroll->Layout();
@@ -271,41 +240,41 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bsAppList1->SetFlexibleDirection( wxBOTH );
 	bsAppList1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	bAppList = new wxButton( nbHook, wxID_ANY, wxT("Refresh"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsAppList1->Add( bAppList, 0, wxALL, 5 );
+	APPLIST = new wxButton( nbHook, wxID_ANY, wxT("Refresh"), wxDefaultPosition, wxDefaultSize, 0 );
+	bsAppList1->Add( APPLIST, 0, wxALL, 5 );
 	
-	bAppUse = new wxButton( nbHook, wxID_ANY, wxT("Use Selected"), wxDefaultPosition, wxDefaultSize, 0 );
-	bsAppList1->Add( bAppUse, 0, wxALL, 5 );
+	APPUSE = new wxButton( nbHook, wxID_ANY, wxT("Use Selected"), wxDefaultPosition, wxDefaultSize, 0 );
+	bsAppList1->Add( APPUSE, 0, wxALL, 5 );
 	
 	bsAppList->Add( bsAppList1, 1, wxEXPAND, 5 );
 	
-	gApp = new wxGrid( nbHook, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	APPG = new wxGrid( nbHook, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
 	// Grid
-	gApp->CreateGrid( 0, 2 );
-	gApp->EnableEditing( false );
-	gApp->EnableGridLines( false );
-	gApp->EnableDragGridSize( false );
-	gApp->SetMargins( 0, 0 );
+	APPG->CreateGrid( 0, 2 );
+	APPG->EnableEditing( false );
+	APPG->EnableGridLines( false );
+	APPG->EnableDragGridSize( false );
+	APPG->SetMargins( 0, 0 );
 	
 	// Columns
-	gApp->EnableDragColMove( false );
-	gApp->EnableDragColSize( true );
-	gApp->SetColLabelSize( 20 );
-	gApp->SetColLabelValue( 0, wxT("App") );
-	gApp->SetColLabelValue( 1, wxT("Title") );
-	gApp->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	APPG->EnableDragColMove( false );
+	APPG->EnableDragColSize( true );
+	APPG->SetColLabelSize( 20 );
+	APPG->SetColLabelValue( 0, wxT("App") );
+	APPG->SetColLabelValue( 1, wxT("Title") );
+	APPG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	gApp->EnableDragRowSize( true );
-	gApp->SetRowLabelSize( 50 );
-	gApp->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	APPG->EnableDragRowSize( true );
+	APPG->SetRowLabelSize( 50 );
+	APPG->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Label Appearance
 	
 	// Cell Defaults
-	gApp->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	bsAppList->Add( gApp, 0, wxEXPAND, 5 );
+	APPG->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	bsAppList->Add( APPG, 0, wxEXPAND, 5 );
 	
 	bsHook->Add( bsAppList, 1, wxEXPAND, 5 );
 	
@@ -997,19 +966,24 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
-	cbGroup->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	cbGroup->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::groupOnBlur ), NULL, this );
-	bGroup->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::groupOnClick ), NULL, this );
-	bHook->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCHookOnClick ), NULL, this );
-	APFD->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APFDOnChangeI ), NULL, this );
-	APFD->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
-	APFD->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APFDOnChangeT ), NULL, this );
-	APFD->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APFDOnChangeT ), NULL, this );
-	bApp->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
-	HKWD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
-	bFile->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
-	bAppList->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppListOnClick ), NULL, this );
-	bAppUse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
+	PFD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
+	PFD->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::PFDOnBlur ), NULL, this );
+	PFB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
+	PFR->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
+	PFGetB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
+	PFStartB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
+	APPD->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APPDOnChange ), NULL, this );
+	APPD->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
+	APPD->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APPDOnEdit ), NULL, this );
+	APPD->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APPDOnEnter ), NULL, this );
+	APPB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
+	APPCheck->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
+	BINProfile->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
+	BINProfile->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
+	BINProfile->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
+	BINB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
+	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
+	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	EAB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
@@ -1042,19 +1016,24 @@ HEXFRM::~HEXFRM()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
-	cbGroup->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	cbGroup->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::groupOnBlur ), NULL, this );
-	bGroup->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::groupOnClick ), NULL, this );
-	bHook->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCHookOnClick ), NULL, this );
-	APFD->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APFDOnChangeI ), NULL, this );
-	APFD->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
-	APFD->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APFDOnChangeT ), NULL, this );
-	APFD->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APFDOnChangeT ), NULL, this );
-	bApp->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
-	HKWD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
-	bFile->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appOnClick ), NULL, this );
-	bAppList->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppListOnClick ), NULL, this );
-	bAppUse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bAppUseOnClick ), NULL, this );
+	PFD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
+	PFD->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::PFDOnBlur ), NULL, this );
+	PFB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
+	PFR->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
+	PFGetB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
+	PFStartB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
+	APPD->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APPDOnChange ), NULL, this );
+	APPD->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
+	APPD->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APPDOnEdit ), NULL, this );
+	APPD->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APPDOnEnter ), NULL, this );
+	APPB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
+	APPCheck->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
+	BINProfile->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
+	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
+	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
+	BINB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
+	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
+	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	EAB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );

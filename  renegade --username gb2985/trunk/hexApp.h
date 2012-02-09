@@ -21,13 +21,15 @@ typedef unsigned int u32;
 typedef unsigned long long int u64;
 typedef wxString xStr;
 typedef wxStringTokenizer xStrT;
+typedef wxArrayInt xAInt;
+typedef wxArrayString xAStr;
 typedef wxTreeItemId xTID;
 typedef wxTreeItemIdValue xTIDV;
 #ifdef WIN32
 #include <windows.h>
 #include <tlhelp32.h>
 PROCESSENTRY32 getApp(DWORD appID);
-BOOL CALLBACK appList3(HWND hwnd, LPARAM AL);
+BOOL CALLBACK listApps(HWND hwnd, LPARAM AL);
 HANDLE getAppId(const xStr appName);
 #endif
 enum ESIZE { SE = 0, LE, LSE };

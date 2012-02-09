@@ -3,6 +3,7 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 #include <math.h>
+// Analyse the code string/s
 CL ME::HCSet(HACK* h, int row) {
 	CL code;
 	if (h->GetLen() > 0) {
@@ -89,10 +90,11 @@ CL ME::HCSet(HACK* h, int row) {
 		}
 	} return code;
 }
+// Build the code string/s
 void ME::HCAddBOnClick(wxCommandEvent& event) {
 	ti = HT->GetSelection(); bool p1 = true, u0 = true;
 	xStr s, s1 = tHackA->GetValue(), s2 = tHackV->GetValue(), s3; HACK* d = getIH(ti);
-	wxArrayString da1, da2;
+	xAStr da1, da2;
 	xStrT st(s2, wxT("|"));
 	while ( st.HasMoreTokens() ) {
 		s = st.GetNextToken();

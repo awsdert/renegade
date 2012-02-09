@@ -20,8 +20,8 @@
 #include <wx/button.h>
 #include <wx/radiobox.h>
 #include <wx/sizer.h>
-#include <wx/filepicker.h>
 #include <wx/statbox.h>
+#include <wx/filepicker.h>
 #include <wx/bmpcbox.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
@@ -54,29 +54,24 @@ class HEXFRM : public wxFrame
 		wxNotebook* NB;
 		wxPanel* nbHook;
 		wxScrolledWindow* wHookScroll;
-		wxChoice* cbGroup;
-		wxButton* bGroup;
-		wxRadioBox* rbHook;
-		wxButton* bHook;
-		wxButton* bLaunch;
+		wxChoice* PFD;
+		wxButton* PFB;
+		wxRadioBox* PFR;
+		wxButton* PFGetB;
+		wxButton* PFStartB;
 		wxDirPickerCtrl* URL;
-		wxBitmapComboBox* APFD;
-		wxButton* bApp;
-		wxTextCtrl* tApp;
-		wxStaticText* HKWS;
-		wxChoice* HKWD;
-		wxComboBox* cbFile;
-		wxTextCtrl* tFile;
-		wxButton* bFile;
-		wxRadioBox* rbRAM;
-		wxStaticText* sRAMStart;
-		wxTextCtrl* tRAMStart;
-		wxStaticText* sRAMSize;
-		wxTextCtrl* tRAMSize;
+		wxBitmapComboBox* APPD;
+		wxButton* APPB;
+		wxTextCtrl* APPT;
+		wxStaticText* APPS;
+		wxChoice* APPCheck;
+		wxComboBox* BINProfile;
+		wxTextCtrl* BINT;
+		wxButton* BINB;
 		wxGrid* RAMG;
-		wxButton* bAppList;
-		wxButton* bAppUse;
-		wxGrid* gApp;
+		wxButton* APPLIST;
+		wxButton* APPUSE;
+		wxGrid* APPG;
 		wxPanel* nbFind;
 		wxPanel* nbResults;
 		wxGrid* m_grid2;
@@ -169,16 +164,23 @@ class HEXFRM : public wxFrame
 		virtual void HEXFORMCLOSE( wxCloseEvent& event ) { event.Skip(); }
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
 		virtual void PFOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void groupOnBlur( wxFocusEvent& event ) { event.Skip(); }
-		virtual void groupOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void HCHookOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void APFDOnChangeI( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PFDOnBlur( wxFocusEvent& event ) { event.Skip(); }
+		virtual void PFOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PFOnSwitch( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PFGetOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PFStartOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPDOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void appOnBlur( wxFocusEvent& event ) { event.Skip(); }
-		virtual void APFDOnChangeT( wxCommandEvent& event ) { event.Skip(); }
-		virtual void appOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPDOnEdit( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPDOnEnter( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void bAppListOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void bAppUseOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BINDOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BINDOnEdit( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BINDOnEnter( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BINBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }

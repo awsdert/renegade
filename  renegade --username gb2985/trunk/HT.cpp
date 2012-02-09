@@ -71,7 +71,7 @@ void ME::HTLoad(void) {
 		HTSet();
 		//if (HTFT) {
 			i = HTAdd(r, wxT("(m)"), 3);
-			HTFT = false;
+			//HTFT = false;
 		//}
 		if (i.IsOk()) {
 			s = htf.GetFirstLine();
@@ -84,7 +84,7 @@ xStr ME::HTLoad(xTID& r, xStr s) {
 	xTID i, p; u16 k = 0, n;
 	xStr s1, s2, s3, t;
 	int xl, m = 2; bool use = false;
-	HACK *d, *h = getIH(r), *ph; ph = h;
+	HACK *d = new HACK, *h = getIH(r), *ph; ph = h;
 	while (!htf.Eof()) {
 		switch (m) {
 		case 1:

@@ -34,7 +34,7 @@ xStr ME::HCRead(HANDLE p, DWORD x, int s) {
 }
 void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 	HACK* h = getIH(r);
-	DWORD ram = getHEX(tRAMStart->GetValue());
+	DWORD ram = GARS(0);
 	u32 xa, xv, rv; int j2, j3 = 0; bool ut;
 	if (h->use && r.IsOk()) {
 		int s, l = h->GetLen(), k; CL c; xStr t, t2;
