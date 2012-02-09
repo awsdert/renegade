@@ -16,7 +16,7 @@
 #include "hexMain.h"
 IMPLEMENT_APP(hexApp);
 ME* frame;
-void MB(wxString text, wxString title) { wxMessageBox(text, title); }
+void MB(xStr text, xStr title) { wxMessageBox(text, title); }
 bool hexApp::OnInit()
 {
 	frame = new ME(0L);
@@ -29,7 +29,7 @@ bool hexApp::OnInit()
 BOOL CALLBACK appList3(HWND hwnd, LPARAM AL) {
 	if (IsWindowVisible(hwnd)) {
 		int a = frame->appLen++;
-		wxString s1, s2, s3;
+		xStr s1, s2, s3;
 		TCHAR t[MAXCHAR];
 		DWORD pid;
 		GetWindowThreadProcessId(hwnd, &pid);

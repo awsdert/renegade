@@ -93,7 +93,7 @@ void ME::HCAddBOnClick(wxCommandEvent& event) {
 	ti = HT->GetSelection(); bool p1 = true, u0 = true;
 	xStr s, s1 = tHackA->GetValue(), s2 = tHackV->GetValue(), s3; HACK* d = getIH(ti);
 	wxArrayString da1, da2;
-	wxStringTokenizer st(s2, wxT("|"));
+	xStrT st(s2, wxT("|"));
 	while ( st.HasMoreTokens() ) {
 		s = st.GetNextToken();
 		if (p1) { da1.Add(s); p1 = false; }

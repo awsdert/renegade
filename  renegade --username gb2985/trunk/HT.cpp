@@ -11,15 +11,15 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-wxTreeItemId ME::HTRoot(void) {	return HT->GetRootItem(); }
-wxTreeItemId ME::HTRoot(wxTreeItemId& i) {
-	wxTreeItemId c, r = HTRoot();
+xTID ME::HTRoot(void) {	return HT->GetRootItem(); }
+xTID ME::HTRoot(xTID& i) {
+	xTID c, r = HTRoot();
 	if (i.IsOk() && i != r) { HT->GetItemParent(i); }
 	else { c = r; }
 	return c;
 }
 void ME::HTSet(void) {
-	wxString d = myDiv, p = wxGetCwd(), s;
+	xStr d = myDiv, p = wxGetCwd(), s;
 	DBI* k = (DBI*)DB->GetItemData(di);
 	u8 i = HDTI;
 	if (i < 0) { i = PS2; }
@@ -33,13 +33,13 @@ void ME::HTSet(void) {
 		htf.Open(s);
 	}
 }
-wxTreeItemId ME::HTFind(u16 j) {
-	wxTreeItemId r = HTRoot();
+xTID ME::HTFind(u16 j) {
+	xTID r = HTRoot();
 	return HTFind(j, r);
 }
-wxTreeItemId ME::HTFind(u16 j, wxTreeItemId& r) {
-	wxTreeItemId i, c;
-	wxTreeItemIdValue v;
+xTID ME::HTFind(u16 j, xTID& r) {
+	xTID i, c;
+	xTIDV v;
 	HACK* d = getIH(r);
 	if (j != d->hid) {
 		i = HT->GetFirstChild(r, v);
@@ -50,8 +50,8 @@ wxTreeItemId ME::HTFind(u16 j, wxTreeItemId& r) {
 	} else { c = r; }
 	return c;
 }
-wxTreeItemId ME::HTFind(wxTreeItemId& r, wxString l) {
-	wxTreeItemId i, c; wxTreeItemIdValue v;
+xTID ME::HTFind(xTID& r, xStr l) {
+	xTID i, c; xTIDV v;
 	c = HT->GetFirstChild(r, v);
 	while (c) {
 		if (HT->GetItemText(c) == l) {
@@ -60,9 +60,9 @@ wxTreeItemId ME::HTFind(wxTreeItemId& r, wxString l) {
 	} return i;
 }
 void ME::HTLoad(void) {
-	HWB = 0; wxString s;
+	HWB = 0; xStr s;
 	di = DB->GetSelection();
-	wxTreeItemId r, i;
+	xTID r, i;
 	r = HTRoot();
 	HTDel(r); HTJ = 0;
 	r = HTRoot();
@@ -80,9 +80,9 @@ void ME::HTLoad(void) {
 		}
 	}
 }
-wxString ME::HTLoad(wxTreeItemId& r, wxString s) {
-	wxTreeItemId i, p; u16 k = 0, n;
-	wxString s1, s2, s3, t;
+xStr ME::HTLoad(xTID& r, xStr s) {
+	xTID i, p; u16 k = 0, n;
+	xStr s1, s2, s3, t;
 	int xl, m = 2; bool use = false;
 	HACK *d, *h = getIH(r), *ph; ph = h;
 	while (!htf.Eof()) {
@@ -130,10 +130,10 @@ wxString ME::HTLoad(wxTreeItemId& r, wxString s) {
 	return s;
 }
 void ME::HTChange(void) { HTChange(ti); }
-void ME::HTChange(wxTreeItemId& i) {
+void ME::HTChange(xTID& i) {
 	if (i != pti && i.IsOk()) {
 		pti = i;
-		wxString s, t;
+		xStr s, t;
 		HACK* td = getIH(i);
 		u8 j, l = td->GetLen();
 		HCG->DeleteRows(0, HCG->GetRows(), false);
@@ -149,17 +149,17 @@ void ME::HTChange(wxTreeItemId& i) {
 }
 void ME::HTSave(void) {
 	u16 j = 0x0001, m = 0x0000;
-	wxTreeItemId r = HTRoot();
+	xTID r = HTRoot();
 	HTSet(); htf.Clear();
 	while (r.IsOk()) {
 		j = HTSave(r, j, m);
 		r = HT->GetNextSibling(r);
 	} htf.Write(wxTextFileType_Dos); htf.Close();
 }
-u16 ME::HTSave(wxTreeItemId& r, u16 j, u16 l) {
-	wxTreeItemId i; int tmp;
-	wxTreeItemIdValue v;
-	wxString s, t; u16 m = j;
+u16 ME::HTSave(xTID& r, u16 j, u16 l) {
+	xTID i; int tmp;
+	xTIDV v;
+	xStr s, t; u16 m = j;
 	HACK* h = (HACK*)HT->GetItemData(r);
 	DBI* d = (DBI*)DB->GetItemData(di); int k;
 	t.Printf(wxT("%i"), h->use);
@@ -181,10 +181,10 @@ u16 ME::HTSave(wxTreeItemId& r, u16 j, u16 l) {
 }
 void ME::bHTSaveOnClick(wxCommandEvent& event) { HTSave(); }
 void ME::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
-wxTreeItemId ME::HTAdd(wxTreeItemId& r, wxString l, int where,
-	wxTreeItemId& i, HACK d) { return HTAdd(r, l, where, i, &d); }
-wxTreeItemId ME::HTAdd(wxTreeItemId& r, wxString l, int where, wxTreeItemId& i, HACK* d) {
-	wxTreeItemId c;
+xTID ME::HTAdd(xTID& r, xStr l, int where,
+	xTID& i, HACK d) { return HTAdd(r, l, where, i, &d); }
+xTID ME::HTAdd(xTID& r, xStr l, int where, xTID& i, HACK* d) {
+	xTID c;
 	switch (where) {
 	case 0: c = HT->PrependItem(r, l); break;
 	case 1:
@@ -210,21 +210,21 @@ HACK* ME::newH(void) {
 	d->hid = HTJ; HTJ++;
 	return d;
 }
-wxTreeItemId ME::HTAdd(wxTreeItemId& r, wxString l, int where,
-	wxTreeItemId& i) { HACK* d = newH(); return HTAdd(r, l, where, i, d); }
-wxTreeItemId ME::HTAdd(wxTreeItemId& r, wxString l, int where,
-	HACK d) { wxTreeItemId i; return HTAdd(r, l, where, i, d); }
-wxTreeItemId ME::HTAdd(wxTreeItemId& r, wxString l, int where) {
-	wxTreeItemId i; HACK* d = newH(); return HTAdd(r, l, where, i, d); }
-void ME::HTDel(wxTreeItemId& i) {
-	wxTreeItemId c; wxTreeItemIdValue v;
+xTID ME::HTAdd(xTID& r, xStr l, int where,
+	xTID& i) { HACK* d = newH(); return HTAdd(r, l, where, i, d); }
+xTID ME::HTAdd(xTID& r, xStr l, int where,
+	HACK d) { xTID i; return HTAdd(r, l, where, i, d); }
+xTID ME::HTAdd(xTID& r, xStr l, int where) {
+	xTID i; HACK* d = newH(); return HTAdd(r, l, where, i, d); }
+void ME::HTDel(xTID& i) {
+	xTID c; xTIDV v;
 	while (HT->ItemHasChildren(i)) {
 		c = HT->GetFirstChild(i, v);
 		HTDel(c);
 	} HT->Delete(i);
 }
 void ME::HTDelAll(void) { HT->CollapseAndReset(rti); }
-int ME::HTCount(wxTreeItemId& r) { return HT->GetChildrenCount(r, false); }
+int ME::HTCount(xTID& r) { return HT->GetChildrenCount(r, false); }
 HACK* copyH(HACK* h, HACK* d) {
 	h->use = d->use;
 	h->cLines = d->cLines;
@@ -232,10 +232,10 @@ HACK* copyH(HACK* h, HACK* d) {
 	h->cPart2 = d->cPart2;
 	return h;
 }
-HACK* ME::getIH(wxTreeItemId& i) { return (HACK*)HT->GetItemData(i); }
-void ME::setIH(wxTreeItemId& i, HACK* h) { HT->SetItemData(i, h); }
-wxTreeItemId ME::HTMove(wxTreeItemId& r, wxTreeItemId& nr) {
-	wxTreeItemId c, nc; wxTreeItemIdValue v;
+HACK* ME::getIH(xTID& i) { return (HACK*)HT->GetItemData(i); }
+void ME::setIH(xTID& i, HACK* h) { HT->SetItemData(i, h); }
+xTID ME::HTMove(xTID& r, xTID& nr) {
+	xTID c, nc; xTIDV v;
 	HACK *h = getIH(nr), *d = getIH(r);
 	u16 HJ = d->hid;
 	h = copyH(h, d);
@@ -251,10 +251,10 @@ wxTreeItemId ME::HTMove(wxTreeItemId& r, wxTreeItemId& nr) {
 	return nr;
 }
 void ME::HTMove(int direction) {
-	wxTreeItemId c, i = ti, ni, p, r;
+	xTID c, i = ti, ni, p, r;
 	HWB = 0; u16 HJR = HTJ;
 	if (i == HTRoot()) { return; }
-	wxString s = HT->GetItemText(i), s2, s3 = wxT("(m)");
+	xStr s = HT->GetItemText(i), s2, s3 = wxT("(m)");
 	bool ir = (s.Cmp(s3) != 0) ? true : false;
 	int w = HTAddD->GetSelection();
 	r = HTRoot(i);
@@ -290,7 +290,7 @@ void ME::HTMove(int direction) {
 	}
 }
 void ME::HTOnKeyUp(wxKeyEvent& event) {
-	wxTreeItemId r; wxString s;
+	xTID r; xStr s;
 	int kc = event.GetKeyCode();
 	if (event.ControlDown()) {
 		switch (kc) {
@@ -318,8 +318,8 @@ void ME::HTOnKeyUp(wxKeyEvent& event) {
 	}
 }
 void ME::HTOnKeyDown(wxKeyEvent& event) {
-	wxTreeItemId r;
-	wxTreeItemIdValue v; wxString s;
+	xTID r;
+	xTIDV v; xStr s;
 	int kc = event.GetKeyCode();
 	if (!event.ControlDown()) {
 		switch (kc) {

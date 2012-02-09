@@ -4,7 +4,7 @@
 #include "hexMain.h"
 #include <math.h>
 void ME::HCHook(void) {
-	wxTreeItemId r = HTRoot();
+	xTID r = HTRoot();
 	HANDLE p = GAP();
 	if (p != NULL) { HCUse(r, p); }
 	else { HWB = 0; }
@@ -26,19 +26,19 @@ void ME::HCWrite(HANDLE p, DWORD x, int s, u32 v) {
 	u32 a = FlipAddress((u32)x, s, endian);
 	WriteProcessMemory(p, (void*)a, &v, s, NULL);
 }
-wxString ME::HCRead(HANDLE p, DWORD x, int s) {
+xStr ME::HCRead(HANDLE p, DWORD x, int s) {
 	u32 a = FlipAddress((u32)x, s, endian), v = 0;
 	ReadProcessMemory(p, (void*)a, &v, s, NULL);
-	wxString t; t.Printf(wxT("%X"), v);
+	xStr t; t.Printf(wxT("%X"), v);
 	return t;
 }
-void ME::HCUse(wxTreeItemId& r, HANDLE p, int j, int stop) {
+void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 	HACK* h = getIH(r);
 	DWORD ram = getHEX(tRAMStart->GetValue());
 	u32 xa, xv, rv; int j2, j3 = 0; bool ut;
 	if (h->use && r.IsOk()) {
-		int s, l = h->GetLen(), k; CL c; wxString t, t2;
-		wxTreeItemId i; wxTreeItemIdValue v;
+		int s, l = h->GetLen(), k; CL c; xStr t, t2;
+		xTID i; xTIDV v;
 		// Use CL
 		if (stop < 1) { stop = l; }
 		while (j < stop) {
@@ -125,18 +125,18 @@ void ME::HCUse(wxTreeItemId& r, HANDLE p, int j, int stop) {
 }
 //* Only for testing new code formats, comment out for releases
 void ME::HCTest(CL code) {
-	wxString s;
+	xStr s;
 	s.Printf(wxT("Address: %08X\nValue: %08X"), code.x, code.v);
 	DBNotes->SetValue(s);
 }//*/
 void ME::HCUChange(void) {
-	wxTreeItemId i = HT->GetSelection();
+	xTID i = HT->GetSelection();
 	HACK* h = getIH(i);
 	h->use = HCUseC->GetValue();
 	HT->SetItemData(i, h);
 }
 void ME::HCUOnChange(wxCommandEvent& event) { HCUChange(); }
-void ME::bHackCDelOnClick(wxCommandEvent& event) {}
+void ME::HCDelBOnClick(wxCommandEvent& event) {}
 void ME::HCRCOnChange(wxCommandEvent& event) {
 	int i = HCCD->GetSelection();
 	if (i != 2 && i != 5) {
@@ -162,8 +162,8 @@ void ME::HCCDOnChange(wxCommandEvent& event) {
 }
 void ME::HCChangeD(wxGridEvent& event) {
 	int c = event.GetCol(), r = event.GetRow();
-	wxString d = HCG->GetCellValue(r, c);
-	wxTreeItemId i = HT->GetSelection();
+	xStr d = HCG->GetCellValue(r, c);
+	xTID i = HT->GetSelection();
 	HACK* h = (HACK*)HT->GetItemData(i);
 	switch (c) {
 	case 0: h->cPart1[r] = d; break;
@@ -177,7 +177,7 @@ void ME::HCLoad(void) {}
 void ME::HCChange(int r) {
 	if (r != HCRow) {
 		if (r < HCRow || (r > HCRow + HCRows)) {
-			wxString s = HCG->GetCellValue(r, 2);
+			xStr s = HCG->GetCellValue(r, 2);
 			long int v;
 			while (r > 0) {
 				if (s.Cmp(wxT("0")) != 0) { break; }

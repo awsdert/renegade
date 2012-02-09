@@ -3695,7 +3695,7 @@
 	<wx/wx.h>
 	"hexVar.h"
 
-1328611322 source:z:\hex\svn\trunk\hexmain.cpp
+1328790202 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
@@ -3711,23 +3711,24 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1328747300 z:\hex\svn\trunk\hexapp.h
+1328791750 z:\hex\svn\trunk\hexapp.h
 	"wx_pch.h"
+	<wx/tokenzr.h>
 	<wx/app.h>
+	<wx/treectrl.h>
 	<windows.h>
 	<tlhelp32.h>
 
-1328748646 z:\hex\svn\trunk\hexmain.h
+1328793644 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/textfile.h>
 	<wx/dir.h>
 	<wx/stdpaths.h>
-	<wx/tokenzr.h>
 	"hexApp.h"
 	"GUIFrame.h"
 	"hexVar.h"
 
-1328697520 z:\hex\svn\trunk\guiframe.h
+1328788206 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3746,8 +3747,8 @@
 	<wx/textctrl.h>
 	<wx/stattext.h>
 	<wx/combobox.h>
-	<wx/scrolwin.h>
 	<wx/grid.h>
+	<wx/scrolwin.h>
 	<wx/panel.h>
 	<wx/bitmap.h>
 	<wx/image.h>
@@ -3768,11 +3769,11 @@
 1189864952 source:z:\hex\svn\trunk\resource.rc
 	"wx/msw/wx.rc"
 
-1328520900 source:z:\hex\svn\trunk\hexapp.cpp
+1328791750 source:z:\hex\svn\trunk\hexapp.cpp
 	"hexApp.h"
 	"hexMain.h"
 
-1328697520 source:z:\hex\svn\trunk\guiframe.cpp
+1328788340 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4190,20 +4191,20 @@
 	"wx/longlong.h"
 	"wx/string.h"
 
-1328748748 z:\hex\svn\trunk\hexvar.h
+1328791750 z:\hex\svn\trunk\hexvar.h
 	"hexApp.h"
 	"GUIFrame.h"
 
-1328748646 source:z:\hex\svn\trunk\ht.cpp
+1328791748 source:z:\hex\svn\trunk\ht.cpp
 	"hexMain.h"
 
-1328748246 source:z:\hex\svn\trunk\hexvar.cpp
+1328749122 source:z:\hex\svn\trunk\hexvar.cpp
 	"hexVar.h"
 
-1328610116 source:z:\hex\svn\trunk\db.cpp
+1328791748 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1328748646 source:z:\hex\svn\trunk\hc.cpp
+1328793664 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4212,13 +4213,13 @@
 	"wx/string.h"
 	"wx/arrstr.h"
 
-1328278584 source:z:\hex\svn\trunk\app.cpp
+1328791748 source:z:\hex\svn\trunk\app.cpp
 	"hexApp.h"
 
-1328478970 source:z:\hex\svn\trunk\etab.cpp
+1328791748 source:z:\hex\svn\trunk\etab.cpp
 	"hexMain.h"
 
-1328748646 source:z:\hex\svn\trunk\hcc.cpp
+1328791748 source:z:\hex\svn\trunk\hcc.cpp
 	"hexMain.h"
 	<math.h>
 

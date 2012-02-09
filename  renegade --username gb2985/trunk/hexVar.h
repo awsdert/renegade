@@ -39,7 +39,7 @@ class DBI: public wxTreeItemData {
 	public:
 		u8 afr;
 		u16 afi;
-		wxString afn, afs, afp;
+		xStr afn, afs, afp;
 };
 class HACK: public wxTreeItemData {
 	public:

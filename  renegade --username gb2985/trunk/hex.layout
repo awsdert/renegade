@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
-	<File name="HC.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="4636" topLine="173" />
-	</File>
-	<File name="HCC.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="2818" topLine="79" />
-	</File>
-	<File name="HT.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="6778" topLine="135" />
-	</File>
-	<File name="hexApp.h" open="0" top="0" tabpos="0">
-		<Cursor position="532" topLine="13" />
-	</File>
-	<File name="hexMain.h" open="1" top="0" tabpos="2">
-		<Cursor position="840" topLine="32" />
-	</File>
-	<File name="hexVar.cpp" open="1" top="1" tabpos="4">
-		<Cursor position="775" topLine="20" />
-	</File>
-	<File name="hexVar.h" open="1" top="0" tabpos="3">
-		<Cursor position="760" topLine="31" />
+	<ActiveTarget name="release" />
+	<File name="DB.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="1689" topLine="54" />
 	</File>
 </CodeBlocks_layout_file>

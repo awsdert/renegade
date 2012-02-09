@@ -47,7 +47,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bsHook->SetFlexibleDirection( wxBOTH );
 	bsHook->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wHookScroll = new wxScrolledWindow( nbHook, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), wxVSCROLL );
+	wHookScroll = new wxScrolledWindow( nbHook, wxID_ANY, wxDefaultPosition, wxSize( 300,-1 ), 0 );
 	wHookScroll->SetScrollRate( 0, 5 );
 	wHookScroll->SetMinSize( wxSize( 300,-1 ) );
 	wHookScroll->SetMaxSize( wxSize( 300,-1 ) );
@@ -213,6 +213,43 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bsRAM2->Add( tRAMSize, 0, wxALL|wxEXPAND, 5 );
 	
 	bsRAM1->Add( bsRAM2, 1, wxEXPAND, 5 );
+	
+	RAMG = new wxGrid( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	
+	// Grid
+	RAMG->CreateGrid( 0, 4 );
+	RAMG->EnableEditing( true );
+	RAMG->EnableGridLines( true );
+	RAMG->EnableDragGridSize( false );
+	RAMG->SetMargins( 0, 0 );
+	
+	// Columns
+	RAMG->SetColSize( 0, 38 );
+	RAMG->SetColSize( 1, 36 );
+	RAMG->SetColSize( 2, 52 );
+	RAMG->SetColSize( 3, 55 );
+	RAMG->EnableDragColMove( false );
+	RAMG->EnableDragColSize( true );
+	RAMG->SetColLabelSize( 30 );
+	RAMG->SetColLabelValue( 0, wxT("Name") );
+	RAMG->SetColLabelValue( 1, wxT("Fixed") );
+	RAMG->SetColLabelValue( 2, wxT("Address") );
+	RAMG->SetColLabelValue( 3, wxT("Size") );
+	RAMG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Rows
+	RAMG->EnableDragRowSize( true );
+	RAMG->SetRowLabelSize( 16 );
+	RAMG->SetRowLabelValue( 0, wxT("00") );
+	RAMG->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	RAMG->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	RAMG->SetMinSize( wxSize( 100,100 ) );
+	
+	bsRAM1->Add( RAMG, 1, wxALL|wxEXPAND, 5 );
 	
 	bsRAM0->Add( bsRAM1, 1, wxEXPAND, 5 );
 	

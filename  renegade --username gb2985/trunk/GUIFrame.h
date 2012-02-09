@@ -26,8 +26,8 @@
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
 #include <wx/combobox.h>
-#include <wx/scrolwin.h>
 #include <wx/grid.h>
+#include <wx/scrolwin.h>
 #include <wx/panel.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -73,6 +73,7 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* tRAMStart;
 		wxStaticText* sRAMSize;
 		wxTextCtrl* tRAMSize;
+		wxGrid* RAMG;
 		wxButton* bAppList;
 		wxButton* bAppUse;
 		wxGrid* gApp;
@@ -207,7 +208,7 @@ class HEXFRM : public wxFrame
 	
 	public:
 		
-		HEXFRM( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,480 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		HEXFRM( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("HEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,658 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~HEXFRM();
 	

@@ -14,8 +14,8 @@ PROCESSENTRY32 getApp(DWORD appID) {
 	} while (Process32Next(ah, &pe32));
 	return pe32;
 }
-HANDLE getAppId(const wxString appName) {
-	PROCESSENTRY32 ai; wxString exe;
+HANDLE getAppId(const xStr appName) {
+	PROCESSENTRY32 ai; xStr exe;
 	ai.dwSize = sizeof(ai);
 	HANDLE ah = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	Process32First(ah, &ai);
@@ -27,9 +27,9 @@ HANDLE getAppId(const wxString appName) {
 	} while ( Process32Next(ah, &ai) );
 	return NULL;
 }
-wxString getAppExe(DWORD appID) {
+xStr getAppExe(DWORD appID) {
 	PROCESSENTRY32 pe32;
-	wxString s;
+	xStr s;
 	pe32.dwSize = sizeof(PROCESSENTRY32);
 	pe32 = getApp(appID);
 	s.Printf(wxT("%s"), pe32.szExeFile);

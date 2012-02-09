@@ -12,12 +12,17 @@
 #ifdef WX_PRECOMP
 #include "wx_pch.h"
 #endif
+#include <wx/tokenzr.h>
 #include <wx/app.h>
+#include <wx/treectrl.h>
 typedef unsigned char u8;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 typedef unsigned long long int u64;
 typedef wxString xStr;
+typedef wxStringTokenizer xStrT;
+typedef wxTreeItemId xTID;
+typedef wxTreeItemIdValue xTIDV;
 #ifdef WIN32
 #include <windows.h>
 #include <tlhelp32.h>

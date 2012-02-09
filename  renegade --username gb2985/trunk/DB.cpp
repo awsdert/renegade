@@ -12,7 +12,7 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 void ME::DBSet(void) {
-	wxString p, s; p = wxGetCwd();
+	xStr p, s; p = wxGetCwd();
 	if (p.Find(wxT('\\'))) { myDiv = wxT('\\'); }
 	else { myDiv = wxT('/'); }
 	wxChar d = myDiv;
@@ -27,8 +27,8 @@ void ME::DBSet(void) {
 }
 void ME::DBLoad(void) {
 	DBSet();
-	wxString s, t, t1, t2, t3;
-	wxStringTokenizer st; dl = 0;
+	xStr s, t, t1, t2, t3;
+	xStrT st; dl = 0;
 	DB->CollapseAndReset(rdi); bool u = false;
 	DBI* cv = new DBI; u8 m = 0, m2;
 	for (t = dbf.GetFirstLine(); !dbf.Eof(); t = dbf.GetNextLine()) {
@@ -62,7 +62,7 @@ void ME::DBLoad(void) {
 		}
 	} if (u) { DBAdd(t1, cv); }
 	delete cv;
-	wxTreeItemIdValue v;
+	xTIDV v;
 	di = DB->GetFirstChild(rdi, v);
 	DB->SelectItem(di);
 }
@@ -79,10 +79,10 @@ void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
 void ME::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
 void ME::DBSave(void) {
 	DBSet(); dbf.Clear();
-	wxString s, l, n; wxChar c = wxT(';');
-	wxTreeItemId i;
-	wxStringTokenizer st;
-	wxTreeItemIdValue v; DBI* d;
+	xStr s, l, n; wxChar c = wxT(';');
+	xTID i;
+	xStrT st;
+	xTIDV v; DBI* d;
 	wxTextFileType t = wxTextFileType_Dos;
 	i = DB->GetFirstChild(rdi, v);
 	while (i.IsOk()) {
@@ -105,16 +105,16 @@ void ME::DBSave(void) {
 	} dbf.Write(t);
 	dbf.Close();
 }
-wxTreeItemId ME::DBRoot(void) { return DB->GetRootItem(); }
-wxTreeItemId ME::DBRoot(wxTreeItemId& i) {
-	wxTreeItemId c;
+xTID ME::DBRoot(void) { return DB->GetRootItem(); }
+xTID ME::DBRoot(xTID& i) {
+	xTID c;
 	if (i.IsOk() && i != rdi) { c = DB->GetItemParent(i); }
 	else { c = rdi; }
 	return c;
 }
 void ME::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }
-void ME::DBDel(void) { wxTreeItemId i = DB->GetSelection(); DBDel(i); }
-void ME::DBDel(wxTreeItemId& i) { DB->Delete(i); }
+void ME::DBDel(void) { xTID i = DB->GetSelection(); DBDel(i); }
+void ME::DBDel(xTID& i) { DB->Delete(i); }
 void ME::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
 DBI* ME::DBCopy(DBI* from, DBI* to) {
 	to->afi = from->afi;
@@ -126,14 +126,14 @@ DBI* ME::DBCopy(DBI* from, DBI* to) {
 }
 void ME::DBAdd(void) {
 	DBI* cv = new DBI;
-	wxString s;
+	xStr s;
 	s.Printf(wxT("New Hack Tree %i"), dl);
 	cv->afp = s;
 	cv->afn = wxT("Notes");
 	DBAdd(s, cv);
 	delete cv;
 }
-void ME::DBAdd(wxString s, DBI* cv) {
+void ME::DBAdd(xStr s, DBI* cv) {
 	DBI* t = new DBI;
 	t = DBCopy(cv, t);
 	di = DB->AppendItem(rdi, s, -1, -1, t);
@@ -144,7 +144,7 @@ void ME::DBAddBClick(wxCommandEvent& event) { DBAdd(); }
 void ME::DBFileTOnKeyD(wxKeyEvent& event) {
 	int k = event.GetKeyCode();
 	wxChar c = event.GetUnicodeKey();
-	wxString s = wxT("01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ (-)"), t;
+	xStr s = wxT("01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ (-)"), t;
 	t = s.Lower();
 	if (k == 8 || k == WXK_DELETE || k == WXK_INSERT ||
 		(k >= 35 && k <= 40) || k > 255) { event.Skip(); }
