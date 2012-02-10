@@ -97,6 +97,10 @@ u32 ME::getHEX(xStr s) {
 	s.ToULong(&v, 16);
 	return (unsigned int)v;
 }
+void ME::ClearGrid(wxGrid*& grid) {
+	int l = grid->GetNumberRows();
+	if (l > 0) { grid->DeleteRows(0, l, false); }
+}
 void ME::addApp(int row, xStr id, xStr app, xStr title) {
 	int i = row; appLen = i;
 	if (i > -1) {

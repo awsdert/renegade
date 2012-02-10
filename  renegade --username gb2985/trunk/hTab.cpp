@@ -31,7 +31,8 @@ void ME::PFLoad(void) {
 	u8 m = 0, i = 0;
 	APPD->Clear(); PFEA.Clear(); // Don't seem to work
 	xStr s, t, x; xStrT st;
-	RAMG->DeleteRows(0, RAMG->GetRows(), false);
+	ClearGrid(RAMG);
+//	RAMG->DeleteRows(0, RAMG->GetRows(), false);
 	EMD->Clear(); // Don't seem to work either
 	for (s = pff.GetFirstLine();!pff.Eof();s = pff.GetNextLine()) {
 		switch (m) {

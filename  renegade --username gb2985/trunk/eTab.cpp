@@ -18,7 +18,8 @@ void ME::EA(void) {
 	u32 s = getHEX(tv), i, r, c, k = 0, ram = GARS(0), re, rs;
 	rs = ram + s; re = ram + getHEX(trs) + (u32)1;
 	wxChar tc; u8 tmp = 0;
-	EG->DeleteRows(0, EG->GetNumberRows(), false);
+	ClearGrid(EG);
+//	EG->DeleteRows(0, EG->GetNumberRows(), false);
 	for (i = rs, r = 0;(r < 32 && i < re);r++) {
 		EG->AppendRows(1, false);
 		t.Printf(wxT("%X"), i - ram);

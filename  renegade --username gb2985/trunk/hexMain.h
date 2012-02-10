@@ -52,6 +52,7 @@ class ME: public HEXFRM {
 		xStr GARAM(u8 r, u8 c);
 		xStr GARN(u8 r);
 		bool GART(u8 r);
+		void ClearGrid(wxGrid*& grid);
 		u32 GARS(u8 r);
 		u32 GARM(u8 r);
 		u32 getHEX(xStr s);
