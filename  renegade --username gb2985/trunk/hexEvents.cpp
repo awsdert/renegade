@@ -53,6 +53,22 @@ void ME::HEXFORMIDLE(wxIdleEvent& event) {
 // - - Platfrom
 void ME::PFOnBlur(wxFocusEvent& event) { PFLoad(); }
 void ME::PFOnClick(wxCommandEvent& event) { PFLoad(); }
+// - - App
+void ME::APPDOnChange(wxCommandEvent& event) {
+	u8 ai = APPD->GetSelection();
+	u16 i, l = appEnd[ai], j; xStr s;
+	APPT->SetValue(appName[ai]);
+	ClearGrid(RAMG);
+	for (i = appNum[ai], j = 0;i < l;i++, j++) {
+		RAMG->AppendRows(1, false);
+		RAMG->SetCellValue(j, 0, ramName[i]);
+		RAMG->SetCellValue(j, 1, ramFixed[i]);
+		RAMG->SetCellValue(j, 2, ramStart[i]);
+		RAMG->SetCellValue(j, 3, ramSize[i]);
+		s.Printf(wxT("%X"), j); // ID to use in Codes
+		RAMG->SetRowLabelValue(i, s);
+	}
+}
 // - Editor Tab
 void ME::EAOnClick(wxCommandEvent& event) { EA(); }
 void ME::EVOnClick(wxCommandEvent& event) { EV(); }

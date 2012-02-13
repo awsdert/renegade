@@ -9,28 +9,52 @@ void ME::HCHook(void) {
 	if (p != NULL) { HCUse(r, p); }
 	else { HWB = 0; }
 }
-DWORD FlipAddress(DWORD x, int s = 0, int e = 0) {
-	switch (e) {
-	case 0: // LITTLE_ENDIAN_SYS
-	case 2: // BIG_ENDIAN
-		return x;
-		break;
-	default: // LITTLE_ENDIAN_BIG_SYS
-		switch (s) {
-		case 1: return x^3;
-		case 2: return x^2;
-		default: return x; }
-	}
+//DWORD FlipAddress(DWORD x, int s = 0, int e = 0) {
+	// 0 = LITTLE_ENDIAN_SYS
+	// 2 = BIG_ENDIAN
+	// 1 = LITTLE_ENDIAN_BIG_SYS
+#define FlipAddress(a, x, s, e) { \
+	if (e == 1) { \
+		switch (s) { \
+		case 1: a = x^3; \
+		case 2: a = x^2; \
+		default: a = x; } \
+	} else { a = x; } \
 }
 void ME::HCWrite(HANDLE p, DWORD x, int s, DWORD v) {
-	DWORD a = FlipAddress(x, s, endian);
+	DWORD a; FlipAddress(a, x, s, endian);
 	WriteProcessMemory(p, (void*)a, &v, s, NULL);
 }
 xStr ME::HCRead(HANDLE p, DWORD x, int s) {
-	DWORD a = FlipAddress(x, s, endian), v = 0;
+	DWORD a, v = 0; FlipAddress(a, x, s, endian);
 	ReadProcessMemory(p, (void*)a, &v, s, NULL);
 	xStr t; t.Printf(wxT("%X"), v);
 	return t;
+}
+DWORD ME::HCReadH(HANDLE p, DWORD x, int s) {
+	DWORD a, v = 0; FlipAddress(a, x, s, endian);
+	ReadProcessMemory(p, (void*)a, &v, s, NULL);
+	return v;
+}
+u8* ME::HCReadM8(HANDLE p, DWORD x, u64 s) {
+	DWORD a; FlipAddress(a, x, s, endian); u8 *v = new u8[s];
+	ReadProcessMemory(p, (void*)a, &v, s, NULL);
+	return v;
+}
+u16* ME::HCReadM16(HANDLE p, DWORD x, u64 s) {
+	DWORD a; FlipAddress(a, x, s, endian); u16 *v = new u16[s];
+	ReadProcessMemory(p, (void*)a, &v, s, NULL);
+	return v;
+}
+u32* ME::HCReadM32(HANDLE p, DWORD x, u64 s) {
+	DWORD a; FlipAddress(a, x, s, endian); u32 *v = new u32[s];
+	ReadProcessMemory(p, (void*)a, &v, s, NULL);
+	return v;
+}
+u64* ME::HCReadM64(HANDLE p, DWORD x, u64 s) {
+	DWORD a; FlipAddress(a, x, s, endian); u64 *v = new u64[s];
+	ReadProcessMemory(p, (void*)a, &v, s, NULL);
+	return v;
 }
 void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 	HACK* h = getIH(r);

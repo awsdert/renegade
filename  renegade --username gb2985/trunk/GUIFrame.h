@@ -32,8 +32,9 @@
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/treectrl.h>
+#include <wx/gauge.h>
 #include <wx/checkbox.h>
+#include <wx/treectrl.h>
 #include <wx/spinctrl.h>
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
@@ -72,18 +73,83 @@ class HEXFRM : public wxFrame
 		wxButton* APPLIST;
 		wxButton* APPUSE;
 		wxGrid* APPG;
-		wxPanel* nbFind;
-		wxPanel* nbResults;
-		wxGrid* m_grid2;
-		wxPanel* m_panel8;
-		wxGrid* m_grid3;
-		wxStaticText* m_staticText4;
-		wxButton* m_button8;
-		wxChoice* m_choice2;
-		wxStaticText* m_staticText5;
-		wxTextCtrl* m_textCtrl5;
-		wxStaticText* m_staticText6;
-		wxTextCtrl* m_textCtrl6;
+		wxPanel* QP;
+		wxStaticText* QSizeS;
+		wxChoice* QSizeD;
+		wxStaticText* QCompareS;
+		wxChoice* QCompareD;
+		wxButton* bQActD;
+		wxButton* bQActS;
+		wxButton* bQActUS;
+		wxGauge* pbQAct;
+		wxButton* bQActLT;
+		wxButton* bQActLTE;
+		wxButton* bQActE;
+		wxButton* bQActNE;
+		wxButton* bQActGTE;
+		wxButton* bQActGT;
+		wxChoice* QTypeD;
+		wxStaticText* sQNo;
+		wxStaticText* sQV1;
+		wxTextCtrl* tQV1;
+		wxStaticText* sQV2;
+		wxTextCtrl* tQV2;
+		wxScrolledWindow* m_scrolledWindow2;
+		wxCheckBox* m_checkBox8;
+		wxStaticText* m_staticText24;
+		wxCheckBox* m_checkBox9;
+		wxStaticText* m_staticText25;
+		wxCheckBox* m_checkBox10;
+		wxStaticText* m_staticText26;
+		wxCheckBox* m_checkBox11;
+		wxTextCtrl* m_textCtrl15;
+		wxCheckBox* m_checkBox12;
+		wxTextCtrl* m_textCtrl16;
+		wxStaticText* m_staticText27;
+		wxTextCtrl* m_textCtrl17;
+		wxCheckBox* m_checkBox13;
+		wxTextCtrl* m_textCtrl161;
+		wxStaticText* m_staticText271;
+		wxTextCtrl* m_textCtrl171;
+		wxCheckBox* m_checkBox14;
+		wxTextCtrl* m_textCtrl22;
+		wxCheckBox* m_checkBox15;
+		wxTextCtrl* m_textCtrl23;
+		wxCheckBox* m_checkBox18;
+		wxTextCtrl* m_textCtrl24;
+		wxCheckBox* m_checkBox19;
+		wxTextCtrl* m_textCtrl25;
+		wxCheckBox* m_checkBox20;
+		wxTextCtrl* m_textCtrl162;
+		wxStaticText* m_staticText272;
+		wxTextCtrl* m_textCtrl172;
+		wxCheckBox* m_checkBox21;
+		wxTextCtrl* m_textCtrl1621;
+		wxStaticText* m_staticText2721;
+		wxTextCtrl* m_textCtrl1721;
+		wxCheckBox* m_checkBox22;
+		wxTextCtrl* m_textCtrl1622;
+		wxStaticText* m_staticText2722;
+		wxTextCtrl* m_textCtrl1722;
+		wxCheckBox* m_checkBox23;
+		wxTextCtrl* m_textCtrl1623;
+		wxStaticText* m_staticText2723;
+		wxTextCtrl* m_textCtrl1723;
+		wxCheckBox* m_checkBox24;
+		wxTextCtrl* m_textCtrl1624;
+		wxStaticText* m_staticText2724;
+		wxTextCtrl* m_textCtrl1724;
+		wxPanel* RP;
+		wxGrid* RG;
+		wxPanel* RHP;
+		wxGrid* RHG;
+		wxStaticText* RHTS;
+		wxButton* RHAdd;
+		wxChoice* RHTD;
+		wxStaticText* RHAS;
+		wxTextCtrl* RHAT;
+		wxStaticText* RHVS;
+		wxTextCtrl* RHVT;
 		wxPanel* EP;
 		wxButton* EAB;
 		wxTextCtrl* EAT;
@@ -181,6 +247,7 @@ class HEXFRM : public wxFrame
 		virtual void BINBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void bQActSOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }

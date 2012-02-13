@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="debug" />
-	<File name="DB.cpp" open="1" top="1" tabpos="7">
-		<Cursor position="591" topLine="12" />
-	</File>
 	<File name="GUIFrame.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="25492" topLine="675" />
+		<Cursor position="4189" topLine="101" />
 	</File>
-	<File name="HC.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="499" topLine="10" />
+	<File name="HC.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="856" topLine="28" />
 	</File>
-	<File name="HT.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="2058" topLine="70" />
+	<File name="HCC.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="552" topLine="185" />
 	</File>
-	<File name="hTab.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="337" topLine="50" />
+	<File name="HT.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="1792" topLine="55" />
 	</File>
-	<File name="hexApp.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="842" topLine="16" />
+	<File name="app.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="309" topLine="10" />
 	</File>
-	<File name="hexEvents.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1175" topLine="29" />
+	<File name="eTab.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="686" topLine="0" />
+	</File>
+	<File name="hTab.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="1197" topLine="32" />
+	</File>
+	<File name="hexApp.h" open="1" top="0" tabpos="9">
+		<Cursor position="592" topLine="5" />
+	</File>
+	<File name="hexEvents.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="1906" topLine="54" />
 	</File>
 	<File name="hexMain.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="3014" topLine="76" />
+		<Cursor position="3708" topLine="90" />
 	</File>
-	<File name="hexMain.h" open="1" top="0" tabpos="2">
-		<Cursor position="867" topLine="18" />
+	<File name="hexMain.h" open="1" top="0" tabpos="3">
+		<Cursor position="3878" topLine="93" />
+	</File>
+	<File name="qTab.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="1535" topLine="47" />
 	</File>
 </CodeBlocks_layout_file>

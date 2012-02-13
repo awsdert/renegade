@@ -85,6 +85,7 @@
 		<Unit filename="hexMain.h" />
 		<Unit filename="hexVar.cpp" />
 		<Unit filename="hexVar.h" />
+		<Unit filename="qTab.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

@@ -282,129 +282,454 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	nbHook->Layout();
 	bsHook->Fit( nbHook );
 	NB->AddPage( nbHook, wxT("Hook"), false );
-	nbFind = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	NB->AddPage( nbFind, wxT("Find"), false );
-	nbResults = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxFlexGridSizer* fgSizer12;
-	fgSizer12 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer12->AddGrowableCol( 0 );
-	fgSizer12->AddGrowableRow( 0 );
-	fgSizer12->SetFlexibleDirection( wxBOTH );
-	fgSizer12->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	QP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* QL0;
+	QL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	QL0->AddGrowableCol( 0 );
+	QL0->AddGrowableRow( 1 );
+	QL0->SetFlexibleDirection( wxBOTH );
+	QL0->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_grid2 = new wxGrid( nbResults, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wxFlexGridSizer* QL1;
+	QL1 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	QL1->AddGrowableCol( 1 );
+	QL1->SetFlexibleDirection( wxBOTH );
+	QL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxFlexGridSizer* QL2;
+	QL2 = new wxFlexGridSizer( 0, 4, 0, 0 );
+	QL2->SetFlexibleDirection( wxBOTH );
+	QL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	QSizeS = new wxStaticText( QP, wxID_ANY, wxT("Size"), wxDefaultPosition, wxDefaultSize, 0 );
+	QSizeS->Wrap( -1 );
+	QL2->Add( QSizeS, 0, wxALL, 5 );
+	
+	wxString QSizeDChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
+	int QSizeDNChoices = sizeof( QSizeDChoices ) / sizeof( wxString );
+	QSizeD = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, QSizeDNChoices, QSizeDChoices, 0 );
+	QSizeD->SetSelection( 0 );
+	QL2->Add( QSizeD, 0, wxALL, 5 );
+	
+	QCompareS = new wxStaticText( QP, wxID_ANY, wxT("Compare To"), wxDefaultPosition, wxDefaultSize, 0 );
+	QCompareS->Wrap( -1 );
+	QL2->Add( QCompareS, 0, wxALL, 5 );
+	
+	wxString QCompareDChoices[] = { wxT("Dump") };
+	int QCompareDNChoices = sizeof( QCompareDChoices ) / sizeof( wxString );
+	QCompareD = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, QCompareDNChoices, QCompareDChoices, 0 );
+	QCompareD->SetSelection( 0 );
+	QL2->Add( QCompareD, 0, wxALL, 5 );
+	
+	QL1->Add( QL2, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* QActionL;
+	QActionL = new wxBoxSizer( wxHORIZONTAL );
+	
+	bQActD = new wxButton( QP, wxID_ANY, wxT("Dump"), wxDefaultPosition, wxDefaultSize, 0 );
+	QActionL->Add( bQActD, 0, wxALL, 5 );
+	
+	bQActS = new wxButton( QP, wxID_ANY, wxT("Search"), wxDefaultPosition, wxDefaultSize, 0 );
+	QActionL->Add( bQActS, 0, wxALL, 5 );
+	
+	bQActUS = new wxButton( QP, wxID_ANY, wxT("Undo Search"), wxDefaultPosition, wxDefaultSize, 0 );
+	QActionL->Add( bQActUS, 0, wxALL, 5 );
+	
+	pbQAct = new wxGauge( QP, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	QActionL->Add( pbQAct, 1, wxALL, 5 );
+	
+	QL1->Add( QActionL, 1, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* QTypeL0;
+	QTypeL0 = new wxStaticBoxSizer( new wxStaticBox( QP, wxID_ANY, wxT("Search Type") ), wxVERTICAL );
+	
+	wxBoxSizer* QTypeL1;
+	QTypeL1 = new wxBoxSizer( wxHORIZONTAL );
+	
+	bQActLT = new wxButton( QP, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActLT->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActLT, 0, wxALL, 5 );
+	
+	bQActLTE = new wxButton( QP, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActLTE->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActLTE, 0, wxALL, 5 );
+	
+	bQActE = new wxButton( QP, wxID_ANY, wxT("="), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActE->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActE, 0, wxALL, 5 );
+	
+	bQActNE = new wxButton( QP, wxID_ANY, wxT("!="), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActNE->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActNE, 0, wxALL, 5 );
+	
+	bQActGTE = new wxButton( QP, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActGTE->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActGTE, 0, wxALL, 5 );
+	
+	bQActGT = new wxButton( QP, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	bQActGT->SetMinSize( wxSize( 25,-1 ) );
+	
+	QTypeL1->Add( bQActGT, 0, wxALL, 5 );
+	
+	QTypeL0->Add( QTypeL1, 1, wxEXPAND, 5 );
+	
+	wxString QTypeDChoices[] = { wxT("Known Value"), wxT("Known Value with *"), wxT("Greater than Value 1"), wxT("Greater than by Value 1"), wxT("Greater than by a maximum of Value 1") };
+	int QTypeDNChoices = sizeof( QTypeDChoices ) / sizeof( wxString );
+	QTypeD = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, QTypeDNChoices, QTypeDChoices, 0 );
+	QTypeD->SetSelection( 0 );
+	QTypeL0->Add( QTypeD, 0, wxALL, 5 );
+	
+	QL1->Add( QTypeL0, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer25;
+	bSizer25 = new wxBoxSizer( wxVERTICAL );
+	
+	sQNo = new wxStaticText( QP, wxID_ANY, wxT("Results: 0"), wxDefaultPosition, wxDefaultSize, 0 );
+	sQNo->Wrap( -1 );
+	bSizer25->Add( sQNo, 0, wxALL, 5 );
+	
+	wxStaticBoxSizer* sbSizer7;
+	sbSizer7 = new wxStaticBoxSizer( new wxStaticBox( QP, wxID_ANY, wxT("Value") ), wxHORIZONTAL );
+	
+	sQV1 = new wxStaticText( QP, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	sQV1->Wrap( -1 );
+	sbSizer7->Add( sQV1, 0, wxALL, 5 );
+	
+	tQV1 = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer7->Add( tQV1, 1, wxALL, 5 );
+	
+	sQV2 = new wxStaticText( QP, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	sQV2->Wrap( -1 );
+	sbSizer7->Add( sQV2, 0, wxALL, 5 );
+	
+	tQV2 = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer7->Add( tQV2, 1, wxALL, 5 );
+	
+	bSizer25->Add( sbSizer7, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	QL1->Add( bSizer25, 1, wxEXPAND, 5 );
+	
+	QL0->Add( QL1, 1, wxEXPAND, 5 );
+	
+	m_scrolledWindow2 = new wxScrolledWindow( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	m_scrolledWindow2->SetScrollRate( 0, 5 );
+	wxFlexGridSizer* fgSizer38;
+	fgSizer38 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer38->SetFlexibleDirection( wxBOTH );
+	fgSizer38->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_checkBox8 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Signed"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox8, 0, wxALL, 5 );
+	
+	m_staticText24 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText24->Wrap( -1 );
+	fgSizer38->Add( m_staticText24, 0, wxALL, 5 );
+	
+	m_checkBox9 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is 0"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox9, 0, wxALL, 5 );
+	
+	m_staticText25 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText25->Wrap( -1 );
+	fgSizer38->Add( m_staticText25, 0, wxALL, 5 );
+	
+	m_checkBox10 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is FF etc"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox10, 0, wxALL, 5 );
+	
+	m_staticText26 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer38->Add( m_staticText26, 0, wxALL, 5 );
+	
+	m_checkBox11 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox11, 0, wxALL, 5 );
+	
+	m_textCtrl15 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_textCtrl15, 0, wxALL, 5 );
+	
+	m_checkBox12 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox12, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl16 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( m_textCtrl16, 0, wxALL, 5 );
+	
+	m_staticText27 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	bSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	m_textCtrl17 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( m_textCtrl17, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer6, 1, wxEXPAND, 5 );
+	
+	m_checkBox13 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox13, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer61;
+	bSizer61 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl161 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer61->Add( m_textCtrl161, 0, wxALL, 5 );
+	
+	m_staticText271 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText271->Wrap( -1 );
+	bSizer61->Add( m_staticText271, 0, wxALL, 5 );
+	
+	m_textCtrl171 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer61->Add( m_textCtrl171, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer61, 1, wxEXPAND, 5 );
+	
+	m_checkBox14 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a CHAR value"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox14, 0, wxALL, 5 );
+	
+	m_textCtrl22 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_textCtrl22, 0, wxALL, 5 );
+	
+	m_checkBox15 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a WORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox15, 0, wxALL, 5 );
+	
+	m_textCtrl23 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_textCtrl23, 0, wxALL, 5 );
+	
+	m_checkBox18 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a DWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox18, 0, wxALL, 5 );
+	
+	m_textCtrl24 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_textCtrl24, 0, wxALL, 5 );
+	
+	m_checkBox19 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a QWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox19, 0, wxALL, 5 );
+	
+	m_textCtrl25 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_textCtrl25, 0, wxALL, 5 );
+	
+	m_checkBox20 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a CHAR range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox20, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer62;
+	bSizer62 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl162 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer62->Add( m_textCtrl162, 0, wxALL, 5 );
+	
+	m_staticText272 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText272->Wrap( -1 );
+	bSizer62->Add( m_staticText272, 0, wxALL, 5 );
+	
+	m_textCtrl172 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer62->Add( m_textCtrl172, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer62, 1, wxEXPAND, 5 );
+	
+	m_checkBox21 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a WORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox21, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer621;
+	bSizer621 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl1621 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer621->Add( m_textCtrl1621, 0, wxALL, 5 );
+	
+	m_staticText2721 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2721->Wrap( -1 );
+	bSizer621->Add( m_staticText2721, 0, wxALL, 5 );
+	
+	m_textCtrl1721 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer621->Add( m_textCtrl1721, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer621, 1, wxEXPAND, 5 );
+	
+	m_checkBox22 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a DWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox22, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer622;
+	bSizer622 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl1622 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer622->Add( m_textCtrl1622, 0, wxALL, 5 );
+	
+	m_staticText2722 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2722->Wrap( -1 );
+	bSizer622->Add( m_staticText2722, 0, wxALL, 5 );
+	
+	m_textCtrl1722 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer622->Add( m_textCtrl1722, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer622, 1, wxEXPAND, 5 );
+	
+	m_checkBox23 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a QWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox23, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer623;
+	bSizer623 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl1623 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer623->Add( m_textCtrl1623, 0, wxALL, 5 );
+	
+	m_staticText2723 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2723->Wrap( -1 );
+	bSizer623->Add( m_staticText2723, 0, wxALL, 5 );
+	
+	m_textCtrl1723 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer623->Add( m_textCtrl1723, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer623, 1, wxEXPAND, 5 );
+	
+	m_checkBox24 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result address is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer38->Add( m_checkBox24, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer624;
+	bSizer624 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl1624 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer624->Add( m_textCtrl1624, 0, wxALL, 5 );
+	
+	m_staticText2724 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2724->Wrap( -1 );
+	bSizer624->Add( m_staticText2724, 0, wxALL, 5 );
+	
+	m_textCtrl1724 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer624->Add( m_textCtrl1724, 0, wxALL, 5 );
+	
+	fgSizer38->Add( bSizer624, 1, wxEXPAND, 5 );
+	
+	m_scrolledWindow2->SetSizer( fgSizer38 );
+	m_scrolledWindow2->Layout();
+	fgSizer38->Fit( m_scrolledWindow2 );
+	QL0->Add( m_scrolledWindow2, 1, wxEXPAND | wxALL, 5 );
+	
+	QP->SetSizer( QL0 );
+	QP->Layout();
+	QL0->Fit( QP );
+	NB->AddPage( QP, wxT("Find"), false );
+	RP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* RL;
+	RL = new wxFlexGridSizer( 0, 2, 0, 0 );
+	RL->AddGrowableCol( 0 );
+	RL->AddGrowableRow( 0 );
+	RL->SetFlexibleDirection( wxBOTH );
+	RL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	RG = new wxGrid( RP, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
 	// Grid
-	m_grid2->CreateGrid( 0, 0 );
-	m_grid2->EnableEditing( false );
-	m_grid2->EnableGridLines( true );
-	m_grid2->EnableDragGridSize( false );
-	m_grid2->SetMargins( 0, 0 );
+	RG->CreateGrid( 0, 0 );
+	RG->EnableEditing( false );
+	RG->EnableGridLines( true );
+	RG->EnableDragGridSize( false );
+	RG->SetMargins( 0, 0 );
 	
 	// Columns
-	m_grid2->EnableDragColMove( false );
-	m_grid2->EnableDragColSize( true );
-	m_grid2->SetColLabelSize( 15 );
-	m_grid2->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	RG->EnableDragColMove( false );
+	RG->EnableDragColSize( true );
+	RG->SetColLabelSize( 15 );
+	RG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_grid2->EnableDragRowSize( true );
-	m_grid2->SetRowLabelSize( 15 );
-	m_grid2->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	RG->EnableDragRowSize( true );
+	RG->SetRowLabelSize( 15 );
+	RG->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Label Appearance
 	
 	// Cell Defaults
-	m_grid2->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	fgSizer12->Add( m_grid2, 0, wxALL|wxEXPAND, 5 );
+	RG->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	RL->Add( RG, 0, wxALL|wxEXPAND, 5 );
 	
-	m_panel8 = new wxPanel( nbResults, wxID_ANY, wxDefaultPosition, wxSize( 200,-1 ), wxTAB_TRAVERSAL );
-	m_panel8->SetMinSize( wxSize( 200,-1 ) );
-	m_panel8->SetMaxSize( wxSize( 200,-1 ) );
+	RHP = new wxPanel( RP, wxID_ANY, wxDefaultPosition, wxSize( 200,-1 ), wxTAB_TRAVERSAL );
+	RHP->SetMinSize( wxSize( 200,-1 ) );
+	RHP->SetMaxSize( wxSize( 200,-1 ) );
 	
-	wxFlexGridSizer* fgSizer13;
-	fgSizer13 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	fgSizer13->AddGrowableRow( 0 );
-	fgSizer13->SetFlexibleDirection( wxBOTH );
-	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* RHL0;
+	RHL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	RHL0->AddGrowableRow( 0 );
+	RHL0->SetFlexibleDirection( wxBOTH );
+	RHL0->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_grid3 = new wxGrid( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	RHG = new wxGrid( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
 	// Grid
-	m_grid3->CreateGrid( 0, 3 );
-	m_grid3->EnableEditing( true );
-	m_grid3->EnableGridLines( true );
-	m_grid3->EnableDragGridSize( false );
-	m_grid3->SetMargins( 0, 0 );
+	RHG->CreateGrid( 0, 3 );
+	RHG->EnableEditing( true );
+	RHG->EnableGridLines( true );
+	RHG->EnableDragGridSize( false );
+	RHG->SetMargins( 0, 0 );
 	
 	// Columns
-	m_grid3->EnableDragColMove( false );
-	m_grid3->EnableDragColSize( true );
-	m_grid3->SetColLabelSize( 15 );
-	m_grid3->SetColLabelValue( 0, wxT("Type") );
-	m_grid3->SetColLabelValue( 1, wxT("Address") );
-	m_grid3->SetColLabelValue( 2, wxT("Value") );
-	m_grid3->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	RHG->EnableDragColMove( false );
+	RHG->EnableDragColSize( true );
+	RHG->SetColLabelSize( 15 );
+	RHG->SetColLabelValue( 0, wxT("Type") );
+	RHG->SetColLabelValue( 1, wxT("Address") );
+	RHG->SetColLabelValue( 2, wxT("Value") );
+	RHG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_grid3->EnableDragRowSize( true );
-	m_grid3->SetRowLabelSize( 1 );
-	m_grid3->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	RHG->EnableDragRowSize( true );
+	RHG->SetRowLabelSize( 1 );
+	RHG->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Label Appearance
 	
 	// Cell Defaults
-	m_grid3->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	fgSizer13->Add( m_grid3, 0, wxEXPAND, 5 );
+	RHG->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	RHL0->Add( RHG, 0, wxEXPAND, 5 );
 	
-	wxStaticBoxSizer* sbSizer5;
-	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_panel8, wxID_ANY, wxT("label") ), wxVERTICAL );
+	wxStaticBoxSizer* RHL1;
+	RHL1 = new wxStaticBoxSizer( new wxStaticBox( RHP, wxID_ANY, wxT("label") ), wxVERTICAL );
 	
-	wxFlexGridSizer* fgSizer17;
-	fgSizer17 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer17->AddGrowableCol( 0 );
-	fgSizer17->SetFlexibleDirection( wxBOTH );
-	fgSizer17->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* RHL2;
+	RHL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	RHL2->AddGrowableCol( 0 );
+	RHL2->SetFlexibleDirection( wxBOTH );
+	RHL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText4 = new wxStaticText( m_panel8, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	fgSizer17->Add( m_staticText4, 0, wxALL, 5 );
+	RHTS = new wxStaticText( RHP, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	RHTS->Wrap( -1 );
+	RHL2->Add( RHTS, 0, wxALL, 5 );
 	
-	m_button8 = new wxButton( m_panel8, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer17->Add( m_button8, 0, 0, 5 );
+	RHAdd = new wxButton( RHP, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	RHL2->Add( RHAdd, 0, 0, 5 );
 	
-	sbSizer5->Add( fgSizer17, 1, wxEXPAND, 5 );
+	RHL1->Add( RHL2, 1, wxEXPAND, 5 );
 	
-	wxString m_choice2Choices[] = { wxT("0x00 (CHAR)"), wxT("0x0000 (WORD)"), wxT("0x00000000 (DWORD)"), wxT("0x0000000000000000 (QWORD)") };
-	int m_choice2NChoices = sizeof( m_choice2Choices ) / sizeof( wxString );
-	m_choice2 = new wxChoice( m_panel8, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice2NChoices, m_choice2Choices, 0 );
-	m_choice2->SetSelection( 0 );
-	sbSizer5->Add( m_choice2, 0, wxALL|wxEXPAND, 5 );
+	wxString RHTDChoices[] = { wxT("0x00 (CHAR)"), wxT("0x0000 (WORD)"), wxT("0x00000000 (DWORD)"), wxT("0x0000000000000000 (QWORD)") };
+	int RHTDNChoices = sizeof( RHTDChoices ) / sizeof( wxString );
+	RHTD = new wxChoice( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, RHTDNChoices, RHTDChoices, 0 );
+	RHTD->SetSelection( 0 );
+	RHL1->Add( RHTD, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticText5 = new wxStaticText( m_panel8, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText5->Wrap( -1 );
-	sbSizer5->Add( m_staticText5, 0, wxALL, 5 );
+	RHAS = new wxStaticText( RHP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, 0 );
+	RHAS->Wrap( -1 );
+	RHL1->Add( RHAS, 0, wxALL, 5 );
 	
-	m_textCtrl5 = new wxTextCtrl( m_panel8, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( m_textCtrl5, 0, wxALL|wxEXPAND, 5 );
+	RHAT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	RHL1->Add( RHAT, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticText6 = new wxStaticText( m_panel8, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText6->Wrap( -1 );
-	sbSizer5->Add( m_staticText6, 0, wxALL, 5 );
+	RHVS = new wxStaticText( RHP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
+	RHVS->Wrap( -1 );
+	RHL1->Add( RHVS, 0, wxALL, 5 );
 	
-	m_textCtrl6 = new wxTextCtrl( m_panel8, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( m_textCtrl6, 0, wxALL|wxEXPAND, 5 );
+	RHVT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	RHL1->Add( RHVT, 0, wxALL|wxEXPAND, 5 );
 	
-	fgSizer13->Add( sbSizer5, 0, wxALL|wxEXPAND, 5 );
+	RHL0->Add( RHL1, 0, wxALL|wxEXPAND, 5 );
 	
-	m_panel8->SetSizer( fgSizer13 );
-	m_panel8->Layout();
-	fgSizer12->Add( m_panel8, 0, wxEXPAND | wxALL, 5 );
+	RHP->SetSizer( RHL0 );
+	RHP->Layout();
+	RL->Add( RHP, 0, wxEXPAND | wxALL, 5 );
 	
-	nbResults->SetSizer( fgSizer12 );
-	nbResults->Layout();
-	fgSizer12->Fit( nbResults );
-	NB->AddPage( nbResults, wxT("Results"), false );
+	RP->SetSizer( RL );
+	RP->Layout();
+	RL->Fit( RP );
+	NB->AddPage( RP, wxT("Results"), false );
 	EP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* EL;
 	EL = new wxFlexGridSizer( 0, 1, 0, 0 );
@@ -500,7 +825,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	EP->SetSizer( EL );
 	EP->Layout();
 	EL->Fit( EP );
-	NB->AddPage( EP, wxT("Editor"), true );
+	NB->AddPage( EP, wxT("Editor"), false );
 	DBP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* lDB;
 	lDB = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -690,7 +1015,6 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HTTL->Add( HTHead, 1, wxEXPAND, 5 );
 	
 	HT = new wxTreeCtrl( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
-	HT->SetExtraStyle( wxWS_EX_PROCESS_UI_UPDATES );
 	HT->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
 	
 	HTTL->Add( HT, 0, wxALL|wxEXPAND, 5 );
@@ -995,6 +1319,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BINB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
 	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
+	bQActS->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
 	EAB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
@@ -1045,6 +1370,7 @@ HEXFRM::~HEXFRM()
 	BINB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
 	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
+	bQActS->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
 	EAB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );

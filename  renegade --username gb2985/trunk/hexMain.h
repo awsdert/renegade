@@ -41,12 +41,17 @@ class ME: public HEXFRM {
 		xTID rti, ti, pti; // Root Item, Current Item, Previous Item
 		int dl; // List Count
 		xTID rdi, di, pdi; // Root Item, Current Item, Previous Item
+		// - App Selection
+		xAInt appNum, appEnd;
+		xAStr appName, ramName, ramFixed, ramStart, ramSize;
 		// - File stuff
 		u8 getPF(xStr s);
 		wxChar myDiv; //bool HTFT;
 		wxStandardPaths myPaths;
 		wxTextFile pff, dbf, htf; // Platform File, DataBase, Hack Tree
 		wxDir dir;
+		// - Search File
+		wxFile qbf, qbt;
 		// hexMain.cpp
 		HANDLE GAP(void);
 		xStr GARAM(u8 r, u8 c);
@@ -73,6 +78,8 @@ class ME: public HEXFRM {
 		void PFOnBlur(wxFocusEvent& event);
 		void PFOnClick(wxCommandEvent& event);
 		void PFOnChange(wxCommandEvent& event);
+		// - - - App
+		void APPDOnChange(wxCommandEvent& event);
 		// - - Editor Tab
 		void EAOnClick(wxCommandEvent& event);
 		void EVOnClick(wxCommandEvent& event);
@@ -105,6 +112,13 @@ class ME: public HEXFRM {
 		// HCC.cpp
 		CL HCSet(HACK* hack, int row);
 		void HCAddBOnClick(wxCommandEvent& event);
+		// qTab.cpp
+		void QSet(u16 q, u8 size);
+		void Dump8(void);
+		void Dump16(void);
+		void Dump32(void);
+		void Dump64(void);
+		void bQActSOnClick(wxCommandEvent& event);
 		// hTab.cpp
 		void setAWait(int i);
 		void setApps(void);
@@ -156,6 +170,11 @@ class ME: public HEXFRM {
 		void HCLoad(void);
 		void HCWrite(HANDLE p, DWORD x, int s, DWORD v);
 		xStr HCRead(HANDLE p, DWORD x, int s);
+		DWORD HCReadH(HANDLE p, DWORD x, int s);
+		u8* HCReadM8(HANDLE p, DWORD x, u64 s);
+		u16* HCReadM16(HANDLE p, DWORD x, u64 s);
+		u32* HCReadM32(HANDLE p, DWORD x, u64 s);
+		u64* HCReadM64(HANDLE p, DWORD x, u64 s);
 		// HC.cpp
 		// - Hack Tab
 		// - - Hack Codelist

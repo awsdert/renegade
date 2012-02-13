@@ -28,12 +28,11 @@ void ME::PFSet(void) {
 }
 void ME::PFLoad(void) {
 	HDTI = PFD->GetSelection(); PFSet();
-	u8 m = 0, i = 0;
-	APPD->Clear(); PFEA.Clear(); // Don't seem to work
+	u8 m = 0, i = 0, ram = 0; int l = -1;
+	APPD->Clear(); PFEA.Clear();
 	xStr s, t, x; xStrT st;
 	ClearGrid(RAMG);
-//	RAMG->DeleteRows(0, RAMG->GetRows(), false);
-	EMD->Clear(); // Don't seem to work either
+	EMD->Clear();
 	for (s = pff.GetFirstLine();!pff.Eof();s = pff.GetNextLine()) {
 		switch (m) {
 		case 0:
@@ -47,8 +46,10 @@ void ME::PFLoad(void) {
 			t = s.SubString(0, 0);
 			if (t.Cmp(wxT(";")) == 0) {
 				t = s.SubString(1, -1);
-				PFEA.Add(t);
-				m = 2;
+				appName.Add(t);
+				appNum.Add(ram);
+				appEnd.Add(ram);
+				m = 2; l++;
 			} break;
 		case 2:
 			t = s.SubString(0, 0);
@@ -59,18 +60,15 @@ void ME::PFLoad(void) {
 			} else {
 				t = s.SubString(2, -1);
 				st.SetString(t, wxT(";"));
-				RAMG->AppendRows(1);
 				x = st.GetNextToken(); // Name
-				RAMG->SetCellValue(i, 0, x);
-				EMD->Append(x);
+				ramName.Add(x);
 				x = st.GetNextToken(); // Fixed?
-				RAMG->SetCellValue(i, 1, x);
+				ramFixed.Add(x);
 				x = st.GetNextToken(); // Address
-				RAMG->SetCellValue(i, 2, x);
+				ramStart.Add(x);
 				x = st.GetNextToken(); // Size
-				RAMG->SetCellValue(i, 3, x);
-				x.Printf(wxT("%X"), i); // ID to use in Codes
-				RAMG->SetRowLabelValue(i, x);
+				ramSize.Add(x);
+				ram++; appEnd[l]++;
 				i++; m = 1;
 			} break;
 		}
