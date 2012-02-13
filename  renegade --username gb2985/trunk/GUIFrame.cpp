@@ -655,7 +655,6 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HTL->SetFlexibleDirection( wxBOTH );
 	HTL->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* HTTL;
 	HTTL = new wxFlexGridSizer( 0, 1, 0, 0 );
 	HTTL->AddGrowableCol( 0 );
 	HTTL->AddGrowableRow( 1 );
@@ -691,6 +690,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HTTL->Add( HTHead, 1, wxEXPAND, 5 );
 	
 	HT = new wxTreeCtrl( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
+	HT->SetExtraStyle( wxWS_EX_PROCESS_UI_UPDATES );
 	HT->SetToolTip( wxT("When a Hack / Node is selected the following actions can be peformed with the CTRL key held down:\nAdd = Add Hack / Node to List (List box decides position)\nMinus = Remove Hack / Node\nArrow = Move Hack / Node in that direction") );
 	
 	HTTL->Add( HT, 0, wxALL|wxEXPAND, 5 );

@@ -9,7 +9,7 @@ void ME::HCHook(void) {
 	if (p != NULL) { HCUse(r, p); }
 	else { HWB = 0; }
 }
-u32 FlipAddress(u32 x, int s = 0, int e = 0) {
+DWORD FlipAddress(DWORD x, int s = 0, int e = 0) {
 	switch (e) {
 	case 0: // LITTLE_ENDIAN_SYS
 	case 2: // BIG_ENDIAN
@@ -22,20 +22,20 @@ u32 FlipAddress(u32 x, int s = 0, int e = 0) {
 		default: return x; }
 	}
 }
-void ME::HCWrite(HANDLE p, DWORD x, int s, u32 v) {
-	u32 a = FlipAddress((u32)x, s, endian);
+void ME::HCWrite(HANDLE p, DWORD x, int s, DWORD v) {
+	DWORD a = FlipAddress(x, s, endian);
 	WriteProcessMemory(p, (void*)a, &v, s, NULL);
 }
 xStr ME::HCRead(HANDLE p, DWORD x, int s) {
-	u32 a = FlipAddress((u32)x, s, endian), v = 0;
+	DWORD a = FlipAddress(x, s, endian), v = 0;
 	ReadProcessMemory(p, (void*)a, &v, s, NULL);
 	xStr t; t.Printf(wxT("%X"), v);
 	return t;
 }
 void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 	HACK* h = getIH(r);
-	DWORD ram = GARS(0);
-	u32 xa, xv, rv; int j2, j3 = 0; bool ut;
+	DWORD ram = GARS(0), xa, xv;
+	u32 rv; int j2, j3 = 0; bool ut, uc = true;
 	if (h->use && r.IsOk()) {
 		int s, l = h->GetLen(), k; CL c; xStr t, t2;
 		xTID i; xTIDV v;
@@ -47,17 +47,14 @@ void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 			xa = ram + c.x;
 			switch (c.t) {
 			case 0x01: // Copy
-				xv = ram + c.v;
-				if (c.r > 0) {
-					for (k = 0;k < c.r;k++) {
-						t = HCRead(p, xa, s);
-						HCWrite(p, xv, s, getHEX(t));
-						xa += (c.j * s); xv += (c.j * s);
-					}
-				} else {
+				xv = ram + c.v; k = 0;
+				do {
 					t = HCRead(p, xa, s);
 					HCWrite(p, xv, s, getHEX(t));
-				} break;
+					xa += (c.j * s); xv += (c.j * s);
+					k++;
+				} while (k < c.r);
+				break;
 			case 0x02: // Test
 				t = HCRead(p, c.x, s);
 				t2.Printf(wxT("%X"), c.v);
@@ -68,58 +65,58 @@ void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 				default: ut = (t.Cmp(t2) == 0) ? true : ut; }
 				if (ut) {
 					if (c.r > 0) {
+						/* Move up call stack with new stop line and tell this
+						instance to skip the specified lines */
 						j2 = j;
-						for (k = 0;k < (int)c.r;k++) {
+						for (k = 0;k < c.r;k++) {
 							j3 = j; j += h->cLines[j];
 						} HCUse(r, p, j2, j);
 						j = j3;
-					}
+					} // Continue normally
 				} else {
-					if (c.r > 0) {
-						for (k = 0;k < (int)c.r;k++) {
+					if (c.r > 0) { // Skip the specified lines
+						for (k = 0;k < c.r;k++) {
 							j3 = j; j += h->cLines[j];
 						} j = j3;
-					} else { j = stop; }
+					} else { j = stop; uc = ut; } // Break out of code set and stop children being used
 				} break;
-			/*case 0x03: // Increment
-				switch (c.s) {
-				case 0x01: // u16
-				case 0x02: // DWORD
-				case 0x03: // u64
-				default: // u8
-				} break;
+			case 0x03: // Increment
+				k = 0;
+				do {
+					xv = getHEX(HCRead(p, xa, s));
+					HCWrite(p, xa, s, xv + c.i);
+					xa += (c.j * s); k++;
+				} while (k < c.r);
+				break;
 			case 0x04: // Decrement
-				switch (c.s) {
-				case 0x01: // u16
-				case 0x02: // DWORD
-				case 0x03: // u64
-				default: // u8
-				} break;
+				k = 0;
+				do {
+					xv = getHEX(HCRead(p, xa, s));
+					HCWrite(p, xa, s, xv - c.i);
+					xa += (c.j * s); k++;
+				} while (k < c.r);
+				break;
 			case 0x05: // List Write
-				switch (c.s) {
-				case 0x01: // u16
-				case 0x02: // DWORD
-				case 0x03: // u64
-				default: // u8
-				} break;*/
-			default:
-				xv = c.v;
-				if (c.r > 0) {
-					for (k = 0;k < c.r;k++) {
-						HCWrite(p, xa, s, xv);
-						xa += (c.j * s); xv += c.i;
-						/*t.Printf(wxT("%x, %x, %x"), s, c.j, (c.j * s));
-						t2 = HT->GetItemText(r);
-						wxMessageBox(t, t2);*/
-					}
-				} else { HCWrite(p, xa, s, xv); }
+				for (k = 0;k < c.r;k++) {
+					HCWrite(p, xa, s, getHEX(c.ca[k]));
+					xa += (c.j * s);
+				} break;
+			default: // Write
+				xv = c.v; k = 0;
+				do {
+					HCWrite(p, xa, s, xv);
+					xa += (c.j * s); xv += c.i;
+					k++;
+				} while (k < c.r);
 			} j += h->cLines[j];
 		}
 		// Recurse through children
-		i = HT->GetFirstChild(r, v);
-		while (i.IsOk()) {
-			HCUse(i, p);
-			i = HT->GetNextChild(r, v);
+		if (uc) {
+			i = HT->GetFirstChild(r, v);
+			while (i.IsOk()) {
+				HCUse(i, p);
+				i = HT->GetNextChild(r, v);
+			}
 		}
 	}
 }

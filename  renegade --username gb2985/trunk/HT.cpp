@@ -38,8 +38,7 @@ xTID ME::HTFind(u16 j) {
 	return HTFind(j, r);
 }
 xTID ME::HTFind(u16 j, xTID& r) {
-	xTID i, c;
-	xTIDV v;
+	xTID i, c; xTIDV v;
 	HACK* d = getIH(r);
 	if (j != d->hid) {
 		i = HT->GetFirstChild(r, v);
@@ -63,8 +62,14 @@ void ME::HTLoad(void) {
 	HWB = 0; xStr s;
 	di = DB->GetSelection();
 	xTID r, i;
+	/*HT->DeleteAllItems();
+	HT->Destroy();
+	HT = new wxTreeCtrl( HTP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_EDIT_LABELS );
+	HTTL->Insert( 1, HT, 0, wxALL|wxEXPAND, 5 );
+	HTP->Layout();*/
 	r = HTRoot();
-	HTDel(r); HTJ = 0;
+	HTDel(r);
+	HTJ = 0;
 	r = HTRoot();
 	//HTDel(r); r = HTRoot();//*/
 	if (di.IsOk()) {
@@ -78,7 +83,7 @@ void ME::HTLoad(void) {
 			HTLoad(i, s);
 			HT->SelectItem(i);
 		}
-	}
+	} htf.Close();
 }
 xStr ME::HTLoad(xTID& r, xStr s) {
 	xTID i, p; u16 k = 0, n;
@@ -179,8 +184,6 @@ u16 ME::HTSave(xTID& r, u16 j, u16 l) {
 		i = HT->GetNextChild(r, v);
 	} return j;
 }
-void ME::bHTSaveOnClick(wxCommandEvent& event) { HTSave(); }
-void ME::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
 xTID ME::HTAdd(xTID& r, xStr l, int where,
 	xTID& i, HACK d) { return HTAdd(r, l, where, i, &d); }
 xTID ME::HTAdd(xTID& r, xStr l, int where, xTID& i, HACK* d) {
@@ -221,7 +224,8 @@ void ME::HTDel(xTID& i) {
 	while (HT->ItemHasChildren(i)) {
 		c = HT->GetFirstChild(i, v);
 		HTDel(c);
-	} HT->Delete(i);
+	} HT->SetItemHasChildren(i, false);
+	HT->Delete(i);
 }
 void ME::HTDelAll(void) { HT->CollapseAndReset(rti); }
 int ME::HTCount(xTID& r) { return HT->GetChildrenCount(r, false); }
@@ -288,67 +292,4 @@ void ME::HTMove(int direction) {
 		HT->SelectItem(ni);
 		HTJ = HJR;
 	}
-}
-void ME::HTOnKeyUp(wxKeyEvent& event) {
-	xTID r; xStr s;
-	int kc = event.GetKeyCode();
-	if (event.ControlDown()) {
-		switch (kc) {
-		case WXK_SPACE:
-			HCUseC->SetValue(!HCUseC->GetValue());
-			HCUChange();
-		break;
-		case WXK_EXECUTE: case WXK_ADD: case WXK_NUMPAD_ADD:
-			if (HTAddC->GetValue()) {
-				s.Printf(wxT("New Hack %i"), HTCount(ti));
-				HTAdd(ti, s, 3);
-			} else {
-				r = HTRoot(ti);
-				s.Printf(wxT("New Hack %i"), HTCount(r));
-				HTAdd(r, s, HTAddD->GetSelection(), ti);
-			}
-		break;
-		case WXK_DELETE: case WXK_SUBTRACT: case WXK_NUMPAD_SUBTRACT:
-			HTDel(ti); break;
-		case WXK_UP: HTMove(0); break;
-		case WXK_DOWN: HTMove(1); break;
-		case WXK_LEFT: HTMove(2); break;
-		case WXK_RIGHT: HTMove(3); break;
-		default: break; }
-	}
-}
-void ME::HTOnKeyDown(wxKeyEvent& event) {
-	xTID r;
-	xTIDV v; xStr s;
-	int kc = event.GetKeyCode();
-	if (!event.ControlDown()) {
-		switch (kc) {
-		case WXK_SPACE:
-			HCUseC->SetValue(!HCUseC->GetValue());
-			HCUChange();
-			break;
-		case WXK_UP:
-			r = HT->GetPrevSibling(ti);
-			if (!r) { r = HTRoot(ti); }
-			if (r) { HT->SelectItem(r); }
-		break;
-		case WXK_DOWN:
-			r = HT->GetNextSibling(ti);
-			if (!r) { r = HT->GetFirstChild(ti, v); }
-			if (r) { HT->SelectItem(r); }
-		break;
-		case WXK_LEFT:
-			r = HTRoot(ti);
-			if (r) { HT->SelectItem(r); }
-		break;
-		case WXK_RIGHT:
-			r = HT->GetFirstChild(ti, v);
-			if (r) { HT->SelectItem(r); }
-		break;
-		default: break; }
-	}
-}
-void ME::HTOnChangeSelT(wxTreeEvent& event) {
-	ti = event.GetItem();
-	HTChange();
 }

@@ -21,7 +21,7 @@ bool hexApp::OnInit() {
 	frame = new ME(0L);
     frame->SetIcon(wxICON(NULL)); // To Set App Icon
     frame->Show();
-    frame->Maximize();
+    //frame->Maximize();
     return true;
 }
 #ifdef WIN32

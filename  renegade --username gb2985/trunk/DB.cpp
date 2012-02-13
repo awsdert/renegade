@@ -27,7 +27,7 @@ void ME::DBLoad(void) {
 	xStr s, t, t1, t2, t3;
 	xStrT st; dl = 0;
 	// This and DB->Delete don't seem to do their job
-	DB->CollapseAndReset(rdi); bool u = false;
+	DB->DeleteAllItems(); bool u = false;
 	// Ignore this, works fine
 	DBI* cv = new DBI; u8 m = 0, m2;
 	for (t = dbf.GetFirstLine(); !dbf.Eof(); t = dbf.GetNextLine()) {
@@ -65,6 +65,7 @@ void ME::DBLoad(void) {
 	delete cv; xTIDV v;
 	di = DB->GetFirstChild(rdi, v);
 	DB->SelectItem(di);
+	dbf.Close();
 }
 void ME::DBSelect(void) {
 	if (di.IsOk() && di != pdi) {

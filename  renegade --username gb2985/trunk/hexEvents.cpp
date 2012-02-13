@@ -70,3 +70,71 @@ void ME::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }
 void ME::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
 void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
 void ME::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
+// - Hack Tree Tab
+/*void ME::HTOnDel(wxTreeEvent& event) {
+	xTID i = event.GetItem();
+	HACK* h = getIH(i);
+	h->hid = 0; h->use = false;
+	setIH(i, h);
+}*/
+void ME::bHTSaveOnClick(wxCommandEvent& event) { HTSave(); }
+void ME::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
+void ME::HTOnChangeSelT(wxTreeEvent& event) { ti = event.GetItem(); HTChange(); }
+void ME::HTOnKeyUp(wxKeyEvent& event) {
+	xTID r; xStr s;
+	int kc = event.GetKeyCode();
+	if (event.ControlDown()) {
+		switch (kc) {
+		case WXK_SPACE:
+			HCUseC->SetValue(!HCUseC->GetValue());
+			HCUChange();
+		break;
+		case WXK_EXECUTE: case WXK_ADD: case WXK_NUMPAD_ADD:
+			if (HTAddC->GetValue()) {
+				s.Printf(wxT("New Hack %i"), HTCount(ti));
+				HTAdd(ti, s, 3);
+			} else {
+				r = HTRoot(ti);
+				s.Printf(wxT("New Hack %i"), HTCount(r));
+				HTAdd(r, s, HTAddD->GetSelection(), ti);
+			}
+		break;
+		case WXK_DELETE: case WXK_SUBTRACT: case WXK_NUMPAD_SUBTRACT:
+			HTDel(ti); break;
+		case WXK_UP: HTMove(0); break;
+		case WXK_DOWN: HTMove(1); break;
+		case WXK_LEFT: HTMove(2); break;
+		case WXK_RIGHT: HTMove(3); break;
+		default: break; }
+	}
+}
+void ME::HTOnKeyDown(wxKeyEvent& event) {
+	xTID r; xTIDV v; xStr s;
+	int kc = event.GetKeyCode();
+	if (!event.ControlDown()) {
+		switch (kc) {
+		case WXK_SPACE:
+			HCUseC->SetValue(!HCUseC->GetValue());
+			HCUChange();
+			break;
+		case WXK_UP:
+			r = HT->GetPrevSibling(ti);
+			if (!r) { r = HTRoot(ti); }
+			if (r) { HT->SelectItem(r); }
+		break;
+		case WXK_DOWN:
+			r = HT->GetNextSibling(ti);
+			if (!r) { r = HT->GetFirstChild(ti, v); }
+			if (r) { HT->SelectItem(r); }
+		break;
+		case WXK_LEFT:
+			r = HTRoot(ti);
+			if (r) { HT->SelectItem(r); }
+		break;
+		case WXK_RIGHT:
+			r = HT->GetFirstChild(ti, v);
+			if (r) { HT->SelectItem(r); }
+		break;
+		default: break; }
+	}
+}

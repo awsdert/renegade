@@ -86,6 +86,7 @@ class ME: public HEXFRM {
 		void DBAddBClick(wxCommandEvent& event);
 		void DBSelectC(wxTreeEvent& event);
 		// - - Hack Tree Tab
+		//void HTOnDel(wxTreeEvent& event);
 		void bHTSaveOnClick(wxCommandEvent& event);
 		void bHTLoadOnClick(wxCommandEvent& event);
 		void bAddHackOnClick(wxCommandEvent& event);
@@ -153,7 +154,7 @@ class ME: public HEXFRM {
 		void HTChange(xTID& i);
 		int HCRow, HCRows;
 		void HCLoad(void);
-		void HCWrite(HANDLE p, DWORD x, int s, u32 v);
+		void HCWrite(HANDLE p, DWORD x, int s, DWORD v);
 		xStr HCRead(HANDLE p, DWORD x, int s);
 		// HC.cpp
 		// - Hack Tab
