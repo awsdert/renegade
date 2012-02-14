@@ -91,11 +91,11 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	PFD->SetSelection(PS2); // Set default profile list
 } ME::~ME() {}
 int ME::getAppLen(void) { return appLen; }
-u32 ME::getHEX(xStr s) {
+u64 ME::getHEX(xStr s) {
 	long unsigned int v;
 	s = (!s) ? wxT("00000000") : s;
 	s.ToULong(&v, 16);
-	return (unsigned int)v;
+	return (u64)v;
 }
 void ME::ClearGrid(wxGrid*& grid) {
 	int l = grid->GetNumberRows();
@@ -108,12 +108,13 @@ void ME::addApp(int row, xStr id, xStr app, xStr title) {
 		APPG->SetCellValue(i, 0, app);
 		APPG->SetCellValue(i, 1, title);
 		APPG->SetRowLabelValue(i, id);
-		APPG->AutoSizeColumns(50);
+		APPG->SetColMinimalAcceptableWidth(100);
+		APPG->AutoSizeColumns(false);
 	}
 }
 HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
 // Get RAM Data
-xStr ME::GARAM(u8 r, u8 c) { return RAMG->GetCellValue(r, 2); }
+xStr ME::GARAM(u8 r, u8 c) { return RAMG->GetCellValue(r, c); }
 bool ME::GART(u8 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
 u32 ME::GARS(u8 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
 u32 ME::GARM(u8 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size

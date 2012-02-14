@@ -80,13 +80,8 @@ void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 				} while (k < c.r);
 				break;
 			case 0x02: // Test
-				t = HCRead(p, c.x, s);
-				t2.Printf(wxT("%X"), c.v);
-				rv = getHEX(t); ut = false;
-				switch (c.j) {
-				case 1: ut = (rv < c.v) ? true : ut; break;
-				case 2: ut = (rv > c.v) ? true : ut; break;
-				default: ut = (t.Cmp(t2) == 0) ? true : ut; }
+				rv = HCReadH(p, c.x, s);
+				ut = Test(c.j, rv, c.v);
 				if (ut) {
 					if (c.r > 0) {
 						/* Move up call stack with new stop line and tell this

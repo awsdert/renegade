@@ -17,6 +17,7 @@
 #include "GUIFrame.h"
 #include "hexVar.h"
 // DB = Database List, HT = Hack Tree
+enum TESTM { TM_EQUAL = 0x00, TM_LT, TM_GT, TM_LTEQUAL, TM_GTEQUAL, TM_NOTEQUAL, TM_INSIDE, TM_OUTSITE };
 class ME: public HEXFRM {
     public:
         ME(wxFrame *frame);
@@ -60,7 +61,7 @@ class ME: public HEXFRM {
 		void ClearGrid(wxGrid*& grid);
 		u32 GARS(u8 r);
 		u32 GARM(u8 r);
-		u32 getHEX(xStr s);
+		u64 getHEX(xStr s);
 		int getAppLen(void);
         void addApp(int row, xStr id, xStr app, xStr title);
 		// hexVar.cpp
@@ -113,11 +114,19 @@ class ME: public HEXFRM {
 		CL HCSet(HACK* hack, int row);
 		void HCAddBOnClick(wxCommandEvent& event);
 		// qTab.cpp
+		bool Test(u8 mode, u64 value, u64 against);
+		bool Test(u8 mode, u64 value, u64 from, u64 to);
 		void QSet(u16 q, u8 size);
+		u64* OldA(u8 sn);
+		u8* OldV8(u8 sn);
 		void Dump8(void);
 		void Dump16(void);
 		void Dump32(void);
 		void Dump64(void);
+		void Find8(u8 mode = 0);
+		void Find16(u8 mode = 0);
+		void Find32(u8 mode = 0);
+		void Find64(u8 mode = 0);
 		void bQActSOnClick(wxCommandEvent& event);
 		// hTab.cpp
 		void setAWait(int i);
