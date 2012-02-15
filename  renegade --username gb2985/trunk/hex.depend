@@ -3695,7 +3695,7 @@
 	<wx/wx.h>
 	"hexVar.h"
 
-1329242934 source:z:\hex\svn\trunk\hexmain.cpp
+1329330156 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
@@ -3711,7 +3711,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1328806796 z:\hex\svn\trunk\hexapp.h
+1329329986 z:\hex\svn\trunk\hexapp.h
 	"wx_pch.h"
 	<wx/tokenzr.h>
 	<wx/app.h>
@@ -3719,7 +3719,7 @@
 	<windows.h>
 	<tlhelp32.h>
 
-1329242432 z:\hex\svn\trunk\hexmain.h
+1329330416 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/textfile.h>
 	<wx/dir.h>
@@ -4192,11 +4192,11 @@
 	"wx/longlong.h"
 	"wx/string.h"
 
-1328791750 z:\hex\svn\trunk\hexvar.h
+1329270858 z:\hex\svn\trunk\hexvar.h
 	"hexApp.h"
 	"GUIFrame.h"
 
-1329088738 source:z:\hex\svn\trunk\ht.cpp
+1329270858 source:z:\hex\svn\trunk\ht.cpp
 	"hexMain.h"
 
 1328749122 source:z:\hex\svn\trunk\hexvar.cpp
@@ -4205,7 +4205,7 @@
 1329089070 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1329210366 source:z:\hex\svn\trunk\hc.cpp
+1329270838 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4230,7 +4230,7 @@
 1329157312 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
-1329236380 source:z:\hex\svn\trunk\qtab.cpp
+1329320914 source:z:\hex\svn\trunk\qtab.cpp
 	"hexMain.h"
 	"qTab.h"
 

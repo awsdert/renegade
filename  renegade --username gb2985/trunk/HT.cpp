@@ -87,8 +87,8 @@ void ME::HTLoad(void) {
 }
 xStr ME::HTLoad(xTID& r, xStr s) {
 	xTID i, p; u16 k = 0, n;
-	xStr s1, s2, s3, t;
-	int xl, m = 2; bool use = false;
+	xStr s1, s2, s3, t; xStrT st;
+	int xl; u8 m = 2, sl; bool use = false;
 	HACK *d = new HACK, *h = getIH(r), *ph; ph = h;
 	while (!htf.Eof()) {
 		switch (m) {
@@ -121,13 +121,19 @@ xStr ME::HTLoad(xTID& r, xStr s) {
 		default:
 			if (m > 2) {
 				if (s.length() > 16) {
-					xl = (int)getHEX(s.SubString(18, -1));
-				} else { xl = 0; }
+					st.SetString(s, wxT(";"));
+					s1 = st.GetNextToken();
+					s1 = st.GetNextToken();
+					xl = (u8)getHEX(s1);
+					s1 = st.GetNextToken();
+					sl = (int)getHEX(s1);
+				} else { xl = 0; sl = 0; }
 				s1 = s.SubString(0, 7);
 				s2 = s.SubString(9, 16);
 				d->cPart1.Add(s1);
 				d->cPart2.Add(s2);
 				d->cLines.Add(xl);
+				d->sLines.Add(sl);
 				setIH(i, d);
 			}
 		} if (!htf.Eof()) { s = htf.GetNextLine(); }

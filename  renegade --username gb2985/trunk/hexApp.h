@@ -15,10 +15,14 @@
 #include <wx/tokenzr.h>
 #include <wx/app.h>
 #include <wx/treectrl.h>
-typedef unsigned char u8;
-typedef unsigned short int u16;
-typedef unsigned int u32;
-typedef unsigned long long int u64;
+typedef wxInt8 s8;
+typedef wxInt16 s16;
+typedef wxInt32 s32;
+typedef wxInt64 s64;
+typedef wxUint8 u8;
+typedef wxUint16 u16;
+typedef wxUint32 u32;
+typedef wxUint64 u64;
 typedef wxString xStr;
 typedef wxStringTokenizer xStrT;
 typedef wxArrayInt xAInt;

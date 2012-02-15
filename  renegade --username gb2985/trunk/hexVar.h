@@ -28,7 +28,7 @@ class CL {
 		u8 t, s, r, m;
 		u16 j;
 		u32 x, v, i;
-		wxArrayString ca;
+		xAStr ca;
 		bool f;
 };
 class DBI: public wxTreeItemData {
@@ -49,9 +49,10 @@ class HACK: public wxTreeItemData {
 	public:
 		bool use;
 		u16 hid;
-		wxArrayString cPart1;
-		wxArrayString cPart2;
-		wxArrayInt cLines;
+		xAStr cPart1;
+		xAStr cPart2;
+		xAInt cLines;
+		xAInt sLines;
 		int GetLen();
 };
 #endif

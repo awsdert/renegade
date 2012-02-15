@@ -114,11 +114,11 @@ class ME: public HEXFRM {
 		CL HCSet(HACK* hack, int row);
 		void HCAddBOnClick(wxCommandEvent& event);
 		// qTab.cpp
-		bool Test(u8 mode, u64 value, u64 against);
-		bool Test(u8 mode, u64 value, u64 from, u64 to);
-		void QSet(u16 q, u8 size);
-		u64* OldA(u8 sn);
-		u8* OldV8(u8 sn);
+		bool Test(int mode, u64 value, u64 against);
+		bool Test(int mode, u64 value, u64 from, u64 to);
+		void QSet(int q, int size);
+		u64* OldA(int sn);
+		u8* OldV8(int sn);
 		void Dump8(void);
 		void Dump16(void);
 		void Dump32(void);

@@ -64,7 +64,8 @@ void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 		int s, l = h->GetLen(), k; CL c; xStr t, t2;
 		xTID i; xTIDV v;
 		// Use CL
-		if (stop < 1) { stop = l; }
+		if (stop > 0) { uc = false; }
+		else { stop = l; }
 		while (j < stop) {
 			c = HCSet(h, j);
 			s = (int)c.s;
@@ -88,9 +89,10 @@ void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
 						instance to skip the specified lines */
 						j2 = j;
 						for (k = 0;k < c.r;k++) {
-							j3 = j; j += h->cLines[j];
+							c.r += h->sLines[j]; // Support embeded IF statements
+							j3 = j; j += h->cLines[j]; // Ensure we get valid stop point
 						} HCUse(r, p, j2, j);
-						j = j3;
+						j = j3; // Ensure we have valid continue point
 					} // Continue normally
 				} else {
 					if (c.r > 0) { // Skip the specified lines

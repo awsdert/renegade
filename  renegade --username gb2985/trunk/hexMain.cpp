@@ -92,7 +92,7 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 } ME::~ME() {}
 int ME::getAppLen(void) { return appLen; }
 u64 ME::getHEX(xStr s) {
-	long unsigned int v;
+	unsigned long v;
 	s = (!s) ? wxT("00000000") : s;
 	s.ToULong(&v, 16);
 	return (u64)v;
