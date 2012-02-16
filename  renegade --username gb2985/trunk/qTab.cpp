@@ -58,190 +58,116 @@ void ME::QSet(int q, int size) {
 	//qbt.Clear();
 }
 void ME::Dump8(void) {
-	//typedef u64 u0;
-	u8 qs = 1; DUMP1;
-	//DUMP00;
-	//u8 *ramBuffer = HCReadM64(p, ram, re);
-	//DUMP01;
-	/*/
-	u64 i, l = sizeof(ramBuffer) / sizeof(u0);
-	for (x = 0, rj = 0, i = 0;i < l;rj += qs, i++) {
-		sv = ramBuffer[i];
-		buffer[x] = rj; x++;
-		buffer[x] = sv; x++;
-		results++;
-		if (x == xi) {
-			qbt.Write(buffer, bsize);
-			pbQAct->SetValue(rj);
-			delete buffer; x = 0;
-			buffer = new u0[xi];
-			s.Printf(nofr, results);
-			sQNo->SetLabel(s);
-		}
-	}
-	if (x > 0) {
-		qbt.Write(buffer, bsize);
-		pbQAct->SetValue(rj);
-		delete buffer;
-		s.Printf(nofr, results);
-		sQNo->SetLabel(s);
-	}//*/
-	u8 *ramBuffer = HCReadM8(p, ram, l); DUMP2;
-	for (DUMP_LOOP0) {
-		DUMP_LOOP1;
-		if (x == xi) {
-			DUMP_LOOP2;
-			buffer = new u64[xi];
-			DUMP_LOOP3;
-		}
-	} DUMP3;//*/
+	int qs = sizeof(u8);
+	DUMP1; u8 *ramBuffer = HCReadM8(p, ram, l); DUMP2;
 }
 void ME::Dump16(void) {
-	u8 qs = 2; DUMP1;
-	u16 *ramBuffer = HCReadM16(p, ram, l); DUMP2;
-	for (DUMP_LOOP0) {
-		DUMP_LOOP1;
-		if (x == xi) {
-			DUMP_LOOP2;
-			buffer = new u64[xi];
-			DUMP_LOOP3;
-		}
-	} DUMP3;
+	int qs = sizeof(u16);
+	DUMP1; u16 *ramBuffer = HCReadM16(p, ram, l); DUMP2;
 }
 void ME::Dump32(void) {
-	u8 qs = 4; DUMP1;
-	u32 *ramBuffer = HCReadM32(p, ram, l); DUMP2;
-	for (DUMP_LOOP0) {
-		DUMP_LOOP1;
-		if (x == xi) {
-			DUMP_LOOP2;
-			buffer = new u64[xi];
-			DUMP_LOOP3;
-		}
-	} DUMP3;
+	int qs = sizeof(u32);
+	DUMP1; u32 *ramBuffer = HCReadM32(p, ram, l); DUMP2;
 }
 void ME::Dump64(void) {
-	u8 qs = 8;
-	DUMP1;
-	u64 *ramBuffer = HCReadM64(p, ram, l); DUMP2;
-	for (DUMP_LOOP0) {
-		DUMP_LOOP1;
-		if (x == xi) {
-			DUMP_LOOP2;
-			buffer = new u64[xi];
-			DUMP_LOOP3;
-		}
-	} DUMP3;//*/
+	int qs = sizeof(u64);
+	DUMP1; u64 *ramBuffer = HCReadM64(p, ram, l); DUMP2;
 }
-u64* ME::OldA(int sn) {
+u64* ME::OldV(int sn, bool update) {
+	if (sn == oldb + 1) { return oldbuff; }
 	u64 len = qbf.Length();
 	int vs = sizeof(u64);
-	int i = 0, bi, bl = len / vs, bp = sn + 1;
-	int l = bl / bp;
-	//xStr s; s.Printf(wxT("%d - %d - %d"), bl, l, bp); MB(s);
+	int bi, bl = len / vs, bp = 2, bj;
 	u64 *buff = new u64[bl];
-	u64 *buffer = new u64[l];
-	for (bi = 0;bi < bl;bi++) {
-		qbf.Read(&buff[bi], vs);
+	for (bi = 0, bj = 0;bj < bl;bj++, bi += bp) {
+		qbf.Read(&buff[bj], vs); bj++;
+		qbf.Read(&buff[bj], vs);
 	}
-	for (bi = 0;bi < bl;bi += bp) {
-		buffer[i] = buff[bi]; i++;
-		//s.Printf(wxT("%d - %d"), bi, i); MB(s);
-	} //s.Printf(wxT("%08X"), buffer[1]); MB(s);
-	delete buff; return buffer;
-}
-u8* ME::OldV8(int sn) {
-	u64 len = qbf.Length();
-	int vs = sizeof(u64);
-	int i = 0, j, bi, bl = len / vs, bp = sn + 1;
-	int l = bl - (bl / bp), js = bp - 1;
-	//xStr s, t; s.Printf(wxT("%d - %d"), bl, l); MB(s);
-	u64 *buff = new u64[bl];
-	u8 *buffer = new u8[l];
-	for (bi = 0;bi < bl;bi++) {
-		qbf.Read(&buff[bi], vs);
-	}
-	for (bi = 0;bi < bl;bi += bp) {
-		for (j = js;j > 0;j--) {
-			buffer[i] = buff[bi + j]; i++;
-			//t.Printf(wxT("\n%d"), j);
-			//s << t;
-		} // MB(s); s.Clear();
-	} //s.Printf(wxT("%08X"), buffer[1]); MB(s);
-	delete buff; return buffer;
+	if (update) {
+		if (oldb > -1) { delete oldbuff; }
+		oldb = sn; oldbl = bl; oldbuff = buff;
+	} return buff;
 }
 void ME::Find8(u8 mode) {
 	HANDLE p = GAP();
-	int qs = 1;
-	int qn = QCompareD->GetSelection(), i, l, k = 0, m = 0, x = 0, xi;
+	int qs = sizeof(u8);
+	int qn = QCompareD->GetSelection(), i, l, j = 0, x = 0, xi;
 	u64 re = GARM(0), rn = 0, rj;
-	DWORD ramS = GARS(0); xi = ceil(re / 100);
+	DWORD ramS = GARS(0); xi = ceil(re / 10);
 	if (xi % 2 > 0) { xi++; }
-	bool use; l = ceil(re / qs);
+	bool use = false, uset = false; l = (qs == 1) ? re : ceil(re / qs);
 	xStr s, s1, s2; //s.Printf(wxT("%d"), qn); MB(s);
 	const wxChar *result = wxT("Results: %i");
-	u64 *ramA = OldA(qn);
-	u8 *ramO = OldV8(qn);
+	u64* ramV = OldV(qn);
 	u8 *ramB = HCReadM8(p, ramS, re);
-	u64 *buffer = new u64[xi], bsize; bsize = sizeof(buffer);
+	u64 *buff = new u64[re * 2], bsize = sizeof(u64) * (re * 2);
 	pbQAct->SetRange(re);
 	pbQAct->SetValue(0);
 	s.Printf(result, 0);
-	sQNo->SetLabel(s);
-	for (rj = 0, i = 0;i < l;rj += qs, i++) { // rj = Address, i = buffer index, qs = value size
-		s1.Printf(wxT("%08X"), rj);
-		s2.Printf(wxT("%08X"), ramA[k]);
-		if (s1.Cmp(s2) == 0) { //rj == ramA[k]) { // k = Old address index
-			use = Test(0, ramB[i], ramO[(m + qn) - 1]); // m = Old value index
+	sQNo->SetLabel(s); //int oldItem = qn - 1, nextItem;
+	s2.Printf(wxT("%08X"), ramV[0]);
+	int oldData = 0;
+	for (rj = 0, i = 0;oldData < oldbl;rj += qs, i++) { // rj = Address, i = buffer index, qs = value size
+		if (rj == ramV[oldData]) {
+			oldData++;
+			if (uset) {
+				use = Test(0, ramB[i], ramV[oldData]);
+			} else { use = true; }
 			if (use) {
-				rn++; // result number
-				buffer[x] = rj; x++; // Set Address
-				for (;m < qn;m++) { // Add old values
-					buffer[x] = ramO[m]; x++;
-				} // Add new value
-				buffer[x] = ramB[i]; x++;
+				rn++; x++; // result number
+				buff[j] = rj; j++; // Set Address
+				buff[j] = ramB[i]; j++;
 				if (x == xi) {
-					qbt.Write(buffer, bsize);
-					x = 0; delete buffer;
-					buffer = new u64[xi];
+					x = 0;
 					s.Printf(result, rn);
 					sQNo->SetLabel(s);
 					pbQAct->SetValue(rj);
-				}
-			} else { m += qn; } k++;
+				} use = false;
+			} oldData++;
 		}
 	} pbQAct->SetValue(re);
 	s.Printf(result, rn);
 	sQNo->SetLabel(s);
 	QCompareD->Clear(); l = qn + 1;
 	QCompareD->Append(wxT("Dump"));
-	for (i = 1;i < (l + 1);i++) {
+	for (i = 1;i < l;i++) {
 		s.Printf(wxT("Search %i"), i);
 		QCompareD->Append(s);
 	} QCompareD->Select(l);
-	if (x > 0) {
-		qbt.Write(buffer, bsize); x = 0;
-	} delete ramA; delete buffer; qn++;
+	if (j > 0) {
+		qbt.Write(buff, bsize); x = 0;
+	} qn++; delete oldbuff; oldbuff = buff;
+	oldb = l; oldbl = sizeof(buff);
 	qbf.Close(); qbt.Close();
-	QSet(qn, 0);
-	ramA = OldA(qn); xi = sizeof(ramA) / 8;
+	xi = oldbl;
 	if (xi < 100) {
 		ClearGrid(RG);
-		delete ramO;
-		ramO = OldV8(qn);
+		ClearGridCols(RG);
 		const wxChar* hexv = wxT("%02X");
-		for (x = 0;x < xi;x++) {
+		const wxChar* hexa = wxT("%08X");
+		for (x = 0;x < xi;x += 2) {
 			RG->AppendRows(1, false);
-			s.Printf(hexv, ramA[x]);
+			RG->AppendCols(2, false);
+			s.Printf(hexa, oldbuff[x]);
 			RG->SetCellValue(x, 0, s);
-		} int c;
-		for (c = 1, i = 0;c < qn;c++, i++) {
-			for (x = 0;x < xi;x++) {
-				s.Printf(hexv, ramO[i + x]);
-				RG->SetCellValue(x, c, s);
+			s.Printf(hexa, oldbuff[x + 1]);
+			RG->SetCellValue(x, 1, s);
+		} int c, tmp = qn - 5;
+		if (tmp < 0) { tmp = 0; }
+		for (c = 2;qn > tmp;qn--, c++) {
+			delete ramV;
+			qbt.Close(); qbf.Close();
+			QSet(qn, 0); x = 0;
+			RG->AppendCols(1, false);
+			ramV = OldV(qn, false); l = qbf.Length() / sizeof(u64);
+			for (i = 0;(i < l && x < xi);i += 2) {
+				if (ramV[i] == oldbuff[x]) {
+					s.Printf(hexv, ramV[i + 1]);
+					RG->SetCellValue(x, c, s); x+=2;
+				}
 			}
 		}
-	} delete ramO;
+	} delete ramV;
 }
 void ME::Find16(u8 mode) {}
 void ME::Find32(u8 mode) {}

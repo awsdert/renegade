@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="release" />
-	<File name="GUIFrame.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="41790" topLine="1052" />
-	</File>
-	<File name="hexApp.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="356" topLine="12" />
-	</File>
-	<File name="hexApp.h" open="1" top="0" tabpos="3">
-		<Cursor position="418" topLine="6" />
-	</File>
-	<File name="hexMain.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="3285" topLine="79" />
+	<ActiveTarget name="debug" />
+	<File name="hexMain.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="3525" topLine="91" />
 	</File>
 	<File name="hexMain.h" open="1" top="0" tabpos="4">
-		<Cursor position="3952" topLine="114" />
+		<Cursor position="4106" topLine="106" />
 	</File>
 	<File name="qTab.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="4830" topLine="168" />
+		<Cursor position="4204" topLine="110" />
 	</File>
 	<File name="qTab.h" open="1" top="0" tabpos="2">
-		<Cursor position="628" topLine="0" />
+		<Cursor position="469" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

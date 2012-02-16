@@ -59,6 +59,7 @@ class ME: public HEXFRM {
 		xStr GARN(u8 r);
 		bool GART(u8 r);
 		void ClearGrid(wxGrid*& grid);
+		void ClearGridCols(wxGrid*& grid);
 		u32 GARS(u8 r);
 		u32 GARM(u8 r);
 		u64 getHEX(xStr s);
@@ -117,8 +118,9 @@ class ME: public HEXFRM {
 		bool Test(int mode, u64 value, u64 against);
 		bool Test(int mode, u64 value, u64 from, u64 to);
 		void QSet(int q, int size);
-		u64* OldA(int sn);
-		u8* OldV8(int sn);
+		u64* OldV(int sn, bool update = true);
+		u64* oldbuff; int oldb;
+		u64* newbuff; int oldbl;
 		void Dump8(void);
 		void Dump16(void);
 		void Dump32(void);

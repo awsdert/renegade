@@ -89,6 +89,8 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	// HTFT = true; // Hack Tree is being used for first time
 	rdi = DBRoot(); rti = HTRoot(); HDTI = PS2;
 	PFD->SetSelection(PS2); // Set default profile list
+	// Buffers are clear
+	oldb = -1; oldbl = -1;
 } ME::~ME() {}
 int ME::getAppLen(void) { return appLen; }
 u64 ME::getHEX(xStr s) {
@@ -100,6 +102,10 @@ u64 ME::getHEX(xStr s) {
 void ME::ClearGrid(wxGrid*& grid) {
 	int l = grid->GetNumberRows();
 	if (l > 0) { grid->DeleteRows(0, l, false); }
+}
+void ME::ClearGridCols(wxGrid*& grid) {
+	int l = grid->GetNumberCols();
+	if (l > 0) { grid->DeleteCols(0, l, false); }
 }
 void ME::addApp(int row, xStr id, xStr app, xStr title) {
 	int i = row; appLen = i;
