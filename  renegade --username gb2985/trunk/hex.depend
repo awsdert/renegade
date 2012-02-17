@@ -3719,7 +3719,7 @@
 	<windows.h>
 	<tlhelp32.h>
 
-1329413832 z:\hex\svn\trunk\hexmain.h
+1329469886 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/textfile.h>
 	<wx/dir.h>
@@ -4230,7 +4230,7 @@
 1329157312 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
-1329414772 source:z:\hex\svn\trunk\qtab.cpp
+1329468858 source:z:\hex\svn\trunk\qtab.cpp
 	"hexMain.h"
 	"qTab.h"
 
