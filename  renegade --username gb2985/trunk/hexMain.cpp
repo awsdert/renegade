@@ -90,7 +90,7 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	rdi = DBRoot(); rti = HTRoot(); HDTI = PS2;
 	PFD->SetSelection(PS2); // Set default profile list
 	// Buffers are clear
-	oldb = -1; oldbl = -1;
+	oldSearchNo = -1; oldLength = 0;
 } ME::~ME() {}
 int ME::getAppLen(void) { return appLen; }
 u64 ME::getHEX(xStr s) {
@@ -120,7 +120,7 @@ void ME::addApp(int row, xStr id, xStr app, xStr title) {
 }
 HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
 // Get RAM Data
-xStr ME::GARAM(u8 r, u8 c) { return RAMG->GetCellValue(r, c); }
-bool ME::GART(u8 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
-u32 ME::GARS(u8 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
-u32 ME::GARM(u8 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size
+xStr ME::GARAM(int r, int c) { return RAMG->GetCellValue(r, c); }
+bool ME::GART(int r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
+DWORD ME::GARS(int r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
+u32 ME::GARM(int r) { return getHEX(GARAM(r, 3)); } // Get RAM Size

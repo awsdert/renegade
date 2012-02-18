@@ -16,6 +16,8 @@
 #include "hexApp.h"
 #include "GUIFrame.h"
 #include "hexVar.h"
+#define BLANK(blank_argument)
+#define ReadWriteApp HANDLE appHandle, DWORD xAddress, u64 size
 // DB = Database List, HT = Hack Tree
 enum TESTM { TM_FALSE = 0,
 	TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_INSIDE = 0x8,
@@ -57,13 +59,13 @@ class ME: public HEXFRM {
 		wxFile qbf, qbt;
 		// hexMain.cpp
 		HANDLE GAP(void);
-		xStr GARAM(u8 r, u8 c);
-		xStr GARN(u8 r);
-		bool GART(u8 r);
+		xStr GARAM(int r, int c);
+		xStr GARN(int r);
+		bool GART(int r);
 		void ClearGrid(wxGrid*& grid);
 		void ClearGridCols(wxGrid*& grid);
-		u32 GARS(u8 r);
-		u32 GARM(u8 r);
+		DWORD GARS(int r);
+		u32 GARM(int r);
 		u64 getHEX(xStr s);
 		int getAppLen(void);
         void addApp(int row, xStr id, xStr app, xStr title);
@@ -120,8 +122,7 @@ class ME: public HEXFRM {
 		TESTM Test(u16 mode, u64 value, u64 against, u64 to = 0);
 		void QSet(int q, int size, bool overwrite = true);
 		u64* OldV(int sn, bool update = true);
-		u64* oldbuff; int oldb;
-		u64* newbuff; int oldbl;
+		u64 *oldBuff, *newBuff; int oldSearchNo; u64 oldLength;
 		void Dump8(void);
 		void Dump16(void);
 		void Dump32(void);
@@ -180,13 +181,13 @@ class ME: public HEXFRM {
 		void HTChange(xTID& i);
 		int HCRow, HCRows;
 		void HCLoad(void);
-		void HCWrite(HANDLE p, DWORD x, int s, DWORD v);
-		xStr HCRead(HANDLE p, DWORD x, int s);
-		DWORD HCReadH(HANDLE p, DWORD x, int s);
-		u8* HCReadM8(HANDLE p, DWORD x, u64 s);
-		u16* HCReadM16(HANDLE p, DWORD x, u64 s);
-		u32* HCReadM32(HANDLE p, DWORD x, u64 s);
-		u64* HCReadM64(HANDLE p, DWORD x, u64 s);
+		void HCWrite(ReadWriteApp, DWORD v);
+		xStr HCRead(ReadWriteApp);
+		DWORD HCReadH(ReadWriteApp);
+		u8* HCReadM8(ReadWriteApp);
+		u16* HCReadM16(ReadWriteApp);
+		u32* HCReadM32(ReadWriteApp);
+		u64* HCReadM64(ReadWriteApp);
 		// HC.cpp
 		// - Hack Tab
 		// - - Hack Codelist

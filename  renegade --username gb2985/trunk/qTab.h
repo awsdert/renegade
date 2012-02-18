@@ -1,38 +1,43 @@
 #ifndef QTAB_H
 #define QTAB_H
-#define BLANK(blank_argument)
 #define DUMP1 BLANK(0) \
-	u64 re = GARM(0), qn = 0; \
-	u32 x = 0, xi = ceil(re / 100); \
-	if (xi % 2 > 0) { xi++; } \
-	DWORD ram = GARS(0), rj; \
-	if (oldb > -1) { delete oldbuff; } \
-	u64 i, l = (qs == 1) ? re : ceil(re / qs), j; \
-	u64 *buff = new u64[re * 2], bsize = sizeof(u64) * (re * 2); \
-	xStr s; HANDLE p = GAP(); \
-	const wxChar *nofr = wxT("Results: %i"); \
-	bsize = sizeof(u64) * xi;
+	const wxChar* resultText = wxT("Results: %i"); \
+	HANDLE appHandle = GAP(); \
+	DWORD ramAddress = GARS(0); \
+	u64 rmSize = GARM(0);
 #define DUMP2 BLANK(0) \
-	for (i = 0, rj = 0, j = 0;i < l;i++,rj += qs) { \
-		buff[j] = rj; x++; j++; \
-		buff[j + 1] = ramBuffer[i]; x++; j++; \
-		if (x == xi) { \
-			qbt.Write(buff, bsize); \
-			pbQAct->SetValue(rj); \
-			s.Printf(nofr, i); \
-			sQNo->SetLabel(s); x = 0; \
+	u64 i = 0; \
+	u64 resultNo = 0; \
+	u64 xLength = (valSize == 1) ? rmSize : ceil(rmSize / valSize); \
+	u64 resultTotal = ceil(xLength / 100); \
+	u64 newIndex = 0; \
+	u64 address = 0; \
+	if (oldSearchNo > -1) { delete oldBuff; } \
+	newBuff = new u64[rmSize * 2]; \
+	xStr text; \
+	for ( ;i < xLength; i++, address += valSize ) \
+	{ \
+		resultNo++; \
+		newBuff[newIndex] = address; newIndex++; \
+		newBuff[newIndex] = ramBuff[i]; newIndex++; \
+		if ( resultNo == resultTotal ) \
+		{ \
+			resultTotal += resultTotal; \
+			pbQAct->SetValue(address); \
+			text.Printf(resultText, resultNo); \
+			sQNo->SetLabel(text); \
 		} \
-	} oldbuff = buff; oldb = 0; oldbl = re * 2; \
-	if (x > 0) { \
-		qbt.Write(buff, bsize); \
-		pbQAct->SetValue(rj); \
-		s.Printf(nofr, l + 1); \
-		sQNo->SetLabel(s); \
-	} QCompareD->Clear(); l = qn + 1; \
+	} \
+	qbt.Write( newBuff, newIndex ); \
+	pbQAct->SetValue( address ); \
+	text.Printf(resultText, resultNo); \
+	sQNo->SetLabel(text); \
+	oldBuff = new u64[newIndex]; \
+	oldLength = newIndex; \
+	for (i = 0;i < newIndex;i++) { oldBuff[i] = newBuff[i]; } \
+	delete newBuff; oldSearchNo = 0; \
+	QCompareD->Clear(); \
 	QCompareD->Append(wxT("Dump")); \
-	const wxChar* fin = wxT("Search %i"); \
-	for (i = 1;i < (l + 1);i++) { \
-		s.Printf(fin, i); \
-		QCompareD->Append(s); \
-	} QCompareD->Select(l);
+	QCompareD->Append(wxT("Search 1")); \
+	QCompareD->Select(1);
 #endif

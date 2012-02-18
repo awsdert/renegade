@@ -48,6 +48,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-march=athlon64" />
 			<Add option="-Wall" />
 			<Add option="-pipe" />
 			<Add option="-mthreads" />

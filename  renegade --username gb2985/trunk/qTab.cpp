@@ -13,7 +13,7 @@
 #include "hexMain.h"
 #include "qTab.h"
 TESTM ME::Test(u16 mode, u64 value, u64 against, u64 to) {
-	u64& v = value, a = against, t = to;
+	u64 v = value, a = against, t = to;
 	TESTM rf = TM_FALSE, rt = TM_TRUE;
 	switch(mode) {
 	case TM_EQUAL: return (v == a) ? rt : rf;
@@ -55,125 +55,216 @@ void ME::QSet(int q, int size, bool overwrite) {
 	} else { qbt.Open(s); }
 }
 void ME::Dump8(void) {
-	int qs = sizeof(u8);
-	DUMP1; u8 *ramBuffer = HCReadM8(p, ram, l); DUMP2;
+	const wxChar* resultText = wxT("Results: %i");
+	int valSize = sizeof(u8);
+	HANDLE appHandle = GAP();
+	// RAM
+	DWORD ramAddress = GARS(0);
+	u64 rmSize = GARM(0);
+	u8* ramBuff = HCReadM8(appHandle, ramAddress, rmSize);
+	u64 i = 0;
+	// Results
+	u64 resultNo = 0;
+	u64 xLength = (valSize == 1) ? rmSize : ceil(rmSize / valSize);
+	u64 resultTotal = ceil(xLength / 100);
+	// Code
+	u64 newIndex = 0;
+	u64 address = 0;
+	if (oldSearchNo > -1) { delete oldBuff; }
+	newBuff = new u64[rmSize * 2];
+	xStr text;
+	for ( ;i < xLength; i++, address += valSize )
+	{
+		resultNo++;
+		newBuff[newIndex] = address; newIndex++;
+		newBuff[newIndex] = ramBuff[i]; newIndex++;
+		if ( resultNo == resultTotal )
+		{
+			resultTotal += resultTotal;
+			pbQAct->SetValue(address);
+			text.Printf(resultText, resultNo);
+			sQNo->SetLabel(text);
+		}
+	}
+	qbt.Write( newBuff, newIndex );
+	pbQAct->SetValue( address );
+	text.Printf(resultText, resultNo);
+	sQNo->SetLabel(text);
+	oldBuff = new u64[newIndex];
+	oldLength = newIndex;
+	for (i = 0;i < newIndex;i++) { oldBuff[i] = newBuff[i]; }
+	delete newBuff; oldSearchNo = 0;
+	QCompareD->Clear();
+	QCompareD->Append(wxT("Dump"));
+	QCompareD->Append(wxT("Search 1"));
+	QCompareD->Select(1);
 }
 void ME::Dump16(void) {
-	int qs = sizeof(u16);
-	DUMP1; u16 *ramBuffer = HCReadM16(p, ram, l); DUMP2;
+	int valSize = sizeof(u16);
+	DUMP1; u16* ramBuff = HCReadM16(appHandle, ramAddress, rmSize); DUMP2;
 }
 void ME::Dump32(void) {
-	int qs = sizeof(u32);
-	DUMP1; u32 *ramBuffer = HCReadM32(p, ram, l); DUMP2;
+	int valSize = sizeof(u32);
+	DUMP1; u32* ramBuff = HCReadM32(appHandle, ramAddress, rmSize); DUMP2;
 }
 void ME::Dump64(void) {
-	int qs = sizeof(u64);
-	DUMP1; u64 *ramBuffer = HCReadM64(p, ram, l); DUMP2;
+	int valSize = sizeof(u64);
+	DUMP1; u64* ramBuff = HCReadM64(appHandle, ramAddress, rmSize); DUMP2;
 }
 u64* ME::OldV(int sn, bool update) {
-	u64* buff;
-	if (sn == oldb + 1) {
-		buff = new u64[oldbl];
-		for (int i = 0;i < oldbl;i++)
-			{ buff[i] = oldbuff[i]; }
+	u64* buff; u64 i;
+	if (sn == oldSearchNo + 1) {
+		buff = new u64[oldLength];
+		for (i = 0;i < oldLength;i++)
+			{ buff[i] = oldBuff[i]; }
 		return buff;
 	} int vs = sizeof(u64);
-	int bi, bp = 2;
-	u64 bj, bl = qbf.Length() / vs;
+	int bp = 2; u64 len = qbf.Length();
+	u64 bj, bl = len / vs;
 	buff = new u64[bl];
-	for (bi = 0, bj = 0;bj < bl;bj++, bi += bp) {
+	for (i = 0, bj = 0;bj < bl;bj++, i += bp) {
 		qbf.Read(&buff[bj], vs); bj++;
 		qbf.Read(&buff[bj], vs);
 	}
 	if (update) {
-		if (oldb > -1) { delete oldbuff; }
-		oldb = sn; oldbl = bl; oldbuff = buff;
+		if (oldSearchNo > -1) { delete oldBuff; }
+		oldSearchNo = sn; oldLength = bl; oldBuff = buff;
 	} return buff;
 }
 void ME::Find8(u8 mode) {
-	HANDLE p = GAP();
-	int qs = sizeof(u8);
-	int qn = QCompareD->GetSelection(), i, l, x = 0, xi;
-	u64 rmSize = GARM(0), rn = 0, rj, j = 0;
-	DWORD ramS = GARS(0); xi = ceil(rmSize / 10);
-	if (xi % 2 > 0) { xi++; }
-	bool use = true; l = (qs == 1) ? rmSize : ceil(rmSize / qs);
-	TESTM vMode = TM_EQUAL, tm = TM_FALSE;
-	xStr s, s1, s2; //s.Printf(wxT("%d"), qn); MB(s);
-	const wxChar *result = wxT("Results: %i");
-	u64* ramV = OldV(qn);
-	delete oldbuff;
-	u8 *ramB = HCReadM8(p, ramS, rmSize);
-	u64 *buff = new u64[rmSize * 2];
-	pbQAct->SetRange(rmSize);
-	pbQAct->SetValue(0);
-	s.Printf(result, 0);
-	sQNo->SetLabel(s); //int oldItem = qn - 1, nextItem;
-	s2.Printf(wxT("%08X"), ramV[0]);
-	int oldData = 0;
-	for (rj = 0, i = 0;oldData < oldbl;rj += qs, i++) { // rj = Address, i = buffer index, qs = value size
-		if (rj == ramV[oldData]) {
-			oldData++;
-			if (use) {
-				tm = Test(vMode, ramB[i], ramV[oldData]);
-			} else { tm = TM_TRUE; }
-			if (tm == TM_TRUE) {
-				rn++; x++; // result number
-				buff[j] = rj; j++; // Set Address
-				buff[j] = ramB[i]; j++;
-				if (x == xi) {
-					x = 0;
-					s.Printf(result, rn);
-					sQNo->SetLabel(s);
-					pbQAct->SetValue(rj);
-				} tm = TM_FALSE;
-			} oldData++;
-		}
-	} pbQAct->SetValue(rmSize);
-	s.Printf(result, rn);
-	sQNo->SetLabel(s);
-	QCompareD->Clear(); l = qn + 1;
-	QCompareD->Append(wxT("Dump"));
-	for (i = 1;i < (l + 1);i++) {
-		s.Printf(wxT("Search %i"), i);
-		QCompareD->Append(s);
-	} QCompareD->Select(l);
-	if (j > 0) {
-		qbt.Write(buff, j); x = 0;
-	} oldbuff = buff;
-	oldb = qn; oldbl = j; xi = j;
-	//qbf.Close(); qbt.Close();
-	delete ramB;
-	if (j > 0 && j < 100) {
-		ClearGrid(RG);
-		ClearGridCols(RG);
-		s.Printf(wxT("%i"), j); MB(s);
-		const wxChar* hexv = wxT("%02X");
-		const wxChar* hexa = wxT("%08X");
-		for (x = 0;x < xi;x += 2) {
-			RG->AppendRows(1, false);
-			RG->AppendCols(2, false);
-			s.Printf(hexa, oldbuff[x]);
-			RG->SetCellValue(x, 0, s);
-			s.Printf(hexv, oldbuff[x + 1]);
-			RG->SetCellValue(x, 1, s);
-		} int c, tmp = qn - 5, k;
-		if (tmp < 0) { tmp = 0; }
-		for (c = 2, k = qn;k > tmp;k--, c++) {
-			delete ramV;
-			qbt.Close(); qbf.Close();
-			QSet(k, 0, false); x = 0;
-			RG->AppendCols(1, false);
-			ramV = OldV(k, false);
-			l = qbf.Length() / sizeof(u64);
-			for (i = 0;(i < l && x < xi);i += 2) {
-				if (ramV[i] == oldbuff[x]) {
-					s.Printf(hexv, ramV[i + 1]);
-					RG->SetCellValue(x, c, s); x+=2;
+	int varSize = sizeof( u8 );
+	const wxChar* resultText = wxT( "Results: %i" );
+	const wxChar* searchText = wxT( "Search %i" );
+	HANDLE appHandle = GAP();
+	int searchNo = QCompareD->GetSelection();
+	u64 oldIndex = 0;
+	xStr text;
+	// RAM
+	DWORD ramAddress = GARS( 0 ); // Number indicates which RAM, implimented later
+	u64 rmSize = GARM( 0 );
+	u64 ramIndex = 0;
+	u64 address = 0;
+	// Result
+	u64 resultTotal = ceil( rmSize / 10 );
+	u64 resultNo = 0;
+	// New Buffer
+	u64 newIndex = 0;
+	u64 newBuffLength = ( varSize == 1 ) ? rmSize : ceil(rmSize / varSize);
+	// Test modes
+	TESTM vMode = TM_EQUAL; // Will impliment control usage later
+	TESTM testResult = TM_FALSE;
+	// Buffers
+	u64* buff = OldV(searchNo, false);
+	delete oldBuff;
+	u8* ramBuff = HCReadM8( appHandle, ramAddress, rmSize );
+	newBuff = new u64[ newBuffLength * 2 ];
+	// Code
+	text.Printf( resultText, 0 );
+	pbQAct->SetRange( rmSize );
+	pbQAct->SetValue( 0 );
+	sQNo->SetLabel( text );
+	u64 testRAM, testBuffer;
+	for (;oldIndex < oldLength;address += varSize, ramIndex++)
+	{
+		testBuffer = buff[oldIndex];
+		if (address == testBuffer )
+		{
+			oldIndex++;
+			testRAM = ramBuff[ramIndex];
+			if (vMode != TM_FALSE)
+			{
+				testResult = Test(vMode, ramBuff[ramIndex], buff[oldIndex]);
+				testResult = (testResult) ? Test(TM_NOTE, ramBuff[ramIndex], 0xFF) : testResult;
+				testResult = (testResult) ? Test(TM_NOTE, ramBuff[ramIndex], 0) : testResult;
+			}
+			else
+			{
+				testResult = TM_TRUE;
+			}
+			if (testResult)
+			{
+				resultNo++;
+				newBuff[newIndex] = address; newIndex++;
+				newBuff[newIndex] = ramBuff[ ramIndex ]; newIndex++;
+				if ( resultNo == resultTotal )
+				{
+					resultTotal += resultTotal;
+					text.Printf( resultText, resultNo );
+					sQNo->SetLabel( text );
+					pbQAct->SetValue( address );
+					//s.Printf(wxT("%02X, %d\n%02X, %d"), ramB[i], i, ramV[oldData], oldData); MB(s);
 				}
+				testResult = TM_FALSE;
+			}
+			oldIndex++;
+		}
+	}
+	delete ramBuff;
+	text.Printf(resultText, resultNo);
+	pbQAct->SetValue(rmSize);
+	sQNo->SetLabel(text);
+	QCompareD->Clear();
+	u64 xLength = searchNo + 1;
+	u64 xIndex;
+	QCompareD->Append(wxT("Dump"));
+	for (xIndex = 1;xIndex < (xLength + 1);xIndex++)
+	{
+		text.Printf(searchText, xIndex);
+		QCompareD->Append(text);
+	}
+	QCompareD->Select( xLength );
+	delete buff;
+	oldBuff = new u64[ newIndex ];
+	for (ramIndex = 0;ramIndex < newIndex;ramIndex++)
+	{
+		oldBuff[ramIndex] = newBuff[ramIndex];
+	}
+	delete newBuff;
+	oldSearchNo = searchNo;
+	oldLength = newIndex;
+	resultTotal = newIndex;
+	if ( newIndex > 0 )
+	{
+		qbt.Write( oldBuff, newIndex );
+		if ( newIndex < 100 )
+		{
+			ClearGrid(RG);
+			ClearGridCols(RG);
+			const wxChar* ramValueText = wxT( "%02X" );
+			const wxChar* ramAddressText = wxT( "%08X" );
+			int c, tmp = searchNo - 5, k;
+			tmp = ( tmp < 0 ) ? 0 : tmp;
+			RG->AppendCols( 2, false );
+			for ( oldIndex = 0;oldIndex < newIndex;oldIndex += 2 )
+			{
+				RG->AppendRows(1, false);
+				text.Printf( ramAddressText, oldBuff[ oldIndex ] );
+				RG->SetCellValue( oldIndex, 0, text );
+				text.Printf( ramValueText, oldBuff[ oldIndex + 1 ] );
+				RG->SetCellValue( oldIndex, 1, text );
+			}
+			for ( c = 2, k = searchNo;k > tmp;k--, c++ )
+			{
+				qbf.Close();
+				qbt.Close();
+				QSet( k, 0, false );
+				RG->AppendCols( 1, false );
+				buff = OldV( k, false );
+				xLength = qbf.Length() / sizeof( u64 );
+				oldIndex = 0;
+				for ( xIndex = 0;( xIndex < xLength && oldIndex < newIndex );xIndex += 2 )
+				{
+					if ( buff[ xIndex ] == oldBuff[ oldIndex ] )
+					{
+						text.Printf( ramValueText, buff[ xIndex + 1 ] );
+						RG->SetCellValue( oldIndex, c, text );
+						oldIndex += 2;
+					}
+				}
+				delete buff;
 			}
 		}
-	} delete ramV;
+	}
 }
 void ME::Find16(u8 mode) {}
 void ME::Find32(u8 mode) {}
