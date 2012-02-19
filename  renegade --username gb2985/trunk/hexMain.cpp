@@ -91,8 +91,24 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	PFD->SetSelection(PS2); // Set default profile list
 	// Buffers are clear
 	oldSearchNo = -1; oldLength = 0;
+	// Find Tab
+	TMU.SetCount(TMU_LENGTH);
+	TMU[TMU_EQUAL] = _("Equal To");
+	TMU[TMU_NOTE] = _("Not Equal To");
+	TMU[TMU_GT] = _("Greater Than");
+	TMU[TMU_GTE] = _("Greater Than or Equal To");
+	TMU[TMU_LT] = _("Less Than");
+	TMU[TMU_LTE] = _("Less Than or Equal To");
+	TMU[TMU_INSIDE] = _("Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
+	TMU[TMU_OUTSIDE] = _("Not Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
+	useTest_D->Clear();
+	for ( i = 0; i < TMU_LENGTH; i++ )
+	{
+		useTest_D->Append( TMU[ i ] );
+	}
+	useTest_D->Select(0);
 } ME::~ME() {}
-int ME::getAppLen(void) { return appLen; }
+s32 ME::getAppLen(void) { return appLen; }
 u64 ME::getHEX(xStr s) {
 	unsigned long v;
 	s = (!s) ? wxT("00000000") : s;
@@ -100,15 +116,15 @@ u64 ME::getHEX(xStr s) {
 	return (u64)v;
 }
 void ME::ClearGrid(wxGrid*& grid) {
-	int l = grid->GetNumberRows();
+	s32 l = grid->GetNumberRows();
 	if (l > 0) { grid->DeleteRows(0, l, false); }
 }
 void ME::ClearGridCols(wxGrid*& grid) {
-	int l = grid->GetNumberCols();
+	s32 l = grid->GetNumberCols();
 	if (l > 0) { grid->DeleteCols(0, l, false); }
 }
-void ME::addApp(int row, xStr id, xStr app, xStr title) {
-	int i = row; appLen = i;
+void ME::addApp(s32 row, xStr id, xStr app, xStr title) {
+	s32 i = row; appLen = i;
 	if (i > -1) {
 		APPG->AppendRows(1);
 		APPG->SetCellValue(i, 0, app);
@@ -120,7 +136,7 @@ void ME::addApp(int row, xStr id, xStr app, xStr title) {
 }
 HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
 // Get RAM Data
-xStr ME::GARAM(int r, int c) { return RAMG->GetCellValue(r, c); }
-bool ME::GART(int r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
-DWORD ME::GARS(int r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
-u32 ME::GARM(int r) { return getHEX(GARAM(r, 3)); } // Get RAM Size
+xStr ME::GARAM(s32 r, s32 c) { return RAMG->GetCellValue(r, c); }
+bool ME::GART(s32 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
+DWORD ME::GARS(s32 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
+u32 ME::GARM(s32 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size

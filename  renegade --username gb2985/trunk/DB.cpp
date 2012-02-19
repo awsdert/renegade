@@ -137,14 +137,35 @@ void ME::DBAdd(xStr s, DBI* cv) {
 	DB->SelectItem(di); dl++;
 }
 void ME::DBAddBClick(wxCommandEvent& event) { DBAdd(); }
-void ME::DBFileTOnKeyD(wxKeyEvent& event) {
-	int k = event.GetKeyCode();
-	wxChar c = event.GetUnicodeKey();
-	xStr s = wxT("01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ (-)"), t;
-	t = s.Lower();
-	if (k == 8 || k == WXK_DELETE || k == WXK_INSERT ||
-		(k >= 35 && k <= 40) || k > 255) { event.Skip(); }
-	else if (s.Contains(c) || t.Contains(c)) {
-		DBFileT->WriteText(c);
+void ME::validateFileName(wxKeyEvent& event)
+{
+	s32 key = event.GetKeyCode();
+	wxChar txt = key;
+	bool doEvent = false;
+	xStr text = txt;
+	text = text.Upper();
+	xStr checkName = wxT( "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ (-)" ), t;
+	if ( key > 255 || checkName.Contains( text ) )
+	{
+		doEvent = true;
 	}
+	else
+	{
+		switch ( key )
+		{
+			case WXK_BACK:
+			case WXK_DELETE:
+			case WXK_INSERT:
+			case WXK_LEFT:
+			case WXK_RIGHT:
+			case WXK_UP:
+			case WXK_DOWN:
+				doEvent = true;
+		}
+	}
+	event.Skip(doEvent);
+}
+void ME::DBFileTOnKeyD(wxKeyEvent& event)
+{
+	validateFileName(event);
 }

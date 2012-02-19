@@ -27,7 +27,7 @@ bool hexApp::OnInit() {
 #ifdef WIN32
 BOOL CALLBACK listApps(HWND hwnd, LPARAM AL) {
 	if (IsWindowVisible(hwnd)) {
-		int a = frame->appLen++;
+		s32 a = frame->appLen++;
 		xStr s1, s2, s3;
 		TCHAR t[MAXCHAR];
 		DWORD pid;

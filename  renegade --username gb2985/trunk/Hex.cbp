@@ -76,6 +76,7 @@
 		<Unit filename="HC.cpp" />
 		<Unit filename="HCC.cpp" />
 		<Unit filename="HT.cpp" />
+		<Unit filename="TXT_Events.cpp" />
 		<Unit filename="app.cpp" />
 		<Unit filename="eTab.cpp" />
 		<Unit filename="hTab.cpp" />

@@ -24,7 +24,7 @@ class CL {
 		L = Code Lines
 		F = Fixed Address?
 	*/
-		int l;
+		s32 l;
 		u8 t, s, r, m;
 		u16 j;
 		u32 x, v, i;
@@ -53,6 +53,6 @@ class HACK: public wxTreeItemData {
 		xAStr cPart2;
 		xAInt cLines;
 		xAInt sLines;
-		int GetLen();
+		s32 GetLen();
 };
 #endif

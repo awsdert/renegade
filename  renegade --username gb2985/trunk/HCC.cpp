@@ -4,10 +4,10 @@
 #include "hexMain.h"
 #include <math.h>
 // Analyse the code string/s
-CL ME::HCSet(HACK* h, int row) {
+CL ME::HCSet(HACK* h, s32 row) {
 	CL code;
 	if (h->GetLen() > 0) {
-		int l = h->cLines[row], i = row, il = h->cLines.GetCount();
+		s32 l = h->cLines[row], i = row, il = h->cLines.GetCount();
 		u8 t, s, r, tl;
 		u16 j0 = 0, j1, j2, j3, i1, i2;
 		u32 x = 0, d1 = 0, d2 = 0, d3 = 0, d4 = 0, d7 = 0, v = 0;
@@ -100,8 +100,9 @@ void ME::HCAddBOnClick(wxCommandEvent& event) {
 		s = st.GetNextToken();
 		if (p1) { da1.Add(s); p1 = false; }
 		else { da2.Add(s); p1 = true; }
-	} unsigned int t0, ct, cs, rows = 1, cr = (unsigned int)HCRN->GetValue(); bool t3 = HCRC->GetValue();
-	int l = d->GetLen();
+	} u32 t0, ct, cs, rows = 1, cr = (u32)HCRN->GetValue();
+	bool t3 = HCRC->GetValue();
+	s32 l = d->GetLen();
 	u32 d0 = getHEX(s1), d1 = 0, d2 = getHEX(s2), d3 = getHEX(HCVT->GetValue()), d4 = 0, d5 = 0, d6 = 0;
 	u32 v2 = 0;
 	t0 = HCRAMD->GetSelection();
@@ -159,7 +160,7 @@ void ME::HCAddBOnClick(wxCommandEvent& event) {
 	d->cLines.Add(rows);
 	l++;
 	if (ct == 5) {
-		unsigned int i, j = 1, l1 = da1.GetCount(), l2 = da2.GetCount(), x, x2, x3;
+		u32 i, j = 1, l1 = da1.GetCount(), l2 = da2.GetCount(), x, x2, x3;
 		switch (cs) {
 		case 3:
 		case 2: x2 = 2; s = wxT("00000000"); break;

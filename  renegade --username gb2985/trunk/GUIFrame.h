@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 30 2011)
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __GUIFRAME_H__
-#define __GUIFRAME_H__
+#ifndef __GUIFrame__
+#define __GUIFrame__
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -88,54 +88,52 @@ class HEXFRM : public wxFrame
 		wxButton* bQActNE;
 		wxButton* bQActGTE;
 		wxButton* bQActGT;
-		wxChoice* QTypeD;
-		wxStaticText* sQNo;
-		wxStaticText* sQV1;
-		wxTextCtrl* tQV1;
-		wxStaticText* sQV2;
-		wxTextCtrl* tQV2;
-		wxScrolledWindow* m_scrolledWindow2;
-		wxCheckBox* m_checkBox8;
-		wxStaticText* m_staticText24;
-		wxCheckBox* m_checkBox9;
-		wxStaticText* m_staticText25;
-		wxCheckBox* m_checkBox10;
-		wxStaticText* m_staticText26;
-		wxCheckBox* m_checkBox11;
-		wxTextCtrl* m_textCtrl15;
-		wxCheckBox* m_checkBox12;
-		wxTextCtrl* m_textCtrl16;
-		wxStaticText* m_staticText27;
-		wxTextCtrl* m_textCtrl17;
-		wxCheckBox* m_checkBox13;
-		wxTextCtrl* m_textCtrl161;
-		wxStaticText* m_staticText271;
-		wxTextCtrl* m_textCtrl171;
-		wxCheckBox* m_checkBox14;
-		wxTextCtrl* m_textCtrl22;
-		wxCheckBox* m_checkBox15;
-		wxTextCtrl* m_textCtrl23;
-		wxCheckBox* m_checkBox18;
-		wxTextCtrl* m_textCtrl24;
-		wxCheckBox* m_checkBox19;
-		wxTextCtrl* m_textCtrl25;
-		wxCheckBox* m_checkBox20;
-		wxTextCtrl* m_textCtrl162;
-		wxStaticText* m_staticText272;
-		wxTextCtrl* m_textCtrl172;
-		wxCheckBox* m_checkBox21;
-		wxTextCtrl* m_textCtrl1621;
-		wxStaticText* m_staticText2721;
-		wxTextCtrl* m_textCtrl1721;
-		wxCheckBox* m_checkBox22;
-		wxTextCtrl* m_textCtrl1622;
-		wxStaticText* m_staticText2722;
-		wxTextCtrl* m_textCtrl1722;
-		wxCheckBox* m_checkBox23;
-		wxTextCtrl* m_textCtrl1623;
-		wxStaticText* m_staticText2723;
-		wxTextCtrl* m_textCtrl1723;
-		wxCheckBox* m_checkBox24;
+		wxChoice* useTest_D;
+		wxCheckBox* isSigned_CB;
+		wxStaticText* result_S;
+		wxStaticText* value1_S;
+		wxTextCtrl* value1_TXT;
+		wxStaticText* value2_S;
+		wxTextCtrl* value2_TXT;
+		wxStaticText* ignore_S;
+		wxScrolledWindow* ignore_SW;
+		wxCheckBox* ignore0_CB;
+		wxCheckBox* ignoreF_CB;
+		wxCheckBox* ignoreValue_CB;
+		wxTextCtrl* ignoreValue_TXT;
+		wxCheckBox* ignoreInside_CB;
+		wxTextCtrl* ignoreInsideFrom_TXT;
+		wxStaticText* ignoreInside_S;
+		wxTextCtrl* ignoreInsideTo_TXT;
+		wxCheckBox* ignoreOutside_CB;
+		wxTextCtrl* ignoreOutsideFrom_TXT;
+		wxStaticText* ignoreOutside_S;
+		wxTextCtrl* ignoreOutsideTo_TXT;
+		wxCheckBox* ignorePart8_CB;
+		wxTextCtrl* ignorePart8_TXT;
+		wxCheckBox* ignorePart16_CB;
+		wxTextCtrl* ignorePart16_TXT;
+		wxCheckBox* ignorePart32_CB;
+		wxTextCtrl* ignorePart32_TXT;
+		wxCheckBox* ignorePart64_CB;
+		wxTextCtrl* ignorePart64_TXT;
+		wxCheckBox* ignorePart8Range_CB;
+		wxTextCtrl* ignorePart8RangeFrom_TXT;
+		wxStaticText* ignorePart8Range_S;
+		wxTextCtrl* ignorePart8RangeTo_TXT;
+		wxCheckBox* ignorePart16Range_CB;
+		wxTextCtrl* ignorePart16RangeFrom_TXT;
+		wxStaticText* ignorePart16Range_S;
+		wxTextCtrl* ignorePart16RangeTo_TXT;
+		wxCheckBox* ignorePart32Range_CB;
+		wxTextCtrl* ignorePart32RangeFrom_TXT;
+		wxStaticText* ignorePart32Range_S;
+		wxTextCtrl* ignorePart32RangeTo_TXT;
+		wxCheckBox* ignorePart64Range_CB;
+		wxTextCtrl* ignorePart64RangeFrom_TXT;
+		wxStaticText* ignorePart64Range_S;
+		wxTextCtrl* ignorePart64RangeTo_TXT;
+		wxCheckBox* ignoreAddressOutside_CB;
 		wxTextCtrl* m_textCtrl1624;
 		wxStaticText* m_staticText2724;
 		wxTextCtrl* m_textCtrl1724;
@@ -230,7 +228,6 @@ class HEXFRM : public wxFrame
 		virtual void HEXFORMCLOSE( wxCloseEvent& event ) { event.Skip(); }
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
 		virtual void PFOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void PFDOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void PFOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFOnSwitch( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFGetOnClick( wxCommandEvent& event ) { event.Skip(); }
@@ -248,6 +245,7 @@ class HEXFRM : public wxFrame
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bQActSOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void value1_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }
@@ -285,4 +283,4 @@ class HEXFRM : public wxFrame
 	
 };
 
-#endif //__GUIFRAME_H__
+#endif //__GUIFrame__

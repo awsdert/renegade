@@ -9,7 +9,7 @@ void ME::HCHook(void) {
 	if (p != NULL) { HCUse(r, p); }
 	else { HWB = 0; }
 }
-//DWORD FlipAddress(DWORD x, int s = 0, int e = 0) {
+//DWORD FlipAddress(DWORD x, s32 s = 0, s32 e = 0) {
 	// 0 = LITTLE_ENDIAN_SYS
 	// 2 = BIG_ENDIAN
 	// 1 = LITTLE_ENDIAN_BIG_SYS
@@ -60,19 +60,19 @@ u64* ME::HCReadM64(ReadWriteApp) {
 	FlipAddress;
 	ReadAddress;
 }
-void ME::HCUse(xTID& r, HANDLE p, int j, int stop) {
+void ME::HCUse(xTID& r, HANDLE p, s32 j, s32 stop) {
 	HACK* h = getIH(r);
 	DWORD ram = GARS(0), xa, xv;
-	u32 rv; int j2, j3 = 0; bool ut, uc = true;
+	u32 rv; s32 j2, j3 = 0; bool ut, uc = true;
 	if (h->use && r.IsOk()) {
-		int s, l = h->GetLen(), k; CL c; xStr t, t2;
+		s32 s, l = h->GetLen(), k; CL c; xStr t, t2;
 		xTID i; xTIDV v;
 		// Use CL
 		if (stop > 0) { uc = false; }
 		else { stop = l; }
 		while (j < stop) {
 			c = HCSet(h, j);
-			s = (int)c.s;
+			s = (s32)c.s;
 			xa = ram + c.x;
 			switch (c.t) {
 			case 0x01: // Copy
@@ -160,14 +160,14 @@ void ME::HCUChange(void) {
 void ME::HCUOnChange(wxCommandEvent& event) { HCUChange(); }
 void ME::HCDelBOnClick(wxCommandEvent& event) {}
 void ME::HCRCOnChange(wxCommandEvent& event) {
-	int i = HCCD->GetSelection();
+	s32 i = HCCD->GetSelection();
 	if (i != 2 && i != 5) {
 		bool r = HCRC->GetValue();
 		HCAW->Show(r);
 	} HCP->Layout();
 }
 void ME::HCCDOnChange(wxCommandEvent& event) {
-	int i = HCCD->GetSelection();
+	s32 i = HCCD->GetSelection();
 	bool r = HCRC->GetValue();
 	if (r) {
 		if (i == 2 || i == 5) { HCAW->Hide(); }
@@ -183,7 +183,7 @@ void ME::HCCDOnChange(wxCommandEvent& event) {
 	HCP->Layout();
 }
 void ME::HCChangeD(wxGridEvent& event) {
-	int c = event.GetCol(), r = event.GetRow();
+	s32 c = event.GetCol(), r = event.GetRow();
 	xStr d = HCG->GetCellValue(r, c);
 	xTID i = HT->GetSelection();
 	HACK* h = (HACK*)HT->GetItemData(i);
@@ -196,26 +196,26 @@ void ME::HCChangeD(wxGridEvent& event) {
 	}
 }
 void ME::HCLoad(void) {}
-void ME::HCChange(int r) {
+void ME::HCChange(s32 r) {
 	if (r != HCRow) {
 		if (r < HCRow || (r > HCRow + HCRows)) {
 			xStr s = HCG->GetCellValue(r, 2);
-			long int v;
+			signed long int v;
 			while (r > 0) {
 				if (s.Cmp(wxT("0")) != 0) { break; }
 				r--; s = HCG->GetCellValue(r, 2);
 			} s.ToLong(&v, 10);
-			HCRows = (int)v;
+			HCRows = (s32)v;
 			HCRow = r;
 			HCLoad();
 		}
 	}
 }
 void ME::HCChangeC(wxGridEvent& event) {
-	int r = event.GetRow();
+	s32 r = event.GetRow();
 	HCChange(r); event.Skip();
 }
 void ME::HCChangeR(wxGridEvent& event) {
-	int r = event.GetRow();
+	s32 r = event.GetRow();
 	HCChange(r); event.Skip();
 }

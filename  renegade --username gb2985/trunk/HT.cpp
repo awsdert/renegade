@@ -88,7 +88,7 @@ void ME::HTLoad(void) {
 xStr ME::HTLoad(xTID& r, xStr s) {
 	xTID i, p; u16 k = 0, n;
 	xStr s1, s2, s3, t; xStrT st;
-	int xl; u8 m = 2, sl; bool use = false;
+	s32 xl; u8 m = 2, sl; bool use = false;
 	HACK *d = new HACK, *h = getIH(r), *ph; ph = h;
 	while (!htf.Eof()) {
 		switch (m) {
@@ -126,7 +126,7 @@ xStr ME::HTLoad(xTID& r, xStr s) {
 					s1 = st.GetNextToken();
 					xl = (u8)getHEX(s1);
 					s1 = st.GetNextToken();
-					sl = (int)getHEX(s1);
+					sl = (s32)getHEX(s1);
 				} else { xl = 0; sl = 0; }
 				s1 = s.SubString(0, 7);
 				s2 = s.SubString(9, 16);
@@ -168,11 +168,11 @@ void ME::HTSave(void) {
 	} htf.Write(wxTextFileType_Dos); htf.Close();
 }
 u16 ME::HTSave(xTID& r, u16 j, u16 l) {
-	xTID i; int tmp;
+	xTID i; s32 tmp;
 	xTIDV v;
 	xStr s, t; u16 m = j;
 	HACK* h = (HACK*)HT->GetItemData(r);
-	DBI* d = (DBI*)DB->GetItemData(di); int k;
+	DBI* d = (DBI*)DB->GetItemData(di); s32 k;
 	t.Printf(wxT("%i"), h->use);
 	s << wxT("\"") << HT->GetItemText(r) << wxT("\"") << t;
 	htf.AddLine(s, wxTextFileType_Dos); s.Clear();
@@ -190,9 +190,9 @@ u16 ME::HTSave(xTID& r, u16 j, u16 l) {
 		i = HT->GetNextChild(r, v);
 	} return j;
 }
-xTID ME::HTAdd(xTID& r, xStr l, int where,
+xTID ME::HTAdd(xTID& r, xStr l, s32 where,
 	xTID& i, HACK d) { return HTAdd(r, l, where, i, &d); }
-xTID ME::HTAdd(xTID& r, xStr l, int where, xTID& i, HACK* d) {
+xTID ME::HTAdd(xTID& r, xStr l, s32 where, xTID& i, HACK* d) {
 	xTID c;
 	switch (where) {
 	case 0: c = HT->PrependItem(r, l); break;
@@ -219,11 +219,11 @@ HACK* ME::newH(void) {
 	d->hid = HTJ; HTJ++;
 	return d;
 }
-xTID ME::HTAdd(xTID& r, xStr l, int where,
+xTID ME::HTAdd(xTID& r, xStr l, s32 where,
 	xTID& i) { HACK* d = newH(); return HTAdd(r, l, where, i, d); }
-xTID ME::HTAdd(xTID& r, xStr l, int where,
+xTID ME::HTAdd(xTID& r, xStr l, s32 where,
 	HACK d) { xTID i; return HTAdd(r, l, where, i, d); }
-xTID ME::HTAdd(xTID& r, xStr l, int where) {
+xTID ME::HTAdd(xTID& r, xStr l, s32 where) {
 	xTID i; HACK* d = newH(); return HTAdd(r, l, where, i, d); }
 void ME::HTDel(xTID& i) {
 	xTID c; xTIDV v;
@@ -234,7 +234,7 @@ void ME::HTDel(xTID& i) {
 	HT->Delete(i);
 }
 void ME::HTDelAll(void) { HT->CollapseAndReset(rti); }
-int ME::HTCount(xTID& r) { return HT->GetChildrenCount(r, false); }
+s32 ME::HTCount(xTID& r) { return HT->GetChildrenCount(r, false); }
 HACK* copyH(HACK* h, HACK* d) {
 	h->use = d->use;
 	h->cLines = d->cLines;
@@ -260,13 +260,13 @@ xTID ME::HTMove(xTID& r, xTID& nr) {
 	setIH(nr, h);
 	return nr;
 }
-void ME::HTMove(int direction) {
+void ME::HTMove(s32 direction) {
 	xTID c, i = ti, ni, p, r;
 	HWB = 0; u16 HJR = HTJ;
 	if (i == HTRoot()) { return; }
 	xStr s = HT->GetItemText(i), s2, s3 = wxT("(m)");
 	bool ir = (s.Cmp(s3) != 0) ? true : false;
-	int w = HTAddD->GetSelection();
+	s32 w = HTAddD->GetSelection();
 	r = HTRoot(i);
 	switch (direction) {
 	case 1: // Down

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 30 2011)
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -58,12 +58,6 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxStaticBoxSizer* PFL0;
 	PFL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Hook") ), wxVERTICAL );
 	
-	wxFlexGridSizer* PFL1;
-	PFL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	PFL1->AddGrowableCol( 0 );
-	PFL1->SetFlexibleDirection( wxBOTH );
-	PFL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
 	wxFlexGridSizer* PFL2;
 	PFL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
 	PFL2->AddGrowableCol( 0 );
@@ -95,9 +89,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	PFL2->Add( PFL3, 1, wxEXPAND, 5 );
 	
-	PFL1->Add( PFL2, 1, wxEXPAND, 5 );
-	
-	PFL0->Add( PFL1, 1, wxEXPAND, 5 );
+	PFL0->Add( PFL2, 1, wxEXPAND, 5 );
 	
 	bsHookScroll->Add( PFL0, 0, wxEXPAND|wxRIGHT, 5 );
 	
@@ -286,7 +278,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxFlexGridSizer* QL0;
 	QL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
 	QL0->AddGrowableCol( 0 );
-	QL0->AddGrowableRow( 1 );
+	QL0->AddGrowableRow( 2 );
 	QL0->SetFlexibleDirection( wxBOTH );
 	QL0->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -378,37 +370,47 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	QTypeL0->Add( QTypeL1, 1, wxEXPAND, 5 );
 	
-	wxString QTypeDChoices[] = { wxT("Known Value"), wxT("Known Value with *"), wxT("Greater than Value 1"), wxT("Greater than by Value 1"), wxT("Greater than by a maximum of Value 1") };
-	int QTypeDNChoices = sizeof( QTypeDChoices ) / sizeof( wxString );
-	QTypeD = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, QTypeDNChoices, QTypeDChoices, 0 );
-	QTypeD->SetSelection( 0 );
-	QTypeL0->Add( QTypeD, 0, wxALL, 5 );
+	wxString useTest_DChoices[] = { wxT("Known Value"), wxT("Known Value with *"), wxT("Greater than Value 1"), wxT("Greater than by Value 1"), wxT("Greater than by a maximum of Value 1") };
+	int useTest_DNChoices = sizeof( useTest_DChoices ) / sizeof( wxString );
+	useTest_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, useTest_DNChoices, useTest_DChoices, 0 );
+	useTest_D->SetSelection( 0 );
+	QTypeL0->Add( useTest_D, 0, wxALL, 5 );
 	
 	QL1->Add( QTypeL0, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer25;
 	bSizer25 = new wxBoxSizer( wxVERTICAL );
 	
-	sQNo = new wxStaticText( QP, wxID_ANY, wxT("Results: 0"), wxDefaultPosition, wxDefaultSize, 0 );
-	sQNo->Wrap( -1 );
-	bSizer25->Add( sQNo, 0, wxALL, 5 );
+	wxFlexGridSizer* fgSizer381;
+	fgSizer381 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer381->SetFlexibleDirection( wxBOTH );
+	fgSizer381->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	isSigned_CB = new wxCheckBox( QP, wxID_ANY, wxT("Signed"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer381->Add( isSigned_CB, 0, wxALL, 5 );
+	
+	result_S = new wxStaticText( QP, wxID_ANY, wxT("Results: 0"), wxDefaultPosition, wxDefaultSize, 0 );
+	result_S->Wrap( -1 );
+	fgSizer381->Add( result_S, 0, wxALL, 5 );
+	
+	bSizer25->Add( fgSizer381, 0, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer7;
 	sbSizer7 = new wxStaticBoxSizer( new wxStaticBox( QP, wxID_ANY, wxT("Value") ), wxHORIZONTAL );
 	
-	sQV1 = new wxStaticText( QP, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
-	sQV1->Wrap( -1 );
-	sbSizer7->Add( sQV1, 0, wxALL, 5 );
+	value1_S = new wxStaticText( QP, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
+	value1_S->Wrap( -1 );
+	sbSizer7->Add( value1_S, 0, wxALL, 5 );
 	
-	tQV1 = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer7->Add( tQV1, 1, wxALL, 5 );
+	value1_TXT = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer7->Add( value1_TXT, 1, wxALL, 5 );
 	
-	sQV2 = new wxStaticText( QP, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
-	sQV2->Wrap( -1 );
-	sbSizer7->Add( sQV2, 0, wxALL, 5 );
+	value2_S = new wxStaticText( QP, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	value2_S->Wrap( -1 );
+	sbSizer7->Add( value2_S, 0, wxALL, 5 );
 	
-	tQV2 = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer7->Add( tQV2, 1, wxALL, 5 );
+	value2_TXT = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer7->Add( value2_TXT, 1, wxALL, 5 );
 	
 	bSizer25->Add( sbSizer7, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
 	
@@ -416,194 +418,231 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	QL0->Add( QL1, 1, wxEXPAND, 5 );
 	
-	m_scrolledWindow2 = new wxScrolledWindow( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	m_scrolledWindow2->SetScrollRate( 0, 5 );
-	wxFlexGridSizer* fgSizer38;
-	fgSizer38 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer38->SetFlexibleDirection( wxBOTH );
-	fgSizer38->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	ignore_S = new wxStaticText( QP, wxID_ANY, wxT("Ignore result if..."), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_S->Wrap( -1 );
+	QL0->Add( ignore_S, 0, wxALL, 5 );
 	
-	m_checkBox8 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Signed"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox8, 0, wxALL, 5 );
+	ignore_SW = new wxScrolledWindow( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	ignore_SW->SetScrollRate( 0, 5 );
+	wxFlexGridSizer* ignore_L;
+	ignore_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	ignore_L->SetFlexibleDirection( wxBOTH );
+	ignore_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText24 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText24->Wrap( -1 );
-	fgSizer38->Add( m_staticText24, 0, wxALL, 5 );
+	ignore0_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is 0"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignore0_CB, 0, wxALL, 5 );
 	
-	m_checkBox9 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is 0"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox9, 0, wxALL, 5 );
+	ignoreF_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is FF"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreF_CB, 0, wxALL, 5 );
 	
-	m_staticText25 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText25->Wrap( -1 );
-	fgSizer38->Add( m_staticText25, 0, wxALL, 5 );
+	ignoreValue_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is Value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreValue_CB, 0, wxALL, 5 );
 	
-	m_checkBox10 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is FF etc"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox10, 0, wxALL, 5 );
+	ignoreValue_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreValue_TXT, 0, wxALL, 5 );
 	
-	m_staticText26 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText26->Wrap( -1 );
-	fgSizer38->Add( m_staticText26, 0, wxALL, 5 );
+	ignoreInside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreInside_CB, 0, wxALL, 5 );
 	
-	m_checkBox11 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox11, 0, wxALL, 5 );
+	wxBoxSizer* ignoreInside_L;
+	ignoreInside_L = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_textCtrl15 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_textCtrl15, 0, wxALL, 5 );
+	ignoreInsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreInside_L->Add( ignoreInsideFrom_TXT, 0, wxALL, 5 );
 	
-	m_checkBox12 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox12, 0, wxALL, 5 );
+	ignoreInside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreInside_S->Wrap( -1 );
+	ignoreInside_L->Add( ignoreInside_S, 0, wxALL, 5 );
 	
-	wxBoxSizer* bSizer6;
-	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
+	ignoreInsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreInside_L->Add( ignoreInsideTo_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl16 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_textCtrl16, 0, wxALL, 5 );
+	ignore_L->Add( ignoreInside_L, 1, wxEXPAND, 5 );
 	
-	m_staticText27 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText27->Wrap( -1 );
-	bSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	ignoreOutside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreOutside_CB, 0, wxALL, 5 );
 	
-	m_textCtrl17 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_textCtrl17, 0, wxALL, 5 );
+	wxBoxSizer* ignoreOutside_L;
+	ignoreOutside_L = new wxBoxSizer( wxHORIZONTAL );
 	
-	fgSizer38->Add( bSizer6, 1, wxEXPAND, 5 );
+	ignoreOutsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreOutside_L->Add( ignoreOutsideFrom_TXT, 0, wxALL, 5 );
 	
-	m_checkBox13 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is not between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox13, 0, wxALL, 5 );
+	ignoreOutside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreOutside_S->Wrap( -1 );
+	ignoreOutside_L->Add( ignoreOutside_S, 0, wxALL, 5 );
 	
-	wxBoxSizer* bSizer61;
-	bSizer61 = new wxBoxSizer( wxHORIZONTAL );
+	ignoreOutsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreOutside_L->Add( ignoreOutsideTo_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl161 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer61->Add( m_textCtrl161, 0, wxALL, 5 );
+	ignore_L->Add( ignoreOutside_L, 1, wxEXPAND, 5 );
 	
-	m_staticText271 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText271->Wrap( -1 );
-	bSizer61->Add( m_staticText271, 0, wxALL, 5 );
+	ignorePart8_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a CHAR value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8_CB->Enable( false );
 	
-	m_textCtrl171 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer61->Add( m_textCtrl171, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart8_CB, 0, wxALL, 5 );
 	
-	fgSizer38->Add( bSizer61, 1, wxEXPAND, 5 );
+	ignorePart8_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8_TXT->Enable( false );
 	
-	m_checkBox14 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a CHAR value"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox14, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart8_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl22 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_textCtrl22, 0, wxALL, 5 );
+	ignorePart16_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a WORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16_CB->Enable( false );
 	
-	m_checkBox15 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a WORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox15, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart16_CB, 0, wxALL, 5 );
 	
-	m_textCtrl23 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_textCtrl23, 0, wxALL, 5 );
+	ignorePart16_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16_TXT->Enable( false );
 	
-	m_checkBox18 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a DWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox18, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart16_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl24 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_textCtrl24, 0, wxALL, 5 );
+	ignorePart32_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a DWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32_CB->Enable( false );
 	
-	m_checkBox19 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a QWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox19, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart32_CB, 0, wxALL, 5 );
 	
-	m_textCtrl25 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_textCtrl25, 0, wxALL, 5 );
+	ignorePart32_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32_TXT->Enable( false );
 	
-	m_checkBox20 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a CHAR range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox20, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart32_TXT, 0, wxALL, 5 );
 	
-	wxBoxSizer* bSizer62;
-	bSizer62 = new wxBoxSizer( wxHORIZONTAL );
+	ignorePart64_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a QWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64_CB->Enable( false );
 	
-	m_textCtrl162 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer62->Add( m_textCtrl162, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart64_CB, 0, wxALL, 5 );
 	
-	m_staticText272 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText272->Wrap( -1 );
-	bSizer62->Add( m_staticText272, 0, wxALL, 5 );
+	ignorePart64_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64_TXT->Enable( false );
 	
-	m_textCtrl172 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer62->Add( m_textCtrl172, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart64_TXT, 0, wxALL, 5 );
 	
-	fgSizer38->Add( bSizer62, 1, wxEXPAND, 5 );
+	ignorePart8Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a CHAR range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8Range_CB->Enable( false );
 	
-	m_checkBox21 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a WORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox21, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart8Range_CB, 0, wxALL, 5 );
 	
-	wxBoxSizer* bSizer621;
-	bSizer621 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* ignorePart8Range_L;
+	ignorePart8Range_L = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_textCtrl1621 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer621->Add( m_textCtrl1621, 0, wxALL, 5 );
+	ignorePart8RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8RangeFrom_TXT->Enable( false );
 	
-	m_staticText2721 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2721->Wrap( -1 );
-	bSizer621->Add( m_staticText2721, 0, wxALL, 5 );
+	ignorePart8Range_L->Add( ignorePart8RangeFrom_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl1721 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer621->Add( m_textCtrl1721, 0, wxALL, 5 );
+	ignorePart8Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8Range_S->Wrap( -1 );
+	ignorePart8Range_S->Enable( false );
 	
-	fgSizer38->Add( bSizer621, 1, wxEXPAND, 5 );
+	ignorePart8Range_L->Add( ignorePart8Range_S, 0, wxALL, 5 );
 	
-	m_checkBox22 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a DWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox22, 0, wxALL, 5 );
+	ignorePart8RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart8RangeTo_TXT->Enable( false );
 	
-	wxBoxSizer* bSizer622;
-	bSizer622 = new wxBoxSizer( wxHORIZONTAL );
+	ignorePart8Range_L->Add( ignorePart8RangeTo_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl1622 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer622->Add( m_textCtrl1622, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart8Range_L, 1, wxEXPAND, 5 );
 	
-	m_staticText2722 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2722->Wrap( -1 );
-	bSizer622->Add( m_staticText2722, 0, wxALL, 5 );
+	ignorePart16Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a WORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16Range_CB->Enable( false );
 	
-	m_textCtrl1722 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer622->Add( m_textCtrl1722, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart16Range_CB, 0, wxALL, 5 );
 	
-	fgSizer38->Add( bSizer622, 1, wxEXPAND, 5 );
+	wxBoxSizer* ignorePart16Range_L;
+	ignorePart16Range_L = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_checkBox23 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result is part of a QWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox23, 0, wxALL, 5 );
+	ignorePart16RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16RangeFrom_TXT->Enable( false );
 	
-	wxBoxSizer* bSizer623;
-	bSizer623 = new wxBoxSizer( wxHORIZONTAL );
+	ignorePart16Range_L->Add( ignorePart16RangeFrom_TXT, 0, wxALL, 5 );
 	
-	m_textCtrl1623 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer623->Add( m_textCtrl1623, 0, wxALL, 5 );
+	ignorePart16Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16Range_S->Wrap( -1 );
+	ignorePart16Range_S->Enable( false );
 	
-	m_staticText2723 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2723->Wrap( -1 );
-	bSizer623->Add( m_staticText2723, 0, wxALL, 5 );
+	ignorePart16Range_L->Add( ignorePart16Range_S, 0, wxALL, 5 );
 	
-	m_textCtrl1723 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer623->Add( m_textCtrl1723, 0, wxALL, 5 );
+	ignorePart16RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart16RangeTo_TXT->Enable( false );
 	
-	fgSizer38->Add( bSizer623, 1, wxEXPAND, 5 );
+	ignorePart16Range_L->Add( ignorePart16RangeTo_TXT, 0, wxALL, 5 );
 	
-	m_checkBox24 = new wxCheckBox( m_scrolledWindow2, wxID_ANY, wxT("Ignore if result address is not between"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer38->Add( m_checkBox24, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart16Range_L, 1, wxEXPAND, 5 );
 	
-	wxBoxSizer* bSizer624;
-	bSizer624 = new wxBoxSizer( wxHORIZONTAL );
+	ignorePart32Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a DWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32Range_CB->Enable( false );
 	
-	m_textCtrl1624 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer624->Add( m_textCtrl1624, 0, wxALL, 5 );
+	ignore_L->Add( ignorePart32Range_CB, 0, wxALL, 5 );
 	
-	m_staticText2724 = new wxStaticText( m_scrolledWindow2, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxBoxSizer* ignorePart32Range_L;
+	ignorePart32Range_L = new wxBoxSizer( wxHORIZONTAL );
+	
+	ignorePart32RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32RangeFrom_TXT->Enable( false );
+	
+	ignorePart32Range_L->Add( ignorePart32RangeFrom_TXT, 0, wxALL, 5 );
+	
+	ignorePart32Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32Range_S->Wrap( -1 );
+	ignorePart32Range_S->Enable( false );
+	
+	ignorePart32Range_L->Add( ignorePart32Range_S, 0, wxALL, 5 );
+	
+	ignorePart32RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart32RangeTo_TXT->Enable( false );
+	
+	ignorePart32Range_L->Add( ignorePart32RangeTo_TXT, 0, wxALL, 5 );
+	
+	ignore_L->Add( ignorePart32Range_L, 1, wxEXPAND, 5 );
+	
+	ignorePart64Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a QWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64Range_CB->Enable( false );
+	
+	ignore_L->Add( ignorePart64Range_CB, 0, wxALL, 5 );
+	
+	wxBoxSizer* ignorePart64Range_L;
+	ignorePart64Range_L = new wxBoxSizer( wxHORIZONTAL );
+	
+	ignorePart64RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64RangeFrom_TXT->Enable( false );
+	
+	ignorePart64Range_L->Add( ignorePart64RangeFrom_TXT, 0, wxALL, 5 );
+	
+	ignorePart64Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64Range_S->Wrap( -1 );
+	ignorePart64Range_S->Enable( false );
+	
+	ignorePart64Range_L->Add( ignorePart64Range_S, 0, wxALL, 5 );
+	
+	ignorePart64RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignorePart64RangeTo_TXT->Enable( false );
+	
+	ignorePart64Range_L->Add( ignorePart64RangeTo_TXT, 0, wxALL, 5 );
+	
+	ignore_L->Add( ignorePart64Range_L, 1, wxEXPAND, 5 );
+	
+	ignoreAddressOutside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Ignore if result address is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignore_L->Add( ignoreAddressOutside_CB, 0, wxALL, 5 );
+	
+	wxBoxSizer* ignoreAddressOutside_L;
+	ignoreAddressOutside_L = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_textCtrl1624 = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreAddressOutside_L->Add( m_textCtrl1624, 0, wxALL, 5 );
+	
+	m_staticText2724 = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2724->Wrap( -1 );
-	bSizer624->Add( m_staticText2724, 0, wxALL, 5 );
+	ignoreAddressOutside_L->Add( m_staticText2724, 0, wxALL, 5 );
 	
-	m_textCtrl1724 = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer624->Add( m_textCtrl1724, 0, wxALL, 5 );
+	m_textCtrl1724 = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreAddressOutside_L->Add( m_textCtrl1724, 0, wxALL, 5 );
 	
-	fgSizer38->Add( bSizer624, 1, wxEXPAND, 5 );
+	ignore_L->Add( ignoreAddressOutside_L, 1, wxEXPAND, 5 );
 	
-	m_scrolledWindow2->SetSizer( fgSizer38 );
-	m_scrolledWindow2->Layout();
-	fgSizer38->Fit( m_scrolledWindow2 );
-	QL0->Add( m_scrolledWindow2, 1, wxEXPAND | wxALL, 5 );
+	ignore_SW->SetSizer( ignore_L );
+	ignore_SW->Layout();
+	ignore_L->Fit( ignore_SW );
+	QL0->Add( ignore_SW, 1, wxEXPAND | wxALL, 5 );
 	
 	QP->SetSizer( QL0 );
 	QP->Layout();
@@ -1302,7 +1341,6 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
 	PFD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	PFD->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::PFDOnBlur ), NULL, this );
 	PFB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
 	PFR->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
 	PFGetB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
@@ -1320,6 +1358,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
+	value1_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value1_TXTOnKeyDown ), NULL, this );
 	EAB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
@@ -1353,7 +1392,6 @@ HEXFRM::~HEXFRM()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
 	PFD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	PFD->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::PFDOnBlur ), NULL, this );
 	PFB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
 	PFR->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
 	PFGetB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
@@ -1371,6 +1409,7 @@ HEXFRM::~HEXFRM()
 	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
+	value1_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value1_TXTOnKeyDown ), NULL, this );
 	EAB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );

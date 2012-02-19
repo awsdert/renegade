@@ -14,7 +14,7 @@ void ME::APPUSEOnClick(wxCommandEvent& event) {
 }
 void ME::bAddHackOnClick(wxCommandEvent& event) {
 	xTID i = HT->GetSelection(), p, r; HACK* d = new HACK;
-	xStr s; r = HTRoot(i); int w = HTAddD->GetSelection();
+	xStr s; r = HTRoot(i); s32 w = HTAddD->GetSelection();
 	if (HTAddC->GetValue() == false) {
 		s.Printf(wxT("New Hack %i"), HTCount(r));
 		HTAdd(r, s, w, i, d);
@@ -23,7 +23,6 @@ void ME::bAddHackOnClick(wxCommandEvent& event) {
 		HTAdd(i, s, w);
 	} HTChange();
 }
-void ME::PFOnChange(wxCommandEvent& event) { HDTI = PFD->GetSelection(); }
 void ME::bDelHackOnClick(wxCommandEvent& event) { HTDel(ti); }
 void ME::mWaitOnChange(wxCommandEvent& event) { AWB = HDT[APPCheck->GetSelection()]; }
 // Main Window
@@ -51,7 +50,7 @@ void ME::HEXFORMIDLE(wxIdleEvent& event) {
 }
 // - Hook Tab
 // - - Platfrom
-void ME::PFOnBlur(wxFocusEvent& event) { PFLoad(); }
+void ME::PFOnChange(wxCommandEvent& event) { PFLoad(); }
 void ME::PFOnClick(wxCommandEvent& event) { PFLoad(); }
 // - - App
 void ME::APPDOnChange(wxCommandEvent& event) {
@@ -74,7 +73,7 @@ void ME::EAOnClick(wxCommandEvent& event) { EA(); }
 void ME::EVOnClick(wxCommandEvent& event) { EV(); }
 void ME::EUOnChange(wxCommandEvent& event) { EWB = HDT[EUD->GetSelection()]; }
 void ME::EGOnChange(wxGridEvent& event) {
-	int r = event.GetRow(), c = event.GetCol();
+	s32 r = event.GetRow(), c = event.GetCol();
 	xStr s = EG->GetCellValue(r, 0);
 	if (c > 0) {
 		u32 i = getHEX(s) + GARS(0) + c - 1, v = getHEX(EG->GetCellValue(r, c));
@@ -98,7 +97,7 @@ void ME::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
 void ME::HTOnChangeSelT(wxTreeEvent& event) { ti = event.GetItem(); HTChange(); }
 void ME::HTOnKeyUp(wxKeyEvent& event) {
 	xTID r; xStr s;
-	int kc = event.GetKeyCode();
+	s32 kc = event.GetKeyCode();
 	if (event.ControlDown()) {
 		switch (kc) {
 		case WXK_SPACE:
@@ -126,7 +125,7 @@ void ME::HTOnKeyUp(wxKeyEvent& event) {
 }
 void ME::HTOnKeyDown(wxKeyEvent& event) {
 	xTID r; xTIDV v; xStr s;
-	int kc = event.GetKeyCode();
+	s32 kc = event.GetKeyCode();
 	if (!event.ControlDown()) {
 		switch (kc) {
 		case WXK_SPACE:

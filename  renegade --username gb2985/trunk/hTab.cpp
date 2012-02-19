@@ -3,9 +3,9 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 // Hook
-void ME::setAWait(int i) { AW = i; }
+void ME::setAWait(s32 i) { AW = i; }
 void ME::setApps(void) {
-	int i = APPG->GetNumberRows();
+	s32 i = APPG->GetNumberRows();
 	if (i > -1) {
 		APPG->DeleteRows(0, i, false);
 	} appLen = -1;
@@ -28,7 +28,7 @@ void ME::PFSet(void) {
 }
 void ME::PFLoad(void) {
 	HDTI = PFD->GetSelection(); PFSet();
-	u8 m = 0, i = 0, ram = 0; int l = -1;
+	u8 m = 0, i = 0, ram = 0; s32 l = -1;
 	APPD->Clear(); PFEA.Clear();
 	xStr s, t, x; xStrT st;
 	ClearGrid(RAMG);

@@ -10,6 +10,7 @@
 #ifndef HEXMAIN_H
 #define HEXMAIN_H
 #include <wx/filefn.h>
+#include <wx/ffile.h>
 #include <wx/textfile.h>
 #include <wx/dir.h>
 #include <wx/stdpaths.h>
@@ -19,9 +20,13 @@
 #define BLANK(blank_argument)
 #define ReadWriteApp HANDLE appHandle, DWORD xAddress, u64 size
 // DB = Database List, HT = Hack Tree
-enum TESTM { TM_FALSE = 0,
-	TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_INSIDE = 0x8,
-	TM_NOTE = 0x10, TM_LT = 0x20, TM_LTE = 0x40, TM_OUTSITE = 0x80, TM_TRUE };
+enum { TMU_EQUAL = 0x00000000, TMU_NOTE, TMU_GT, TMU_GTE, TMU_LT, TMU_LTE,
+	TMU_INSIDE, TMU_OUTSIDE, TMU_LENGTH };
+const u32 TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_INSIDE = 0x8,
+	TM_NOTE = 0x10, TM_LT = 0x20, TM_LTE = 0x40, TM_OUTSIDE = 0x80,
+	TM_00 = 0x100, TM_FF = 0x200;
+const xStr TMU_VAL1 = _(" Value 1");
+const xStr TMU_VAL2 = _(" Value 2");
 class ME: public HEXFRM {
     public:
         ME(wxFrame *frame);
@@ -35,16 +40,16 @@ class ME: public HEXFRM {
 		HACK* getIH(xTID& i);
 		void delI(xTID& i, xTID& ni);
 		void setIH(xTID& i, HACK* h);
-		int endian;
+		s32 endian;
 		xAStr DBFA, PFEA;
 		DWORD AI;
 		xStr AE;
 		wxLongLong AW, AWU, EW, EWU, HW, HWU;
-		int appLen, AWB, EWB, HWB;
+		s32 appLen, AWB, EWB, HWB;
 		u16 HTJ;
 		xStr treeFile, ht1, ht2, ht3, ht4;
 		xTID rti, ti, pti; // Root Item, Current Item, Previous Item
-		int dl; // List Count
+		s32 dl; // List Count
 		xTID rdi, di, pdi; // Root Item, Current Item, Previous Item
 		// - App Selection
 		xAInt appNum, appEnd;
@@ -57,18 +62,19 @@ class ME: public HEXFRM {
 		wxDir dir;
 		// - Search File
 		wxFile qbf, qbt;
+		xAStr TMU;
 		// hexMain.cpp
 		HANDLE GAP(void);
-		xStr GARAM(int r, int c);
-		xStr GARN(int r);
-		bool GART(int r);
+		xStr GARAM(s32 r, s32 c);
+		xStr GARN(s32 r);
+		bool GART(s32 r);
 		void ClearGrid(wxGrid*& grid);
 		void ClearGridCols(wxGrid*& grid);
-		DWORD GARS(int r);
-		u32 GARM(int r);
+		DWORD GARS(s32 r);
+		u32 GARM(s32 r);
 		u64 getHEX(xStr s);
-		int getAppLen(void);
-        void addApp(int row, xStr id, xStr app, xStr title);
+		s32 getAppLen(void);
+        void addApp(s32 row, xStr id, xStr app, xStr title);
 		// hexVar.cpp
 		HACK* newH(void);
 		// hexEvents.cpp
@@ -116,24 +122,33 @@ class ME: public HEXFRM {
 		void HCCDOnChange(wxCommandEvent& event); // Set type of codeline
 		void HCUOnChange(wxCommandEvent& event); // Use / Don't use hack
 		// HCC.cpp
-		CL HCSet(HACK* hack, int row);
+		CL HCSet(HACK* hack, s32 row);
 		void HCAddBOnClick(wxCommandEvent& event);
 		// qTab.cpp
-		TESTM Test(u16 mode, u64 value, u64 against, u64 to = 0);
-		void QSet(int q, int size, bool overwrite = true);
-		u64* OldV(int sn, bool update = true);
-		u64 *oldBuff, *newBuff; int oldSearchNo; u64 oldLength;
+		void validateValue(wxKeyEvent& event, u32 valMode = 0);
+		void validateFileName(wxKeyEvent& event);
+		void value1_TXTOnKeyDown(wxKeyEvent& event);
+		u64 value1, value2;
+		u32 GetTests(void);
+		u32 GetIgnore(void);
+		u32 GetIgnoreAddress(void);
+		bool Test(u32 mode, u64 value, u64 against, u64 to = 0);
+		void QSet(s32 q, s32 size, bool overwrite = true);
+		u64* OldV(s32 sn, bool update = true);
+		u64 *oldBuff, *newBuff;
+		s32 oldSearchNo;
+		u64 oldLength;
 		void Dump8(void);
 		void Dump16(void);
 		void Dump32(void);
 		void Dump64(void);
-		void Find8(u8 mode = 0);
-		void Find16(u8 mode = 0);
-		void Find32(u8 mode = 0);
-		void Find64(u8 mode = 0);
+		void Find8(u32 mode = 0);
+		void Find16(u32 mode = 0);
+		void Find32(u32 mode = 0);
+		void Find64(u32 mode = 0);
 		void bQActSOnClick(wxCommandEvent& event);
 		// hTab.cpp
-		void setAWait(int i);
+		void setAWait(s32 i);
 		void setApps(void);
 		// - Platform
 		void PFSet(void);
@@ -162,24 +177,24 @@ class ME: public HEXFRM {
 		u16 HTSave(xTID& r, u16 j, u16 l);
 		xTID HTRoot(void);
 		xTID HTRoot(xTID& i); // Get Parent or if invalid return the root
-		xTID HTAdd(xTID& r, xStr l, int where, xTID& i, HACK d);
-		xTID HTAdd(xTID& r, xStr l, int where, xTID& i, HACK* d);
-		xTID HTAdd(xTID& r, xStr l, int where, xTID& i);
-		xTID HTAdd(xTID& r, xStr l, int where, HACK d);
-		xTID HTAdd(xTID& r, xStr l, int where);
+		xTID HTAdd(xTID& r, xStr l, s32 where, xTID& i, HACK d);
+		xTID HTAdd(xTID& r, xStr l, s32 where, xTID& i, HACK* d);
+		xTID HTAdd(xTID& r, xStr l, s32 where, xTID& i);
+		xTID HTAdd(xTID& r, xStr l, s32 where, HACK d);
+		xTID HTAdd(xTID& r, xStr l, s32 where);
 		xTID HTFind(xTID& r, xStr l);
-		int HTCount(xTID& r);
+		s32 HTCount(xTID& r);
 		void HTSet(void);
 		void HCTest(CL code);
 		xTID HTFind(u16 j);
 		xTID HTFind(u16 j, xTID& r);
 		void HTDel(xTID& i);
 		void HTDelAll(void);
-		void HTMove(int direction);
+		void HTMove(s32 direction);
 		xTID HTMove(xTID& root, xTID& new_root);
 		void HTChange(void);
 		void HTChange(xTID& i);
-		int HCRow, HCRows;
+		s32 HCRow, HCRows;
 		void HCLoad(void);
 		void HCWrite(ReadWriteApp, DWORD v);
 		xStr HCRead(ReadWriteApp);
@@ -192,8 +207,8 @@ class ME: public HEXFRM {
 		// - Hack Tab
 		// - - Hack Codelist
 		void HCUChange(void);
-		void HCUse(xTID& r, HANDLE pid, int j = 0, int stop = 0);
+		void HCUse(xTID& r, HANDLE pid, s32 j = 0, s32 stop = 0);
 		void HCHook(void);
-		void HCChange(int r);
+		void HCChange(s32 r);
 };
 #endif

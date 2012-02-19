@@ -43,4 +43,4 @@ HACK::HACK(wxTreeItemData*) : wxTreeItemData() { hid = 0; use = false; }
 	cPart2.Empty();
 	cLines.Empty();
 }*/
-int HACK::GetLen() { return cPart1.GetCount(); }
+s32 HACK::GetLen() { return cPart1.GetCount(); }
