@@ -297,11 +297,11 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	QSizeS->Wrap( -1 );
 	QL2->Add( QSizeS, 0, wxALL, 5 );
 	
-	wxString QSizeDChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
-	int QSizeDNChoices = sizeof( QSizeDChoices ) / sizeof( wxString );
-	QSizeD = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, QSizeDNChoices, QSizeDChoices, 0 );
-	QSizeD->SetSelection( 0 );
-	QL2->Add( QSizeD, 0, wxALL, 5 );
+	wxString searchSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
+	int searchSize_DNChoices = sizeof( searchSize_DChoices ) / sizeof( wxString );
+	searchSize_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchSize_DNChoices, searchSize_DChoices, 0 );
+	searchSize_D->SetSelection( 0 );
+	QL2->Add( searchSize_D, 0, wxALL, 5 );
 	
 	QCompareS = new wxStaticText( QP, wxID_ANY, wxT("Compare To"), wxDefaultPosition, wxDefaultSize, 0 );
 	QCompareS->Wrap( -1 );

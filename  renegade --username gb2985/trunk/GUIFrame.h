@@ -75,7 +75,7 @@ class HEXFRM : public wxFrame
 		wxGrid* APPG;
 		wxPanel* QP;
 		wxStaticText* QSizeS;
-		wxChoice* QSizeD;
+		wxChoice* searchSize_D;
 		wxStaticText* QCompareS;
 		wxChoice* QCompareD;
 		wxButton* bQActD;

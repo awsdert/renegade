@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="release" />
-	<File name="hexMain.h" open="1" top="0" tabpos="2">
-		<Cursor position="2020" topLine="54" />
+	<File name="qTab.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="10229" topLine="355" />
 	</File>
-	<File name="qTab.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="2402" topLine="81" />
+	<File name="qTab.h" open="1" top="1" tabpos="2">
+		<Cursor position="2511" topLine="107" />
 	</File>
 </CodeBlocks_layout_file>

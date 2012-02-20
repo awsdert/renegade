@@ -92,13 +92,22 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	// Buffers are clear
 	oldSearchNo = -1; oldLength = 0;
 	// Find Tab
+	const xStr TMU_VAL1 = _(" Value 1");
+	const xStr TMU_VAL2 = _(" Value 2");
 	TMU.SetCount(TMU_LENGTH);
+	TMU[TMU_DUMP] = _( "Dump" );
 	TMU[TMU_EQUAL] = _("Equal To");
 	TMU[TMU_NOTE] = _("Not Equal To");
 	TMU[TMU_GT] = _("Greater Than");
 	TMU[TMU_GTE] = _("Greater Than or Equal To");
 	TMU[TMU_LT] = _("Less Than");
 	TMU[TMU_LTE] = _("Less Than or Equal To");
+	TMU[TMU_VEQUAL] = _("Equal To") + TMU_VAL1;
+	TMU[TMU_VNOTE] = _("Not Equal To") + TMU_VAL1;
+	TMU[TMU_VGT] = _("Greater Than") + TMU_VAL1;
+	TMU[TMU_VGTE] = _("Greater Than or Equal To") + TMU_VAL1;
+	TMU[TMU_VLT] = _("Less Than") + TMU_VAL1;
+	TMU[TMU_VLTE] = _("Less Than or Equal To") + TMU_VAL1;
 	TMU[TMU_INSIDE] = _("Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
 	TMU[TMU_OUTSIDE] = _("Not Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
 	useTest_D->Clear();

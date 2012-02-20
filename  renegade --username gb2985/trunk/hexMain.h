@@ -20,13 +20,12 @@
 #define BLANK(blank_argument)
 #define ReadWriteApp HANDLE appHandle, DWORD xAddress, u64 size
 // DB = Database List, HT = Hack Tree
-enum { TMU_EQUAL = 0x00000000, TMU_NOTE, TMU_GT, TMU_GTE, TMU_LT, TMU_LTE,
+enum { TMU_DUMP = 0x00000000, TMU_EQUAL, TMU_VEQUAL, TMU_NOTE, TMU_VNOTE,
+	TMU_GT, TMU_VGT, TMU_GTE, TMU_VGTE, TMU_LT, TMU_VLT, TMU_LTE, TMU_VLTE,
 	TMU_INSIDE, TMU_OUTSIDE, TMU_LENGTH };
 const u32 TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_INSIDE = 0x8,
 	TM_NOTE = 0x10, TM_LT = 0x20, TM_LTE = 0x40, TM_OUTSIDE = 0x80,
 	TM_00 = 0x100, TM_FF = 0x200;
-const xStr TMU_VAL1 = _(" Value 1");
-const xStr TMU_VAL2 = _(" Value 2");
 class ME: public HEXFRM {
     public:
         ME(wxFrame *frame);
@@ -34,6 +33,13 @@ class ME: public HEXFRM {
     private:
         virtual void HEXFORMCLOSE(wxCloseEvent& event);
 	public:
+		u64 value1, value2;
+		u64 ignoreF;
+		u64 ignoreValue;
+		u64 ignoreInsideFrom;
+		u64 ignoreInsideTo;
+		u64 ignoreOutsideFrom;
+		u64 ignoreOutsideTo;
 		// Globals
 		u8 HDTI; // Hook Time Index
 		xAInt HDT; // Hook Time Value List
@@ -128,8 +134,8 @@ class ME: public HEXFRM {
 		void validateValue(wxKeyEvent& event, u32 valMode = 0);
 		void validateFileName(wxKeyEvent& event);
 		void value1_TXTOnKeyDown(wxKeyEvent& event);
-		u64 value1, value2;
 		u32 GetTests(void);
+		u32 GetRest(void);
 		u32 GetIgnore(void);
 		u32 GetIgnoreAddress(void);
 		bool Test(u32 mode, u64 value, u64 against, u64 to = 0);
