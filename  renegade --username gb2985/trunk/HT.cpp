@@ -19,19 +19,16 @@ xTID ME::HTRoot(xTID& i) {
 	return c;
 }
 void ME::HTSet(void) {
-	xStr d = myDiv, p = wxGetCwd(), s;
+	xStr d = hexSlash, p = wxGetCwd(), s;
 	DBI* k = (DBI*)DB->GetItemData(di);
-	u8 i = HDTI;
-	if (i < 0) { i = PS2; }
-	p << d << wxT("db");
+	p << d + wxT("db");
 	dir.Open(p);
-	p << d << DBFA[i];
+	p << d + DBFA[HDTI];
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
-	s = p << d << k->afp << wxT(".hexcl");
-	if (!htf.Open(s)) {
+	s = p + d + k->afp + wxT(".hexcl");
+	if (!checkFile.Exists(s)) {
 		htf.Create(s);
-		htf.Open(s);
-	}
+	} htf.Open(s);
 }
 xTID ME::HTFind(u16 j) {
 	xTID r = HTRoot();

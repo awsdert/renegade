@@ -60,6 +60,7 @@
 	u64 newSize = 0; \
 	u64 newBuffLength = ( varSize == 1 ) ? rmSize : ceil( rmSize / varSize ); \
 	u32 valMode = GetTests(); \
+	u32 testMode = GetRest(); \
 	u32 ignoreMode = GetIgnore(); \
 	bool testResult = 0; \
 	u64* buff = OldV( searchNo ); \
@@ -158,41 +159,7 @@
 		qbt.Write( oldBuff, newSize ); \
 		if ( newIndex < 100 ) \
 		{ \
-			ClearGrid(RG); \
-			ClearGridCols(RG); \
-			const wxChar* ramValueText = wxT( "%02X" ); \
-			const wxChar* ramAddressText = wxT( "%08X" ); \
-			s32 c, tmp = searchNo - 5, k; \
-			tmp = ( tmp < 0 ) ? 0 : tmp; \
-			RG->AppendCols( 2, false ); \
-			for ( oldIndex = 0;oldIndex < newIndex;oldIndex += 2 ) \
-			{ \
-				RG->AppendRows(1, false); \
-				text.Printf( ramAddressText, oldBuff[ oldIndex ] ); \
-				RG->SetCellValue( oldIndex, 0, text ); \
-				text.Printf( ramValueText, oldBuff[ oldIndex + 1 ] ); \
-				RG->SetCellValue( oldIndex, 1, text ); \
-			} \
-			for ( c = 2, k = searchNo;k > tmp;k--, c++ ) \
-			{ \
-				qbf.Close(); \
-				qbt.Close(); \
-				QSet( k, 0, false ); \
-				RG->AppendCols( 1, false ); \
-				buff = OldV( k, false ); \
-				xLength = qbf.Length() / sizeof( u64 ); \
-				oldIndex = 0; \
-				for ( xIndex = 0;( xIndex < xLength && oldIndex < newIndex );xIndex += 2 ) \
-				{ \
-					if ( buff[ xIndex ] == oldBuff[ oldIndex ] ) \
-					{ \
-						text.Printf( ramValueText, buff[ xIndex + 1 ] ); \
-						RG->SetCellValue( oldIndex, c, text ); \
-						oldIndex += 2; \
-					} \
-				} \
-				delete [] buff; \
-			} \
+			showResults( searchNo, varSize ); \
 		} \
 	}
 #endif

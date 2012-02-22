@@ -12,15 +12,15 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 void ME::DBSet(void) {
-	xStr d = myDiv, p, s; p = wxGetCwd();
+	xStr d = hexSlash, p, s; p = wxGetCwd();
 	dir.Open(p);
-	p << d << wxT("db");
+	p << d + wxT("db");
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
-	s << p << d << DBFA[HDTI] << wxT(".hexdb");
-	if (!dbf.Open(s)) {
+	s << p + d + DBFA[HDTI] + wxT(".hexdb");
+	if (!checkFile.Exists(s)) {
 		dbf.Create(s);
-		dbf.Open(s);
 	}
+	dbf.Open(s);
 }
 void ME::DBLoad(void) {
 	DBSet();

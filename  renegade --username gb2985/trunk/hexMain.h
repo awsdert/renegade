@@ -40,6 +40,14 @@ class ME: public HEXFRM {
 		u64 ignoreInsideTo;
 		u64 ignoreOutsideFrom;
 		u64 ignoreOutsideTo;
+		void showResults( s32 searchNo, u32 valSize );
+		wxFile checkFile;
+		wxTextFile logFile;
+		xStr hexPath;
+		void PresetOnChange(void);
+		xStr hexSlash;
+		u64 logIndex;
+		void Log(xStr text, xStr title = wxT( "" ));
 		// Globals
 		u8 HDTI; // Hook Time Index
 		xAInt HDT; // Hook Time Value List
@@ -62,7 +70,6 @@ class ME: public HEXFRM {
 		xAStr appName, ramName, ramFixed, ramStart, ramSize;
 		// - File stuff
 		u8 getPF(xStr s);
-		wxChar myDiv; //bool HTFT;
 		wxStandardPaths myPaths;
 		wxTextFile pff, dbf, htf; // Platform File, DataBase, Hack Tree
 		wxDir dir;

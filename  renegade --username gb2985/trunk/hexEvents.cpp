@@ -54,19 +54,7 @@ void ME::PFOnChange(wxCommandEvent& event) { PFLoad(); }
 void ME::PFOnClick(wxCommandEvent& event) { PFLoad(); }
 // - - App
 void ME::APPDOnChange(wxCommandEvent& event) {
-	u8 ai = APPD->GetSelection();
-	u16 i, l = appEnd[ai], j; xStr s;
-	APPT->SetValue(appName[ai]);
-	ClearGrid(RAMG);
-	for (i = appNum[ai], j = 0;i < l;i++, j++) {
-		RAMG->AppendRows(1, false);
-		RAMG->SetCellValue(j, 0, ramName[i]);
-		RAMG->SetCellValue(j, 1, ramFixed[i]);
-		RAMG->SetCellValue(j, 2, ramStart[i]);
-		RAMG->SetCellValue(j, 3, ramSize[i]);
-		s.Printf(wxT("%X"), j); // ID to use in Codes
-		RAMG->SetRowLabelValue(i, s);
-	}
+ PresetOnChange();
 }
 // - Editor Tab
 void ME::EAOnClick(wxCommandEvent& event) { EA(); }
@@ -120,7 +108,7 @@ void ME::HTOnKeyUp(wxKeyEvent& event) {
 		case WXK_DOWN: HTMove(1); break;
 		case WXK_LEFT: HTMove(2); break;
 		case WXK_RIGHT: HTMove(3); break;
-		default: break; }
+		default: event.Skip(); break; }
 	}
 }
 void ME::HTOnKeyDown(wxKeyEvent& event) {
@@ -150,6 +138,6 @@ void ME::HTOnKeyDown(wxKeyEvent& event) {
 			r = HT->GetFirstChild(ti, v);
 			if (r) { HT->SelectItem(r); }
 		break;
-		default: break; }
+		default: event.Skip(); break; }
 	}
 }

@@ -38,9 +38,8 @@ xStr wxbuildinfo(wxbuildinfoformat format) {
 ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	u8 i, l; // Index, List
 	xAStr HSTR, OSNA; // Hook Time Label List
-	xStr s = wxGetCwd();
-	if (s.Find(wxT('\\'))) { myDiv = wxT('\\'); }
-	else { myDiv = wxT('/'); }
+	hexPath = wxGetCwd();
+	hexSlash = ( hexPath.Contains( wxT("\\") ) ) ? wxT("\\") : wxT("/");
     SB->SetStatusText(_("Hacker Tool"), 0);
     SB->SetStatusText(wxbuildinfo(long_f), 1);
 	HDT.Add(0); HSTR.Add(wxT("Never"));
@@ -79,6 +78,8 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	OSNA[NWII] = wxT("Nintendo Wii");
 	// Fill Platform Choice menu with choices
 	for (i = 0;i < HPFL;i++) { PFD->Append(OSNA[i]); }
+	PFD->SetSelection(PS2);
+	PFLoad();
 	dl = 0; appLen = -1; endian = 0;
 	// Time based variables
 	AW = 0; AWU = 0; AWB = 0; // Capture Windows variables
@@ -87,8 +88,8 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	// Hack Tree
 	HTJ = 0; // New Hack Item's ID (incremented after use, reset when loading file
 	// HTFT = true; // Hack Tree is being used for first time
-	rdi = DBRoot(); rti = HTRoot(); HDTI = PS2;
-	PFD->SetSelection(PS2); // Set default profile list
+	rdi = DBRoot(); rti = HTRoot();
+	// Set default profile list
 	// Buffers are clear
 	oldSearchNo = -1; oldLength = 0;
 	// Find Tab
@@ -123,6 +124,26 @@ u64 ME::getHEX(xStr s) {
 	s = (!s) ? wxT("00000000") : s;
 	s.ToULong(&v, 16);
 	return (u64)v;
+}
+void ME::Log(xStr text, xStr title)
+{
+	const wxChar* hexLogEntry = wxT( "Log Entry #%u" );
+	const xStr hexLogPath = hexPath + hexSlash + wxT("hex.log");
+	if ( !title )
+	{
+		title.Printf(hexLogEntry, logIndex);
+	}
+	if ( !checkFile.Exists( hexLogPath ) )
+	{
+		logFile.Create( hexLogPath );
+	}
+	else
+	{
+		logFile.Open( hexLogPath );
+	}
+	logFile.AddLine(title + wxT( ":" ) + text, wxTextFileType_Dos);
+	logFile.Write(wxTextFileType_Dos);
+	logFile.Close();
 }
 void ME::ClearGrid(wxGrid*& grid) {
 	s32 l = grid->GetNumberRows();

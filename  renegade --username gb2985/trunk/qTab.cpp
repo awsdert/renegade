@@ -83,7 +83,7 @@ void ME::QSet(s32 searchNo, s32 size, bool overwrite)
 {
 	xStr dirPath = wxGetCwd(), filePath, tmp;
 	//DBI* k = (DBI*)DB->GetItemData(di);
-	dirPath << myDiv << wxT( "find" );
+	dirPath += hexSlash + wxT( "find" );
 	if ( !dir.Exists( dirPath ) )
 	{
 		wxMkdir( dirPath );
@@ -96,13 +96,13 @@ void ME::QSet(s32 searchNo, s32 size, bool overwrite)
 		case 3: tmp = wxT( "QWORD" ); break;
 		default: tmp = wxT( "CHAR" );
 	}
-	dirPath << myDiv << tmp;
+	dirPath += hexSlash + tmp;
 	if ( !dir.Exists( dirPath ) )
 	{
 		wxMkdir( dirPath );
 	}
 	dir.Open( dirPath );
-	dirPath << myDiv;
+	dirPath << hexSlash;
 	if (searchNo > 0)
 	{
 		tmp.Printf( wxT( "search%02i.hexq" ), searchNo - 1);
@@ -283,16 +283,68 @@ u32 ME::GetIgnore(void)
 	}
 	return ignoreValues;
 }
+void ME::showResults( s32 searchNo, u32 valSize )
+{
+	ClearGrid(RG);
+	ClearGridCols(RG);
+	wxString text, tmp;
+	tmp.Printf( wxT( "%%0%iX" ), valSize * 2 );
+	const wxChar* ramValueText = tmp.data();
+	const wxChar* ramAddressText = wxT( "%08X" );
+	const wxChar* searchNoText = wxT( "Search %u" );
+	s32 c, until = searchNo - 5, k;
+	u64 oldIndex = 0, xIndex, xLength, row = 0;
+	until = ( until < 0 ) ? 0 : until;
+	RG->AppendCols( 2, false );
+	text.Printf( searchNoText, searchNo );
+	RG->SetColLabelValue( 0, wxT( "Address" ) );
+	RG->SetColLabelValue( 1, text );
+	for ( ; oldIndex < oldLength; oldIndex += 2, row++ )
+	{
+		RG->AppendRows(1, false);
+		text.Printf( ramAddressText, oldBuff[ oldIndex ] );
+		RG->SetCellValue( row, 0, text );
+		text.Printf( ramValueText, oldBuff[ oldIndex + 1 ] );
+		RG->SetCellValue( row, 1, text );
+	}
+	u64* buff;
+	for ( c = 2, k = searchNo;k > until;k--, c++ )
+	{
+		qbf.Close();
+		qbt.Close();
+		QSet( k, 0, false );
+		buff = OldV( k, false );
+		RG->AppendCols( 1, false );
+		text.Printf( searchNoText, k );
+		RG->SetColLabelValue( c, text );
+		xLength = qbf.Length() / sizeof( u64 );
+		oldIndex = 0;
+		xIndex = 0;
+		row = 0;
+		for ( ; (xIndex < xLength && oldIndex < oldLength) ;  )
+		{
+			if ( buff[ xIndex ] == oldBuff[ oldIndex ] )
+			{
+				text.Printf( ramValueText, buff[ (xIndex + 1) ] );
+				RG->SetCellValue( row, c, text );
+				oldIndex += 2;
+				row++;
+			}
+			xIndex += 2;
+		}
+		delete [] buff;
+	}
+}
 void ME::Find8( u32 mode )
 {
-	s32 varSize = 1;
+	u32 valSize = 1;
 	// All changes here onwards must be ported into the FIND definitions once stable
 	const wxChar* resultText = wxT( "Results: %i" );
 	const wxChar* searchText = wxT( "Search %i" );
 	HANDLE appHandle = GAP();
 	s32 searchNo = QCompareD->GetSelection();
 	u64 oldIndex = 0;
-	xStr text;
+	xStr text;//, title;
 	// RAM
 	DWORD ramAddress = GARS( 0 ); // Number indicates which RAM, implimented later
 	u64 rmSize = GARM( 0 );
@@ -304,7 +356,7 @@ void ME::Find8( u32 mode )
 	// New Buffer
 	u64 newIndex = 0;
 	u64 newSize = 0;
-	u64 newBuffLength = ( varSize == 1 ) ? rmSize : ceil( rmSize / varSize );
+	u64 newBuffLength = ( valSize == 1 ) ? rmSize : ceil( rmSize / valSize );
 	// Test modes
 	u32 valMode = GetTests();
 	u32 testMode = GetRest();
@@ -321,11 +373,12 @@ void ME::Find8( u32 mode )
 	pbQAct->SetValue( 0 );
 	result_S->SetLabel( text );
 	u64 testRAM;
-	u64 testBuffer;
-	for (;oldIndex < oldLength;address += varSize, ramIndex++)
+	text.Printf( wxT( "%%0%iX" ), valSize * 2 );
+	//const wxChar* logAText = wxT( "%02X" );
+	//const wxChar* logVText = text.data();
+	for (;oldIndex < oldLength;address += valSize, ramIndex++)
 	{
-		testBuffer = buff[ oldIndex ];
-		if ( address == testBuffer )
+		if ( address == buff[ oldIndex ] )
 		{
 			oldIndex++;
 			testRAM = ramBuff[ ramIndex ];
@@ -408,41 +461,7 @@ void ME::Find8( u32 mode )
 		qbt.Write( oldBuff, newSize );
 		if ( newIndex < 100 )
 		{
-			ClearGrid(RG);
-			ClearGridCols(RG);
-			const wxChar* ramValueText = wxT( "%02X" );
-			const wxChar* ramAddressText = wxT( "%08X" );
-			s32 c, tmp = searchNo - 5, k;
-			tmp = ( tmp < 0 ) ? 0 : tmp;
-			RG->AppendCols( 2, false );
-			for ( oldIndex = 0;oldIndex < newIndex;oldIndex += 2 )
-			{
-				RG->AppendRows(1, false);
-				text.Printf( ramAddressText, oldBuff[ oldIndex ] );
-				RG->SetCellValue( oldIndex, 0, text );
-				text.Printf( ramValueText, oldBuff[ oldIndex + 1 ] );
-				RG->SetCellValue( oldIndex, 1, text );
-			}
-			for ( c = 2, k = searchNo;k > tmp;k--, c++ )
-			{
-				qbf.Close();
-				qbt.Close();
-				QSet( k, 0, false );
-				RG->AppendCols( 1, false );
-				buff = OldV( k, false );
-				xLength = qbf.Length() / sizeof( u64 );
-				oldIndex = 0;
-				for ( xIndex = 0;( xIndex < xLength && oldIndex < newIndex );xIndex += 2 )
-				{
-					if ( buff[ xIndex ] == oldBuff[ oldIndex ] )
-					{
-						text.Printf( ramValueText, buff[ xIndex + 1 ] );
-						RG->SetCellValue( oldIndex, c, text );
-						oldIndex += 2;
-					}
-				}
-				delete [] buff;
-			}
+			showResults( searchNo, valSize );
 		}
 	}
 }

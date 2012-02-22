@@ -16,11 +16,11 @@ void ME::setApps(void) {
 }
 // Platform
 void ME::PFSet(void) {
-	xStr d = myDiv, p = wxGetCwd(), s;
-	p << d << wxT("pf");
+	xStr d = hexSlash, p = wxGetCwd(), s;
+	p << d + wxT("pf");
 	dir.Open(p);
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
-	s = p << d << DBFA[HDTI] << wxT(".hexpf");
+	s = p + d + DBFA[HDTI] + wxT(".hexpf");
 	if (!pff.Open(s)) {
 		pff.Create(s);
 		pff.Open(s);
@@ -72,5 +72,25 @@ void ME::PFLoad(void) {
 				i++; m = 1;
 			} break;
 		}
-	} APPD->SetSelection(0);
+	}
+	pff.Close();
+	APPD->SetSelection(0);
+	PresetOnChange();
+	DBLoad();
+}
+void ME::PresetOnChange(void)
+{
+	u8 ai = APPD->GetSelection();
+	u16 i, l = appEnd[ai], j; xStr s;
+	APPT->SetValue(appName[ai]);
+	ClearGrid(RAMG);
+	for (i = appNum[ai], j = 0;i < l;i++, j++) {
+		RAMG->AppendRows(1, false);
+		RAMG->SetCellValue(j, 0, ramName[i]);
+		RAMG->SetCellValue(j, 1, ramFixed[i]);
+		RAMG->SetCellValue(j, 2, ramStart[i]);
+		RAMG->SetCellValue(j, 3, ramSize[i]);
+		s.Printf(wxT("%X"), j); // ID to use in Codes
+		RAMG->SetRowLabelValue(i, s);
+	}
 }
