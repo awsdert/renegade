@@ -14,7 +14,7 @@
 xTID ME::HTRoot(void) {	return HT->GetRootItem(); }
 xTID ME::HTRoot(xTID& i) {
 	xTID c, r = HTRoot();
-	if (i.IsOk() && i != r) { HT->GetItemParent(i); }
+	if (i.IsOk() && i != r) { c = HT->GetItemParent(i); }
 	else { c = r; }
 	return c;
 }
@@ -104,15 +104,17 @@ xStr ME::HTLoad(xTID& r, xStr s) {
 				} i = HTAdd(p, t, 3);
 			} else { i = HTAdd(r, t, 3); }
 			d = getIH(i);
+			d->use = use;
 			d->hid = n;
 			setIH(i, d);
 			m = 3; break;
 		case 2: case 3:
 			s3 = s.SubString(0, 0);
-			if (s3.Cmp(wxT('"')) == 0) {
-				s1 = s.SubString(s.length() - 1, -1);
-				t = s.SubString(1, s.length() - 3);
-				m = 1; use = (bool)getHEX(s1);
+			if ( s3.Cmp( wxT( '"' ) ) == 0 )
+			{
+				s1 = s.SubString( s.length() - 1, s.length() - 1 );
+				t = s.SubString( 1, s.length() - 3 );
+				m = 1; use = (s1 == wxT( "1" )) ? true : false;
 				break;
 			}
 		default:
@@ -139,20 +141,20 @@ xStr ME::HTLoad(xTID& r, xStr s) {
 }
 void ME::HTChange(void) { HTChange(ti); }
 void ME::HTChange(xTID& i) {
-	if (i != pti && i.IsOk()) {
-		pti = i;
-		xStr s, t;
-		HACK* td = getIH(i);
-		u8 j, l = td->GetLen();
-		HCG->DeleteRows(0, HCG->GetRows(), false);
-		HCUseC->SetValue(td->use);
-		for (j = 0;j < l;j++) {
-			HCG->AppendRows(1, false);
-			HCG->SetCellValue(j, 0, td->cPart1[j]);
-			HCG->SetCellValue(j, 1, td->cPart2[j]);
-			t.Printf(wxT("%i"), td->cLines[j]);
-			HCG->SetCellValue(j, 2, t);
-		}
+	pti = i;
+	xStr s, t;
+	HACK* td = getIH(i);
+	u8 j, l = td->GetLen();
+	ClearGrid(HCG);
+	HCUseC->SetValue(td->use);
+	for (j = 0;j < l;j++) {
+		HCG->AppendRows(1, false);
+		HCG->SetCellValue(j, 0, td->cPart1[j]);
+		HCG->SetCellValue(j, 1, td->cPart2[j]);
+		t.Printf(wxT("%i"), td->cLines[j]);
+		HCG->SetCellValue(j, 2, t);
+		t.Printf(wxT("%i"), td->sLines[j]);
+		HCG->SetCellValue(j, 3, t);
 	}
 }
 void ME::HTSave(void) {
@@ -237,6 +239,7 @@ HACK* copyH(HACK* h, HACK* d) {
 	h->cLines = d->cLines;
 	h->cPart1 = d->cPart1;
 	h->cPart2 = d->cPart2;
+	h->sLines = h->sLines;
 	return h;
 }
 HACK* ME::getIH(xTID& i) { return (HACK*)HT->GetItemData(i); }

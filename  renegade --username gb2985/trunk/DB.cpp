@@ -66,6 +66,7 @@ void ME::DBLoad(void) {
 	di = DB->GetFirstChild(rdi, v);
 	DB->SelectItem(di);
 	dbf.Close();
+	HTLoad();
 }
 void ME::DBSelect(void) {
 	if (di.IsOk() && di != pdi) {

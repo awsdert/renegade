@@ -17,6 +17,9 @@ bool ME::Test(u32 mode, u64 value, u64 against, u64 to)
 	u32 m = mode;
 	u64 v = value, a = against, t = to;
 	bool r = false, rf = false, rt = true;
+	/*xStr text;
+	text.Printf(wxT("%X\n%llX\n%llX\n%llX"), mode, value, against, to);
+	MB(text);*/
 	if ( (m & TM_EQUAL) != 0 )
 	{
 		r = (v == a) ? rt : rf;

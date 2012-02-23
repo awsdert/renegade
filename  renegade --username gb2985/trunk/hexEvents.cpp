@@ -2,7 +2,7 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-void ME::HCHookOnClick(wxCommandEvent& event) { HWB = 1000; HCHook(); }
+void ME::PFGetOnClick(wxCommandEvent& event) { HWB = 1000; HCHook(); }
 void ME::APPLISTOnClick(wxCommandEvent& event) { setApps(); }
 void ME::APPUSEOnClick(wxCommandEvent& event) {
 	xAInt a = APPG->GetSelectedRows();

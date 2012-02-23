@@ -11,17 +11,32 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexVar.h"
-CL::CL(void) {
-	t = 0; s = 0;
-	r = 0; m = 0;
-	j = 0; f = true;
-	x = 0; v = 0; i = 0;
+CL::CL( void )
+{
+	codeType = 0;
+	size = 0;
+	reiterate = 0;
+	ram = 0;
+	inc_address = 0;
+	fixed = true;
+	address = 0;
+	value = 0;
+	inc_value = 0;
+	test = 0;
 }
-CL::~CL(void) {
-	t = 0; s = 0;
-	r = 0; m = 0;
-	j = 0; f = true;
-	x = 0; v = 0; i = 0;
+CL::~CL( void )
+{
+	codeType = 0;
+	size = 0;
+	reiterate = 0;
+	ram = 0;
+	inc_address = 0;
+	fixed = false;
+	address = 0;
+	value = 0;
+	inc_value = 0;
+	test = 0;
+	valueArray.Clear();
 }
 DBI::DBI(void) : wxTreeItemData() {
 	afr = 0;

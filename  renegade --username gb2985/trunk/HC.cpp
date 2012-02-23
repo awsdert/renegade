@@ -29,16 +29,17 @@ void ME::HCWrite(ReadWriteApp, DWORD buff) {
 	WriteProcessMemory(appHandle, (void*)address, &buff, size, NULL);
 }
 xStr ME::HCRead(ReadWriteApp) {
-	DWORD buff = 0;
+	u64 buff = 0;
 	FlipAddress;
 	ReadProcessMemory(appHandle, (void*)address, &buff, size, NULL);
 	xStr t; t.Printf(wxT("%X"), buff);
 	return t;
 }
-DWORD ME::HCReadH(ReadWriteApp) {
-	DWORD buff = 0;
+u64 ME::HCReadH(ReadWriteApp) {
+	u64 buff = 0;
 	FlipAddress;
-	ReadAddress;
+	ReadProcessMemory(appHandle, (void*)address, &buff, size, NULL);
+	return buff;
 }
 u8* ME::HCReadM8(ReadWriteApp) {
 	u8* buff = new u8[size];
@@ -60,87 +61,124 @@ u64* ME::HCReadM64(ReadWriteApp) {
 	FlipAddress;
 	ReadAddress;
 }
-void ME::HCUse(xTID& r, HANDLE p, s32 j, s32 stop) {
-	HACK* h = getIH(r);
-	DWORD ram = GARS(0), xa, xv;
-	u32 rv; s32 j2, j3 = 0; bool ut, uc = true;
-	if (h->use && r.IsOk()) {
-		s32 s, l = h->GetLen(), k; CL c; xStr t, t2;
+void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
+	HACK* hack = getIH(r);
+	u64 ramAddress = GARS(0);
+	u64 xAddress, xValue;
+	u64 ramValue;
+	s32 startLine, endLine = 0;
+	bool useTest, useKids = true;
+	xStr text;
+	if (hack->use && r.IsOk()) {
+		u32 s;
+		u32 k;
+		CL code;
+		xStr t, t2;
 		xTID i; xTIDV v;
 		// Use CL
-		if (stop > 0) { uc = false; }
-		else { stop = l; }
-		while (j < stop) {
-			c = HCSet(h, j);
-			s = (s32)c.s;
-			xa = ram + c.x;
-			switch (c.t) {
+		if (stop > 0) { useKids = false; }
+		else { stop = hack->GetLen(); }
+		while (line < stop) {
+			code = HCSet(hack, line);
+			s = code.size;
+			xAddress = ramAddress + code.address;
+			switch (code.codeType) {
 			case 0x01: // Copy
-				xv = ram + c.v; k = 0;
+				xValue = ramAddress + code.value;
+				k = 0;
 				do {
-					t = HCRead(p, xa, s);
-					HCWrite(p, xv, s, getHEX(t));
-					xa += (c.j * s); xv += (c.j * s);
+					ramValue = HCReadH(appHandle, xAddress, s);
+					HCWrite( appHandle, xValue, s, ramValue );
+					xAddress += (code.inc_address * s);
+					xValue += (code.inc_address * s);
 					k++;
-				} while (k < c.r);
+				} while (k < code.reiterate);
 				break;
 			case 0x02: // Test
-				rv = HCReadH(p, c.x, s);
-				ut = Test(c.j, rv, c.v);
-				if (ut) {
-					if (c.r > 0) {
+				ramValue = HCReadH( appHandle, xAddress, s );
+				useTest = Test( code.inc_address, ramValue, code.value );
+				if ( useTest ) {
+					if (code.reiterate > 0)
+					{
 						/* Move up call stack with new stop line and tell this
 						instance to skip the specified lines */
-						j2 = j;
-						for (k = 0;k < c.r;k++) {
-							c.r += h->sLines[j]; // Support embeded IF statements
-							j3 = j; j += h->cLines[j]; // Ensure we get valid stop point
-						} HCUse(r, p, j2, j);
-						j = j3; // Ensure we have valid continue point
+						startLine = line;
+						endLine = line;
+						for ( k = 0; k < code.reiterate; k++ )
+						{
+							line = endLine;
+							code.reiterate += hack->sLines[ endLine ]; // Support embeded IF statements
+							endLine += hack->cLines[ endLine ]; // Ensure we get valid stop point
+						}
+						HCUse(r, appHandle, startLine, endLine );
 					} // Continue normally
 				} else {
-					if (c.r > 0) { // Skip the specified lines
-						for (k = 0;k < c.r;k++) {
-							j3 = j; j += h->cLines[j];
-						} j = j3;
-					} else { j = stop; uc = ut; } // Break out of code set and stop children being used
+					if (code.reiterate > 0)
+					{ // Skip the specified lines
+						endLine = line;
+						for ( k = 0; k < code.reiterate; k++ )
+						{
+							line = endLine;
+							code.reiterate += hack->sLines[ endLine ];
+							endLine += hack->cLines[ endLine ];
+						}
+					}
+					else
+					{
+						line = stop;
+						useKids = false; // Break out of code set and stop children being used
+					}
 				} break;
 			case 0x03: // Increment
 				k = 0;
-				do {
-					xv = getHEX(HCRead(p, xa, s));
-					HCWrite(p, xa, s, xv + c.i);
-					xa += (c.j * s); k++;
-				} while (k < c.r);
+				do
+				{
+					xValue = getHEX( HCRead( appHandle, xAddress, s ) );
+					HCWrite( appHandle, xAddress, s, xValue + code.inc_value );
+					xAddress += (code.inc_address * s);
+					k++;
+				}
+				while ( k < code.reiterate );
 				break;
 			case 0x04: // Decrement
 				k = 0;
-				do {
-					xv = getHEX(HCRead(p, xa, s));
-					HCWrite(p, xa, s, xv - c.i);
-					xa += (c.j * s); k++;
-				} while (k < c.r);
+				do
+				{
+					xValue = getHEX( HCRead( appHandle, xAddress, s) );
+					HCWrite( appHandle, xAddress, s, xValue - code.inc_value );
+					xAddress += (code.inc_address * s);
+					k++;
+				}
+				while ( k < code.reiterate );
 				break;
 			case 0x05: // List Write
-				for (k = 0;k < c.r;k++) {
-					HCWrite(p, xa, s, getHEX(c.ca[k]));
-					xa += (c.j * s);
-				} break;
+				for ( k = 0; k < code.reiterate; k++ )
+				{
+					HCWrite( appHandle, xAddress, s, getHEX( code.valueArray[ k ] ) );
+					xAddress += ( code.inc_address * s );
+				}
+				break;
 			default: // Write
-				xv = c.v; k = 0;
-				do {
-					HCWrite(p, xa, s, xv);
-					xa += (c.j * s); xv += c.i;
+				xValue = code.value;
+				k = 0;
+				do
+				{
+					HCWrite( appHandle, xAddress, s, xValue );
+					xAddress += ( code.inc_address * s );
+					xValue += code.inc_value;
 					k++;
-				} while (k < c.r);
-			} j += h->cLines[j];
+				}
+				while ( k < code.reiterate );
+			}
+			line += hack->cLines[ line ];
 		}
 		// Recurse through children
-		if (uc) {
-			i = HT->GetFirstChild(r, v);
-			while (i.IsOk()) {
-				HCUse(i, p);
-				i = HT->GetNextChild(r, v);
+		if (useKids)
+		{
+			i = HT->GetFirstChild( r, v );
+			while ( i.IsOk() ) {
+				HCUse( i, appHandle );
+				i = HT->GetNextChild( r, v );
 			}
 		}
 	}
@@ -148,7 +186,7 @@ void ME::HCUse(xTID& r, HANDLE p, s32 j, s32 stop) {
 //* Only for testing new code formats, comment out for releases
 void ME::HCTest(CL code) {
 	xStr s;
-	s.Printf(wxT("Address: %08X\nValue: %08X"), code.x, code.v);
+	s.Printf(wxT("Address: %08X\nValue: %08X"), code.address, code.value);
 	DBNotes->SetValue(s);
 }//*/
 void ME::HCUChange(void) {

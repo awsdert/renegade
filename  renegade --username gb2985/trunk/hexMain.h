@@ -18,7 +18,7 @@
 #include "GUIFrame.h"
 #include "hexVar.h"
 #define BLANK(blank_argument)
-#define ReadWriteApp HANDLE appHandle, DWORD xAddress, u64 size
+#define ReadWriteApp HANDLE appHandle, u64 xAddress, u64 size
 // DB = Database List, HT = Hack Tree
 enum { TMU_DUMP = 0x00000000, TMU_EQUAL, TMU_VEQUAL, TMU_NOTE, TMU_VNOTE,
 	TMU_GT, TMU_VGT, TMU_GTE, TMU_VGTE, TMU_LT, TMU_VLT, TMU_LTE, TMU_VLTE,
@@ -95,13 +95,13 @@ class ME: public HEXFRM {
 		void HEXFRMOnFocus(wxActivateEvent& event);
 		void HEXFORMIDLE(wxIdleEvent& event);
 		// - - Hook Tab
-		void HCHookOnClick(wxCommandEvent& event);
 		void APPLISTOnClick(wxCommandEvent& event);
 		void APPUSEOnClick(wxCommandEvent& event);
 		void mWaitOnChange(wxCommandEvent& event);
 		// - - - Platform
 		void PFOnBlur(wxFocusEvent& event);
 		void PFOnClick(wxCommandEvent& event);
+		void PFGetOnClick(wxCommandEvent& event);
 		void PFOnChange(wxCommandEvent& event);
 		// - - - App
 		void APPDOnChange(wxCommandEvent& event);
@@ -135,7 +135,7 @@ class ME: public HEXFRM {
 		void HCCDOnChange(wxCommandEvent& event); // Set type of codeline
 		void HCUOnChange(wxCommandEvent& event); // Use / Don't use hack
 		// HCC.cpp
-		CL HCSet(HACK* hack, s32 row);
+		CL HCSet(HACK* hack, u32 line);
 		void HCAddBOnClick(wxCommandEvent& event);
 		// qTab.cpp
 		void validateValue(wxKeyEvent& event, u32 valMode = 0);
@@ -211,7 +211,7 @@ class ME: public HEXFRM {
 		void HCLoad(void);
 		void HCWrite(ReadWriteApp, DWORD v);
 		xStr HCRead(ReadWriteApp);
-		DWORD HCReadH(ReadWriteApp);
+		u64 HCReadH(ReadWriteApp);
 		u8* HCReadM8(ReadWriteApp);
 		u16* HCReadM16(ReadWriteApp);
 		u32* HCReadM32(ReadWriteApp);

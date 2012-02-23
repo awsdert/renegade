@@ -4,91 +4,95 @@
 #include "hexMain.h"
 #include <math.h>
 // Analyse the code string/s
-CL ME::HCSet(HACK* h, s32 row) {
+CL ME::HCSet( HACK* hack, u32 line )
+{
 	CL code;
-	if (h->GetLen() > 0) {
-		s32 l = h->cLines[row], i = row, il = h->cLines.GetCount();
-		u8 t, s, r, tl;
-		u16 j0 = 0, j1, j2, j3, i1, i2;
-		u32 x = 0, d1 = 0, d2 = 0, d3 = 0, d4 = 0, d7 = 0, v = 0;
-		xStr s1 = h->cPart1[i], s2 = h->cPart2[i], s3, s4, s5, s6, s7 = wxT("00000000"), c;
-		if (l > 1 && il >= (i + 1)) {
-			s3 = h->cPart1[i + 1];
-			s4 = h->cPart2[i + 1];
-			if (l > 2 && il >= (i + 2)) {
-				s5 = h->cPart1[i + 2];
-				s6 = h->cPart2[i + 2];
-			} else { s5 = s7; s6 = s7; }
-		} else { s3 = s7; s4 = s7; s5 = s7; s6 = s7; }
-		j1 = (u16)getHEX(s2.SubString(2, 5));
-		j2 = (u16)getHEX(s4.SubString(2, 5));
-		j3 = (u16)getHEX(s5.SubString(2, 5));
-		d1 = getHEX(s1); d2 = getHEX(s2);
-		d3 = getHEX(s3); d4 = getHEX(s4);
-		r = (u8)getHEX(s2.SubString(6, 7));
-		if (d1 >= 0xE0000000) {
-			if (d1 >= 0xE0E00000) {
-				x = d2;
-				t = (u8)getHEX(s1.GetChar(4));
-				s = (u8)getHEX(s1.GetChar(5));
-				r = (u8)getHEX(s1.SubString(6, 7));
-				tl = (u8)getHEX(s3.SubString(0, 1));
-				i1 = d3; i2 = d3;
-			} else {
-				x = getHEX(s1.SubString(4, 7));
-				t = (u8)getHEX(s1.GetChar(2));
-				s = (u8)getHEX(s1.GetChar(3));
-				tl = (u8)getHEX(s5.SubString(0, 1));
-				i1 = getHEX(s2.SubString(0, 3));
-				i2 = getHEX(s2.SubString(2, 3));
-				d7 = 0x00010000; //j3 = j2;
+	if ( hack->GetLen() > 0 )
+	{
+		xStr text;
+		// Line
+		u32 line1 = line + 1;
+		u32 line2 = line + 2;
+		u32 line3 = line + 3;
+		u32 stop = hack->cLines[ line ];
+		u32 endLine = hack->GetLen();
+		// Code pieces
+		u32 xType = 0;
+		u32 xSize = 0;
+		xStr cPart_blank  = wxT( "00000000" );
+		xStr cPart_1 = hack->cPart1[ line ];
+		xStr cPart_2 = hack->cPart2[ line ];
+		xStr cPart_3 = hack->cPart1[ line1 ];
+		xStr cPart_4 = hack->cPart2[ line1 ];
+		xStr cPart_5 = cPart_blank, cPart_6 = cPart_blank,
+			cPart_7 = cPart_blank, cPart_8 = cPart_blank, c;
+		// Address
+		u32 xRAM = 0;
+		u64 xAddress = 0;
+		// Increment Value
+		u64 xValue = 0;
+		u64 xIncrement;
+		// Code
+		if ( stop > 2 && endLine >= line2 )
+		{
+			cPart_4 = hack->cPart1[ line2 ];
+			cPart_5 = hack->cPart2[ line2 ];
+			if ( stop > 3 && endLine >= line3 )
+			{
+				cPart_6 = hack->cPart1[ line3 ];
+				cPart_7 = hack->cPart2[ line3 ];
 			}
-		} else {
-			x = getHEX(s1.SubString(2, 7));
-			t = (u8)getHEX(s1.GetChar(0));
-			s = (u8)getHEX(s1.GetChar(1));
-			tl = (u8)getHEX(s2.SubString(0, 1));
-			d7 = 0x01000000; j0 = j1;
-		} // Setup
-		code.x = x;
-		code.i = d3;
-		code.l = tl;
-		// Code Type
-		switch (t) {
-		case 0x01: // Write
-		case 0x03: // Copy
-		case 0x05: // Test
-		case 0x07: // Increment
-		case 0x09: // Decrement
-		case 0x0B: // List Write
-			code.f = false;
-		} code.t = floor(t / 2);
-		// Code Size
-		if (l > 1 || code.t == 0x05) { v = d4; }
-		else { v = d2; }
-		switch (s) {
-		case 0x01: case 0x05: case 0x09: case 0x0D:
-			code.x += d7; break;
-		case 0x03: case 0x07: case 0x0B: case 0x0F:
-			code.x += d7;
-		case 0x02: case 0x06: case 0x0A: case 0x0E:
-			code.r = r; }
-		if (s > 0x0B) { code.s = 0x08; }
-		else if (s > 0x07) { code.s = 0x04; }
-		else if (s > 0x03) { code.s = 0x02; v = (u16)v; }
-		else { code.s = 0x01; v = (u8)v; }
-		if (code.t == 2) {
-			if (code.s < 8) {
-				j0 = j1;
-				v = getHEX(s2.SubString(0, 3));
-			} else { j0 = j3; } j0 = (u16)j0;
-		} code.v = v; code.j = j0;
-		// List Values
-		for (i = 1;i < l;i++) {
-			code.ca.Add(h->cPart1[row + i]);
-			code.ca.Add(h->cPart2[row + i]);
 		}
-	} return code;
+		code.reiterate = getHEX( cPart_1.SubString( 6, 7 ) );
+		code.test = getHEX( cPart_1.SubString( 4, 5 ) );
+		code.inc_address = getHEX( cPart_2 );
+		if ( getHEX( cPart_1 ) >= 0xE0000000 )
+		{
+			xRAM = getHEX( cPart_1.GetChar( 1 ) );
+			xType = getHEX( cPart_1.GetChar( 2 ) );
+			xSize = getHEX( cPart_1.GetChar( 3 ) );
+		}
+		else
+		{
+			xType = getHEX( cPart_1.GetChar( 0 ) );
+			xSize = getHEX( cPart_1.GetChar( 1 ) );
+		}
+		// Setup
+		if ( xSize >= 0xC )
+		{
+			xAddress = getHEX( cPart_3 + cPart_4 );
+			xValue = getHEX( cPart_5 + cPart_6 );
+			xIncrement = getHEX( cPart_7 + cPart_8 );
+		}
+		else
+		{
+			xAddress = getHEX( cPart_3 );
+			xValue = getHEX( cPart_4 );
+			xIncrement = getHEX( cPart_6 );
+		}
+		code.address = xAddress;
+		code.inc_value = xIncrement;
+		code.ram = xRAM;
+		switch ( xType )
+		{
+			case 0x1: // Write
+			case 0x3: // Copy
+			case 0x5: // Test
+			case 0x7: // Increment
+			case 0x9: // Decrement
+			case 0xB: // List Write
+				code.fixed = true;
+			default:
+				code.codeType = floor(xType / 2);
+		}
+		// List Values
+		for ( u64 i = 1; i < stop; i++ )
+		{
+			code.valueArray.Add( hack->cPart1[ line + i ] );
+			code.valueArray.Add( hack->cPart2[ line + i ] );
+		}
+	}
+	return code;
 }
 // Build the code string/s
 void ME::HCAddBOnClick(wxCommandEvent& event) {

@@ -24,12 +24,17 @@ class CL {
 		L = Code Lines
 		F = Fixed Address?
 	*/
-		s32 l;
-		u8 t, s, r, m;
-		u16 j;
-		u32 x, v, i;
-		xAStr ca;
-		bool f;
+		u32 test;
+		u32 codeType;
+		u32 size;
+		u32 reiterate;
+		u32 ram;
+		u32 inc_address;
+		u64 address;
+		u64 value;
+		u64 inc_value;
+		xAStr valueArray;
+		bool fixed;
 };
 class DBI: public wxTreeItemData {
 	public:

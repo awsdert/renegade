@@ -1268,7 +1268,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCG = new wxGrid( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	
 	// Grid
-	HCG->CreateGrid( 0, 3 );
+	HCG->CreateGrid( 0, 4 );
 	HCG->EnableEditing( true );
 	HCG->EnableGridLines( true );
 	HCG->EnableDragGridSize( false );
@@ -1284,6 +1284,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCG->SetColLabelValue( 0, wxT("Code / Data") );
 	HCG->SetColLabelValue( 1, wxT("Data") );
 	HCG->SetColLabelValue( 2, wxT("Lines") );
+	HCG->SetColLabelValue( 3, wxT("Sublines") );
 	HCG->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
