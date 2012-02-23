@@ -44,6 +44,8 @@ class ME: public HEXFRM {
 		wxFile checkFile;
 		wxTextFile logFile;
 		xStr hexPath;
+		int GetGridRow( wxGrid* grid );
+		void HCLoadOnClick( wxCommandEvent& event );
 		void PresetOnChange(void);
 		xStr hexSlash;
 		u64 logIndex;

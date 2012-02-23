@@ -4,13 +4,11 @@
 #include "hexMain.h"
 void ME::PFGetOnClick(wxCommandEvent& event) { HWB = 1000; HCHook(); }
 void ME::APPLISTOnClick(wxCommandEvent& event) { setApps(); }
-void ME::APPUSEOnClick(wxCommandEvent& event) {
-	xAInt a = APPG->GetSelectedRows();
-	xStr s;
-	if (a.GetCount() > 0) {
-		s = APPG->GetCellValue(a[0], 0);
-		APPT->SetValue(s);
-	} //DBLoad();
+void ME::APPUSEOnClick( wxCommandEvent& event )
+{
+	int row = GetGridRow( APPG );
+	xStr text = APPG->GetCellValue( row, 0 );
+	APPT->SetValue( text );
 }
 void ME::bAddHackOnClick(wxCommandEvent& event) {
 	xTID i = HT->GetSelection(), p, r; HACK* d = new HACK;
@@ -53,9 +51,7 @@ void ME::HEXFORMIDLE(wxIdleEvent& event) {
 void ME::PFOnChange(wxCommandEvent& event) { PFLoad(); }
 void ME::PFOnClick(wxCommandEvent& event) { PFLoad(); }
 // - - App
-void ME::APPDOnChange(wxCommandEvent& event) {
- PresetOnChange();
-}
+void ME::APPDOnChange(wxCommandEvent& event) { PresetOnChange(); }
 // - Editor Tab
 void ME::EAOnClick(wxCommandEvent& event) { EA(); }
 void ME::EVOnClick(wxCommandEvent& event) { EV(); }
@@ -141,3 +137,5 @@ void ME::HTOnKeyDown(wxKeyEvent& event) {
 		default: event.Skip(); break; }
 	}
 }
+//
+void ME::HCLoadOnClick( wxCommandEvent& event ) { HCLoad(); }

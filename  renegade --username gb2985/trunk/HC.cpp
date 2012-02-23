@@ -66,6 +66,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 	u64 ramAddress = GARS(0);
 	u64 xAddress, xValue;
 	u64 ramValue;
+	u32 incAddress;
 	s32 startLine, endLine = 0;
 	bool useTest, useKids = true;
 	xStr text;
@@ -82,6 +83,8 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 			code = HCSet(hack, line);
 			s = code.size;
 			xAddress = ramAddress + code.address;
+			incAddress = code.inc_address * s;
+			xValue = code.value;
 			switch (code.codeType) {
 			case 0x01: // Copy
 				xValue = ramAddress + code.value;
@@ -89,14 +92,14 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 				do {
 					ramValue = HCReadH(appHandle, xAddress, s);
 					HCWrite( appHandle, xValue, s, ramValue );
-					xAddress += (code.inc_address * s);
-					xValue += (code.inc_address * s);
+					xAddress += incAddress;
+					xValue += incAddress;
 					k++;
 				} while (k < code.reiterate);
 				break;
 			case 0x02: // Test
 				ramValue = HCReadH( appHandle, xAddress, s );
-				useTest = Test( code.inc_address, ramValue, code.value );
+				useTest = Test( code.test, ramValue, code.value );
 				if ( useTest ) {
 					if (code.reiterate > 0)
 					{
@@ -133,9 +136,9 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 				k = 0;
 				do
 				{
-					xValue = getHEX( HCRead( appHandle, xAddress, s ) );
+					xValue = HCReadH( appHandle, xAddress, s );
 					HCWrite( appHandle, xAddress, s, xValue + code.inc_value );
-					xAddress += (code.inc_address * s);
+					xAddress += incAddress;
 					k++;
 				}
 				while ( k < code.reiterate );
@@ -144,9 +147,9 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 				k = 0;
 				do
 				{
-					xValue = getHEX( HCRead( appHandle, xAddress, s) );
+					xValue = HCReadH( appHandle, xAddress, s);
 					HCWrite( appHandle, xAddress, s, xValue - code.inc_value );
-					xAddress += (code.inc_address * s);
+					xAddress += incAddress;
 					k++;
 				}
 				while ( k < code.reiterate );
@@ -155,16 +158,16 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 				for ( k = 0; k < code.reiterate; k++ )
 				{
 					HCWrite( appHandle, xAddress, s, getHEX( code.valueArray[ k ] ) );
-					xAddress += ( code.inc_address * s );
+					xAddress += incAddress;
 				}
 				break;
 			default: // Write
-				xValue = code.value;
 				k = 0;
+				//HCTest(code);
 				do
 				{
 					HCWrite( appHandle, xAddress, s, xValue );
-					xAddress += ( code.inc_address * s );
+					xAddress += incAddress;
 					xValue += code.inc_value;
 					k++;
 				}
@@ -185,9 +188,20 @@ void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
 }
 //* Only for testing new code formats, comment out for releases
 void ME::HCTest(CL code) {
-	xStr s;
-	s.Printf(wxT("Address: %08X\nValue: %08X"), code.address, code.value);
-	DBNotes->SetValue(s);
+	xStr text;
+	text.Printf( wxT("Code Type:\t0x%X\
+\nCode Size:\t\t0x%X\
+\nTest:\t\t0x%02X\
+\nReiterate:\t\t0x%02X\
+\nAddress:\t\t0x%016llX\
+\nIncrement Address:\t0x%08X\
+\nValue:\t\t0x%016llX\
+\nIncrement Value:\t0x%016llX"),
+		code.codeType, code.size, code.test, code.reiterate,
+		code.address, code.inc_address,
+		code.value, code.inc_value );
+	//DBNotes->SetValue(text);
+	MB(text);
 }//*/
 void ME::HCUChange(void) {
 	xTID i = HT->GetSelection();
@@ -233,7 +247,29 @@ void ME::HCChangeD(wxGridEvent& event) {
 		HCG->SetCellValue(r, c, d);
 	}
 }
-void ME::HCLoad(void) {}
+int ME::GetGridRow( wxGrid* grid )
+{
+	int row = 0;
+	if ( grid->IsSelection() )
+	{
+		xAInt rows = grid->GetSelectedRows();
+		if ( rows.GetCount() > 0 )
+		{
+			row = rows[0];
+		}
+		else
+		{
+			wxGridCellCoords cell = grid->GetSelectedCells()[0];
+			row = cell.GetRow();
+		}
+	}
+	return row;
+}
+void ME::HCLoad( void ) {
+	xTID i = HT->GetSelection();
+	CL code = HCSet( getIH(i), GetGridRow( HCG ) );
+	HCTest( code );
+}
 void ME::HCChange(s32 r) {
 	if (r != HCRow) {
 		if (r < HCRow || (r > HCRow + HCRows)) {

@@ -267,6 +267,7 @@ class HEXFRM : public wxFrame
 		virtual void HCRCOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCUOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCAddBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HCLoadOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCChangeD( wxGridEvent& event ) { event.Skip(); }
 		virtual void HCChangeR( wxGridRangeSelectEvent& event ) { event.Skip(); }

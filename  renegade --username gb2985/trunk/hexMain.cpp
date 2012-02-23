@@ -119,11 +119,25 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	useTest_D->Select(0);
 } ME::~ME() {}
 s32 ME::getAppLen(void) { return appLen; }
-u64 ME::getHEX(xStr s) {
-	unsigned long v;
-	s = (!s) ? wxT("00000000") : s;
-	s.ToULong(&v, 16);
-	return (u64)v;
+u64 ME::getHEX(xStr s)
+{
+	u32 i = 0, j;
+	u64 value = 0;
+	const xStr hexChar = wxT( "0123456789ABCDEF" );
+	while ( s[ i ] )
+	{
+		value *= 0x10;
+		for ( j = 0x0; j < 0x10; j++)
+		{
+			if ( s[ i ] == hexChar[ j ] )
+			{
+				value += j;
+				j = 0x10;
+			}
+		}
+		i++;
+	}
+	return value;
 }
 void ME::Log(xStr text, xStr title)
 {

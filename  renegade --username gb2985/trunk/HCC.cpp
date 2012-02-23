@@ -19,6 +19,7 @@ CL ME::HCSet( HACK* hack, u32 line )
 		// Code pieces
 		u32 xType = 0;
 		u32 xSize = 0;
+		bool xASize = 0;
 		xStr cPart_blank  = wxT( "00000000" );
 		xStr cPart_1 = hack->cPart1[ line ];
 		xStr cPart_2 = hack->cPart2[ line ];
@@ -27,7 +28,6 @@ CL ME::HCSet( HACK* hack, u32 line )
 		xStr cPart_5 = cPart_blank, cPart_6 = cPart_blank,
 			cPart_7 = cPart_blank, cPart_8 = cPart_blank, c;
 		// Address
-		u32 xRAM = 0;
 		u64 xAddress = 0;
 		// Increment Value
 		u64 xValue = 0;
@@ -35,44 +35,71 @@ CL ME::HCSet( HACK* hack, u32 line )
 		// Code
 		if ( stop > 2 && endLine >= line2 )
 		{
-			cPart_4 = hack->cPart1[ line2 ];
-			cPart_5 = hack->cPart2[ line2 ];
+			cPart_5 = hack->cPart1[ line2 ];
+			cPart_6 = hack->cPart2[ line2 ];
 			if ( stop > 3 && endLine >= line3 )
 			{
-				cPart_6 = hack->cPart1[ line3 ];
-				cPart_7 = hack->cPart2[ line3 ];
+				cPart_7 = hack->cPart1[ line3 ];
+				cPart_8 = hack->cPart2[ line3 ];
 			}
 		}
 		code.reiterate = getHEX( cPart_1.SubString( 6, 7 ) );
 		code.test = getHEX( cPart_1.SubString( 4, 5 ) );
 		code.inc_address = getHEX( cPart_2 );
-		if ( getHEX( cPart_1 ) >= 0xE0000000 )
-		{
-			xRAM = getHEX( cPart_1.GetChar( 1 ) );
-			xType = getHEX( cPart_1.GetChar( 2 ) );
-			xSize = getHEX( cPart_1.GetChar( 3 ) );
-		}
-		else
-		{
-			xType = getHEX( cPart_1.GetChar( 0 ) );
-			xSize = getHEX( cPart_1.GetChar( 1 ) );
-		}
+		xType = getHEX( cPart_1.GetChar( 0 ) );
+		xSize = getHEX( cPart_1.GetChar( 1 ) );
+		xASize = getHEX( cPart_1.GetChar( 2 ) );
+		code.ram = getHEX( cPart_1.GetChar( 3 ) );
 		// Setup
-		if ( xSize >= 0xC )
+		if ( xSize >= 0xC || xASize )
 		{
 			xAddress = getHEX( cPart_3 + cPart_4 );
-			xValue = getHEX( cPart_5 + cPart_6 );
-			xIncrement = getHEX( cPart_7 + cPart_8 );
+			if ( xSize >=0xC )
+			{
+				xValue = getHEX( cPart_5 + cPart_6 );
+				xIncrement = getHEX( cPart_7 + cPart_8 );
+				xSize = 0x8;
+			}
+			else
+			{
+				xValue = getHEX( cPart_5 );
+				xIncrement = getHEX( cPart_6 );
+				if ( xSize >= 0x8 )
+				{
+					xSize = 0x4;
+				}
+				else if ( xSize >= 0x4 )
+				{
+					xSize = 0x2;
+				}
+				else
+				{
+					xSize = 0x1;
+				}
+			}
 		}
 		else
 		{
 			xAddress = getHEX( cPart_3 );
 			xValue = getHEX( cPart_4 );
 			xIncrement = getHEX( cPart_6 );
+			if ( xSize >= 0x8 )
+			{
+				xSize = 0x4;
+			}
+			else if ( xSize >= 0x4 )
+			{
+				xSize = 0x2;
+			}
+			else
+			{
+				xSize = 0x1;
+			}
 		}
 		code.address = xAddress;
+		code.value = xValue;
 		code.inc_value = xIncrement;
-		code.ram = xRAM;
+		code.size = xSize;
 		switch ( xType )
 		{
 			case 0x1: // Write
