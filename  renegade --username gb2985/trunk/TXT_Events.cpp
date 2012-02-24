@@ -54,7 +54,11 @@ void ME::validateValue(wxKeyEvent& event, u32 valMode)
 	}
 	event.Skip(doEvent);
 }
-void ME::value1_TXTOnKeyDown(wxKeyEvent& event)
+void ME::address_TXTOnKeyDown(wxKeyEvent& event)
+{
+	validateValue(event);
+}
+void ME::value_TXTOnKeyDown(wxKeyEvent& event)
 {
 	validateValue(event);
 }

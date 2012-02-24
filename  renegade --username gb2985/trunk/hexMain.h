@@ -107,6 +107,8 @@ class ME: public HEXFRM {
 		void PFOnChange(wxCommandEvent& event);
 		// - - - App
 		void APPDOnChange(wxCommandEvent& event);
+		// - - Result Tab
+		void result_GOnSelect(wxGridEvent& event);
 		// - - Editor Tab
 		void EAOnClick(wxCommandEvent& event);
 		void EVOnClick(wxCommandEvent& event);
@@ -121,7 +123,6 @@ class ME: public HEXFRM {
 		void DBAddBClick(wxCommandEvent& event);
 		void DBSelectC(wxTreeEvent& event);
 		// - - Hack Tree Tab
-		//void HTOnDel(wxTreeEvent& event);
 		void bHTSaveOnClick(wxCommandEvent& event);
 		void bHTLoadOnClick(wxCommandEvent& event);
 		void bAddHackOnClick(wxCommandEvent& event);
@@ -143,7 +144,8 @@ class ME: public HEXFRM {
 		// qTab.cpp
 		void validateValue(wxKeyEvent& event, u32 valMode = 0);
 		void validateFileName(wxKeyEvent& event);
-		void value1_TXTOnKeyDown(wxKeyEvent& event);
+		void address_TXTOnKeyDown(wxKeyEvent& event);
+		void value_TXTOnKeyDown(wxKeyEvent& event);
 		u32 GetTests(void);
 		u32 GetRest(void);
 		u32 GetIgnore(void);

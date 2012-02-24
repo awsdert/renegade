@@ -52,6 +52,27 @@ void ME::PFOnChange(wxCommandEvent& event) { PFLoad(); }
 void ME::PFOnClick(wxCommandEvent& event) { PFLoad(); }
 // - - App
 void ME::APPDOnChange(wxCommandEvent& event) { PresetOnChange(); }
+// - Result Tab
+void ME::result_GOnSelect(wxGridEvent& event)
+{
+	u32 rowLength = RG->GetRows();
+	if ( rowLength > 0 )
+	{
+		int row = event.GetRow();
+		row = ( row < 0 ) ? 0 : row;
+		int col = event.GetCol();
+		col = ( col < 1 ) ? 1 : col;
+		xStr text = RG->GetCellValue( row, 0 );
+		resultAddress_TXT->SetValue( text );
+		if ( useEdit_CB->GetValue() )
+		{
+			editorAddress_TXT->SetValue( text );
+		}
+		text = RG->GetCellValue(row, col);
+		resultValue_TXT->SetValue( text );
+	}
+	event.Skip();
+}
 // - Editor Tab
 void ME::EAOnClick(wxCommandEvent& event) { EA(); }
 void ME::EVOnClick(wxCommandEvent& event) { EV(); }
@@ -88,12 +109,6 @@ void ME::DBDelBOnClick(wxCommandEvent& event) { DBDel(); }
 void ME::DBSelectC(wxTreeEvent& event) { di = event.GetItem(); DBSelect(); }
 void ME::DBLoadBOnClick(wxCommandEvent& event) { DBLoad(); }
 // - Hack Tree Tab
-/*void ME::HTOnDel(wxTreeEvent& event) {
-	xTID i = event.GetItem();
-	HACK* h = getIH(i);
-	h->hid = 0; h->use = false;
-	setIH(i, h);
-}*/
 void ME::bHTSaveOnClick(wxCommandEvent& event) { HTSave(); }
 void ME::bHTLoadOnClick(wxCommandEvent& event) { HTLoad(); }
 void ME::HTOnChangeSelT(wxTreeEvent& event) { ti = event.GetItem(); HTChange(); }

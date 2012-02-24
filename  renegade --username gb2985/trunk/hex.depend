@@ -3719,7 +3719,7 @@
 	<windows.h>
 	<tlhelp32.h>
 
-1330039480 z:\hex\svn\trunk\hexmain.h
+1330083998 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/ffile.h>
 	<wx/textfile.h>
@@ -3729,7 +3729,7 @@
 	"GUIFrame.h"
 	"hexVar.h"
 
-1330039478 z:\hex\svn\trunk\guiframe.h
+1330084272 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -4228,7 +4228,7 @@
 1329899208 source:z:\hex\svn\trunk\htab.cpp
 	"hexMain.h"
 
-1330003226 source:z:\hex\svn\trunk\hexevents.cpp
+1330083786 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
 1329953894 source:z:\hex\svn\trunk\qtab.cpp
@@ -4244,6 +4244,6 @@
 	"wx/convauto.h"
 	<stdio.h>
 
-1329685492 source:z:\hex\svn\trunk\txt_events.cpp
+1330083930 source:z:\hex\svn\trunk\txt_events.cpp
 	"hexMain.h"
 

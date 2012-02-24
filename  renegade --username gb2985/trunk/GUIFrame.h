@@ -134,20 +134,21 @@ class HEXFRM : public wxFrame
 		wxStaticText* ignorePart64Range_S;
 		wxTextCtrl* ignorePart64RangeTo_TXT;
 		wxCheckBox* ignoreAddressOutside_CB;
-		wxTextCtrl* m_textCtrl1624;
-		wxStaticText* m_staticText2724;
-		wxTextCtrl* m_textCtrl1724;
+		wxTextCtrl* ignoreAddressOutsideFrom_TXT;
+		wxStaticText* ignoreAddressOutside_S;
+		wxTextCtrl* ignoreAddressOutsideTo_TXT;
 		wxPanel* RP;
 		wxGrid* RG;
 		wxPanel* RHP;
+		wxCheckBox* useEdit_CB;
 		wxGrid* RHG;
 		wxStaticText* RHTS;
 		wxButton* RHAdd;
 		wxChoice* RHTD;
 		wxStaticText* RHAS;
-		wxTextCtrl* RHAT;
+		wxTextCtrl* resultAddress_TXT;
 		wxStaticText* RHVS;
-		wxTextCtrl* RHVT;
+		wxTextCtrl* resultValue_TXT;
 		wxPanel* EP;
 		wxButton* EAB;
 		wxTextCtrl* editorAddress_TXT;
@@ -245,7 +246,9 @@ class HEXFRM : public wxFrame
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bQActSOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void value1_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void value_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void address_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void result_GOnSelect( wxGridEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }

@@ -627,15 +627,17 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* ignoreAddressOutside_L;
 	ignoreAddressOutside_L = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_textCtrl1624 = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreAddressOutside_L->Add( m_textCtrl1624, 0, wxALL, 5 );
+	ignoreAddressOutsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreAddressOutsideFrom_TXT->SetMaxLength( 16 ); 
+	ignoreAddressOutside_L->Add( ignoreAddressOutsideFrom_TXT, 0, wxALL, 5 );
 	
-	m_staticText2724 = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2724->Wrap( -1 );
-	ignoreAddressOutside_L->Add( m_staticText2724, 0, wxALL, 5 );
+	ignoreAddressOutside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreAddressOutside_S->Wrap( -1 );
+	ignoreAddressOutside_L->Add( ignoreAddressOutside_S, 0, wxALL, 5 );
 	
-	m_textCtrl1724 = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreAddressOutside_L->Add( m_textCtrl1724, 0, wxALL, 5 );
+	ignoreAddressOutsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ignoreAddressOutsideTo_TXT->SetMaxLength( 16 ); 
+	ignoreAddressOutside_L->Add( ignoreAddressOutsideTo_TXT, 0, wxALL, 5 );
 	
 	ignore_L->Add( ignoreAddressOutside_L, 1, wxEXPAND, 5 );
 	
@@ -647,7 +649,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	QP->SetSizer( QL0 );
 	QP->Layout();
 	QL0->Fit( QP );
-	NB->AddPage( QP, wxT("Find"), false );
+	NB->AddPage( QP, wxT("Find"), true );
 	RP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* RL;
 	RL = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -688,9 +690,13 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	wxFlexGridSizer* RHL0;
 	RHL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	RHL0->AddGrowableRow( 0 );
+	RHL0->AddGrowableRow( 1 );
 	RHL0->SetFlexibleDirection( wxBOTH );
 	RHL0->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	useEdit_CB = new wxCheckBox( RHP, wxID_ANY, wxT("Use selected address in editor"), wxDefaultPosition, wxDefaultSize, 0 );
+	useEdit_CB->SetValue(true); 
+	RHL0->Add( useEdit_CB, 0, wxALL, 5 );
 	
 	RHG = new wxGrid( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -749,15 +755,16 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	RHAS->Wrap( -1 );
 	RHL1->Add( RHAS, 0, wxALL, 5 );
 	
-	RHAT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	RHL1->Add( RHAT, 0, wxALL|wxEXPAND, 5 );
+	resultAddress_TXT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	resultAddress_TXT->SetMaxLength( 16 ); 
+	RHL1->Add( resultAddress_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	RHVS = new wxStaticText( RHP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
 	RHVS->Wrap( -1 );
 	RHL1->Add( RHVS, 0, wxALL, 5 );
 	
-	RHVT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	RHL1->Add( RHVT, 0, wxALL|wxEXPAND, 5 );
+	resultValue_TXT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	RHL1->Add( resultValue_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	RHL0->Add( RHL1, 0, wxALL|wxEXPAND, 5 );
 	
@@ -1359,8 +1366,19 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
-	value1_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value1_TXTOnKeyDown ), NULL, this );
+	value1_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	value2_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreInsideFrom_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreInsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreOutsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreAddressOutsideFrom_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	ignoreAddressOutsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	RG->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::result_GOnSelect ), NULL, this );
+	resultAddress_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	resultValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
 	EAB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
+	editorAddress_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
 	EG->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::EGOnChange ), NULL, this );
@@ -1412,8 +1430,19 @@ HEXFRM::~HEXFRM()
 	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
-	value1_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value1_TXTOnKeyDown ), NULL, this );
+	value1_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	value2_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreInsideFrom_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreInsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreOutsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	ignoreAddressOutsideFrom_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	ignoreAddressOutsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	RG->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::result_GOnSelect ), NULL, this );
+	resultAddress_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	resultValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
 	EAB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
+	editorAddress_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
 	EG->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::EGOnChange ), NULL, this );
