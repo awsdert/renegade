@@ -123,6 +123,7 @@ u64 ME::getHEX(xStr s)
 {
 	u32 i = 0, j;
 	u64 value = 0;
+	s = s.Upper();
 	const xStr hexChar = wxT( "0123456789ABCDEF" );
 	while ( s[ i ] )
 	{

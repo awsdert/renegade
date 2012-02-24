@@ -785,8 +785,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	EAB = new wxButton( EP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, 0 );
 	ELHead->Add( EAB, 0, wxALL, 5 );
 	
-	EAT = new wxTextCtrl( EP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ELHead->Add( EAT, 0, wxALL, 5 );
+	editorAddress_TXT = new wxTextCtrl( EP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ELHead->Add( editorAddress_TXT, 0, wxALL, 5 );
 	
 	EVB = new wxButton( EP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
 	ELHead->Add( EVB, 0, wxALL, 5 );
@@ -1364,6 +1364,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
 	EG->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::EGOnChange ), NULL, this );
+	EG->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( HEXFRM::editor_GOnScroll ), NULL, this );
 	DBAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBAddBClick ), NULL, this );
 	DBDelB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBDelBOnClick ), NULL, this );
 	DB->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::DBSelectC ), NULL, this );
@@ -1416,6 +1417,7 @@ HEXFRM::~HEXFRM()
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
 	EUD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::EUOnChange ), NULL, this );
 	EG->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::EGOnChange ), NULL, this );
+	EG->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( HEXFRM::editor_GOnScroll ), NULL, this );
 	DBAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBAddBClick ), NULL, this );
 	DBDelB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::DBDelBOnClick ), NULL, this );
 	DB->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::DBSelectC ), NULL, this );

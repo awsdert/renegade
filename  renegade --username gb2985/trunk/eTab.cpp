@@ -12,35 +12,45 @@
 #endif //__BORLANDC__
 #include "hexMain.h"
 void ME::EA(void) {
-	xStr tv = EAT->GetValue(), trs = GARAM(0, 3), t, txt, text;
-	HANDLE p = GAP();
-	if (p == NULL) { EWB = 0; }
-	u32 s = getHEX(tv), i, r, c, k = 0, ram = GARS(0), re, rs;
-	rs = ram + s; re = ram + getHEX(trs) + (u32)1;
-	wxChar tc; u8 tmp = 0;
+	xStr xAddressText = editorAddress_TXT->GetValue(), trs = GARAM(0, 3), t, txt, text;
+	HANDLE appHandle = GAP();
+	if (appHandle == NULL) { EWB = 0; }
+	u64 xAddress = getHEX(xAddressText);
+	u64 ramAddress = GARS(0) + xAddress;
+	u64 ramEnd = GARM(0);
+	u32 row = 0;
+	u32 col = 0;
+	wxChar tc;
+	u8 tmp = 0;
 	ClearGrid(EG);
+	u32 i = 0;
+	u32 buffLen = 32 * 0x10;
+	u8* buff = HCReadM8(appHandle, ramAddress, buffLen);
 //	EG->DeleteRows(0, EG->GetNumberRows(), false);
-	for (i = rs, r = 0;(r < 32 && i < re);r++) {
+	for ( ; ( i < buffLen && row < 32 && xAddress < ramEnd ); i++, row++, xAddress++ )
+	{
 		EG->AppendRows(1, false);
-		t.Printf(wxT("%X"), i - ram);
-		EG->SetCellValue(r, 0, t);
-		for (c = 0;c < 16;c++) {
-			k = i + c;
-			if (k >= re) { break; }
-			t = HCRead(p, k, 1);
-			EG->SetCellValue(r, c + 1, t);
-			tc = getHEX(t);
+		t.Printf(wxT("%016llX"), xAddress);
+		EG->SetCellValue(row, 0, t);
+		for ( col = 1; ( col < 17 && xAddress < ramEnd ); col++, i++, xAddress++) {
+			t.Printf( wxT( "%02X" ), buff[ i ] );
+			EG->SetCellValue(row, col, t);
+			tc = buff[ i ];
 			txt << tc;
 			if (tmp > 0) { tmp = 0; }
 			else {
-				t = HCRead(p, k, 2);
+				t.Printf( wxT("%02X%02X"), buff[ i ], buff[ i + 1 ] );
 				tc = getHEX(t);
 				text << tc;
+				tmp = 1;
 			}
-		} i = k + 1;
-		EG->SetCellValue(r, 17, txt);
-		EG->SetCellValue(r, 18, text);
-		txt = wxT(""); text = wxT("");
+		}
+		i--;
+		xAddress--;
+		EG->SetCellValue(row, 17, txt);
+		EG->SetCellValue(row, 18, text);
+		txt.Clear();
+		text.Clear();
 	} EG->SetColMinimalAcceptableWidth(50);
 	EG->AutoSizeColumns(0);
 }

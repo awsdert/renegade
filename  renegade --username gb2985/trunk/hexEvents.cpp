@@ -62,7 +62,25 @@ void ME::EGOnChange(wxGridEvent& event) {
 	if (c > 0) {
 		u32 i = getHEX(s) + GARS(0) + c - 1, v = getHEX(EG->GetCellValue(r, c));
 		HANDLE p = GAP(); HCWrite(p, i, 1, v);
-	} else { EAT->SetValue(s); EA(); }
+	} else { editorAddress_TXT->SetValue(s); EA(); }
+}
+void ME::editor_GOnScroll(wxMouseEvent& event)
+{
+	xStr text = editorAddress_TXT->GetValue();
+	u64 xAddress = getHEX(text);
+	u64 ramEnd = GARM(0);
+	if (event.GetWheelRotation() > 0)
+	{
+		if ( s64(xAddress - 0x100) < 0 ) { xAddress = 0; }
+		else { xAddress -= 0x100; }
+	}
+	else
+	{
+		if ((xAddress + 0x100) > ramEnd) { xAddress = ramEnd; }
+		else { xAddress += 0x100; }
+	}
+	text.Printf( wxT("%llX"), xAddress );
+	editorAddress_TXT->SetValue( text );
 }
 // - Database Tab
 void ME::DBSaveBOnClick(wxCommandEvent& event) { DBSave(); }

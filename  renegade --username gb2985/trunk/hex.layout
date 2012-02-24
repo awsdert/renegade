@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="release" />
-	<File name="HC.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="2537" topLine="15" />
+	<File name="DB.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1211" topLine="28" />
 	</File>
-	<File name="HCC.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="1989" topLine="60" />
+	<File name="HC.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="4335" topLine="154" />
 	</File>
-	<File name="hexMain.h" open="1" top="0" tabpos="4">
-		<Cursor position="4577" topLine="123" />
+	<File name="HCC.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="272" topLine="9" />
 	</File>
-	<File name="qTab.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="703" topLine="6" />
+	<File name="HT.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="3941" topLine="138" />
+	</File>
+	<File name="TXT_Events.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="235" topLine="0" />
+	</File>
+	<File name="eTab.cpp" open="1" top="0" tabpos="10">
+		<Cursor position="433" topLine="6" />
+	</File>
+	<File name="hTab.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="1826" topLine="49" />
+	</File>
+	<File name="hexApp.h" open="0" top="0" tabpos="0">
+		<Cursor position="618" topLine="6" />
+	</File>
+	<File name="hexEvents.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="2410" topLine="50" />
+	</File>
+	<File name="hexMain.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="4211" topLine="111" />
+	</File>
+	<File name="hexMain.h" open="1" top="0" tabpos="8">
+		<Cursor position="3592" topLine="101" />
+	</File>
+	<File name="hexVar.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="463" topLine="30" />
+	</File>
+	<File name="hexVar.h" open="1" top="0" tabpos="2">
+		<Cursor position="941" topLine="34" />
 	</File>
 </CodeBlocks_layout_file>

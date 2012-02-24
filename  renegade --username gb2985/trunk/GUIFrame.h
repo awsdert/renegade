@@ -150,7 +150,7 @@ class HEXFRM : public wxFrame
 		wxTextCtrl* RHVT;
 		wxPanel* EP;
 		wxButton* EAB;
-		wxTextCtrl* EAT;
+		wxTextCtrl* editorAddress_TXT;
 		wxButton* EVB;
 		wxTextCtrl* EVT;
 		wxStaticText* EUS;
@@ -250,6 +250,7 @@ class HEXFRM : public wxFrame
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EGOnChange( wxGridEvent& event ) { event.Skip(); }
+		virtual void editor_GOnScroll( wxMouseEvent& event ) { event.Skip(); }
 		virtual void DBAddBClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBDelBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DBSelectC( wxTreeEvent& event ) { event.Skip(); }

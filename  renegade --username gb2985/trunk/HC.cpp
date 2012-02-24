@@ -24,7 +24,7 @@ void ME::HCHook(void) {
 #define ReadAddress BLANK(0) \
 	ReadProcessMemory(appHandle, (void*)address, (void*)buff, size, NULL); \
 	return buff;
-void ME::HCWrite(ReadWriteApp, DWORD buff) {
+void ME::HCWrite(ReadWriteApp, u64 buff) {
 	FlipAddress;
 	WriteProcessMemory(appHandle, (void*)address, &buff, size, NULL);
 }
@@ -61,7 +61,7 @@ u64* ME::HCReadM64(ReadWriteApp) {
 	FlipAddress;
 	ReadAddress;
 }
-void ME::HCUse(xTID& r, HANDLE appHandle, s32 line, s32 stop) {
+void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 	HACK* hack = getIH(r);
 	u64 ramAddress = GARS(0);
 	u64 xAddress, xValue;

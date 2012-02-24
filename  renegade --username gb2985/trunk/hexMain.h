@@ -112,6 +112,7 @@ class ME: public HEXFRM {
 		void EVOnClick(wxCommandEvent& event);
 		void EUOnChange(wxCommandEvent& event);
 		void EGOnChange(wxGridEvent& event);
+		void editor_GOnScroll(wxMouseEvent& event);
 		// - - Database Tab
 		void DBLoadBOnClick(wxCommandEvent& event);
 		void DBSaveBOnClick(wxCommandEvent& event);
@@ -211,7 +212,7 @@ class ME: public HEXFRM {
 		void HTChange(xTID& i);
 		s32 HCRow, HCRows;
 		void HCLoad(void);
-		void HCWrite(ReadWriteApp, DWORD v);
+		void HCWrite(ReadWriteApp, u64 value);
 		xStr HCRead(ReadWriteApp);
 		u64 HCReadH(ReadWriteApp);
 		u8* HCReadM8(ReadWriteApp);
@@ -222,7 +223,7 @@ class ME: public HEXFRM {
 		// - Hack Tab
 		// - - Hack Codelist
 		void HCUChange(void);
-		void HCUse(xTID& r, HANDLE pid, s32 j = 0, s32 stop = 0);
+		void HCUse(xTID& r, HANDLE pid, u32 j = 0, u32 stop = 0);
 		void HCHook(void);
 		void HCChange(s32 r);
 };
