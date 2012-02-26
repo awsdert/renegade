@@ -64,22 +64,27 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	PFL2->SetFlexibleDirection( wxBOTH );
 	PFL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxArrayString PFDChoices;
-	PFD = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, PFDChoices, 0 );
-	PFD->SetSelection( 0 );
-	PFL2->Add( PFD, 0, wxALL|wxEXPAND, 5 );
+	wxArrayString group_DChoices;
+	group_D = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, group_DChoices, 0 );
+	group_D->SetSelection( 0 );
+	PFL2->Add( group_D, 0, wxALL|wxEXPAND, 5 );
 	
-	PFB = new wxButton( wHookScroll, wxID_ANY, wxT("Use Group"), wxDefaultPosition, wxDefaultSize, 0 );
-	PFL2->Add( PFB, 0, wxALL, 5 );
+	loadGroup_B = new wxButton( wHookScroll, wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	PFL2->Add( loadGroup_B, 0, wxALL, 5 );
 	
-	wxString PFRChoices[] = { wxT("Application"), wxT("File") };
-	int PFRNChoices = sizeof( PFRChoices ) / sizeof( wxString );
-	PFR = new wxRadioBox( wHookScroll, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, PFRNChoices, PFRChoices, 2, wxRA_SPECIFY_COLS );
-	PFR->SetSelection( 0 );
-	PFL2->Add( PFR, 0, wxALL|wxEXPAND, 5 );
+	wxString hookType_DChoices[] = { wxT("Application"), wxT("File") };
+	int hookType_DNChoices = sizeof( hookType_DChoices ) / sizeof( wxString );
+	hookType_D = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, hookType_DNChoices, hookType_DChoices, 0 );
+	hookType_D->SetSelection( 0 );
+	hookType_D->Enable( false );
+	
+	PFL2->Add( hookType_D, 0, wxALL|wxEXPAND, 5 );
+	
+	saveGroup_B = new wxButton( wHookScroll, wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	PFL2->Add( saveGroup_B, 0, wxALL, 5 );
 	
 	wxBoxSizer* PFL3;
-	PFL3 = new wxBoxSizer( wxVERTICAL );
+	PFL3 = new wxBoxSizer( wxHORIZONTAL );
 	
 	PFGetB = new wxButton( wHookScroll, wxID_ANY, wxT("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
 	PFL3->Add( PFGetB, 0, wxALL, 5 );
@@ -96,17 +101,12 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	URL = new wxDirPickerCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE );
 	bsHookScroll->Add( URL, 0, wxALL|wxEXPAND, 5 );
 	
+	hookApp_P = new wxPanel( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* APPL0;
-	APPL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("App") ), wxVERTICAL );
+	APPL0 = new wxStaticBoxSizer( new wxStaticBox( hookApp_P, wxID_ANY, wxT("App") ), wxVERTICAL );
 	
-	wxFlexGridSizer* APPL1;
-	APPL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	APPL1->AddGrowableCol( 0 );
-	APPL1->SetFlexibleDirection( wxBOTH );
-	APPL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	APPD = new wxBitmapComboBox( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	APPL1->Add( APPD, 0, wxALL|wxEXPAND, 5 );
+	appTitle_D = new wxComboBox( hookApp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	APPL0->Add( appTitle_D, 0, wxALL|wxEXPAND, 5 );
 	
 	wxFlexGridSizer* APPL2;
 	APPL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -114,31 +114,35 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	APPL2->SetFlexibleDirection( wxBOTH );
 	APPL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	APPB = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	APPB = new wxButton( hookApp_P, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
 	APPL2->Add( APPB, 0, wxALL, 5 );
 	
-	APPT = new wxTextCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	APPT = new wxTextCtrl( hookApp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	APPL2->Add( APPT, 0, wxALL|wxEXPAND, 5 );
 	
-	APPS = new wxStaticText( wHookScroll, wxID_ANY, wxT("Check"), wxDefaultPosition, wxDefaultSize, 0 );
+	APPS = new wxStaticText( hookApp_P, wxID_ANY, wxT("Check"), wxDefaultPosition, wxDefaultSize, 0 );
 	APPS->Wrap( -1 );
 	APPL2->Add( APPS, 0, wxALL, 5 );
 	
 	wxArrayString APPCheckChoices;
-	APPCheck = new wxChoice( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, APPCheckChoices, 0 );
+	APPCheck = new wxChoice( hookApp_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, APPCheckChoices, 0 );
 	APPCheck->SetSelection( 0 );
 	APPCheck->SetToolTip( wxT("Check if App is Active") );
 	
 	APPL2->Add( APPCheck, 0, wxALL|wxEXPAND, 5 );
 	
-	APPL1->Add( APPL2, 1, wxEXPAND, 5 );
+	APPL0->Add( APPL2, 1, wxEXPAND, 5 );
 	
-	APPL0->Add( APPL1, 1, wxEXPAND, 5 );
+	hookApp_P->SetSizer( APPL0 );
+	hookApp_P->Layout();
+	APPL0->Fit( hookApp_P );
+	bsHookScroll->Add( hookApp_P, 0, wxEXPAND|wxRIGHT, 5 );
 	
-	bsHookScroll->Add( APPL0, 0, wxEXPAND|wxRIGHT, 5 );
+	hookFile_P = new wxPanel( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	hookFile_P->Hide();
 	
 	wxStaticBoxSizer* BINL0;
-	BINL0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("File") ), wxVERTICAL );
+	BINL0 = new wxStaticBoxSizer( new wxStaticBox( hookFile_P, wxID_ANY, wxT("File") ), wxVERTICAL );
 	
 	wxFlexGridSizer* BINL1;
 	BINL1 = new wxFlexGridSizer( 0, 1, 0, 0 );
@@ -146,7 +150,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BINL1->SetFlexibleDirection( wxBOTH );
 	BINL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	BINProfile = new wxComboBox( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	BINProfile = new wxComboBox( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
 	BINL1->Add( BINProfile, 0, wxALL|wxEXPAND, 5 );
 	
 	wxFlexGridSizer* BINL2;
@@ -155,27 +159,26 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BINL2->SetFlexibleDirection( wxBOTH );
 	BINL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	BINT = new wxTextCtrl( wHookScroll, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	BINT = new wxTextCtrl( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	BINL2->Add( BINT, 0, wxALL|wxEXPAND, 5 );
 	
-	BINB = new wxButton( wHookScroll, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	BINB = new wxButton( hookFile_P, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
 	BINL2->Add( BINB, 0, wxALL, 5 );
 	
 	BINL1->Add( BINL2, 1, wxEXPAND, 5 );
 	
 	BINL0->Add( BINL1, 1, wxEXPAND, 5 );
 	
-	bsHookScroll->Add( BINL0, 0, wxEXPAND|wxRIGHT, 5 );
+	hookFile_P->SetSizer( BINL0 );
+	hookFile_P->Layout();
+	BINL0->Fit( hookFile_P );
+	bsHookScroll->Add( hookFile_P, 0, wxEXPAND|wxRIGHT, 5 );
 	
 	wxStaticBoxSizer* RAML0;
 	RAML0 = new wxStaticBoxSizer( new wxStaticBox( wHookScroll, wxID_ANY, wxT("Memory") ), wxVERTICAL );
 	
-	wxFlexGridSizer* RAML1;
-	RAML1 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	RAML1->SetFlexibleDirection( wxBOTH );
-	RAML1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	RAML0->Add( RAML1, 0, wxEXPAND, 5 );
+	addRAM_B = new wxButton( wHookScroll, wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	RAML0->Add( addRAM_B, 0, wxALL, 5 );
 	
 	RAMG = new wxGrid( wHookScroll, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -273,7 +276,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	nbHook->SetSizer( bsHook );
 	nbHook->Layout();
 	bsHook->Fit( nbHook );
-	NB->AddPage( nbHook, wxT("Hook"), false );
+	NB->AddPage( nbHook, wxT("Hook"), true );
 	QP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* QL0;
 	QL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
@@ -649,7 +652,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	QP->SetSizer( QL0 );
 	QP->Layout();
 	QL0->Fit( QP );
-	NB->AddPage( QP, wxT("Find"), true );
+	NB->AddPage( QP, wxT("Find"), false );
 	RP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* RL;
 	RL = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -1110,56 +1113,57 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCCS->Wrap( -1 );
 	HCHead->Add( HCCS, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString HCCDChoices[] = { wxT("Write"), wxT("Copy"), wxT("Test"), wxT("Increment"), wxT("Decrement"), wxT("List Write") };
-	int HCCDNChoices = sizeof( HCCDChoices ) / sizeof( wxString );
-	HCCD = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, HCCDNChoices, HCCDChoices, 0 );
-	HCCD->SetSelection( 0 );
-	HCHead->Add( HCCD, 0, wxALL|wxEXPAND, 5 );
+	wxString codeType_DChoices[] = { wxT("Write"), wxT("Copy"), wxT("Test"), wxT("Increment"), wxT("Decrement"), wxT("List Write") };
+	int codeType_DNChoices = sizeof( codeType_DChoices ) / sizeof( wxString );
+	codeType_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeType_DNChoices, codeType_DChoices, 0 );
+	codeType_D->SetSelection( 0 );
+	HCHead->Add( codeType_D, 0, wxALL|wxEXPAND, 5 );
 	
-	HCRC = new wxCheckBox( HCP, wxID_ANY, wxT("Repeats"), wxDefaultPosition, wxDefaultSize, 0 );
-	HCHead->Add( HCRC, 1, wxALL|wxEXPAND, 5 );
+	codeRepeat_S = new wxStaticText( HCP, wxID_ANY, wxT("Repeat"), wxDefaultPosition, wxDefaultSize, 0 );
+	codeRepeat_S->Wrap( -1 );
+	HCHead->Add( codeRepeat_S, 0, wxALIGN_BOTTOM|wxALL, 5 );
 	
 	HCRAMS = new wxStaticText( HCP, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	HCRAMS->Wrap( -1 );
 	HCHead->Add( HCRAMS, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString HCRAMDChoices[] = { wxT("Main") };
-	int HCRAMDNChoices = sizeof( HCRAMDChoices ) / sizeof( wxString );
-	HCRAMD = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, HCRAMDNChoices, HCRAMDChoices, 0 );
-	HCRAMD->SetSelection( 0 );
-	HCHead->Add( HCRAMD, 0, wxALL|wxEXPAND, 5 );
+	wxString codeRAM_DChoices[] = { wxT("Main") };
+	int codeRAM_DNChoices = sizeof( codeRAM_DChoices ) / sizeof( wxString );
+	codeRAM_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeRAM_DNChoices, codeRAM_DChoices, 0 );
+	codeRAM_D->SetSelection( 0 );
+	HCHead->Add( codeRAM_D, 0, wxALL|wxEXPAND, 5 );
 	
-	HCRN = new wxSpinCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 255, 0 );
-	HCRN->SetToolTip( wxT("Repeats on how many Addresses") );
-	HCRN->SetMinSize( wxSize( 50,-1 ) );
+	codeRepeat_SN = new wxSpinCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 255, 0 );
+	codeRepeat_SN->SetToolTip( wxT("Repeats on how many Addresses") );
+	codeRepeat_SN->SetMinSize( wxSize( 50,-1 ) );
 	
-	HCHead->Add( HCRN, 1, wxALL|wxEXPAND, 5 );
+	HCHead->Add( codeRepeat_SN, 1, wxALL|wxEXPAND, 5 );
 	
 	sHackA = new wxStaticText( HCP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	sHackA->Wrap( -1 );
 	HCHead->Add( sHackA, 0, wxALL|wxEXPAND, 5 );
 	
-	tHackA = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	HCHead->Add( tHackA, 0, wxALL|wxEXPAND, 5 );
+	codeAddress_TXT = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( codeAddress_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString mHackAChoices[] = { wxT("Fixed"), wxT("Pointer") };
-	int mHackANChoices = sizeof( mHackAChoices ) / sizeof( wxString );
-	mHackA = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackANChoices, mHackAChoices, 0 );
-	mHackA->SetSelection( 0 );
-	HCHead->Add( mHackA, 0, wxALL|wxEXPAND, 5 );
+	wxString codeFixed_DChoices[] = { wxT("Fixed"), wxT("Pointer") };
+	int codeFixed_DNChoices = sizeof( codeFixed_DChoices ) / sizeof( wxString );
+	codeFixed_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeFixed_DNChoices, codeFixed_DChoices, 0 );
+	codeFixed_D->SetSelection( 0 );
+	HCHead->Add( codeFixed_D, 0, wxALL|wxEXPAND, 5 );
 	
 	sHackV = new wxStaticText( HCP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	sHackV->Wrap( -1 );
 	HCHead->Add( sHackV, 0, wxALL|wxEXPAND, 5 );
 	
-	tHackV = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	HCHead->Add( tHackV, 0, wxALL|wxEXPAND, 5 );
+	codeValue_TXT = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( codeValue_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString mHackVChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
-	int mHackVNChoices = sizeof( mHackVChoices ) / sizeof( wxString );
-	mHackV = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, mHackVNChoices, mHackVChoices, 0 );
-	mHackV->SetSelection( 0 );
-	HCHead->Add( mHackV, 0, wxALL|wxEXPAND, 5 );
+	wxString codeSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
+	int codeSize_DNChoices = sizeof( codeSize_DChoices ) / sizeof( wxString );
+	codeSize_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeSize_DNChoices, codeSize_DChoices, 0 );
+	codeSize_D->SetSelection( 0 );
+	HCHead->Add( codeSize_D, 0, wxALL|wxEXPAND, 5 );
 	
 	HCL->Add( HCHead, 1, wxEXPAND, 5 );
 	
@@ -1180,21 +1184,21 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCTS1->Wrap( -1 );
 	HCTL->Add( HCTS1, 0, wxALL, 5 );
 	
-	wxString HCTD1Choices[] = { wxT("Is Value"), wxT("Is Not Value") };
-	int HCTD1NChoices = sizeof( HCTD1Choices ) / sizeof( wxString );
-	HCTD1 = new wxChoice( HCTW, wxID_ANY, wxDefaultPosition, wxDefaultSize, HCTD1NChoices, HCTD1Choices, 0 );
-	HCTD1->SetSelection( 0 );
-	HCTL->Add( HCTD1, 0, wxALL|wxEXPAND, 5 );
+	wxString codeTest_DChoices[] = { wxT("= Value"), wxT("!= Value"), wxT("> Value"), wxT(">= Value"), wxT("< Value"), wxT("<= Value") };
+	int codeTest_DNChoices = sizeof( codeTest_DChoices ) / sizeof( wxString );
+	codeTest_D = new wxChoice( HCTW, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeTest_DNChoices, codeTest_DChoices, 0 );
+	codeTest_D->SetSelection( 0 );
+	HCTL->Add( codeTest_D, 0, wxALL|wxEXPAND, 5 );
 	
 	HCTS2 = new wxStaticText( HCTW, wxID_ANY, wxT("do"), wxDefaultPosition, wxDefaultSize, 0 );
 	HCTS2->Wrap( -1 );
 	HCTL->Add( HCTS2, 0, wxALL, 5 );
 	
-	wxString HCTD2Choices[] = { wxT("1 Line"), wxT("2 Lines"), wxT("All Lines") };
-	int HCTD2NChoices = sizeof( HCTD2Choices ) / sizeof( wxString );
-	HCTD2 = new wxChoice( HCTW, wxID_ANY, wxDefaultPosition, wxDefaultSize, HCTD2NChoices, HCTD2Choices, 0 );
-	HCTD2->SetSelection( 0 );
-	HCTL->Add( HCTD2, 0, wxALL|wxEXPAND, 5 );
+	wxString codeTestLine_DChoices[] = { wxT("1 Line"), wxT("# Lines (Use repeat box)"), wxT("All Lines") };
+	int codeTestLine_DNChoices = sizeof( codeTestLine_DChoices ) / sizeof( wxString );
+	codeTestLine_D = new wxChoice( HCTW, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeTestLine_DNChoices, codeTestLine_DChoices, 0 );
+	codeTestLine_D->SetSelection( 0 );
+	HCTL->Add( codeTestLine_D, 0, wxALL|wxEXPAND, 5 );
 	
 	HCTW->SetSizer( HCTL );
 	HCTW->Layout();
@@ -1214,8 +1218,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCAS1->Wrap( -1 );
 	HCAL->Add( HCAS1, 0, wxALL|wxEXPAND, 5 );
 	
-	HCAT = new wxTextCtrl( HCAW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	HCAL->Add( HCAT, 0, wxALL|wxEXPAND, 5 );
+	codeIncAddress_TXT = new wxTextCtrl( HCAW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCAL->Add( codeIncAddress_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	HCAS2 = new wxStaticText( HCAW, wxID_ANY, wxT("x 1 (Address)"), wxDefaultPosition, wxDefaultSize, 0 );
 	HCAS2->Wrap( -1 );
@@ -1239,8 +1243,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCVS1->Wrap( -1 );
 	HCVL->Add( HCVS1, 0, wxALL|wxEXPAND, 5 );
 	
-	HCVT = new wxTextCtrl( HCVW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	HCVL->Add( HCVT, 0, wxALL|wxEXPAND, 5 );
+	codeIncValue_TXT = new wxTextCtrl( HCVW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCVL->Add( codeIncValue_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	HCVS2 = new wxStaticText( HCVW, wxID_ANY, wxT("(Value)"), wxDefaultPosition, wxDefaultSize, 0 );
 	HCVS2->Wrap( -1 );
@@ -1348,21 +1352,20 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
-	PFD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	PFB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
-	PFR->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
+	group_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
+	loadGroup_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
+	saveGroup_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::saveGroup_BOnClick ), NULL, this );
 	PFGetB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
 	PFStartB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
-	APPD->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APPDOnChange ), NULL, this );
-	APPD->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
-	APPD->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APPDOnEdit ), NULL, this );
-	APPD->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APPDOnEnter ), NULL, this );
+	appTitle_D->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::appTitle_DOnEnter ), NULL, this );
 	APPB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
 	APPCheck->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
 	BINProfile->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
 	BINProfile->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
 	BINProfile->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
 	BINB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
+	addRAM_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::addRAM_BOnClick ), NULL, this );
+	RAMG->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );
 	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
@@ -1396,8 +1399,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HT->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::HTOnChangeSelT ), NULL, this );
 	bHTLoad->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
 	bHTSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
-	HCCD->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
-	HCRC->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCRCOnChange ), NULL, this );
+	codeType_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
+	codeRepeat_SN->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HEXFRM::codeRepeat_SNOnSpin ), NULL, this );
 	HCUseC->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCUOnChange ), NULL, this );
 	HCAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
 	HCLoadB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCLoadOnClick ), NULL, this );
@@ -1412,21 +1415,20 @@ HEXFRM::~HEXFRM()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( HEXFRM::HEXFORMCLOSE ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( HEXFRM::HEXFORMIDLE ) );
-	PFD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
-	PFB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
-	PFR->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( HEXFRM::PFOnSwitch ), NULL, this );
+	group_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::PFOnChange ), NULL, this );
+	loadGroup_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFOnClick ), NULL, this );
+	saveGroup_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::saveGroup_BOnClick ), NULL, this );
 	PFGetB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
 	PFStartB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
-	APPD->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::APPDOnChange ), NULL, this );
-	APPD->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appOnBlur ), NULL, this );
-	APPD->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::APPDOnEdit ), NULL, this );
-	APPD->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::APPDOnEnter ), NULL, this );
+	appTitle_D->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::appTitle_DOnEnter ), NULL, this );
 	APPB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
 	APPCheck->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
 	BINProfile->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
 	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
 	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
 	BINB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
+	addRAM_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::addRAM_BOnClick ), NULL, this );
+	RAMG->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );
 	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
 	bQActS->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bQActSOnClick ), NULL, this );
@@ -1460,8 +1462,8 @@ HEXFRM::~HEXFRM()
 	HT->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HEXFRM::HTOnChangeSelT ), NULL, this );
 	bHTLoad->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTLoadOnClick ), NULL, this );
 	bHTSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
-	HCCD->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
-	HCRC->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCRCOnChange ), NULL, this );
+	codeType_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
+	codeRepeat_SN->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HEXFRM::codeRepeat_SNOnSpin ), NULL, this );
 	HCUseC->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCUOnChange ), NULL, this );
 	HCAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
 	HCLoadB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCLoadOnClick ), NULL, this );

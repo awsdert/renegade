@@ -40,6 +40,11 @@ class ME: public HEXFRM {
 		u64 ignoreInsideTo;
 		u64 ignoreOutsideFrom;
 		u64 ignoreOutsideTo;
+		u32 addressSize;
+		xAInt PLATFORM_SIZE;
+		void saveGroup( void );
+		void saveGroup_BOnClick( wxCommandEvent& event );
+		void ram_GOnChange( wxGridEvent& event );
 		void showResults( s32 searchNo, u32 valSize );
 		wxFile checkFile;
 		wxTextFile logFile;
@@ -49,6 +54,7 @@ class ME: public HEXFRM {
 		void PresetOnChange(void);
 		xStr hexSlash;
 		u64 logIndex;
+		void BuildCode(HACK* hack, CL code, s32 line = -1);
 		void Log(xStr text, xStr title = wxT( "" ));
 		// Globals
 		u8 HDTI; // Hook Time Index
@@ -85,7 +91,7 @@ class ME: public HEXFRM {
 		bool GART(s32 r);
 		void ClearGrid(wxGrid*& grid);
 		void ClearGridCols(wxGrid*& grid);
-		DWORD GARS(s32 r);
+		u64 GARS(s32 r);
 		u32 GARM(s32 r);
 		u64 getHEX(xStr s);
 		s32 getAppLen(void);
@@ -135,7 +141,7 @@ class ME: public HEXFRM {
 		void HCChangeC(wxGridEvent& event); // Load hack codeline
 		void HCChangeR(wxGridEvent& event); // Load first hack codeline in range
 		void HCChangeD(wxGridEvent& event); // Change hack codeline
-		void HCRCOnChange(wxCommandEvent& event); // Does codeline repeat?
+		void codeRepeat_SNOnSpin(wxSpinEvent& event);
 		void HCCDOnChange(wxCommandEvent& event); // Set type of codeline
 		void HCUOnChange(wxCommandEvent& event); // Use / Don't use hack
 		// HCC.cpp

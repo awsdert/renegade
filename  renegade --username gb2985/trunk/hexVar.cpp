@@ -18,6 +18,7 @@ CL::CL( void )
 	reiterate = 0;
 	ram = 0;
 	inc_address = 0;
+	addressSize = 0;
 	fixed = true;
 	address = 0;
 	value = 0;
@@ -32,6 +33,7 @@ CL::~CL( void )
 	ram = 0;
 	inc_address = 0;
 	fixed = false;
+	addressSize = 0;
 	address = 0;
 	value = 0;
 	inc_value = 0;

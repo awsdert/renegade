@@ -18,17 +18,15 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/button.h>
-#include <wx/radiobox.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/filepicker.h>
-#include <wx/bmpcbox.h>
+#include <wx/combobox.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
-#include <wx/combobox.h>
+#include <wx/panel.h>
 #include <wx/grid.h>
 #include <wx/scrolwin.h>
-#include <wx/panel.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
@@ -55,20 +53,24 @@ class HEXFRM : public wxFrame
 		wxNotebook* NB;
 		wxPanel* nbHook;
 		wxScrolledWindow* wHookScroll;
-		wxChoice* PFD;
-		wxButton* PFB;
-		wxRadioBox* PFR;
+		wxChoice* group_D;
+		wxButton* loadGroup_B;
+		wxChoice* hookType_D;
+		wxButton* saveGroup_B;
 		wxButton* PFGetB;
 		wxButton* PFStartB;
 		wxDirPickerCtrl* URL;
-		wxBitmapComboBox* APPD;
+		wxPanel* hookApp_P;
+		wxComboBox* appTitle_D;
 		wxButton* APPB;
 		wxTextCtrl* APPT;
 		wxStaticText* APPS;
 		wxChoice* APPCheck;
+		wxPanel* hookFile_P;
 		wxComboBox* BINProfile;
 		wxTextCtrl* BINT;
 		wxButton* BINB;
+		wxButton* addRAM_B;
 		wxGrid* RAMG;
 		wxButton* APPLIST;
 		wxButton* APPUSE;
@@ -189,29 +191,29 @@ class HEXFRM : public wxFrame
 		wxButton* bHTSave;
 		wxPanel* HCP;
 		wxStaticText* HCCS;
-		wxChoice* HCCD;
-		wxCheckBox* HCRC;
+		wxChoice* codeType_D;
+		wxStaticText* codeRepeat_S;
 		wxStaticText* HCRAMS;
-		wxChoice* HCRAMD;
-		wxSpinCtrl* HCRN;
+		wxChoice* codeRAM_D;
+		wxSpinCtrl* codeRepeat_SN;
 		wxStaticText* sHackA;
-		wxTextCtrl* tHackA;
-		wxChoice* mHackA;
+		wxTextCtrl* codeAddress_TXT;
+		wxChoice* codeFixed_D;
 		wxStaticText* sHackV;
-		wxTextCtrl* tHackV;
-		wxChoice* mHackV;
+		wxTextCtrl* codeValue_TXT;
+		wxChoice* codeSize_D;
 		wxPanel* HCTW;
 		wxStaticText* HCTS1;
-		wxChoice* HCTD1;
+		wxChoice* codeTest_D;
 		wxStaticText* HCTS2;
-		wxChoice* HCTD2;
+		wxChoice* codeTestLine_D;
 		wxPanel* HCAW;
 		wxStaticText* HCAS1;
-		wxTextCtrl* HCAT;
+		wxTextCtrl* codeIncAddress_TXT;
 		wxStaticText* HCAS2;
 		wxPanel* HCVW;
 		wxStaticText* HCVS1;
-		wxTextCtrl* HCVT;
+		wxTextCtrl* codeIncValue_TXT;
 		wxStaticText* HCVS2;
 		wxCheckBox* HCUseC;
 		wxButton* HCAddB;
@@ -230,19 +232,18 @@ class HEXFRM : public wxFrame
 		virtual void HEXFORMIDLE( wxIdleEvent& event ) { event.Skip(); }
 		virtual void PFOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void PFOnSwitch( wxCommandEvent& event ) { event.Skip(); }
+		virtual void saveGroup_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFGetOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFStartOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void APPDOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void appOnBlur( wxFocusEvent& event ) { event.Skip(); }
-		virtual void APPDOnEdit( wxCommandEvent& event ) { event.Skip(); }
-		virtual void APPDOnEnter( wxCommandEvent& event ) { event.Skip(); }
+		virtual void appTitle_DOnEnter( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnEdit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnEnter( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void addRAM_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ram_GOnChange( wxGridEvent& event ) { event.Skip(); }
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bQActSOnClick( wxCommandEvent& event ) { event.Skip(); }
@@ -268,7 +269,7 @@ class HEXFRM : public wxFrame
 		virtual void bHTLoadOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void bHTSaveOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCCDOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void HCRCOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void codeRepeat_SNOnSpin( wxSpinEvent& event ) { event.Skip(); }
 		virtual void HCUOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCAddBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCLoadOnClick( wxCommandEvent& event ) { event.Skip(); }

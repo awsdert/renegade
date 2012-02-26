@@ -349,7 +349,7 @@ void ME::Find8( u32 mode )
 	u64 oldIndex = 0;
 	xStr text;//, title;
 	// RAM
-	DWORD ramAddress = GARS( 0 ); // Number indicates which RAM, implimented later
+	u64 ramAddress = GARS( 0 ); // Number indicates which RAM, implimented later
 	u64 rmSize = GARM( 0 );
 	u64 ramIndex = 0;
 	u64 address = 0;
@@ -469,19 +469,19 @@ void ME::Find8( u32 mode )
 	}
 }
 void ME::Find16(u32 mode) {
-	s32 varSize = 2;
+	s32 valSize = 2;
 	FIND1;
 	u16* ramBuff = HCReadM16( appHandle, ramAddress, rmSize );
 	FIND2;
 }
 void ME::Find32(u32 mode) {
-	s32 varSize = 4;
+	s32 valSize = 4;
 	FIND1;
 	u32* ramBuff = HCReadM32( appHandle, ramAddress, rmSize );
 	FIND2;
 }
 void ME::Find64(u32 mode) {
-	s32 varSize = 8;
+	s32 valSize = 8;
 	FIND1;
 	u64* ramBuff = HCReadM64( appHandle, ramAddress, rmSize );
 	FIND2;

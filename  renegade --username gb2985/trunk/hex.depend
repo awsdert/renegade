@@ -3695,7 +3695,7 @@
 	<wx/wx.h>
 	"hexVar.h"
 
-1330038506 source:z:\hex\svn\trunk\hexmain.cpp
+1330289918 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
@@ -3719,7 +3719,7 @@
 	<windows.h>
 	<tlhelp32.h>
 
-1330083998 z:\hex\svn\trunk\hexmain.h
+1330294338 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/ffile.h>
 	<wx/textfile.h>
@@ -3729,7 +3729,7 @@
 	"GUIFrame.h"
 	"hexVar.h"
 
-1330084272 z:\hex\svn\trunk\guiframe.h
+1330294264 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3740,17 +3740,15 @@
 	<wx/colour.h>
 	<wx/settings.h>
 	<wx/button.h>
-	<wx/radiobox.h>
 	<wx/sizer.h>
 	<wx/statbox.h>
 	<wx/filepicker.h>
-	<wx/bmpcbox.h>
+	<wx/combobox.h>
 	<wx/textctrl.h>
 	<wx/stattext.h>
-	<wx/combobox.h>
+	<wx/panel.h>
 	<wx/grid.h>
 	<wx/scrolwin.h>
-	<wx/panel.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
@@ -3775,7 +3773,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1330039478 source:z:\hex\svn\trunk\guiframe.cpp
+1330294264 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4193,20 +4191,20 @@
 	"wx/longlong.h"
 	"wx/string.h"
 
-1329996648 z:\hex\svn\trunk\hexvar.h
+1330091102 z:\hex\svn\trunk\hexvar.h
 	"hexApp.h"
 	"GUIFrame.h"
 
 1329903216 source:z:\hex\svn\trunk\ht.cpp
 	"hexMain.h"
 
-1329996648 source:z:\hex\svn\trunk\hexvar.cpp
+1330091102 source:z:\hex\svn\trunk\hexvar.cpp
 	"hexVar.h"
 
 1329900512 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1330021816 source:z:\hex\svn\trunk\hc.cpp
+1330097482 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4221,21 +4219,21 @@
 1330039322 source:z:\hex\svn\trunk\etab.cpp
 	"hexMain.h"
 
-1330022834 source:z:\hex\svn\trunk\hcc.cpp
+1330098496 source:z:\hex\svn\trunk\hcc.cpp
 	"hexMain.h"
 	<math.h>
 
-1329899208 source:z:\hex\svn\trunk\htab.cpp
+1330290976 source:z:\hex\svn\trunk\htab.cpp
 	"hexMain.h"
 
 1330083786 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
-1329953894 source:z:\hex\svn\trunk\qtab.cpp
+1330128756 source:z:\hex\svn\trunk\qtab.cpp
 	"hexMain.h"
 	"qTab.h"
 
-1329736976 z:\hex\svn\trunk\qtab.h
+1330104044 z:\hex\svn\trunk\qtab.h
 
 1309443174 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\ffile.h
 	"wx/defs.h"

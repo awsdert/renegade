@@ -31,6 +31,7 @@ class CL {
 		u32 ram;
 		u32 inc_address;
 		u64 address;
+		u32 addressSize;
 		u64 value;
 		u64 inc_value;
 		xAStr valueArray;

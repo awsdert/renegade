@@ -71,7 +71,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 	bool useTest, useKids = true;
 	xStr text;
 	if (hack->use && r.IsOk()) {
-		u32 s;
+		u32 xSize;
 		u32 k;
 		CL code;
 		xStr t, t2;
@@ -81,24 +81,32 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 		else { stop = hack->GetLen(); }
 		while (line < stop) {
 			code = HCSet(hack, line);
-			s = code.size;
+			xSize = code.size;
 			xAddress = ramAddress + code.address;
-			incAddress = code.inc_address * s;
+			if ( !code.fixed )
+			{
+				xAddress = HCReadH(appHandle, xAddress, addressSize);
+			}
+			incAddress = code.inc_address * xSize;
 			xValue = code.value;
 			switch (code.codeType) {
 			case 0x01: // Copy
 				xValue = ramAddress + code.value;
+				if ( !code.fixed )
+				{
+					xValue = HCReadH(appHandle, xValue, addressSize);
+				}
 				k = 0;
 				do {
-					ramValue = HCReadH(appHandle, xAddress, s);
-					HCWrite( appHandle, xValue, s, ramValue );
+					ramValue = HCReadH(appHandle, xAddress, xSize);
+					HCWrite( appHandle, xValue, xSize, ramValue );
 					xAddress += incAddress;
 					xValue += incAddress;
 					k++;
 				} while (k < code.reiterate);
 				break;
 			case 0x02: // Test
-				ramValue = HCReadH( appHandle, xAddress, s );
+				ramValue = HCReadH( appHandle, xAddress, xSize );
 				useTest = Test( code.test, ramValue, code.value );
 				if ( useTest ) {
 					if (code.reiterate > 0)
@@ -136,8 +144,8 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 				k = 0;
 				do
 				{
-					xValue = HCReadH( appHandle, xAddress, s );
-					HCWrite( appHandle, xAddress, s, xValue + code.inc_value );
+					xValue = HCReadH( appHandle, xAddress, xSize );
+					HCWrite( appHandle, xAddress, xSize, xValue + code.inc_value );
 					xAddress += incAddress;
 					k++;
 				}
@@ -147,8 +155,8 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 				k = 0;
 				do
 				{
-					xValue = HCReadH( appHandle, xAddress, s);
-					HCWrite( appHandle, xAddress, s, xValue - code.inc_value );
+					xValue = HCReadH( appHandle, xAddress, xSize);
+					HCWrite( appHandle, xAddress, xSize, xValue - code.inc_value );
 					xAddress += incAddress;
 					k++;
 				}
@@ -157,7 +165,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 			case 0x05: // List Write
 				for ( k = 0; k < code.reiterate; k++ )
 				{
-					HCWrite( appHandle, xAddress, s, getHEX( code.valueArray[ k ] ) );
+					HCWrite( appHandle, xAddress, xSize, getHEX( code.valueArray[ k ] ) );
 					xAddress += incAddress;
 				}
 				break;
@@ -166,7 +174,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 				//HCTest(code);
 				do
 				{
-					HCWrite( appHandle, xAddress, s, xValue );
+					HCWrite( appHandle, xAddress, xSize, xValue );
 					xAddress += incAddress;
 					xValue += code.inc_value;
 					k++;
@@ -211,17 +219,23 @@ void ME::HCUChange(void) {
 }
 void ME::HCUOnChange(wxCommandEvent& event) { HCUChange(); }
 void ME::HCDelBOnClick(wxCommandEvent& event) {}
-void ME::HCRCOnChange(wxCommandEvent& event) {
-	s32 i = HCCD->GetSelection();
-	if (i != 2 && i != 5) {
-		bool r = HCRC->GetValue();
-		HCAW->Show(r);
-	} HCP->Layout();
+void ME::codeRepeat_SNOnSpin(wxSpinEvent& event) {
+	s32 i = codeType_D->GetSelection();
+	u32 codeRepeat = codeRepeat_SN->GetValue();
+	if ( codeRepeat > 0 && i != 2 && i != 5 )
+	{
+		HCAW->Show();
+	}
+	else
+	{
+		HCAW->Hide();
+	}
+	HCP->Layout();
 }
 void ME::HCCDOnChange(wxCommandEvent& event) {
-	s32 i = HCCD->GetSelection();
-	bool r = HCRC->GetValue();
-	if (r) {
+	s32 i = codeType_D->GetSelection();
+	u32 codeRepeat = codeRepeat_SN->GetValue();
+	if (codeRepeat > 0) {
 		if (i == 2 || i == 5) { HCAW->Hide(); }
 		else { HCAW->Show(); }
 	}

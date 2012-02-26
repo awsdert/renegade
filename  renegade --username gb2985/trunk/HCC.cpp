@@ -19,7 +19,6 @@ CL ME::HCSet( HACK* hack, u32 line )
 		// Code pieces
 		u32 xType = 0;
 		u32 xSize = 0;
-		bool xASize = 0;
 		xStr cPart_blank  = wxT( "00000000" );
 		xStr cPart_1 = hack->cPart1[ line ];
 		xStr cPart_2 = hack->cPart2[ line ];
@@ -48,10 +47,10 @@ CL ME::HCSet( HACK* hack, u32 line )
 		code.inc_address = getHEX( cPart_2 );
 		xType = getHEX( cPart_1.GetChar( 0 ) );
 		xSize = getHEX( cPart_1.GetChar( 1 ) );
-		xASize = getHEX( cPart_1.GetChar( 2 ) );
+		code.addressSize = getHEX( cPart_1.GetChar( 2 ) );
 		code.ram = getHEX( cPart_1.GetChar( 3 ) );
 		// Setup
-		if ( xSize >= 0xC || xASize )
+		if ( xSize >= 0xC || code.addressSize )
 		{
 			xAddress = getHEX( cPart_3 + cPart_4 );
 			if ( xSize >=0xC )
@@ -122,124 +121,178 @@ CL ME::HCSet( HACK* hack, u32 line )
 	return code;
 }
 // Build the code string/s
-void ME::HCAddBOnClick(wxCommandEvent& event) {
-	ti = HT->GetSelection(); bool p1 = true, u0 = true;
-	xStr s, s1 = tHackA->GetValue(), s2 = tHackV->GetValue(), s3; HACK* d = getIH(ti);
-	xAStr da1, da2;
-	xStrT st(s2, wxT("|"));
-	while ( st.HasMoreTokens() ) {
-		s = st.GetNextToken();
-		if (p1) { da1.Add(s); p1 = false; }
-		else { da2.Add(s); p1 = true; }
-	} u32 t0, ct, cs, rows = 1, cr = (u32)HCRN->GetValue();
-	bool t3 = HCRC->GetValue();
-	s32 l = d->GetLen();
-	u32 d0 = getHEX(s1), d1 = 0, d2 = getHEX(s2), d3 = getHEX(HCVT->GetValue()), d4 = 0, d5 = 0, d6 = 0;
-	u32 v2 = 0;
-	t0 = HCRAMD->GetSelection();
-	ct = HCCD->GetSelection();
-	cs = mHackV->GetSelection();
-	u8 repeat = HCRN->GetValue(), test = 0;
-	s.Printf(wxT("00%04X%02X"), getHEX(HCAT->GetValue()), repeat);
-	v2 = getHEX(s);
-	if (d0 > 0x01FFFFFF || (t0 > 0 && d0 > 0x0001FFFF)) {
-		u0 = false;
-		rows = 2;
-		d1 = 0xE0E00000 + (t0 * 0x10000) + cr;
-		d4 = d2; d2 = d0;
-		d1 += ct * 0x2000;
-		d1 += cs * 0x400;
-		d5 = v2;
-		if (t3) { d1 += 0x200; }
-	} else {
-		if (t0 > 0) {
-			d1 = 0xE0000000 + (t0 * 0x1000000) + d0;
-			d1 += ct * 0x200000;
-			d1 += cs * 0x40000;
-			if (t3) { d1 += 0x20000; }
-		} else {
-			d1 = d0;
-			d1 += ct * 0x20000000;
-			d1 += cs * 0x4000000;
-			if (t3) { d1 += 0x2000000; }
+void ME::BuildCode(HACK* hack, CL code, s32 line)
+{
+	xAStr linePart1;
+	xAStr linePart2;
+	u32 lineLength = 0;
+	xStr codeText;
+	u32 xSize;
+	const wxChar* hex32 = wxT("%08X");
+	const wxChar* hex32Long = wxT("%08llX");
+	const wxChar* hex64 = wxT("%016llX");
+	switch ( code.size )
+	{
+		case 0x2: xSize = 0x4; break;
+		case 0x4: xSize = 0x8; break;
+		case 0x8: xSize = 0xC; break;
+		default: xSize = 0x0;
+	}
+	if (code.reiterate > 0x0)
+	{
+		xSize += 0x2;
+	}
+	codeText.Printf( wxT("%X%X%X%X%02X%02X"), (code.codeType * 2) + code.fixed, xSize,
+		code.addressSize, code.ram, code.test, code.reiterate );
+	linePart1.Add( codeText );
+	codeText.Printf( hex32, code.inc_address );
+	linePart2.Add( codeText );
+	lineLength++;
+	if ( code.addressSize || code.size > 0x4 )
+	{
+		codeText.Printf( hex64, code.address );
+		linePart1.Add( codeText.SubString( 0, 7 ) );
+		linePart2.Add( codeText.SubString( 8, 15 ) );
+		lineLength++;
+		if ( code.size > 0x4 )
+		{
+			codeText.Printf( hex64, code.value );
+			linePart1.Add( codeText.SubString( 0, 7 ) );
+			linePart2.Add( codeText.SubString( 8, 15 ) );
+			lineLength++;
+			if ( code.reiterate > 0x0 && code.codeType != 0x5 )
+			{
+				codeText.Printf( hex64, code.inc_value );
+				linePart1.Add( codeText.SubString( 0, 7 ) );
+				linePart2.Add( codeText.SubString( 8, 15 ) );
+				lineLength++;
+			}
 		}
-		if (ct != 2 && ct != 5 && repeat > 0) {
-			d4 = d2; d2 = v2;
-			rows = 2;
-		} else if (ct == 2) {
-			if (cs < 2) {
-				s3.Printf(wxT("%04X%02X%02X"), d2, test, repeat);
-				d2 = getHEX(s3);
-			} else {
-				s3.Printf(wxT("0000%02X%02X"), test, repeat);
-				d4 = d2; d2 = getHEX(s3);
+		else
+		{
+			codeText.Printf( hex32Long, code.inc_value );
+			linePart1.Add( codeText );
+			codeText.Printf( hex32Long, code.value );
+			linePart2.Add( codeText );
+			lineLength++;
+		}
+	}
+	else
+	{
+		codeText.Printf( hex32Long, code.address );
+		linePart1.Add( codeText );
+		codeText.Printf( hex32Long, code.value );
+		linePart2.Add( codeText );
+		lineLength++;
+		if ( code.reiterate > 0x0 && code.codeType != 0x5 )
+		{
+			codeText.Printf( hex64, code.inc_value );
+			linePart1.Add( codeText.SubString( 0, 7 ) );
+			linePart2.Add( codeText.SubString( 8, 15 ) );
+			lineLength++;
+		}
+	}
+	u32 i = 0;
+	if ( line < 0 )
+	{
+		line = hack->GetLen();
+		for ( i = 0; i < lineLength; i++ )
+		{
+			if ( i > 0 )
+			{
+				hack->cLines.Add( 0 );
+				hack->sLines.Add( 0 );
+			}
+			else
+			{
+				hack->cLines.Add( lineLength );
+				if ( code.codeType == 0x2 )
+				{
+					hack->sLines.Add( code.reiterate );
+				}
+				else
+				{
+					hack->sLines.Add( 0 );
+				}
+			}
+			hack->cPart1.Add( linePart1[ i ] );
+			hack->cPart2.Add( linePart2[ i ] );
+		}
+	}
+	else
+	{
+		for ( i = 0; i < lineLength; i++ )
+		{
+			hack->cPart1.Insert( linePart1[ i ], line );
+			hack->cPart2.Insert( linePart2[ i ], line );
+			line++;
+		}
+	}
+}
+void ME::HCAddBOnClick(wxCommandEvent& event) {
+	ti = HT->GetSelection();
+	xStr text, txt;
+	HACK* hack = getIH(ti);
+	CL code;
+	bool useRepeat = true;
+	code.address = getHEX( codeAddress_TXT->GetValue() );
+	if ( code.address > 0xFFFFFFFF )
+	{
+		code.addressSize = 0x1;
+	}
+	code.codeType = codeType_D->GetSelection();
+	code.fixed = ( codeFixed_D->GetSelection() > 0 ) ? false : true;
+	code.ram = codeRAM_D->GetSelection();
+	switch ( codeSize_D->GetSelection() )
+	{
+		case 1: code.size = 0x2; break;
+		case 2: code.size = 0x4; break;
+		case 3: code.size = 0x8; break;
+		default: code.size = 0x1;
+	}
+	xStrT st( codeValue_TXT->GetValue(), wxT( "|" ) );
+	txt = st.GetNextToken();
+	if ( code.codeType == 0x5 )
+	{
+		code.valueArray.Add( txt );
+		while ( st.HasMoreTokens() )
+		{
+			text = st.GetNextToken();
+			code.valueArray.Add( text );
+		}
+	}
+	else
+	{
+		code.value = getHEX( txt );
+		if ( code.codeType == 0x2)
+		{
+			switch ( codeTest_D->GetSelection() )
+			{
+				case 1: code.test = TM_NOTE; break;
+				case 2: code.test = TM_GT; break;
+				case 3: code.test = TM_GTE; break;
+				case 4: code.test = TM_LT; break;
+				case 5: code.test = TM_LTE; break;
+				default: code.test = TM_EQUAL;
+			}
+			int testLines = codeTestLine_D->GetSelection();
+			if ( testLines != 1 )
+			{
+				if ( testLines == 0)
+				{
+					code.reiterate = 1;
+				}
+				useRepeat = false;
 			}
 		}
 	}
-	if (ct == 5) {
-		d2 = d0;
-		if (u0) { d1 -= d0; }
-	} HCG->AppendRows(1);
-	s.Printf(wxT("%08X"), d1);
-	HCG->SetCellValue(l, 0, s);
-	d->cPart1.Add(s);
-	s.Printf(wxT("%08X"), d2);
-	HCG->SetCellValue(l, 1, s);
-	d->cPart2.Add(s);
-	s.Printf(wxT("%i"), rows);
-	HCG->SetCellValue(l, 2, s);
-	d->cLines.Add(rows);
-	l++;
-	if (ct == 5) {
-		u32 i, j = 1, l1 = da1.GetCount(), l2 = da2.GetCount(), x, x2, x3;
-		switch (cs) {
-		case 3:
-		case 2: x2 = 2; s = wxT("00000000"); break;
-		case 1: x2 = 4; s = wxT("0000"); break;
-		default: x2 = 8; s = wxT("00"); }
-		rows = floor(cr / 2); x = l; x2 = x2 / 2;
-		for (i = 0, x3 = 0;(i < cr && x3 < rows);i++) {
-			s1.Clear(); s2.Clear();
-			if (i < l1) { s1 << da1[i]; }
-			else { s1 << s; }
-			if (i < l2) { s2 << da2[i]; }
-			else { s2 << s; } j++;
-			if (j > x2) {
-				HCG->AppendRows(1);
-				HCG->SetCellValue(x, 0, s1);
-				d->cPart1.Add(s1);
-				HCG->SetCellValue(x, 1, s2);
-				d->cPart2.Add(s2);
-				HCG->SetCellValue(x, 2, wxT("0"));
-				d->cLines.Add(0);
-				x++;
-				j = 1; x3++;
-			}
-		} s.Printf(wxT("%i"), rows);
-		HCG->SetCellValue(l - 1, 2, s);
-		d->cLines[l - 1] = rows;
-	} else if (rows > 1) {
-		HCG->AppendRows(1);
-		s.Printf(wxT("%08X"), d3);
-		HCG->SetCellValue(l, 0, s);
-		d->cPart1.Add(s);
-		s.Printf(wxT("%08X"), d4);
-		HCG->SetCellValue(l, 1, s);
-		d->cPart2.Add(s);
-		HCG->SetCellValue(l, 2, wxT("0"));
-		d->cLines.Add(0);
-		l++;
-		if (rows > 2) {
-			HCG->AppendRows(1);
-			s.Printf(wxT("%08X"), d5);
-			HCG->SetCellValue(l, 0, s);
-			d->cPart1.Add(s);
-			s.Printf(wxT("%08X"), d6);
-			HCG->SetCellValue(l, 1, s);
-			d->cPart2.Add(s);
-			HCG->SetCellValue(l, 2, wxT("0"));
-			d->cLines.Add(0);
-			l++;
-		}
-	} HT->SetItemData(ti, d);
+	if ( useRepeat )
+	{
+		code.reiterate = codeRepeat_SN->GetValue();
+		code.inc_address = getHEX( codeIncAddress_TXT->GetValue() );
+	}
+	code.inc_value = getHEX( codeIncValue_TXT->GetValue() );
+	BuildCode(hack, code);
+	HTChange();
+	setIH(ti, hack);
 }

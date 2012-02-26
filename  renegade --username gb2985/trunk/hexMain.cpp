@@ -60,10 +60,12 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	EUD->SetSelection(0);
 	DBFA.Add(wxT("UNKOWN"), HPFL);
 	OSNA.Add(wxT("UNKOWN"), HPFL);
+	PLATFORM_SIZE.Add(4, HPFL);
 	DBFA[PC32] = wxT("pc32");
 	OSNA[PC32] = wxT("PC 32bit");
 	DBFA[PC64] = wxT("pc64");
 	OSNA[PC64] = wxT("PC 64bit");
+	PLATFORM_SIZE[PC64] = 8;
 	DBFA[PS1] = wxT("sony_ps1");
 	OSNA[PS1] = wxT("Sony PS1");
 	DBFA[PS2] = wxT("sony_ps2");
@@ -77,8 +79,8 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	DBFA[NWII] = wxT("nintendo_wii");
 	OSNA[NWII] = wxT("Nintendo Wii");
 	// Fill Platform Choice menu with choices
-	for (i = 0;i < HPFL;i++) { PFD->Append(OSNA[i]); }
-	PFD->SetSelection(PS2);
+	for (i = 0;i < HPFL;i++) { group_D->Append(OSNA[i]); }
+	group_D->SetSelection(PS2);
 	PFLoad();
 	dl = 0; appLen = -1; endian = 0;
 	// Time based variables
@@ -183,5 +185,5 @@ HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
 // Get RAM Data
 xStr ME::GARAM(s32 r, s32 c) { return RAMG->GetCellValue(r, c); }
 bool ME::GART(s32 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
-DWORD ME::GARS(s32 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
+u64 ME::GARS(s32 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
 u32 ME::GARM(s32 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size

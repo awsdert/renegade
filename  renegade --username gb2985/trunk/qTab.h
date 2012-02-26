@@ -50,7 +50,7 @@
 	s32 searchNo = QCompareD->GetSelection(); \
 	u64 oldIndex = 0; \
 	xStr text; \
-	DWORD ramAddress = GARS( 0 ); \
+	u64 ramAddress = GARS( 0 ); \
 	u64 rmSize = GARM( 0 ); \
 	u64 ramIndex = 0; \
 	u64 address = 0; \
@@ -58,7 +58,7 @@
 	u64 resultNo = 0; \
 	u64 newIndex = 0; \
 	u64 newSize = 0; \
-	u64 newBuffLength = ( varSize == 1 ) ? rmSize : ceil( rmSize / varSize ); \
+	u64 newBuffLength = ( valSize == 1 ) ? rmSize : ceil( rmSize / valSize ); \
 	u32 valMode = GetTests(); \
 	u32 testMode = GetRest(); \
 	u32 ignoreMode = GetIgnore(); \
@@ -72,11 +72,10 @@
 	pbQAct->SetValue( 0 ); \
 	result_S->SetLabel( text ); \
 	u64 testRAM; \
-	u64 testBuffer; \
-	for (;oldIndex < oldLength;address += varSize, ramIndex++) \
+	text.Printf( wxT( "%%0%iX" ), valSize * 2 ); \
+	for (;oldIndex < oldLength;address += valSize, ramIndex++) \
 	{ \
-		testBuffer = buff[ oldIndex ]; \
-		if ( address == testBuffer ) \
+		if ( address == buff[ oldIndex ] ) \
 		{ \
 			oldIndex++; \
 			testRAM = ramBuff[ ramIndex ]; \
@@ -159,7 +158,7 @@
 		qbt.Write( oldBuff, newSize ); \
 		if ( newIndex < 100 ) \
 		{ \
-			showResults( searchNo, varSize ); \
+			showResults( searchNo, valSize ); \
 		} \
 	}
 #endif
