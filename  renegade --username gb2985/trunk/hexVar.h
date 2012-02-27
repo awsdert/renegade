@@ -37,6 +37,19 @@ class CL {
 		xAStr valueArray;
 		bool fixed;
 };
+class BIN: public wxClientData
+{
+	public:
+		BIN( void );
+		BIN( wxClientData* );
+	public:
+		u32 GetCount( void );
+		xStr binName;
+		xAStr ramName;
+		xAStr ramFixed;
+		xAStr ramStart;
+		xAStr ramSize;
+};
 class DBI: public wxTreeItemData {
 	public:
 		DBI(void);

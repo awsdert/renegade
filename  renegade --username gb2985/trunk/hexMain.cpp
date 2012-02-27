@@ -36,7 +36,7 @@ xStr wxbuildinfo(wxbuildinfoformat format) {
 	} return wxbuild;
 }
 ME::ME(wxFrame *frame) : HEXFRM(frame) {
-	u8 i, l; // Index, List
+	u8 l; // Index, List
 	xAStr HSTR, OSNA; // Hook Time Label List
 	hexPath = wxGetCwd();
 	hexSlash = ( hexPath.Contains( wxT("\\") ) ) ? wxT("\\") : wxT("/");
@@ -52,34 +52,33 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	HDT.Add(1800000); HSTR.Add(wxT("Every 30 Minutes"));
 	HDT.Add(3600000); HSTR.Add(wxT("Every Hour"));
 	l = HDT.GetCount();
-	for (i = 0;i < l;i++) { // Fill different Choice Menus with choices
-		APPCheck->Append(HSTR[i]);
-		EUD->Append(HSTR[i]);
-	}
+	// Fill different Choice Menus with choices
+	APPCheck->Append(HSTR);
+	EUD->Append(HSTR);
 	APPCheck->SetSelection(0);
 	EUD->SetSelection(0);
 	DBFA.Add(wxT("UNKOWN"), HPFL);
 	OSNA.Add(wxT("UNKOWN"), HPFL);
 	PLATFORM_SIZE.Add(4, HPFL);
-	DBFA[PC32] = wxT("pc32");
-	OSNA[PC32] = wxT("PC 32bit");
-	DBFA[PC64] = wxT("pc64");
-	OSNA[PC64] = wxT("PC 64bit");
+	DBFA[ PC32 ] = wxT("pc32");
+	OSNA[ PC32 ] = wxT("PC 32bit");
+	DBFA[ PC64 ] = wxT("pc64");
+	OSNA[ PC64 ] = wxT("PC 64bit");
 	PLATFORM_SIZE[PC64] = 8;
-	DBFA[PS1] = wxT("sony_ps1");
-	OSNA[PS1] = wxT("Sony PS1");
-	DBFA[PS2] = wxT("sony_ps2");
-	OSNA[PS2] = wxT("Sony PS2");
-	DBFA[N64] = wxT("nintendo_64");
-	OSNA[N64] = wxT("Nintendo 64");
-	DBFA[NGB] = wxT("nintendo_gb");
-	OSNA[NGB] = wxT("Nintendo GameBoy");
-	DBFA[NDS] = wxT("nintendo_ds");
-	OSNA[NDS] = wxT("Nintendo DS / DSi / 3DS");
-	DBFA[NWII] = wxT("nintendo_wii");
-	OSNA[NWII] = wxT("Nintendo Wii");
+	DBFA[ PS1 ] = wxT("sony_ps1");
+	OSNA[ PS1 ] = wxT("Sony PS1");
+	DBFA[ PS2 ] = wxT("sony_ps2");
+	OSNA[ PS2 ] = wxT("Sony PS2");
+	DBFA[ N64 ] = wxT("nintendo_64");
+	OSNA[ N64 ] = wxT("Nintendo 64");
+	DBFA[ NGB ] = wxT("nintendo_gb");
+	OSNA[ NGB ] = wxT("Nintendo GameBoy");
+	DBFA[ NDS ] = wxT("nintendo_ds");
+	OSNA[ NDS ] = wxT("Nintendo DS / DSi / 3DS");
+	DBFA[ NWII ] = wxT("nintendo_wii");
+	OSNA[ NWII ] = wxT("Nintendo Wii");
 	// Fill Platform Choice menu with choices
-	for (i = 0;i < HPFL;i++) { group_D->Append(OSNA[i]); }
+	group_D->Append( OSNA );
 	group_D->SetSelection(PS2);
 	PFLoad();
 	dl = 0; appLen = -1; endian = 0;
@@ -114,10 +113,7 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	TMU[TMU_INSIDE] = _("Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
 	TMU[TMU_OUTSIDE] = _("Not Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
 	useTest_D->Clear();
-	for ( i = 0; i < TMU_LENGTH; i++ )
-	{
-		useTest_D->Append( TMU[ i ] );
-	}
+	useTest_D->Append( TMU );
 	useTest_D->Select(0);
 } ME::~ME() {}
 s32 ME::getAppLen(void) { return appLen; }
@@ -181,7 +177,7 @@ void ME::addApp(s32 row, xStr id, xStr app, xStr title) {
 		APPG->AutoSizeColumns(false);
 	}
 }
-HANDLE ME::GAP(void) { return getAppId(APPT->GetValue()); } // Get App Handle
+HANDLE ME::GAP(void) { return getAppId(appName_TXT->GetValue()); } // Get App Handle
 // Get RAM Data
 xStr ME::GARAM(s32 r, s32 c) { return RAMG->GetCellValue(r, c); }
 bool ME::GART(s32 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?

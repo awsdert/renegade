@@ -114,11 +114,11 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	APPL2->SetFlexibleDirection( wxBOTH );
 	APPL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	APPB = new wxButton( hookApp_P, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
-	APPL2->Add( APPB, 0, wxALL, 5 );
+	appUpdate_B = new wxButton( hookApp_P, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	APPL2->Add( appUpdate_B, 0, wxALL, 5 );
 	
-	APPT = new wxTextCtrl( hookApp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	APPL2->Add( APPT, 0, wxALL|wxEXPAND, 5 );
+	appName_TXT = new wxTextCtrl( hookApp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	APPL2->Add( appName_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	APPS = new wxStaticText( hookApp_P, wxID_ANY, wxT("Check"), wxDefaultPosition, wxDefaultSize, 0 );
 	APPS->Wrap( -1 );
@@ -150,8 +150,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BINL1->SetFlexibleDirection( wxBOTH );
 	BINL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	BINProfile = new wxComboBox( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	BINL1->Add( BINProfile, 0, wxALL|wxEXPAND, 5 );
+	fileTitle_D = new wxComboBox( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	BINL1->Add( fileTitle_D, 0, wxALL|wxEXPAND, 5 );
 	
 	wxFlexGridSizer* BINL2;
 	BINL2 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -159,8 +159,8 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BINL2->SetFlexibleDirection( wxBOTH );
 	BINL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	BINT = new wxTextCtrl( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	BINL2->Add( BINT, 0, wxALL|wxEXPAND, 5 );
+	fileName_TXT = new wxTextCtrl( hookFile_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	BINL2->Add( fileName_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	BINB = new wxButton( hookFile_P, wxID_ANY, wxT("Update"), wxDefaultPosition, wxDefaultSize, 0 );
 	BINL2->Add( BINB, 0, wxALL, 5 );
@@ -1357,12 +1357,12 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	saveGroup_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::saveGroup_BOnClick ), NULL, this );
 	PFGetB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
 	PFStartB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
-	appTitle_D->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::appTitle_DOnEnter ), NULL, this );
-	APPB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
+	appTitle_D->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appTitle_DOnBlur ), NULL, this );
+	appUpdate_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appUpdate_BOnClick ), NULL, this );
 	APPCheck->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
-	BINProfile->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
-	BINProfile->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
-	BINProfile->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
+	fileTitle_D->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
+	fileTitle_D->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
+	fileTitle_D->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
 	BINB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
 	addRAM_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::addRAM_BOnClick ), NULL, this );
 	RAMG->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );
@@ -1420,12 +1420,12 @@ HEXFRM::~HEXFRM()
 	saveGroup_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::saveGroup_BOnClick ), NULL, this );
 	PFGetB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFGetOnClick ), NULL, this );
 	PFStartB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
-	appTitle_D->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::appTitle_DOnEnter ), NULL, this );
-	APPB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPBOnClick ), NULL, this );
+	appTitle_D->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appTitle_DOnBlur ), NULL, this );
+	appUpdate_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appUpdate_BOnClick ), NULL, this );
 	APPCheck->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
-	BINProfile->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
-	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
-	BINProfile->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
+	fileTitle_D->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
+	fileTitle_D->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
+	fileTitle_D->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HEXFRM::BINDOnEnter ), NULL, this );
 	BINB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::BINBOnClick ), NULL, this );
 	addRAM_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::addRAM_BOnClick ), NULL, this );
 	RAMG->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );

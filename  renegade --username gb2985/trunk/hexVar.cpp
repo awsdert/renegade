@@ -40,6 +40,18 @@ CL::~CL( void )
 	test = 0;
 	valueArray.Clear();
 }
+BIN::BIN( void )
+{
+	binName = wxT( "" );
+}
+BIN::BIN( wxClientData* )
+{
+	binName = wxT( "" );
+}
+u32 BIN::GetCount( void )
+{
+	return (u32)ramName.GetCount();
+}
 DBI::DBI(void) : wxTreeItemData() {
 	afr = 0;
 	afi = 0;

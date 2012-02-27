@@ -62,13 +62,13 @@ class HEXFRM : public wxFrame
 		wxDirPickerCtrl* URL;
 		wxPanel* hookApp_P;
 		wxComboBox* appTitle_D;
-		wxButton* APPB;
-		wxTextCtrl* APPT;
+		wxButton* appUpdate_B;
+		wxTextCtrl* appName_TXT;
 		wxStaticText* APPS;
 		wxChoice* APPCheck;
 		wxPanel* hookFile_P;
-		wxComboBox* BINProfile;
-		wxTextCtrl* BINT;
+		wxComboBox* fileTitle_D;
+		wxTextCtrl* fileName_TXT;
 		wxButton* BINB;
 		wxButton* addRAM_B;
 		wxGrid* RAMG;
@@ -235,8 +235,8 @@ class HEXFRM : public wxFrame
 		virtual void saveGroup_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFGetOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PFStartOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void appTitle_DOnEnter( wxCommandEvent& event ) { event.Skip(); }
-		virtual void APPBOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void appTitle_DOnBlur( wxFocusEvent& event ) { event.Skip(); }
+		virtual void appUpdate_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnEdit( wxCommandEvent& event ) { event.Skip(); }

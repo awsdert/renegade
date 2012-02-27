@@ -42,8 +42,15 @@ class ME: public HEXFRM {
 		u64 ignoreOutsideTo;
 		u32 addressSize;
 		xAInt PLATFORM_SIZE;
+		s32 appTitleAdd( xStr title );
+		wxComboBox* getBinType( void );
+		BIN* getBin( wxComboBox* choice, s32 index = 0 );
+		void setBin( wxComboBox* choice, BIN* bin, s32 index = 0 );
 		void saveGroup( void );
+		void saveGroup( wxComboBox* binTitle_D );
 		void saveGroup_BOnClick( wxCommandEvent& event );
+		void addRAM_BOnClick( wxCommandEvent& event );
+		void appTitle_DOnBlur( wxFocusEvent& event );
 		void ram_GOnChange( wxGridEvent& event );
 		void showResults( s32 searchNo, u32 valSize );
 		wxFile checkFile;
@@ -73,9 +80,6 @@ class ME: public HEXFRM {
 		xTID rti, ti, pti; // Root Item, Current Item, Previous Item
 		s32 dl; // List Count
 		xTID rdi, di, pdi; // Root Item, Current Item, Previous Item
-		// - App Selection
-		xAInt appNum, appEnd;
-		xAStr appName, ramName, ramFixed, ramStart, ramSize;
 		// - File stuff
 		u8 getPF(xStr s);
 		wxStandardPaths myPaths;

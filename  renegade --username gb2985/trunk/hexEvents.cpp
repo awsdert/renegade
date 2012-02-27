@@ -8,7 +8,7 @@ void ME::APPUSEOnClick( wxCommandEvent& event )
 {
 	int row = GetGridRow( APPG );
 	xStr text = APPG->GetCellValue( row, 0 );
-	APPT->SetValue( text );
+	appName_TXT->SetValue( text );
 }
 void ME::bAddHackOnClick(wxCommandEvent& event) {
 	xTID i = HT->GetSelection(), p, r; HACK* d = new HACK;
