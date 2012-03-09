@@ -11,13 +11,20 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-void ME::DBSet(void) {
-	xStr d = hexSlash, p, s; p = wxGetCwd();
-	dir.Open(p);
-	p << d + wxT("db");
-	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
-	s << p + d + DBFA[HDTI] + wxT(".hexdb");
-	if (!checkFile.Exists(s)) {
+void ME::DBSet( void )
+{
+	xStr d = hexSlash, p, s;
+	p = wxGetCwd();
+	dir.Open( p );
+	p << d + wxT( "db" );
+	if ( !dir.Exists( p ) )
+	{
+		wxMkdir(p);
+		dir.Open(p);
+	}
+	s << p + d + DBFA[ HDTI ] + wxT( ".hexdb" );
+	if ( !checkFile.Exists( s ) )
+	{
 		dbf.Create(s);
 	}
 	dbf.Open(s);
@@ -105,7 +112,7 @@ void ME::DBSave(void) { // Convert all hack items to a list that can re-build fr
 	} dbf.Write(t);
 	dbf.Close();
 }
-xTID ME::DBRoot(void) { return DB->GetRootItem(); }
+xTID ME::DBRoot(void) { return rdi; }
 xTID ME::DBRoot(xTID& i) {
 	xTID c; // Prevents overide of child id
 	if (i.IsOk() && i != rdi) { c = DB->GetItemParent(i); }

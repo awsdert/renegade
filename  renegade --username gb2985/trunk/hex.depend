@@ -3695,7 +3695,7 @@
 	<wx/wx.h>
 	"hexVar.h"
 
-1330338664 source:z:\hex\svn\trunk\hexmain.cpp
+1331296332 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
@@ -3711,15 +3711,16 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1330004776 z:\hex\svn\trunk\hexapp.h
+1330718190 z:\hex\svn\trunk\hexapp.h
 	"wx_pch.h"
 	<wx/tokenzr.h>
 	<wx/app.h>
 	<wx/treectrl.h>
 	<windows.h>
 	<tlhelp32.h>
+	<psapi.h>
 
-1330341320 z:\hex\svn\trunk\hexmain.h
+1331295740 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/ffile.h>
 	<wx/textfile.h>
@@ -3729,7 +3730,7 @@
 	"GUIFrame.h"
 	"hexVar.h"
 
-1330338990 z:\hex\svn\trunk\guiframe.h
+1331296366 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3742,18 +3743,18 @@
 	<wx/button.h>
 	<wx/sizer.h>
 	<wx/statbox.h>
+	<wx/panel.h>
 	<wx/filepicker.h>
 	<wx/combobox.h>
 	<wx/textctrl.h>
 	<wx/stattext.h>
-	<wx/panel.h>
 	<wx/grid.h>
 	<wx/scrolwin.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
-	<wx/gauge.h>
 	<wx/checkbox.h>
+	<wx/gauge.h>
 	<wx/treectrl.h>
 	<wx/spinctrl.h>
 	<wx/hyperlink.h>
@@ -3773,7 +3774,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1330338990 source:z:\hex\svn\trunk\guiframe.cpp
+1331296366 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4201,10 +4202,10 @@
 1330338702 source:z:\hex\svn\trunk\hexvar.cpp
 	"hexVar.h"
 
-1329900512 source:z:\hex\svn\trunk\db.cpp
+1330632292 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1330097482 source:z:\hex\svn\trunk\hc.cpp
+1331136938 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4213,23 +4214,23 @@
 	"wx/string.h"
 	"wx/arrstr.h"
 
-1328791748 source:z:\hex\svn\trunk\app.cpp
+1330621036 source:z:\hex\svn\trunk\app.cpp
 	"hexApp.h"
 
-1330039322 source:z:\hex\svn\trunk\etab.cpp
+1330961886 source:z:\hex\svn\trunk\etab.cpp
 	"hexMain.h"
 
-1330098496 source:z:\hex\svn\trunk\hcc.cpp
+1331123038 source:z:\hex\svn\trunk\hcc.cpp
 	"hexMain.h"
 	<math.h>
 
-1330339674 source:z:\hex\svn\trunk\htab.cpp
+1331296964 source:z:\hex\svn\trunk\htab.cpp
 	"hexMain.h"
 
-1330338622 source:z:\hex\svn\trunk\hexevents.cpp
+1330638224 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
-1330128756 source:z:\hex\svn\trunk\qtab.cpp
+1331296838 source:z:\hex\svn\trunk\qtab.cpp
 	"hexMain.h"
 	"qTab.h"
 
@@ -4243,5 +4244,8 @@
 	<stdio.h>
 
 1330083930 source:z:\hex\svn\trunk\txt_events.cpp
+	"hexMain.h"
+
+1330611802 source:z:\hex\svn\trunk\resulttab.cpp
 	"hexMain.h"
 

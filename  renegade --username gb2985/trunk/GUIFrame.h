@@ -20,18 +20,18 @@
 #include <wx/button.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
+#include <wx/panel.h>
 #include <wx/filepicker.h>
 #include <wx/combobox.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
-#include <wx/panel.h>
 #include <wx/grid.h>
 #include <wx/scrolwin.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/gauge.h>
 #include <wx/checkbox.h>
+#include <wx/gauge.h>
 #include <wx/treectrl.h>
 #include <wx/spinctrl.h>
 #include <wx/hyperlink.h>
@@ -53,9 +53,10 @@ class HEXFRM : public wxFrame
 		wxNotebook* NB;
 		wxPanel* nbHook;
 		wxScrolledWindow* wHookScroll;
+		wxPanel* hookPlatform;
 		wxChoice* group_D;
-		wxButton* loadGroup_B;
 		wxChoice* hookType_D;
+		wxButton* loadGroup_B;
 		wxButton* saveGroup_B;
 		wxButton* PFGetB;
 		wxButton* PFStartB;
@@ -70,20 +71,21 @@ class HEXFRM : public wxFrame
 		wxComboBox* fileTitle_D;
 		wxTextCtrl* fileName_TXT;
 		wxButton* BINB;
+		wxPanel* hookRAM_P;
 		wxButton* addRAM_B;
 		wxGrid* RAMG;
 		wxButton* APPLIST;
 		wxButton* APPUSE;
 		wxGrid* APPG;
 		wxPanel* QP;
-		wxStaticText* QSizeS;
-		wxChoice* searchSize_D;
-		wxStaticText* QCompareS;
-		wxChoice* QCompareD;
-		wxButton* bQActD;
-		wxButton* bQActS;
-		wxButton* bQActUS;
-		wxGauge* pbQAct;
+		wxStaticText* findSize_S;
+		wxChoice* valueSize_D;
+		wxStaticText* findNo_S;
+		wxChoice* findNo_D;
+		wxButton* dump_B;
+		wxButton* find_B;
+		wxButton* undoFind_B;
+		wxChoice* findRAM_D;
 		wxButton* bQActLT;
 		wxButton* bQActLTE;
 		wxButton* bQActE;
@@ -93,6 +95,7 @@ class HEXFRM : public wxFrame
 		wxChoice* useTest_D;
 		wxCheckBox* isSigned_CB;
 		wxStaticText* result_S;
+		wxGauge* find_PB;
 		wxStaticText* value1_S;
 		wxTextCtrl* value1_TXT;
 		wxStaticText* value2_S;
@@ -143,14 +146,17 @@ class HEXFRM : public wxFrame
 		wxGrid* RG;
 		wxPanel* RHP;
 		wxCheckBox* useEdit_CB;
-		wxGrid* RHG;
-		wxStaticText* RHTS;
-		wxButton* RHAdd;
-		wxChoice* RHTD;
-		wxStaticText* RHAS;
-		wxTextCtrl* resultAddress_TXT;
-		wxStaticText* RHVS;
-		wxTextCtrl* resultValue_TXT;
+		wxGrid* resultHack_G;
+		wxButton* resultHackAdd_B;
+		wxButton* resultHackDel_B;
+		wxStaticText* resultHackRAM_S;
+		wxChoice* resultHackRAM_D;
+		wxStaticText* resultHackByte_S;
+		wxChoice* resultHackByte_D;
+		wxStaticText* resultHackAddress_S;
+		wxTextCtrl* resultHackAddress_TXT;
+		wxStaticText* resultHackValue_S;
+		wxTextCtrl* resultHackValue_TXT;
 		wxPanel* EP;
 		wxButton* EAB;
 		wxTextCtrl* editorAddress_TXT;
@@ -246,10 +252,16 @@ class HEXFRM : public wxFrame
 		virtual void ram_GOnChange( wxGridEvent& event ) { event.Skip(); }
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void bQActSOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void findNo_DOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void dump_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void find_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void undoFind_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void value_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void address_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void result_GOnSelect( wxGridEvent& event ) { event.Skip(); }
+		virtual void resultHack_GOnSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void resultHackAdd_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void resultHackDel_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }

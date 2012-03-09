@@ -33,6 +33,21 @@ class ME: public HEXFRM {
     private:
         virtual void HEXFORMCLOSE(wxCloseEvent& event);
 	public:
+		// qTab.cpp
+		void Dump( u32 searchNo, u32 valueSize );
+		void Find( u32 mode, u32 valueSize );
+		void dump_BOnClick( wxCommandEvent& event );
+		void find_BOnClick( wxCommandEvent& event );
+		void findNo_DOnChange( wxCommandEvent& event );
+		void undoFind_BOnClick( wxCommandEvent& event );
+		// resultTab.cpp
+		s32 resultHackRow;
+		void resultHack_GOnSelectCell( wxGridEvent& event );
+		void resultHackAdd_BOnClick( wxCommandEvent& event );
+		void resultHackDel_BOnClick( wxCommandEvent& event );
+		//
+		void StartLog( void );
+		void EndLog( void );
 		u64 value1, value2;
 		u64 ignoreF;
 		u64 ignoreValue;
@@ -166,14 +181,6 @@ class ME: public HEXFRM {
 		u64 *oldBuff, *newBuff;
 		s32 oldSearchNo;
 		u64 oldLength;
-		void Dump8(void);
-		void Dump16(void);
-		void Dump32(void);
-		void Dump64(void);
-		void Find8(u32 mode = 0);
-		void Find16(u32 mode = 0);
-		void Find32(u32 mode = 0);
-		void Find64(u32 mode = 0);
 		void bQActSOnClick(wxCommandEvent& event);
 		// hTab.cpp
 		void setAWait(s32 i);
@@ -227,10 +234,7 @@ class ME: public HEXFRM {
 		void HCWrite(ReadWriteApp, u64 value);
 		xStr HCRead(ReadWriteApp);
 		u64 HCReadH(ReadWriteApp);
-		u8* HCReadM8(ReadWriteApp);
-		u16* HCReadM16(ReadWriteApp);
-		u32* HCReadM32(ReadWriteApp);
-		u64* HCReadM64(ReadWriteApp);
+		void HCReadM8(ReadWriteApp, u8* buff);
 		// HC.cpp
 		// - Hack Tab
 		// - - Hack Codelist

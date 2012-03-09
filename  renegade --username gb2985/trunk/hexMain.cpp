@@ -36,12 +36,11 @@ xStr wxbuildinfo(wxbuildinfoformat format) {
 	} return wxbuild;
 }
 ME::ME(wxFrame *frame) : HEXFRM(frame) {
-	u8 l; // Index, List
 	xAStr HSTR, OSNA; // Hook Time Label List
 	hexPath = wxGetCwd();
 	hexSlash = ( hexPath.Contains( wxT("\\") ) ) ? wxT("\\") : wxT("/");
-    SB->SetStatusText(_("Hacker Tool"), 0);
-    SB->SetStatusText(wxbuildinfo(long_f), 1);
+    SB->SetStatusText( wxT("Hacker Tool") );
+    SB->SetStatusText( wxbuildinfo( long_f ), 1 );
 	HDT.Add(0); HSTR.Add(wxT("Never"));
 	HDT.Add(500); HSTR.Add(wxT("Every 500 Miliseconds"));
 	HDT.Add(1000); HSTR.Add(wxT("Every Second"));
@@ -51,7 +50,6 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	HDT.Add(300000); HSTR.Add(wxT("Every 5 Minutes"));
 	HDT.Add(1800000); HSTR.Add(wxT("Every 30 Minutes"));
 	HDT.Add(3600000); HSTR.Add(wxT("Every Hour"));
-	l = HDT.GetCount();
 	// Fill different Choice Menus with choices
 	APPCheck->Append(HSTR);
 	EUD->Append(HSTR);
@@ -119,42 +117,45 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 s32 ME::getAppLen(void) { return appLen; }
 u64 ME::getHEX(xStr s)
 {
-	u32 i = 0, j;
-	u64 value = 0;
+	u32 i = 0u;
+	u64 value = 0u;
 	s = s.Upper();
-	const xStr hexChar = wxT( "0123456789ABCDEF" );
-	while ( s[ i ] )
+	wxChar c;
+	const wxChar n0 = wxT('0');
+	const wxChar n9 = wxT('9');
+	const wxChar nA = wxT('A');
+	const wxChar nF = wxT('F');
+	while ( ( c = s[ i ] ) )
 	{
-		value *= 0x10;
-		for ( j = 0x0; j < 0x10; j++)
+		value <<= 4u;
+		if ( c >= n0 && c <= n9 )
 		{
-			if ( s[ i ] == hexChar[ j ] )
-			{
-				value += j;
-				j = 0x10;
-			}
+			value += ( c - n0 );
+		}
+		else if ( c >= nA && c <= nF )
+		{
+			value += ( ( c - nA ) + 10u );
 		}
 		i++;
 	}
 	return value;
 }
-void ME::Log(xStr text, xStr title)
+void ME::StartLog( void )
 {
-	const wxChar* hexLogEntry = wxT( "Log Entry #%u" );
 	const xStr hexLogPath = hexPath + hexSlash + wxT("hex.log");
-	if ( !title )
-	{
-		title.Printf(hexLogEntry, logIndex);
-	}
 	if ( !checkFile.Exists( hexLogPath ) )
 	{
-		logFile.Create( hexLogPath );
+		checkFile.Create( hexLogPath );
+		checkFile.Close();
 	}
-	else
-	{
-		logFile.Open( hexLogPath );
-	}
-	logFile.AddLine(title + wxT( ":" ) + text, wxTextFileType_Dos);
+	logFile.Open( hexLogPath );
+}
+void ME::Log(xStr text, xStr title)
+{
+	logFile.AddLine( text, wxTextFileType_Dos );
+}
+void ME::EndLog( void )
+{
 	logFile.Write(wxTextFileType_Dos);
 	logFile.Close();
 }
@@ -177,9 +178,15 @@ void ME::addApp(s32 row, xStr id, xStr app, xStr title) {
 		APPG->AutoSizeColumns(false);
 	}
 }
-HANDLE ME::GAP(void) { return getAppId(appName_TXT->GetValue()); } // Get App Handle
+HANDLE ME::GAP( void )
+{
+	return getAppId( appName_TXT->GetValue() );
+}
 // Get RAM Data
 xStr ME::GARAM(s32 r, s32 c) { return RAMG->GetCellValue(r, c); }
 bool ME::GART(s32 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fixed?
 u64 ME::GARS(s32 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
-u32 ME::GARM(s32 r) { return getHEX(GARAM(r, 3)); } // Get RAM Size
+u32 ME::GARM(s32 r)
+{
+	return getHEX(GARAM(r, 3));
+}

@@ -128,6 +128,8 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 	u32 lineLength = 0;
 	xStr codeText;
 	u32 xSize;
+	u32 i = 0;
+	//const wxChar* hex8 = wxT("%02X");
 	const wxChar* hex32 = wxT("%08X");
 	const wxChar* hex32Long = wxT("%08llX");
 	const wxChar* hex64 = wxT("%016llX");
@@ -156,16 +158,75 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 		lineLength++;
 		if ( code.size > 0x4 )
 		{
-			codeText.Printf( hex64, code.value );
-			linePart1.Add( codeText.SubString( 0, 7 ) );
-			linePart2.Add( codeText.SubString( 8, 15 ) );
-			lineLength++;
-			if ( code.reiterate > 0x0 && code.codeType != 0x5 )
+			if ( code.codeType != 0x5 )
 			{
-				codeText.Printf( hex64, code.inc_value );
+				codeText.Printf( hex64, code.value );
 				linePart1.Add( codeText.SubString( 0, 7 ) );
 				linePart2.Add( codeText.SubString( 8, 15 ) );
 				lineLength++;
+				if ( code.reiterate > 0x0 )
+				{
+					codeText.Printf( hex64, code.inc_value );
+					linePart1.Add( codeText.SubString( 0, 7 ) );
+					linePart2.Add( codeText.SubString( 8, 15 ) );
+					lineLength++;
+				}
+			}
+			else
+			{
+				xStr tmp;
+				const xStr tmpFallback = wxT("0000000000000000");
+				codeText.Clear();
+				u32 valueMode = 0u;
+				u32 xLength = code.valueArray.GetCount();
+				xLength = ( xLength > code.reiterate ) ? code.reiterate : xLength;
+				for ( i = 0u; i < code.reiterate; i++ )
+				{
+					if ( valueMode == 8u )
+					{
+						linePart1.Add( codeText.SubString( 0, 7 ) );
+						linePart2.Add( codeText.SubString( 8, 15 ) );
+						lineLength++;
+						codeText.Clear();
+						valueMode = 0u;
+					}
+					if ( i >= xLength )
+					{
+						tmp = tmpFallback;
+					}
+					else
+					{
+						tmp = code.valueArray[i];
+					}
+					switch ( code.size )
+					{
+						case 1u:
+							codeText += tmp.Right( 2 );
+							break;
+						case 2u:
+							codeText += tmp.Right( 4 );
+							break;
+						case 4u:
+							codeText += tmp.Right( 8 );
+							break;
+						case 8u:
+							codeText += tmp.Right( 16 );
+							break;
+					}
+					valueMode += code.size;
+				}
+				if ( valueMode > 0u )
+				{
+					for ( i = valueMode; i < 8u; i++ )
+					{
+						codeText += wxT("00");
+					}
+					linePart1.Add( codeText.SubString( 0, 7 ) );
+					linePart2.Add( codeText.SubString( 8, 15 ) );
+					lineLength++;
+					codeText.Clear();
+					valueMode = 0u;
+				}
 			}
 		}
 		else
@@ -181,18 +242,76 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 	{
 		codeText.Printf( hex32Long, code.address );
 		linePart1.Add( codeText );
-		codeText.Printf( hex32Long, code.value );
-		linePart2.Add( codeText );
-		lineLength++;
-		if ( code.reiterate > 0x0 && code.codeType != 0x5 )
+		if ( code.codeType != 0x5 )
 		{
-			codeText.Printf( hex64, code.inc_value );
-			linePart1.Add( codeText.SubString( 0, 7 ) );
-			linePart2.Add( codeText.SubString( 8, 15 ) );
+			codeText.Printf( hex32Long, code.value );
+			linePart2.Add( codeText );
 			lineLength++;
+			if ( code.reiterate > 0x0 )
+			{
+				codeText.Printf( hex64, code.inc_value );
+				linePart1.Add( codeText.SubString( 0, 7 ) );
+				linePart2.Add( codeText.SubString( 8, 15 ) );
+				lineLength++;
+			}
+		}
+		else
+		{
+			xStr tmp;
+			const xStr tmpFallback = wxT("0000000000000000");
+			codeText.Clear();
+			u32 valueMode = 0u;
+			u32 xLength = code.valueArray.GetCount();
+			xLength = ( xLength > code.reiterate ) ? code.reiterate : xLength;
+			for ( i = 0u; i < code.reiterate; i++ )
+			{
+				if ( valueMode == 8u )
+				{
+					linePart1.Add( codeText.SubString( 0, 7 ) );
+					linePart2.Add( codeText.SubString( 8, 15 ) );
+					lineLength++;
+					codeText.Clear();
+					valueMode = 0u;
+				}
+				if ( i >= xLength )
+				{
+					tmp = tmpFallback;
+				}
+				else
+				{
+					tmp = code.valueArray[i];
+				}
+				switch ( code.size )
+				{
+					case 1u:
+						codeText += tmp.Right( 2 );
+						break;
+					case 2u:
+						codeText += tmp.Right( 4 );
+						break;
+					case 4u:
+						codeText += tmp.Right( 8 );
+						break;
+					case 8u:
+						codeText += tmp.Right( 16 );
+						break;
+				}
+				valueMode += code.size;
+			}
+			if ( valueMode > 0u )
+			{
+				for ( i = valueMode; i < 8u; i++ )
+				{
+					codeText += wxT("00");
+				}
+				linePart1.Add( codeText.SubString( 0, 7 ) );
+				linePart2.Add( codeText.SubString( 8, 15 ) );
+				lineLength++;
+				codeText.Clear();
+				valueMode = 0u;
+			}
 		}
 	}
-	u32 i = 0;
 	if ( line < 0 )
 	{
 		line = hack->GetLen();
@@ -229,7 +348,7 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 		}
 	}
 }
-void ME::HCAddBOnClick(wxCommandEvent& event) {
+void ME::HCAddBOnClick( wxCommandEvent& event ) {
 	ti = HT->GetSelection();
 	xStr text, txt;
 	HACK* hack = getIH(ti);

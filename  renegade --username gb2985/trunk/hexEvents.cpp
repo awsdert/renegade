@@ -2,7 +2,11 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-void ME::PFGetOnClick(wxCommandEvent& event) { HWB = 1000; HCHook(); }
+void ME::PFGetOnClick( wxCommandEvent& event )
+{
+	HWB = 1000;
+	HCHook();
+}
 void ME::APPLISTOnClick(wxCommandEvent& event) { setApps(); }
 void ME::APPUSEOnClick( wxCommandEvent& event )
 {
@@ -63,13 +67,13 @@ void ME::result_GOnSelect(wxGridEvent& event)
 		int col = event.GetCol();
 		col = ( col < 1 ) ? 1 : col;
 		xStr text = RG->GetCellValue( row, 0 );
-		resultAddress_TXT->SetValue( text );
+		resultHackAddress_TXT->SetValue( text );
 		if ( useEdit_CB->GetValue() )
 		{
 			editorAddress_TXT->SetValue( text );
 		}
 		text = RG->GetCellValue(row, col);
-		resultValue_TXT->SetValue( text );
+		resultHackValue_TXT->SetValue( text );
 	}
 	event.Skip();
 }
@@ -78,12 +82,29 @@ void ME::EAOnClick(wxCommandEvent& event) { EA(); }
 void ME::EVOnClick(wxCommandEvent& event) { EV(); }
 void ME::EUOnChange(wxCommandEvent& event) { EWB = HDT[EUD->GetSelection()]; }
 void ME::EGOnChange(wxGridEvent& event) {
-	s32 r = event.GetRow(), c = event.GetCol();
-	xStr s = EG->GetCellValue(r, 0);
-	if (c > 0) {
-		u32 i = getHEX(s) + GARS(0) + c - 1, v = getHEX(EG->GetCellValue(r, c));
-		HANDLE p = GAP(); HCWrite(p, i, 1, v);
-	} else { editorAddress_TXT->SetValue(s); EA(); }
+	s32 row = event.GetRow(), col = event.GetCol();
+	xStr s = EG->GetRowLabelValue( row );
+	if ( col < 16 )
+	{
+		u32 address = ( getHEX( s ) + GARS( 0 ) ) + col;
+		u32 valueSize = 1;
+		s = EG->GetCellValue( row, col );
+		u32 value = getHEX(s);
+		if ( s.length() > 8 )
+		{
+			valueSize = 8;
+		}
+		else if ( s.length() > 4 )
+		{
+			valueSize = 4;
+		}
+		else if ( s.length() > 2 )
+		{
+			valueSize = 2;
+		}
+		HANDLE appHandle = GAP();
+		HCWrite(appHandle, address, valueSize, value);
+	}
 }
 void ME::editor_GOnScroll(wxMouseEvent& event)
 {

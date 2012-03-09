@@ -35,4 +35,12 @@ xStr getAppExe(DWORD appID) {
 	s.Printf(wxT("%s"), pe32.szExeFile);
 	return s;
 }
+u64 getAppSize( HANDLE appHandle )
+{
+	PROCESS_MEMORY_COUNTERS* appRAM = new PROCESS_MEMORY_COUNTERS;
+	GetProcessMemoryInfo( appHandle, appRAM, (DWORD)sizeof( appRAM ) );
+	u64 r = (u64)appRAM->WorkingSetSize;
+	delete appRAM;
+	return r;
+}
 #endif

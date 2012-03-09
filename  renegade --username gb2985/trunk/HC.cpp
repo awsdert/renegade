@@ -5,9 +5,29 @@
 #include <math.h>
 void ME::HCHook(void) {
 	xTID r = HTRoot();
-	HANDLE p = GAP();
-	if (p != NULL) { HCUse(r, p); }
-	else { HWB = 0; }
+	HANDLE appHandle = GAP();
+	if ( appHandle != NULL )
+	{
+		s32 i;
+		s32 resultHackLength = resultHack_G->GetRows();
+		u32 ramNo = 0u;
+		u64 address;
+		u64 value;
+		u32 valueSize;
+		HCUse(r, appHandle);
+		for ( i = 0; i < resultHackLength; i++ )
+		{
+			ramNo = getHEX( resultHack_G->GetCellValue( i, 0 ) );
+			address = GARS( ramNo ) + getHEX( resultHack_G->GetCellValue( i, 1 ) );
+			value = getHEX( resultHack_G->GetCellValue( i, 2 ) );
+			valueSize = getHEX( resultHack_G->GetCellValue( i, 3 ) );
+			HCWrite( appHandle, address, value, valueSize );
+		}
+	}
+	else
+	{
+		HWB = 0;
+	}
 }
 //DWORD FlipAddress(DWORD x, s32 s = 0, s32 e = 0) {
 	// 0 = LITTLE_ENDIAN_SYS
@@ -21,9 +41,6 @@ void ME::HCHook(void) {
 		case 2: address = xAddress^2; break; \
 		default: address = xAddress; } \
 	} else { address = xAddress; }
-#define ReadAddress BLANK(0) \
-	ReadProcessMemory(appHandle, (void*)address, (void*)buff, size, NULL); \
-	return buff;
 void ME::HCWrite(ReadWriteApp, u64 buff) {
 	FlipAddress;
 	WriteProcessMemory(appHandle, (void*)address, &buff, size, NULL);
@@ -41,25 +58,9 @@ u64 ME::HCReadH(ReadWriteApp) {
 	ReadProcessMemory(appHandle, (void*)address, &buff, size, NULL);
 	return buff;
 }
-u8* ME::HCReadM8(ReadWriteApp) {
-	u8* buff = new u8[size];
+void ME::HCReadM8(ReadWriteApp, u8* buff) {
 	FlipAddress;
-	ReadAddress;
-}
-u16* ME::HCReadM16(ReadWriteApp) {
-	u16* buff = new u16[size];
-	FlipAddress;
-	ReadAddress;
-}
-u32* ME::HCReadM32(ReadWriteApp) {
-	u32* buff = new u32[size];
-	FlipAddress;
-	ReadAddress;
-}
-u64* ME::HCReadM64(ReadWriteApp) {
-	u64* buff = new u64[size];
-	FlipAddress;
-	ReadAddress;
+	ReadProcessMemory(appHandle, (void*)address, (void*)buff, size, NULL);
 }
 void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 	HACK* hack = getIH(r);

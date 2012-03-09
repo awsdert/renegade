@@ -24,11 +24,13 @@ void ME::appTitle_DOnBlur( wxFocusEvent& event )
 		{
 			BIN* bin = new BIN;
 			bin->binName = appName_TXT->GetValue();
-			appIndex = appTitle_D->Append( text, bin );
+			appIndex = appTitle_D->GetCount();
+			appTitle_D->Append( text, bin );
 		}
 		appTitle_D->Select( appIndex );
 		PresetOnChange();
 	}
+	event.Skip();
 }
 void ME::addRAM_BOnClick( wxCommandEvent& event )
 {
@@ -185,21 +187,40 @@ void ME::PresetOnChange( void )
 	s32 binIndex = binTitle_D->GetSelection();
 	ClearGrid( RAMG );
 	appName_TXT->Clear();
+	findRAM_D->Clear();
+	resultHackRAM_D->Clear();
+	EMD->Clear();
+	codeRAM_D->Clear();
 	if ( binIndex >= 0 )
 	{
 		BIN* bin = getBin( binTitle_D, binIndex );
 		u32 i = 0, l = bin->GetCount();
+		if ( l < 1 )
+		{
+			bin->ramName.Add( wxT("Main") );
+			bin->ramFixed.Add( wxT("1") );
+			bin->ramName.Add( wxT("0") );
+			bin->ramName.Add( wxT("0") );
+		}
 		xStr s;
 		appName_TXT->SetValue( bin->binName );
 		for ( ; i < l; i++) {
 			RAMG->AppendRows(1, false);
-			RAMG->SetCellValue(i, 0, bin->ramName[ i ]);
-			RAMG->SetCellValue(i, 1, bin->ramFixed[ i ]);
-			RAMG->SetCellValue(i, 2, bin->ramStart[ i ]);
-			RAMG->SetCellValue(i, 3, bin->ramSize[ i ]);
+			RAMG->SetCellValue( i, 0, bin->ramName[ i ] );
+			findRAM_D->Append( bin->ramName[ i ] );
+			resultHackRAM_D->Append( bin->ramName[ i ] );
+			EMD->Append( bin->ramName[ i ] );
+			codeRAM_D->Append( bin->ramName[ i ] );
+			RAMG->SetCellValue( i, 1, bin->ramFixed[ i ] );
+			RAMG->SetCellValue( i, 2, bin->ramStart[ i ] );
+			RAMG->SetCellValue( i, 3, bin->ramSize[ i ] );
 			s.Printf( wxT( "%X" ), i ); // ID to use in Codes
 			RAMG->SetRowLabelValue( i, s );
 		}
+		findRAM_D->Select(0);
+		resultHackRAM_D->Select(0);
+		EMD->Select(0);
+		codeRAM_D->Select(0);
 	}
 }
 wxComboBox* ME::getBinType( void )
@@ -223,6 +244,17 @@ void ME::ram_GOnChange( wxGridEvent& event )
 	{
 		BIN* bin = getBin( binTitle_D, binIndex );
 		xStr text = GARAM( row, col );
+		if ( text.IsEmpty() )
+		{
+			if ( col > 0 )
+			{
+				text = wxT( "0" );
+			}
+			else
+			{
+				text.Printf( wxT("RAM %i"), row );
+			}
+		}
 		switch ( col )
 		{
 			case 0: bin->ramName[ row ] = text; break;

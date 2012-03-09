@@ -14,10 +14,14 @@
 void ME::EA(void) {
 	xStr xAddressText = editorAddress_TXT->GetValue(), trs = GARAM(0, 3), t, txt, text;
 	HANDLE appHandle = GAP();
-	if (appHandle == NULL) { EWB = 0; }
-	u64 xAddress = getHEX(xAddressText);
+	if ( appHandle == NULL ) { EWB = 0; }
+	u64 xAddress = getHEX( xAddressText );
 	u64 ramAddress = GARS(0) + xAddress;
 	u64 ramEnd = GARM(0);
+	if (ramEnd < 1)
+	{
+		ramEnd = getAppSize( appHandle ) - ramAddress;
+	}
 	u32 row = 0;
 	u32 col = 0;
 	wxChar tc;
@@ -25,14 +29,14 @@ void ME::EA(void) {
 	ClearGrid(EG);
 	u32 i = 0;
 	u32 buffLen = 32 * 0x10;
-	u8* buff = HCReadM8(appHandle, ramAddress, buffLen);
-//	EG->DeleteRows(0, EG->GetNumberRows(), false);
+	u8 buff[ buffLen ];
+	HCReadM8(appHandle, ramAddress, buffLen, buff);
 	for ( ; ( i < buffLen && row < 32 && xAddress < ramEnd ); i++, row++, xAddress++ )
 	{
 		EG->AppendRows(1, false);
 		t.Printf(wxT("%016llX"), xAddress);
-		EG->SetCellValue(row, 0, t);
-		for ( col = 1; ( col < 17 && xAddress < ramEnd ); col++, i++, xAddress++) {
+		EG->SetRowLabelValue(row, t);
+		for ( col = 0; ( col < 16 && xAddress < ramEnd ); col++, i++, xAddress++) {
 			t.Printf( wxT( "%02X" ), buff[ i ] );
 			EG->SetCellValue(row, col, t);
 			tc = buff[ i ];
@@ -47,8 +51,8 @@ void ME::EA(void) {
 		}
 		i--;
 		xAddress--;
-		EG->SetCellValue(row, 17, txt);
-		EG->SetCellValue(row, 18, text);
+		EG->SetCellValue(row, 16, txt);
+		EG->SetCellValue(row, 17, text);
 		txt.Clear();
 		text.Clear();
 	} EG->SetColMinimalAcceptableWidth(50);
