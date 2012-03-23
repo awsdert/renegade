@@ -35,12 +35,30 @@ xStr getAppExe(DWORD appID) {
 	s.Printf(wxT("%s"), pe32.szExeFile);
 	return s;
 }
+typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 u64 getAppSize( HANDLE appHandle )
 {
 	PROCESS_MEMORY_COUNTERS* appRAM = new PROCESS_MEMORY_COUNTERS;
 	GetProcessMemoryInfo( appHandle, appRAM, (DWORD)sizeof( appRAM ) );
 	u64 r = (u64)appRAM->WorkingSetSize;
 	delete appRAM;
+	return r;
+}
+u32 getReadSize( void )
+{
+	SYSTEM_INFO si;
+	PGNSI pGNSI;
+	pGNSI = (PGNSI)GetProcAddress(
+		GetModuleHandle( TEXT("kernel32.dll") ), "GetNativeSystemInfo" );
+	if( pGNSI != NULL )
+	{
+		pGNSI( &si );
+	}
+	else
+	{
+		GetSystemInfo(&si);
+	}
+	u32 r = (u32)si.dwPageSize;
 	return r;
 }
 #endif

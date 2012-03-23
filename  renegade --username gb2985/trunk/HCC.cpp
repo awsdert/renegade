@@ -43,7 +43,7 @@ CL ME::HCSet( HACK* hack, u32 line )
 			}
 		}
 		code.reiterate = getHEX( cPart_1.SubString( 6, 7 ) );
-		code.test = getHEX( cPart_1.SubString( 4, 5 ) );
+		code.test = getHEX( cPart_2 );
 		code.inc_address = getHEX( cPart_2 );
 		xType = getHEX( cPart_1.GetChar( 0 ) );
 		xSize = getHEX( cPart_1.GetChar( 1 ) );
@@ -140,7 +140,7 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 		case 0x8: xSize = 0xC; break;
 		default: xSize = 0x0;
 	}
-	if (code.reiterate > 0x0)
+	if ( code.reiterate > 0x0 )
 	{
 		xSize += 0x2;
 	}
@@ -150,7 +150,7 @@ void ME::BuildCode(HACK* hack, CL code, s32 line)
 	codeText.Printf( hex32, code.inc_address );
 	linePart2.Add( codeText );
 	lineLength++;
-	if ( code.addressSize || code.size > 0x4 )
+	if ( code.addressSize || code.size == CT_LIST )
 	{
 		codeText.Printf( hex64, code.address );
 		linePart1.Add( codeText.SubString( 0, 7 ) );

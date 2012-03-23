@@ -23,7 +23,9 @@ void ME::HTSet(void) {
 	DBI* k = (DBI*)DB->GetItemData(di);
 	p << d + wxT("db");
 	dir.Open(p);
-	p << d + DBFA[HDTI];
+	s32 i = group_D->GetSelection();
+	PLATFORM* pf = (PLATFORM*)group_D->GetClientData( i );
+	p << d + pf->file;
 	if (!dir.Exists(p)) { wxMkdir(p); dir.Open(p); }
 	s = p + d + k->afp + wxT(".hexcl");
 	if (!checkFile.Exists(s)) {

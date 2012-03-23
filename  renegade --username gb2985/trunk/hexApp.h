@@ -40,6 +40,7 @@ BOOL CALLBACK listApps( HWND hwnd, LPARAM AL );
 HANDLE getAppId( const xStr appName );
 u64 getAppSize( HANDLE appHandle );
 #endif
+u32 getReadSize( void );
 enum ESIZE { SE = 0, LE, LSE };
 void MB(xStr text = wxT(""), xStr title = wxT(""));
 xStr getAppExe(DWORD appID);
@@ -48,4 +49,4 @@ class hexApp : public wxApp
     public:
         virtual bool OnInit();
 };
-#endif // REXAPP_H
+#endif

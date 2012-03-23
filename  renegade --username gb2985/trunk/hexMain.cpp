@@ -36,9 +36,16 @@ xStr wxbuildinfo(wxbuildinfoformat format) {
 	} return wxbuild;
 }
 ME::ME(wxFrame *frame) : HEXFRM(frame) {
-	xAStr HSTR, OSNA; // Hook Time Label List
+	xAStr HSTR; // Hook Time Label List
 	hexPath = wxGetCwd();
 	hexSlash = ( hexPath.Contains( wxT("\\") ) ) ? wxT("\\") : wxT("/");
+	dumpPath = hexPath + hexSlash + wxT("ram");
+	if ( !dir.Exists( dumpPath ) )
+	{
+		wxMkdir( dumpPath );
+	}
+	bytePath = dumpPath + hexSlash + wxT("byte%02i.bin");
+	dumpPath << hexSlash + wxT("dump%02i.bin");
     SB->SetStatusText( wxT("Hacker Tool") );
     SB->SetStatusText( wxbuildinfo( long_f ), 1 );
 	HDT.Add(0); HSTR.Add(wxT("Never"));
@@ -51,33 +58,24 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	HDT.Add(1800000); HSTR.Add(wxT("Every 30 Minutes"));
 	HDT.Add(3600000); HSTR.Add(wxT("Every Hour"));
 	// Fill different Choice Menus with choices
-	APPCheck->Append(HSTR);
-	EUD->Append(HSTR);
+	APPCheck->Append( HSTR );
+	EUD->Append( HSTR );
 	APPCheck->SetSelection(0);
 	EUD->SetSelection(0);
-	DBFA.Add(wxT("UNKOWN"), HPFL);
-	OSNA.Add(wxT("UNKOWN"), HPFL);
+	readSize = getReadSize();
+	//readSize = 0x20000000;
 	PLATFORM_SIZE.Add(4, HPFL);
-	DBFA[ PC32 ] = wxT("pc32");
-	OSNA[ PC32 ] = wxT("PC 32bit");
-	DBFA[ PC64 ] = wxT("pc64");
-	OSNA[ PC64 ] = wxT("PC 64bit");
+	addPlatform( wxT("PC 32bit"), wxT("pc32") );
+	addPlatform( wxT("PC 64bit"), wxT("pc64") );
+	addPlatform( wxT("Sony PS1"), wxT("sony_ps1") );
+	addPlatform( wxT("Sony PS2"), wxT("sony_ps2") );
+	addPlatform( wxT("Nintendo 64"), wxT("nintendo_64") );
+	addPlatform( wxT("Nintendo GameBoy"), wxT("nintendo_gb") );
+	addPlatform( wxT("Nintendo DS / DSi / 3DS"), wxT("nintendo_ds") );
+	addPlatform( wxT("Nintendo Wii"), wxT("nintendo_wii") );
 	PLATFORM_SIZE[PC64] = 8;
-	DBFA[ PS1 ] = wxT("sony_ps1");
-	OSNA[ PS1 ] = wxT("Sony PS1");
-	DBFA[ PS2 ] = wxT("sony_ps2");
-	OSNA[ PS2 ] = wxT("Sony PS2");
-	DBFA[ N64 ] = wxT("nintendo_64");
-	OSNA[ N64 ] = wxT("Nintendo 64");
-	DBFA[ NGB ] = wxT("nintendo_gb");
-	OSNA[ NGB ] = wxT("Nintendo GameBoy");
-	DBFA[ NDS ] = wxT("nintendo_ds");
-	OSNA[ NDS ] = wxT("Nintendo DS / DSi / 3DS");
-	DBFA[ NWII ] = wxT("nintendo_wii");
-	OSNA[ NWII ] = wxT("Nintendo Wii");
 	// Fill Platform Choice menu with choices
-	group_D->Append( OSNA );
-	group_D->SetSelection(PS2);
+	group_D->SetSelection( 0 );
 	PFLoad();
 	dl = 0; appLen = -1; endian = 0;
 	// Time based variables
@@ -92,54 +90,27 @@ ME::ME(wxFrame *frame) : HEXFRM(frame) {
 	// Buffers are clear
 	oldSearchNo = -1; oldLength = 0;
 	// Find Tab
-	const xStr TMU_VAL1 = _(" Value 1");
-	const xStr TMU_VAL2 = _(" Value 2");
 	TMU.SetCount(TMU_LENGTH);
-	TMU[TMU_DUMP] = _( "Dump" );
-	TMU[TMU_EQUAL] = _("Equal To");
-	TMU[TMU_NOTE] = _("Not Equal To");
-	TMU[TMU_GT] = _("Greater Than");
-	TMU[TMU_GTE] = _("Greater Than or Equal To");
-	TMU[TMU_LT] = _("Less Than");
-	TMU[TMU_LTE] = _("Less Than or Equal To");
-	TMU[TMU_VEQUAL] = _("Equal To") + TMU_VAL1;
-	TMU[TMU_VNOTE] = _("Not Equal To") + TMU_VAL1;
-	TMU[TMU_VGT] = _("Greater Than") + TMU_VAL1;
-	TMU[TMU_VGTE] = _("Greater Than or Equal To") + TMU_VAL1;
-	TMU[TMU_VLT] = _("Less Than") + TMU_VAL1;
-	TMU[TMU_VLTE] = _("Less Than or Equal To") + TMU_VAL1;
-	TMU[TMU_INSIDE] = _("Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
-	TMU[TMU_OUTSIDE] = _("Not Between") + TMU_VAL1 + _(" and") + TMU_VAL2;
-	useTest_D->Clear();
-	useTest_D->Append( TMU );
-	useTest_D->Select(0);
+	TMU[TMU_DUMP] = wxT( "Dump" );
+	TMU[TMU_EQUAL] = wxT("Equal to ( = )");
+	TMU[TMU_NOTE] = wxT("Not Equal to ( != )");
+	TMU[TMU_GT] = wxT("More than ( > )");
+	TMU[TMU_GTE] = wxT("More than or Equal to ( >= )");
+	TMU[TMU_LT] = wxT("Less than ( < )");
+	TMU[TMU_LTE] = wxT("Less than or Equal to ( <= )");
+	// Ready Menu
+	searchType_D->Clear();
+	searchType_D->Append( TMU );
+	searchType_D->Select(0);
 } ME::~ME() {}
-s32 ME::getAppLen(void) { return appLen; }
-u64 ME::getHEX(xStr s)
+s32 ME::addPlatform( xStr title, xStr file, u32 endian )
 {
-	u32 i = 0u;
-	u64 value = 0u;
-	s = s.Upper();
-	wxChar c;
-	const wxChar n0 = wxT('0');
-	const wxChar n9 = wxT('9');
-	const wxChar nA = wxT('A');
-	const wxChar nF = wxT('F');
-	while ( ( c = s[ i ] ) )
-	{
-		value <<= 4u;
-		if ( c >= n0 && c <= n9 )
-		{
-			value += ( c - n0 );
-		}
-		else if ( c >= nA && c <= nF )
-		{
-			value += ( ( c - nA ) + 10u );
-		}
-		i++;
-	}
-	return value;
+	PLATFORM* pf = new PLATFORM;
+	pf->file = file;
+	pf->endian = endian;
+	return group_D->Append( title, pf );
 }
+s32 ME::getAppLen( void ) { return appLen; }
 void ME::StartLog( void )
 {
 	const xStr hexLogPath = hexPath + hexSlash + wxT("hex.log");
@@ -150,9 +121,10 @@ void ME::StartLog( void )
 	}
 	logFile.Open( hexLogPath );
 }
-void ME::Log(xStr text, xStr title)
+void ME::Log( xStr text, xStr title )
 {
-	logFile.AddLine( text, wxTextFileType_Dos );
+	title = ( title.length() > 0 ) ? wxT("=== ") + title + wxT(" ===\n") : wxT("");
+	logFile.AddLine( title + text, wxTextFileType_Dos );
 }
 void ME::EndLog( void )
 {
@@ -188,5 +160,11 @@ bool ME::GART(s32 r) { return (bool)getHEX(GARAM(r, 1)); } // Is RAM Address Fix
 u64 ME::GARS(s32 r) { return getHEX(GARAM(r, 2)); } // Get RAM Start
 u32 ME::GARM(s32 r)
 {
-	return getHEX(GARAM(r, 3));
+	u64 value = getHEX( GARAM( r, 3 ) );
+	if ( value == 0u )
+	{
+		HANDLE appHandle = getAppId( appName_TXT->GetValue() );
+		value = getAppSize( appHandle ) - getHEX( GARAM( r, 2 ) );
+	}
+	return value;
 }

@@ -22,15 +22,19 @@ void ME::appTitle_DOnBlur( wxFocusEvent& event )
 		s32 appIndex = appTitle_D->FindString( text );
 		if ( appIndex < 0 )
 		{
-			BIN* bin = new BIN;
-			bin->binName = appName_TXT->GetValue();
-			appIndex = appTitle_D->GetCount();
-			appTitle_D->Append( text, bin );
+			appIndex = appTitleAdd( text, true );
 		}
 		appTitle_D->Select( appIndex );
 		PresetOnChange();
 	}
 	event.Skip();
+}
+void addRAM( BIN* bin )
+{
+	bin->ramName.Add( wxT("New RAM") );
+	bin->ramFixed.Add( wxT('1') );
+	bin->ramStart.Add( wxT('0') );
+	bin->ramSize.Add( wxT('0') );
 }
 void ME::addRAM_BOnClick( wxCommandEvent& event )
 {
@@ -39,10 +43,8 @@ void ME::addRAM_BOnClick( wxCommandEvent& event )
 	if ( binIndex >= 0 )
 	{
 		BIN* bin = getBin( binTitle_D, binIndex );
-		bin->ramName.Add( wxT("New Ram") );
-		bin->ramFixed.Add( wxT( '1' ) );
-		bin->ramStart.Add( wxT( '0' ) );
-		bin->ramSize.Add( wxT( '0' ) );
+		addRAM( bin );
+		setBin( binTitle_D, bin, binIndex );
 		PresetOnChange();
 	}
 }
@@ -56,7 +58,9 @@ void ME::PFSet( void ) {
 		wxMkdir(p);
 		dir.Open(p);
 	}
-	s = p + d + DBFA[HDTI] + wxT(".hexpf");
+	s32 i = group_D->GetSelection();
+	PLATFORM* pf = (PLATFORM*)group_D->GetClientData( i );
+	s = p + d + pf->file + wxT(".hexpf");
 	if ( !checkFile.Exists(s) )
 	{
 		pff.Create(s);
@@ -100,9 +104,13 @@ void ME::saveGroup( wxComboBox* binTitle_D )
 		}
 	}
 }
-s32 ME::appTitleAdd( xStr title )
+s32 ME::appTitleAdd( xStr title, bool isNew )
 {
 	BIN* bin = new BIN;
+	if ( isNew )
+	{
+		addRAM( bin );
+	}
 	return appTitle_D->Append( title, bin );
 }
 BIN* ME::getBin( wxComboBox* choice, s32 index )
@@ -115,7 +123,10 @@ BIN* ME::getBin( wxComboBox* choice, s32 index )
 }
 void ME::setBin( wxComboBox* choice, BIN* bin, s32 index )
 {
-	choice->SetClientData( index, bin );
+	if ( index >= 0 )
+	{
+		choice->SetClientData( index, bin );
+	}
 }
 void ME::PFLoad( void )
 {
@@ -127,7 +138,7 @@ void ME::PFLoad( void )
 	xStr s, t, x;
 	s32 appIndex;
 	xStrT st;
-	BIN* bin;
+	BIN* bin = NULL;
 	EMD->Clear();
 	const wxChar info = wxT( ';' );
 	const wxChar brace1 = wxT( '[' );
@@ -181,13 +192,25 @@ void ME::PFLoad( void )
 	PresetOnChange();
 	DBLoad();
 }
+void ME::appName_TXTOnBlur( wxFocusEvent& event )
+{
+	s32 appIndex = appTitle_D->GetSelection();
+	if ( appIndex < 0 )
+	{
+		appIndex = appTitleAdd( appTitle_D->GetValue(), true );
+		appTitle_D->Select( appIndex );
+	}
+	BIN* bin = getBin( appTitle_D, appIndex );
+	bin->binName = appName_TXT->GetValue();
+	setBin( appTitle_D, bin, appIndex );
+}
 void ME::PresetOnChange( void )
 {
 	wxComboBox* binTitle_D = getBinType();
 	s32 binIndex = binTitle_D->GetSelection();
 	ClearGrid( RAMG );
 	appName_TXT->Clear();
-	findRAM_D->Clear();
+	searchRAM_D->Clear();
 	resultHackRAM_D->Clear();
 	EMD->Clear();
 	codeRAM_D->Clear();
@@ -197,27 +220,25 @@ void ME::PresetOnChange( void )
 		u32 i = 0, l = bin->GetCount();
 		if ( l < 1 )
 		{
-			bin->ramName.Add( wxT("Main") );
-			bin->ramFixed.Add( wxT("1") );
-			bin->ramName.Add( wxT("0") );
-			bin->ramName.Add( wxT("0") );
+			addRAM( bin );
+			l = 1;
 		}
 		xStr s;
 		appName_TXT->SetValue( bin->binName );
 		for ( ; i < l; i++) {
 			RAMG->AppendRows(1, false);
-			RAMG->SetCellValue( i, 0, bin->ramName[ i ] );
-			findRAM_D->Append( bin->ramName[ i ] );
+			searchRAM_D->Append( bin->ramName[ i ] );
 			resultHackRAM_D->Append( bin->ramName[ i ] );
 			EMD->Append( bin->ramName[ i ] );
 			codeRAM_D->Append( bin->ramName[ i ] );
+			RAMG->SetCellValue( i, 0, bin->ramName[ i ] );
 			RAMG->SetCellValue( i, 1, bin->ramFixed[ i ] );
 			RAMG->SetCellValue( i, 2, bin->ramStart[ i ] );
 			RAMG->SetCellValue( i, 3, bin->ramSize[ i ] );
 			s.Printf( wxT( "%X" ), i ); // ID to use in Codes
 			RAMG->SetRowLabelValue( i, s );
 		}
-		findRAM_D->Select(0);
+		searchRAM_D->Select(0);
 		resultHackRAM_D->Select(0);
 		EMD->Select(0);
 		codeRAM_D->Select(0);

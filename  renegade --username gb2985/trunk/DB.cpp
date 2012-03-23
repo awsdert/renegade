@@ -22,7 +22,9 @@ void ME::DBSet( void )
 		wxMkdir(p);
 		dir.Open(p);
 	}
-	s << p + d + DBFA[ HDTI ] + wxT( ".hexdb" );
+	s32 i = group_D->GetSelection();
+	PLATFORM* pf = (PLATFORM*)group_D->GetClientData( i );
+	s << p + d + pf->file + wxT( ".hexdb" );
 	if ( !checkFile.Exists( s ) )
 	{
 		dbf.Create(s);

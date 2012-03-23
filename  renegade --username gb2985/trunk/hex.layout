@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="release" />
-	<File name="hTab.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="4869" topLine="197" />
-	</File>
-	<File name="hexMain.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="5806" topLine="163" />
-	</File>
-	<File name="hexMain.h" open="1" top="0" tabpos="1">
-		<Cursor position="1262" topLine="30" />
-	</File>
-	<File name="qTab.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="14408" topLine="509" />
+	<File name="qTab.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="14420" topLine="346" />
 	</File>
 </CodeBlocks_layout_file>

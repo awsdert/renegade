@@ -37,6 +37,15 @@ class CL {
 		xAStr valueArray;
 		bool fixed;
 };
+class PLATFORM: public wxClientData
+{
+	public:
+		PLATFORM( void );
+		PLATFORM( wxClientData* );
+	public:
+		xStr file;
+		u32 endian;
+};
 class BIN: public wxClientData
 {
 	public:

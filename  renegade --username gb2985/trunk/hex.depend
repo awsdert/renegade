@@ -3695,7 +3695,7 @@
 	<wx/wx.h>
 	"hexVar.h"
 
-1331296332 source:z:\hex\svn\trunk\hexmain.cpp
+1332443940 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
@@ -3711,7 +3711,7 @@
 	"hexApp.h"
 	"hexMain.h"
 
-1330718190 z:\hex\svn\trunk\hexapp.h
+1332285432 z:\hex\svn\trunk\hexapp.h
 	"wx_pch.h"
 	<wx/tokenzr.h>
 	<wx/app.h>
@@ -3720,7 +3720,7 @@
 	<tlhelp32.h>
 	<psapi.h>
 
-1331295740 z:\hex\svn\trunk\hexmain.h
+1332443770 z:\hex\svn\trunk\hexmain.h
 	<wx/filefn.h>
 	<wx/ffile.h>
 	<wx/textfile.h>
@@ -3730,7 +3730,7 @@
 	"GUIFrame.h"
 	"hexVar.h"
 
-1331296366 z:\hex\svn\trunk\guiframe.h
+1332436668 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3753,8 +3753,9 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 	<wx/icon.h>
-	<wx/checkbox.h>
 	<wx/gauge.h>
+	<wx/checkbox.h>
+	<wx/statline.h>
 	<wx/treectrl.h>
 	<wx/spinctrl.h>
 	<wx/hyperlink.h>
@@ -3770,11 +3771,11 @@
 1189864952 source:z:\hex\svn\trunk\resource.rc
 	"wx/msw/wx.rc"
 
-1329586754 source:z:\hex\svn\trunk\hexapp.cpp
+1332284150 source:z:\hex\svn\trunk\hexapp.cpp
 	"hexApp.h"
 	"hexMain.h"
 
-1331296366 source:z:\hex\svn\trunk\guiframe.cpp
+1332439808 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -4192,20 +4193,20 @@
 	"wx/longlong.h"
 	"wx/string.h"
 
-1330338224 z:\hex\svn\trunk\hexvar.h
+1332443516 z:\hex\svn\trunk\hexvar.h
 	"hexApp.h"
 	"GUIFrame.h"
 
-1329903216 source:z:\hex\svn\trunk\ht.cpp
+1332443892 source:z:\hex\svn\trunk\ht.cpp
 	"hexMain.h"
 
-1330338702 source:z:\hex\svn\trunk\hexvar.cpp
+1332444088 source:z:\hex\svn\trunk\hexvar.cpp
 	"hexVar.h"
 
-1330632292 source:z:\hex\svn\trunk\db.cpp
+1332443980 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1331136938 source:z:\hex\svn\trunk\hc.cpp
+1332234122 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4214,25 +4215,24 @@
 	"wx/string.h"
 	"wx/arrstr.h"
 
-1330621036 source:z:\hex\svn\trunk\app.cpp
+1332285432 source:z:\hex\svn\trunk\app.cpp
 	"hexApp.h"
 
-1330961886 source:z:\hex\svn\trunk\etab.cpp
+1332285432 source:z:\hex\svn\trunk\etab.cpp
 	"hexMain.h"
 
-1331123038 source:z:\hex\svn\trunk\hcc.cpp
+1332011486 source:z:\hex\svn\trunk\hcc.cpp
 	"hexMain.h"
 	<math.h>
 
-1331296964 source:z:\hex\svn\trunk\htab.cpp
+1332443862 source:z:\hex\svn\trunk\htab.cpp
 	"hexMain.h"
 
 1330638224 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
-1331296838 source:z:\hex\svn\trunk\qtab.cpp
+1332522338 source:z:\hex\svn\trunk\qtab.cpp
 	"hexMain.h"
-	"qTab.h"
 
 1330104044 z:\hex\svn\trunk\qtab.h
 
@@ -4243,9 +4243,58 @@
 	"wx/convauto.h"
 	<stdio.h>
 
-1330083930 source:z:\hex\svn\trunk\txt_events.cpp
+1332442428 source:z:\hex\svn\trunk\txt_events.cpp
 	"hexMain.h"
 
-1330611802 source:z:\hex\svn\trunk\resulttab.cpp
+1332189792 source:z:\hex\svn\trunk\resulttab.cpp
+	"hexMain.h"
+
+1332438332 source:z:\hex\svn\trunk\test.cpp
+	"hexMain.h"
+
+1332333892 source:z:\hex\svn\trunk\gethex.cpp
+	"hexMain.h"
+	<wx/defs.h>
+
+1332430774 source:z:\hex\svn\trunk\qtab_gettests.cpp
+	"hexMain.h"
+
+1309443176 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\statline.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/statline.h"
+	"wx/msw/statline.h"
+	"wx/gtk/statline.h"
+	"wx/gtk1/statline.h"
+	"wx/os2/statline.h"
+	"wx/mac/statline.h"
+	"wx/cocoa/statline.h"
+	"wx/generic/statline.h"
+
+1309443058 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\univ\statline.h
+
+1309443118 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\msw\statline.h
+
+1309443148 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\gtk\statline.h
+	"wx/defs.h"
+
+1309443072 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\gtk1\statline.h
+	"wx/defs.h"
+
+1309443132 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\os2\statline.h
+
+1309443090 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\mac\statline.h
+	"wx/mac/classic/statline.h"
+	"wx/mac/carbon/statline.h"
+
+1309443082 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\mac\classic\statline.h
+
+1309443090 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\mac\carbon\statline.h
+
+1309443170 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\cocoa\statline.h
+
+1309443162 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\generic\statline.h
+
+1332441262 source:z:\hex\svn\trunk\qtab_events.cpp
 	"hexMain.h"
 

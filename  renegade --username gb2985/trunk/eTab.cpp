@@ -18,10 +18,6 @@ void ME::EA(void) {
 	u64 xAddress = getHEX( xAddressText );
 	u64 ramAddress = GARS(0) + xAddress;
 	u64 ramEnd = GARM(0);
-	if (ramEnd < 1)
-	{
-		ramEnd = getAppSize( appHandle ) - ramAddress;
-	}
 	u32 row = 0;
 	u32 col = 0;
 	wxChar tc;

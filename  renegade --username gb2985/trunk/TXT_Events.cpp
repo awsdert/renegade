@@ -2,16 +2,16 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-void ME::validateValue(wxKeyEvent& event, u32 valMode)
+void ME::validateValue( wxKeyEvent& event, u32 valMode )
 {
 	u32 key = event.GetKeyCode();
 	bool doEvent = false;
 	wxChar txt = key;
 	xStr text = txt;
 	text = text.Upper();
-	xStr checkHex = wxT( "0123456789ABCDEF" );
-	xStr checkInt = wxT( "0123456789" );
-	xStr checkDec = wxT( "0123456789." );
+	const xStr checkHex = wxT( "0123456789ABCDEF" );
+	const xStr checkInt = wxT( "-0123456789" );
+	const xStr checkFloat = wxT( "-0123456789." );
 	if ( key > 255 )
 	{
 		doEvent = true;
@@ -32,14 +32,14 @@ void ME::validateValue(wxKeyEvent& event, u32 valMode)
 			default:
 				switch ( valMode )
 				{
-					case 1:
+					case 1u:
 						if ( checkInt.Contains( text ) )
 						{
 							doEvent = true;
 						}
 						break;
-					case 2:
-						if ( checkDec.Contains( text ) )
+					case 2u:
+						if ( checkFloat.Contains( text ) )
 						{
 							doEvent = true;
 						}
@@ -52,13 +52,90 @@ void ME::validateValue(wxKeyEvent& event, u32 valMode)
 				}
 		}
 	}
-	event.Skip(doEvent);
+	event.Skip( doEvent );
 }
-void ME::address_TXTOnKeyDown(wxKeyEvent& event)
+void ME::validateValue( wxKeyEvent& event, u32 valueMode, s32 valueSize )
 {
-	validateValue(event);
+	u64 uSize;
+	switch ( valueSize )
+	{
+		case 1:
+			uSize = 0xFFFF;
+			break;
+		case 2:
+			uSize = 0xFFFFFFFF;
+			break;
+		case 3:
+			uSize = 0xFFFFFFFFFFFFFFFFLL;
+			break;
+		default:
+			uSize = 0xFF;
+	}
+	u64 value;
+	xStr text;
+	wxTextCtrl* valueVar_TXT = ( wxTextCtrl* ) event.GetEventObject();
+	text = valueVar_TXT->GetValue();
+	switch ( valueMode )
+	{
+		case 1u:
+			value = getHEXFromDecimal( text, uSize );
+			text.Printf( wxT("%llu"), value );
+			break;
+		case 3u:
+			value = getHEXFromSignedDecimal( text, uSize );
+			text.Printf( wxT("%lli"), value );
+			break;
+		case 2u:
+			value = getHEXFromFloat( text, uSize );
+			text.Printf( wxT("%llf"), value );
+			break;
+		default:
+			value = getHEX( text, uSize );
+			text.Printf( wxT("%llX"), value );
+	}
+	valueVar_TXT->SetValue( text );
 }
-void ME::value_TXTOnKeyDown(wxKeyEvent& event)
+void ME::byte_TXTOnKeyDown( wxKeyEvent& event )
 {
-	validateValue(event);
+	validateValue( event, 0u );
+}
+void ME::byte_TXTOnKeyUp( wxKeyEvent& event )
+{
+	validateValue( event, 0u, 3 );
+}
+void ME::search_TXTOnKeyDown( wxKeyEvent& event )
+{
+	u32 valueMode = searchValueType_D->GetSelection();
+	valueMode = ( valueMode == 1u && searchIsSigned_CB->GetValue() ) ? 3u : valueMode;
+	validateValue( event, valueMode );
+}
+void ME::search_TXTOnKeyUp( wxKeyEvent& event )
+{
+	u32 valueMode = searchValueType_D->GetSelection();
+	valueMode = ( valueMode == 1u && searchIsSigned_CB->GetValue() ) ? 3u : valueMode;
+	validateValue( event, valueMode, searchSize_D->GetSelection() );
+}
+void ME::result_TXTOnKeyDown( wxKeyEvent& event )
+{
+	u32 valueMode = resultHackMode_D->GetSelection();
+	validateValue( event, valueMode, findValueLength );
+}
+void ME::result_TXTOnKeyUp( wxKeyEvent& event )
+{
+	s32 valueMode = resultHackMode_D->GetSelection();
+	s32 valueSize = resultHackSize_D->GetSelection();
+	//valueMode = ( valueMode == 1u && isSigned_CB->GetValue() ) ? 3u : valueMode;
+	validateValue( event, valueMode, valueSize );
+}
+void ME::code_TXTOnKeyDown( wxKeyEvent& event )
+{
+	u32 valueMode = codeMode_D->GetSelection();
+	validateValue( event, valueMode, findValueLength );
+}
+void ME::code_TXTOnKeyUp( wxKeyEvent& event )
+{
+	s32 valueMode = codeMode_D->GetSelection();
+	s32 valueSize = codeSize_D->GetSelection();
+	//valueMode = ( valueMode == 1u && isSigned_CB->GetValue() ) ? 3u : valueMode;
+	validateValue( event, valueMode, valueSize );
 }

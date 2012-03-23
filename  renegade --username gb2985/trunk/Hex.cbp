@@ -79,6 +79,7 @@
 		<Unit filename="TXT_Events.cpp" />
 		<Unit filename="app.cpp" />
 		<Unit filename="eTab.cpp" />
+		<Unit filename="getHEX.cpp" />
 		<Unit filename="hTab.cpp" />
 		<Unit filename="hexApp.cpp" />
 		<Unit filename="hexApp.h" />
@@ -89,10 +90,13 @@
 		<Unit filename="hexVar.h" />
 		<Unit filename="qTab.cpp" />
 		<Unit filename="qTab.h" />
+		<Unit filename="qTab_Events.cpp" />
+		<Unit filename="qTab_getTests.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="resultTab.cpp" />
+		<Unit filename="test.cpp" />
 		<Unit filename="version.h" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />

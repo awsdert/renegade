@@ -30,8 +30,9 @@
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/checkbox.h>
 #include <wx/gauge.h>
+#include <wx/checkbox.h>
+#include <wx/statline.h>
 #include <wx/treectrl.h>
 #include <wx/spinctrl.h>
 #include <wx/hyperlink.h>
@@ -77,71 +78,79 @@ class HEXFRM : public wxFrame
 		wxButton* APPLIST;
 		wxButton* APPUSE;
 		wxGrid* APPG;
-		wxPanel* QP;
-		wxStaticText* findSize_S;
-		wxChoice* valueSize_D;
-		wxStaticText* findNo_S;
-		wxChoice* findNo_D;
+		wxPanel* search_P;
+		wxStaticText* good_S;
+		wxStaticText* bad_S;
+		wxGauge* byte_PB;
+		wxScrolledWindow* good_SCROLL;
+		wxCheckBox* goodAGT_CB;
+		wxTextCtrl* goodAGT_TXT;
+		wxCheckBox* goodAGTE_CB;
+		wxTextCtrl* goodAGTE_TXT;
+		wxCheckBox* goodALT_CB;
+		wxTextCtrl* goodALT_TXT;
+		wxCheckBox* goodALTE_CB;
+		wxTextCtrl* goodALTE_TXT;
+		wxCheckBox* goodVEqual_CB;
+		wxTextCtrl* goodVEqual_TXT;
+		wxCheckBox* goodVNOTE_CB;
+		wxTextCtrl* goodVNOTE_TXT;
+		wxCheckBox* goodVGT_CB;
+		wxTextCtrl* goodVGT_TXT;
+		wxCheckBox* goodVGTE_CB;
+		wxTextCtrl* goodVGTE_TXT;
+		wxCheckBox* goodVLT_CB;
+		wxTextCtrl* goodVLT_TXT;
+		wxCheckBox* goodVLTE_CB;
+		wxTextCtrl* goodVLTE_TXT;
+		wxScrolledWindow* bad_SCROLL;
+		wxCheckBox* badAGT_CB;
+		wxTextCtrl* badAGT_TXT;
+		wxCheckBox* badAGTE_CB;
+		wxTextCtrl* badAGTE_TXT;
+		wxCheckBox* badALT_CB;
+		wxTextCtrl* badALT_TXT;
+		wxCheckBox* badALTE_CB;
+		wxTextCtrl* badALTE_TXT;
+		wxCheckBox* badVEqual_CB;
+		wxTextCtrl* badVEqual_TXT;
+		wxCheckBox* badVNOTE_CB;
+		wxTextCtrl* badVNOTE_TXT;
+		wxCheckBox* badVGT_CB;
+		wxTextCtrl* badVGT_TXT;
+		wxCheckBox* badVGTE_CB;
+		wxTextCtrl* badVGTE_TXT;
+		wxCheckBox* badVLT_CB;
+		wxTextCtrl* badVLT_TXT;
+		wxCheckBox* badVLTE_CB;
+		wxTextCtrl* badVLTE_TXT;
+		wxPanel* searchOptions_P;
+		wxStaticText* total_S;
+		wxStaticLine* searchOptions_LINE1;
+		wxStaticText* compare_S;
+		wxChoice* compare_D;
+		wxStaticText* searchRAM_S;
+		wxChoice* searchRAM_D;
+		wxStaticText* searchType_S;
+		wxChoice* searchType_D;
+		wxStaticText* searchSize_S;
+		wxChoice* searchSize_D;
+		wxStaticText* searchValueType_S;
+		wxChoice* searchValueType_D;
+		wxCheckBox* searchIsSigned_CB;
+		wxStaticText* searchIsSigned_S;
+		wxCheckBox* searchIsBinary_CB;
+		wxStaticText* searchIsBinary_S;
+		wxStaticLine* searchOptions_LINE2;
 		wxButton* dump_B;
-		wxButton* find_B;
-		wxButton* undoFind_B;
-		wxChoice* findRAM_D;
-		wxButton* bQActLT;
-		wxButton* bQActLTE;
-		wxButton* bQActE;
-		wxButton* bQActNE;
-		wxButton* bQActGTE;
-		wxButton* bQActGT;
-		wxChoice* useTest_D;
-		wxCheckBox* isSigned_CB;
-		wxStaticText* result_S;
-		wxGauge* find_PB;
-		wxStaticText* value1_S;
-		wxTextCtrl* value1_TXT;
-		wxStaticText* value2_S;
-		wxTextCtrl* value2_TXT;
-		wxStaticText* ignore_S;
-		wxScrolledWindow* ignore_SW;
-		wxCheckBox* ignore0_CB;
-		wxCheckBox* ignoreF_CB;
-		wxCheckBox* ignoreValue_CB;
-		wxTextCtrl* ignoreValue_TXT;
-		wxCheckBox* ignoreInside_CB;
-		wxTextCtrl* ignoreInsideFrom_TXT;
-		wxStaticText* ignoreInside_S;
-		wxTextCtrl* ignoreInsideTo_TXT;
-		wxCheckBox* ignoreOutside_CB;
-		wxTextCtrl* ignoreOutsideFrom_TXT;
-		wxStaticText* ignoreOutside_S;
-		wxTextCtrl* ignoreOutsideTo_TXT;
-		wxCheckBox* ignorePart8_CB;
-		wxTextCtrl* ignorePart8_TXT;
-		wxCheckBox* ignorePart16_CB;
-		wxTextCtrl* ignorePart16_TXT;
-		wxCheckBox* ignorePart32_CB;
-		wxTextCtrl* ignorePart32_TXT;
-		wxCheckBox* ignorePart64_CB;
-		wxTextCtrl* ignorePart64_TXT;
-		wxCheckBox* ignorePart8Range_CB;
-		wxTextCtrl* ignorePart8RangeFrom_TXT;
-		wxStaticText* ignorePart8Range_S;
-		wxTextCtrl* ignorePart8RangeTo_TXT;
-		wxCheckBox* ignorePart16Range_CB;
-		wxTextCtrl* ignorePart16RangeFrom_TXT;
-		wxStaticText* ignorePart16Range_S;
-		wxTextCtrl* ignorePart16RangeTo_TXT;
-		wxCheckBox* ignorePart32Range_CB;
-		wxTextCtrl* ignorePart32RangeFrom_TXT;
-		wxStaticText* ignorePart32Range_S;
-		wxTextCtrl* ignorePart32RangeTo_TXT;
-		wxCheckBox* ignorePart64Range_CB;
-		wxTextCtrl* ignorePart64RangeFrom_TXT;
-		wxStaticText* ignorePart64Range_S;
-		wxTextCtrl* ignorePart64RangeTo_TXT;
-		wxCheckBox* ignoreAddressOutside_CB;
-		wxTextCtrl* ignoreAddressOutsideFrom_TXT;
-		wxStaticText* ignoreAddressOutside_S;
-		wxTextCtrl* ignoreAddressOutsideTo_TXT;
+		wxButton* search_B;
+		wxButton* searchUndo_B;
+		wxButton* searchLT_B;
+		wxButton* searchLTE_B;
+		wxButton* searchEqual_B;
+		wxButton* searchNOTE_B;
+		wxButton* searchGTE_B;
+		wxButton* searchGT_B;
 		wxPanel* RP;
 		wxGrid* RG;
 		wxPanel* RHP;
@@ -151,10 +160,12 @@ class HEXFRM : public wxFrame
 		wxButton* resultHackDel_B;
 		wxStaticText* resultHackRAM_S;
 		wxChoice* resultHackRAM_D;
-		wxStaticText* resultHackByte_S;
-		wxChoice* resultHackByte_D;
+		wxStaticText* resultHackSize_S;
+		wxChoice* resultHackSize_D;
 		wxStaticText* resultHackAddress_S;
 		wxTextCtrl* resultHackAddress_TXT;
+		wxStaticText* resultHackMode_S;
+		wxChoice* resultHackMode_D;
 		wxStaticText* resultHackValue_S;
 		wxTextCtrl* resultHackValue_TXT;
 		wxPanel* EP;
@@ -196,18 +207,18 @@ class HEXFRM : public wxFrame
 		wxButton* bHTLoad;
 		wxButton* bHTSave;
 		wxPanel* HCP;
-		wxStaticText* HCCS;
+		wxStaticText* codeType_S;
 		wxChoice* codeType_D;
 		wxStaticText* codeRepeat_S;
-		wxStaticText* HCRAMS;
+		wxStaticText* codeRAM_S;
 		wxChoice* codeRAM_D;
 		wxSpinCtrl* codeRepeat_SN;
-		wxStaticText* sHackA;
+		wxStaticText* codeAddress_S;
 		wxTextCtrl* codeAddress_TXT;
 		wxChoice* codeFixed_D;
-		wxStaticText* sHackV;
-		wxTextCtrl* codeValue_TXT;
 		wxChoice* codeSize_D;
+		wxTextCtrl* codeValue_TXT;
+		wxChoice* codeMode_D;
 		wxPanel* HCTW;
 		wxStaticText* HCTS1;
 		wxChoice* codeTest_D;
@@ -243,6 +254,7 @@ class HEXFRM : public wxFrame
 		virtual void PFStartOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void appTitle_DOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void appUpdate_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void appName_TXTOnBlur( wxFocusEvent& event ) { event.Skip(); }
 		virtual void mWaitOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void BINDOnEdit( wxCommandEvent& event ) { event.Skip(); }
@@ -252,16 +264,29 @@ class HEXFRM : public wxFrame
 		virtual void ram_GOnChange( wxGridEvent& event ) { event.Skip(); }
 		virtual void APPLISTOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void APPUSEOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void findNo_DOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void byte_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void byte_TXTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void search_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void search_TXTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void compare_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchValueType_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void dump_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void find_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void undoFind_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void value_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
-		virtual void address_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void search_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchUndo_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchLT_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchLTE_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchEqual_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchNOTE_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchGTE_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void searchGT_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void result_GOnSelect( wxGridEvent& event ) { event.Skip(); }
 		virtual void resultHack_GOnSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void resultHackAdd_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void resultHackDel_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void address_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void address_TXTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void resultValue_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void resultValue_TXTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void EAOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EVOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }
@@ -282,6 +307,8 @@ class HEXFRM : public wxFrame
 		virtual void bHTSaveOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCCDOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void codeRepeat_SNOnSpin( wxSpinEvent& event ) { event.Skip(); }
+		virtual void codeValue_TXTOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void codeValue_TXTOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void HCUOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCAddBOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HCLoadOnClick( wxCommandEvent& event ) { event.Skip(); }

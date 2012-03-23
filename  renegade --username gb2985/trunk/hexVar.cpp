@@ -48,6 +48,16 @@ BIN::BIN( wxClientData* )
 {
 	binName = wxT( "" );
 }
+PLATFORM::PLATFORM( void )
+{
+	file = wxT("");
+	endian = 0u;
+}
+PLATFORM::PLATFORM( wxClientData* )
+{
+	file = wxT("");
+	endian = 0u;
+}
 u32 BIN::GetCount( void )
 {
 	return (u32)ramName.GetCount();

@@ -20,11 +20,10 @@
 #define BLANK(blank_argument)
 #define ReadWriteApp HANDLE appHandle, u64 xAddress, u64 size
 // DB = Database List, HT = Hack Tree
-enum { TMU_DUMP = 0x00000000, TMU_EQUAL, TMU_VEQUAL, TMU_NOTE, TMU_VNOTE,
-	TMU_GT, TMU_VGT, TMU_GTE, TMU_VGTE, TMU_LT, TMU_VLT, TMU_LTE, TMU_VLTE,
-	TMU_INSIDE, TMU_OUTSIDE, TMU_LENGTH };
-const u32 TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_INSIDE = 0x8,
-	TM_NOTE = 0x10, TM_LT = 0x20, TM_LTE = 0x40, TM_OUTSIDE = 0x80,
+enum { CT_WRITE = 0u, CT_COPY = 1u, CT_TEST = 2u, CT_INCREMENT = 3u, CT_DECREMENT = 4u, CT_LIST = 5u, CT_LENGTH };
+enum { TMU_DUMP = 0, TMU_EQUAL, TMU_NOTE, TMU_GT, TMU_GTE, TMU_LT, TMU_LTE, TMU_LENGTH };
+const u32 TM_EQUAL = 0x1, TM_GT = 0x2, TM_GTE = 0x4, TM_ISBIN = 0x8,
+	TM_NOTE = 0x10, TM_LT = 0x20, TM_LTE = 0x40,
 	TM_00 = 0x100, TM_FF = 0x200;
 class ME: public HEXFRM {
     public:
@@ -33,31 +32,98 @@ class ME: public HEXFRM {
     private:
         virtual void HEXFORMCLOSE(wxCloseEvent& event);
 	public:
+		s32 addPlatform( xStr title, xStr file, u32 endian = 0 );
+		// hTab.cpp
+		void appName_TXTOnBlur( wxFocusEvent& event );
+		// getHEX.cpp
+		u32 readSize;
+		u64 getHEX( xStr text, u64 uSize = 0u );
+		u64 getHEXFromDecimal( xStr text, u64 uSize = 0u );
+		u64 getHEXFromSignedDecimal( xStr text, u64 uSize = 0u );
+		u64 getHEXFromFloat( xStr text, u64 uSize = 0u );
 		// qTab.cpp
-		void Dump( u32 searchNo, u32 valueSize );
-		void Find( u32 mode, u32 valueSize );
+		s32 findValueLength;
+		xStr dumpPath;
+		xStr bytePath;
+		void GetValue( wxTextCtrl* obj, u64& value, s32 valueType = 0, bool isSigned = false );
+		void GetValues( void );
+		u32 GetNow( void );
+		u32 GetNowBinary( void );
+		u32 GetOld( void );
+		u32 GetOldBinary( void );
+		// Functions
+		void oldRAM( s32 findNo, u8* oldBuff, u64 ramSize );
+		void oldBytes( s32 findNo, bool* oldBuff, u64 ramSize );
+		void Seek( s32 findNo );
+		u64* oldBuffer( s32 sn, u32 partNo = 0 );
+		void valueSize_DOnChoice( wxCommandEvent& event );
+		void Search( s32 findNo, u32 valueSize );
+		// qTab_getTests.cpp
+		// Good Address
+		u32 GetGoodByte( void );
+		u64 goodAGT;
+		u64 goodAGTE;
+		u64 goodALT;
+		u64 goodALTE;
+		// Good Value
+		u32 GetGood( void );
+		u32 GetGoodBinary( void );
+		u64 goodVEqual;
+		u64 goodVNOTE;
+		u64 goodVGT;
+		u64 goodVGTE;
+		u64 goodVLT;
+		u64 goodVLTE;
+		// Bad Address
+		u32 GetBadByte( void );
+		u64 badAGT;
+		u64 badAGTE;
+		u64 badALT;
+		u64 badALTE;
+		// Bad Value
+		u32 GetBad( void );
+		u32 GetBadBinary( void );
+		u64 badVEqual;
+		u64 badVNOTE;
+		u64 badVGT;
+		u64 badVGTE;
+		u64 badVLT;
+		u64 badVLTE;
+		// qTab_Events.cpp
+		void compare_DOnChoice( wxCommandEvent& event );
+		void searchValueType_DOnChoice( wxCommandEvent& event );
+		void search_OnClick( s32 searchType );
 		void dump_BOnClick( wxCommandEvent& event );
-		void find_BOnClick( wxCommandEvent& event );
-		void findNo_DOnChange( wxCommandEvent& event );
-		void undoFind_BOnClick( wxCommandEvent& event );
+		void search_BOnClick( wxCommandEvent& event );
+		void searchGT_BOnClick( wxCommandEvent& event );
+		void searchGTE_BOnClick( wxCommandEvent& event );
+		void searchEqual_BOnClick( wxCommandEvent& event );
+		void searchNOTE_BOnClick( wxCommandEvent& event );
+		void searchLT_BOnClick( wxCommandEvent& event );
+		void searchLTE_BOnClick( wxCommandEvent& event );
+		void searchUndo_BOnClick( wxCommandEvent& event );
 		// resultTab.cpp
 		s32 resultHackRow;
 		void resultHack_GOnSelectCell( wxGridEvent& event );
 		void resultHackAdd_BOnClick( wxCommandEvent& event );
 		void resultHackDel_BOnClick( wxCommandEvent& event );
+		// TXT_Events.cpp
+		void validateValue(wxKeyEvent& event, u32 valMode);
+		void validateValue( wxKeyEvent& event, u32 valueMode, s32 valueSize );
+		void byte_TXTOnKeyDown(wxKeyEvent& event);
+		void byte_TXTOnKeyUp( wxKeyEvent& event );
+		void search_TXTOnKeyDown(wxKeyEvent& event);
+		void search_TXTOnKeyUp( wxKeyEvent& event );
+		void result_TXTOnKeyDown( wxKeyEvent& event );
+		void result_TXTOnKeyUp( wxKeyEvent& event );
+		void code_TXTOnKeyDown( wxKeyEvent& event );
+		void code_TXTOnKeyUp( wxKeyEvent& event );
 		//
 		void StartLog( void );
 		void EndLog( void );
-		u64 value1, value2;
-		u64 ignoreF;
-		u64 ignoreValue;
-		u64 ignoreInsideFrom;
-		u64 ignoreInsideTo;
-		u64 ignoreOutsideFrom;
-		u64 ignoreOutsideTo;
 		u32 addressSize;
 		xAInt PLATFORM_SIZE;
-		s32 appTitleAdd( xStr title );
+		s32 appTitleAdd( xStr title, bool isNew = false );
 		wxComboBox* getBinType( void );
 		BIN* getBin( wxComboBox* choice, s32 index = 0 );
 		void setBin( wxComboBox* choice, BIN* bin, s32 index = 0 );
@@ -85,7 +151,7 @@ class ME: public HEXFRM {
 		void delI(xTID& i, xTID& ni);
 		void setIH(xTID& i, HACK* h);
 		s32 endian;
-		xAStr DBFA, PFEA;
+		xAStr PFEA;
 		DWORD AI;
 		xStr AE;
 		wxLongLong AW, AWU, EW, EWU, HW, HWU;
@@ -112,7 +178,6 @@ class ME: public HEXFRM {
 		void ClearGridCols(wxGrid*& grid);
 		u64 GARS(s32 r);
 		u32 GARM(s32 r);
-		u64 getHEX(xStr s);
 		s32 getAppLen(void);
         void addApp(s32 row, xStr id, xStr app, xStr title);
 		// hexVar.cpp
@@ -167,18 +232,13 @@ class ME: public HEXFRM {
 		CL HCSet(HACK* hack, u32 line);
 		void HCAddBOnClick(wxCommandEvent& event);
 		// qTab.cpp
-		void validateValue(wxKeyEvent& event, u32 valMode = 0);
 		void validateFileName(wxKeyEvent& event);
-		void address_TXTOnKeyDown(wxKeyEvent& event);
-		void value_TXTOnKeyDown(wxKeyEvent& event);
 		u32 GetTests(void);
 		u32 GetRest(void);
 		u32 GetIgnore(void);
 		u32 GetIgnoreAddress(void);
-		bool Test(u32 mode, u64 value, u64 against, u64 to = 0);
-		void QSet(s32 q, s32 size, bool overwrite = true);
-		u64* OldV(s32 sn, bool update = true);
-		u64 *oldBuff, *newBuff;
+		bool Test( u32 mode, u64 value, u64 against );
+		u64 *newBuff;
 		s32 oldSearchNo;
 		u64 oldLength;
 		void bQActSOnClick(wxCommandEvent& event);

@@ -276,392 +276,358 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	nbHook->Layout();
 	bsHook->Fit( nbHook );
 	NB->AddPage( nbHook, wxT("Hook"), true );
-	QP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxFlexGridSizer* QL0;
-	QL0 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	QL0->AddGrowableCol( 0 );
-	QL0->AddGrowableRow( 2 );
-	QL0->SetFlexibleDirection( wxBOTH );
-	QL0->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	search_P = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* search_L;
+	search_L = new wxFlexGridSizer( 0, 3, 0, 0 );
+	search_L->AddGrowableCol( 0 );
+	search_L->AddGrowableCol( 1 );
+	search_L->AddGrowableCol( 2 );
+	search_L->AddGrowableRow( 1 );
+	search_L->SetFlexibleDirection( wxBOTH );
+	search_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* QL1;
-	QL1 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	QL1->AddGrowableCol( 1 );
-	QL1->SetFlexibleDirection( wxBOTH );
-	QL1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	good_S = new wxStaticText( search_P, wxID_ANY, wxT("Result is acceptable when"), wxDefaultPosition, wxDefaultSize, 0 );
+	good_S->Wrap( -1 );
+	search_L->Add( good_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	wxFlexGridSizer* QL2;
-	QL2 = new wxFlexGridSizer( 0, 4, 0, 0 );
-	QL2->SetFlexibleDirection( wxBOTH );
-	QL2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	bad_S = new wxStaticText( search_P, wxID_ANY, wxT("Result is not acceptable when"), wxDefaultPosition, wxDefaultSize, 0 );
+	bad_S->Wrap( -1 );
+	search_L->Add( bad_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	findSize_S = new wxStaticText( QP, wxID_ANY, wxT("Size"), wxDefaultPosition, wxDefaultSize, 0 );
-	findSize_S->Wrap( -1 );
-	QL2->Add( findSize_S, 0, wxALL, 5 );
+	byte_PB = new wxGauge( search_P, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	search_L->Add( byte_PB, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString valueSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
-	int valueSize_DNChoices = sizeof( valueSize_DChoices ) / sizeof( wxString );
-	valueSize_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, valueSize_DNChoices, valueSize_DChoices, 0 );
-	valueSize_D->SetSelection( 0 );
-	QL2->Add( valueSize_D, 0, wxALL, 5 );
+	good_SCROLL = new wxScrolledWindow( search_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	good_SCROLL->SetScrollRate( 5, 5 );
+	good_SCROLL->SetMinSize( wxSize( 185,-1 ) );
 	
-	findNo_S = new wxStaticText( QP, wxID_ANY, wxT("Compare To"), wxDefaultPosition, wxDefaultSize, 0 );
-	findNo_S->Wrap( -1 );
-	QL2->Add( findNo_S, 0, wxALL, 5 );
+	wxBoxSizer* good_L;
+	good_L = new wxBoxSizer( wxVERTICAL );
 	
-	wxString findNo_DChoices[] = { wxT("Dump") };
-	int findNo_DNChoices = sizeof( findNo_DChoices ) / sizeof( wxString );
-	findNo_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, findNo_DNChoices, findNo_DChoices, 0 );
-	findNo_D->SetSelection( 0 );
-	QL2->Add( findNo_D, 0, wxALL, 5 );
+	wxStaticBoxSizer* goodA_LF;
+	goodA_LF = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, wxID_ANY, wxT("Address") ), wxVERTICAL );
 	
-	QL1->Add( QL2, 1, wxEXPAND, 5 );
+	wxFlexGridSizer* goodA_L;
+	goodA_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	goodA_L->AddGrowableCol( 1 );
+	goodA_L->SetFlexibleDirection( wxBOTH );
+	goodA_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* fgSizer371;
-	fgSizer371 = new wxFlexGridSizer( 0, 0, 0, 0 );
-	fgSizer371->AddGrowableCol( 3 );
-	fgSizer371->SetFlexibleDirection( wxBOTH );
-	fgSizer371->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	goodAGT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodAGT_CB, 0, wxALL, 5 );
 	
-	dump_B = new wxButton( QP, wxID_ANY, wxT("Dump"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer371->Add( dump_B, 0, wxALL, 5 );
+	goodAGT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodAGT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	find_B = new wxButton( QP, wxID_ANY, wxT("Search"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer371->Add( find_B, 0, wxALL, 5 );
+	goodAGTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodAGTE_CB, 0, wxALL, 5 );
 	
-	undoFind_B = new wxButton( QP, wxID_ANY, wxT("Undo Search"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer371->Add( undoFind_B, 0, wxALL, 5 );
+	goodAGTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodAGTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxArrayString findRAM_DChoices;
-	findRAM_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, findRAM_DChoices, 0 );
-	findRAM_D->SetSelection( 0 );
-	findRAM_D->SetMinSize( wxSize( 50,-1 ) );
+	goodALT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodALT_CB, 0, wxALL, 5 );
 	
-	fgSizer371->Add( findRAM_D, 0, wxALL|wxEXPAND, 5 );
+	goodALT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodALT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QL1->Add( fgSizer371, 1, wxEXPAND, 5 );
+	goodALTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodALTE_CB, 0, wxALL, 5 );
 	
-	wxStaticBoxSizer* QTypeL0;
-	QTypeL0 = new wxStaticBoxSizer( new wxStaticBox( QP, wxID_ANY, wxT("Search Type") ), wxVERTICAL );
+	goodALTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodA_L->Add( goodALTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* QTypeL1;
-	QTypeL1 = new wxBoxSizer( wxHORIZONTAL );
+	goodA_LF->Add( goodA_L, 1, wxEXPAND, 5 );
 	
-	bQActLT = new wxButton( QP, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActLT->SetMinSize( wxSize( 25,-1 ) );
+	good_L->Add( goodA_LF, 0, wxEXPAND, 5 );
 	
-	QTypeL1->Add( bQActLT, 0, wxALL, 5 );
+	wxStaticBoxSizer* goodV_FL;
+	goodV_FL = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, wxID_ANY, wxT("Value") ), wxVERTICAL );
 	
-	bQActLTE = new wxButton( QP, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActLTE->SetMinSize( wxSize( 25,-1 ) );
+	wxFlexGridSizer* goodV_L;
+	goodV_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	goodV_L->AddGrowableCol( 1 );
+	goodV_L->SetFlexibleDirection( wxBOTH );
+	goodV_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	QTypeL1->Add( bQActLTE, 0, wxALL, 5 );
+	goodVEqual_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVEqual_CB, 0, wxALL, 5 );
 	
-	bQActE = new wxButton( QP, wxID_ANY, wxT("="), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActE->SetMinSize( wxSize( 25,-1 ) );
+	goodVEqual_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVEqual_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QTypeL1->Add( bQActE, 0, wxALL, 5 );
+	goodVNOTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("!="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVNOTE_CB, 0, wxALL, 5 );
 	
-	bQActNE = new wxButton( QP, wxID_ANY, wxT("!="), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActNE->SetMinSize( wxSize( 25,-1 ) );
+	goodVNOTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVNOTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QTypeL1->Add( bQActNE, 0, wxALL, 5 );
+	goodVGT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVGT_CB, 0, wxALL, 5 );
 	
-	bQActGTE = new wxButton( QP, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActGTE->SetMinSize( wxSize( 25,-1 ) );
+	goodVGT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVGT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QTypeL1->Add( bQActGTE, 0, wxALL, 5 );
+	goodVGTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVGTE_CB, 0, wxALL, 5 );
 	
-	bQActGT = new wxButton( QP, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
-	bQActGT->SetMinSize( wxSize( 25,-1 ) );
+	goodVGTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVGTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QTypeL1->Add( bQActGT, 0, wxALL, 5 );
+	goodVLT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVLT_CB, 0, wxALL, 5 );
 	
-	QTypeL0->Add( QTypeL1, 1, wxEXPAND, 5 );
+	goodVLT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVLT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxArrayString useTest_DChoices;
-	useTest_D = new wxChoice( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, useTest_DChoices, 0 );
-	useTest_D->SetSelection( 0 );
-	QTypeL0->Add( useTest_D, 0, wxALL|wxEXPAND, 5 );
+	goodVLTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVLTE_CB, 0, wxALL, 5 );
 	
-	QL1->Add( QTypeL0, 1, wxEXPAND, 5 );
+	goodVLTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	goodV_L->Add( goodVLTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* bSizer25;
-	bSizer25 = new wxBoxSizer( wxVERTICAL );
+	goodV_FL->Add( goodV_L, 1, wxEXPAND, 5 );
 	
-	wxFlexGridSizer* fgSizer381;
-	fgSizer381 = new wxFlexGridSizer( 0, 3, 0, 0 );
-	fgSizer381->AddGrowableCol( 2 );
-	fgSizer381->SetFlexibleDirection( wxBOTH );
-	fgSizer381->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	good_L->Add( goodV_FL, 0, wxEXPAND, 5 );
 	
-	isSigned_CB = new wxCheckBox( QP, wxID_ANY, wxT("Signed"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer381->Add( isSigned_CB, 0, wxALL, 5 );
+	good_SCROLL->SetSizer( good_L );
+	good_SCROLL->Layout();
+	good_L->Fit( good_SCROLL );
+	search_L->Add( good_SCROLL, 1, wxEXPAND | wxALL, 5 );
 	
-	result_S = new wxStaticText( QP, wxID_ANY, wxT("Results: 0"), wxDefaultPosition, wxDefaultSize, 0 );
-	result_S->Wrap( -1 );
-	fgSizer381->Add( result_S, 0, wxALL, 5 );
+	bad_SCROLL = new wxScrolledWindow( search_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	bad_SCROLL->SetScrollRate( 5, 5 );
+	bad_SCROLL->SetMinSize( wxSize( 185,-1 ) );
 	
-	find_PB = new wxGauge( QP, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
-	fgSizer381->Add( find_PB, 0, wxALL|wxEXPAND, 5 );
+	wxBoxSizer* bad_L;
+	bad_L = new wxBoxSizer( wxVERTICAL );
 	
-	bSizer25->Add( fgSizer381, 0, wxEXPAND, 5 );
+	wxStaticBoxSizer* badA_LF;
+	badA_LF = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, wxID_ANY, wxT("Address") ), wxVERTICAL );
 	
-	wxStaticBoxSizer* sbSizer7;
-	sbSizer7 = new wxStaticBoxSizer( new wxStaticBox( QP, wxID_ANY, wxT("Value") ), wxHORIZONTAL );
+	wxFlexGridSizer* badA_L;
+	badA_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	badA_L->AddGrowableCol( 1 );
+	badA_L->SetFlexibleDirection( wxBOTH );
+	badA_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	value1_S = new wxStaticText( QP, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
-	value1_S->Wrap( -1 );
-	sbSizer7->Add( value1_S, 0, wxALL, 5 );
+	badAGT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badAGT_CB, 0, wxALL, 5 );
 	
-	value1_TXT = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer7->Add( value1_TXT, 1, wxALL, 5 );
+	badAGT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badAGT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	value2_S = new wxStaticText( QP, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
-	value2_S->Wrap( -1 );
-	sbSizer7->Add( value2_S, 0, wxALL, 5 );
+	badAGTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badAGTE_CB, 0, wxALL, 5 );
 	
-	value2_TXT = new wxTextCtrl( QP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer7->Add( value2_TXT, 1, wxALL, 5 );
+	badAGTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badAGTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	bSizer25->Add( sbSizer7, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	badALT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badALT_CB, 0, wxALL, 5 );
 	
-	QL1->Add( bSizer25, 1, wxEXPAND, 5 );
+	badALT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badALT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	QL0->Add( QL1, 1, wxEXPAND, 5 );
+	badALTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badALTE_CB, 0, wxALL, 5 );
 	
-	ignore_S = new wxStaticText( QP, wxID_ANY, wxT("Ignore result if..."), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_S->Wrap( -1 );
-	QL0->Add( ignore_S, 0, wxALL, 5 );
+	badALTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badA_L->Add( badALTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_SW = new wxScrolledWindow( QP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	ignore_SW->SetScrollRate( 0, 5 );
-	wxFlexGridSizer* ignore_L;
-	ignore_L = new wxFlexGridSizer( 0, 2, 0, 0 );
-	ignore_L->SetFlexibleDirection( wxBOTH );
-	ignore_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	badA_LF->Add( badA_L, 1, wxEXPAND, 5 );
 	
-	ignore0_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is 0"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignore0_CB, 0, wxALL, 5 );
+	bad_L->Add( badA_LF, 0, wxEXPAND, 5 );
 	
-	ignoreF_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is FF"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreF_CB, 0, wxALL, 5 );
+	wxStaticBoxSizer* badV_FL;
+	badV_FL = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, wxID_ANY, wxT("Value") ), wxVERTICAL );
 	
-	ignoreValue_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is Value"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreValue_CB, 0, wxALL, 5 );
+	wxFlexGridSizer* badV_L;
+	badV_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	badV_L->AddGrowableCol( 1 );
+	badV_L->SetFlexibleDirection( wxBOTH );
+	badV_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	ignoreValue_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreValue_TXT, 0, wxALL, 5 );
+	badVEqual_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("="), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVEqual_CB, 0, wxALL, 5 );
 	
-	ignoreInside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreInside_CB, 0, wxALL, 5 );
+	badVEqual_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVEqual_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* ignoreInside_L;
-	ignoreInside_L = new wxBoxSizer( wxHORIZONTAL );
+	badVNOTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("!="), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVNOTE_CB, 0, wxALL, 5 );
 	
-	ignoreInsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreInside_L->Add( ignoreInsideFrom_TXT, 0, wxALL, 5 );
+	badVNOTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVNOTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	ignoreInside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreInside_S->Wrap( -1 );
-	ignoreInside_L->Add( ignoreInside_S, 0, wxALL, 5 );
+	badVGT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVGT_CB, 0, wxALL, 5 );
 	
-	ignoreInsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreInside_L->Add( ignoreInsideTo_TXT, 0, wxALL, 5 );
+	badVGT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVGT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignoreInside_L, 1, wxEXPAND, 5 );
+	badVGTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVGTE_CB, 0, wxALL, 5 );
 	
-	ignoreOutside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is not between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreOutside_CB, 0, wxALL, 5 );
+	badVGTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVGTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* ignoreOutside_L;
-	ignoreOutside_L = new wxBoxSizer( wxHORIZONTAL );
+	badVLT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVLT_CB, 0, wxALL, 5 );
 	
-	ignoreOutsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreOutside_L->Add( ignoreOutsideFrom_TXT, 0, wxALL, 5 );
+	badVLT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVLT_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	ignoreOutside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreOutside_S->Wrap( -1 );
-	ignoreOutside_L->Add( ignoreOutside_S, 0, wxALL, 5 );
+	badVLTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVLTE_CB, 0, wxALL, 5 );
 	
-	ignoreOutsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreOutside_L->Add( ignoreOutsideTo_TXT, 0, wxALL, 5 );
+	badVLTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0 );
+	badV_L->Add( badVLTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignoreOutside_L, 1, wxEXPAND, 5 );
+	badV_FL->Add( badV_L, 1, wxEXPAND, 5 );
 	
-	ignorePart8_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a CHAR value"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8_CB->Enable( false );
+	bad_L->Add( badV_FL, 0, wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart8_CB, 0, wxALL, 5 );
+	bad_SCROLL->SetSizer( bad_L );
+	bad_SCROLL->Layout();
+	bad_L->Fit( bad_SCROLL );
+	search_L->Add( bad_SCROLL, 1, wxEXPAND | wxALL, 5 );
 	
-	ignorePart8_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8_TXT->Enable( false );
+	searchOptions_P = new wxPanel( search_P, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	searchOptions_P->SetMaxSize( wxSize( 300,-1 ) );
 	
-	ignore_L->Add( ignorePart8_TXT, 0, wxALL, 5 );
+	wxBoxSizer* searchOptions_LV;
+	searchOptions_LV = new wxBoxSizer( wxVERTICAL );
 	
-	ignorePart16_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a WORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16_CB->Enable( false );
+	total_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Results: 0"), wxDefaultPosition, wxDefaultSize, 0 );
+	total_S->Wrap( -1 );
+	searchOptions_LV->Add( total_S, 0, wxALL, 5 );
 	
-	ignore_L->Add( ignorePart16_CB, 0, wxALL, 5 );
+	searchOptions_LINE1 = new wxStaticLine( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	searchOptions_LV->Add( searchOptions_LINE1, 0, wxEXPAND | wxALL, 5 );
 	
-	ignorePart16_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16_TXT->Enable( false );
+	wxFlexGridSizer* searchOptions_L;
+	searchOptions_L = new wxFlexGridSizer( 0, 2, 0, 0 );
+	searchOptions_L->AddGrowableCol( 1 );
+	searchOptions_L->SetFlexibleDirection( wxBOTH );
+	searchOptions_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	ignore_L->Add( ignorePart16_TXT, 0, wxALL, 5 );
+	compare_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Compare To"), wxDefaultPosition, wxDefaultSize, 0 );
+	compare_S->Wrap( -1 );
+	searchOptions_L->Add( compare_S, 0, wxALL, 5 );
 	
-	ignorePart32_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a DWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32_CB->Enable( false );
+	wxString compare_DChoices[] = { wxT("Dump") };
+	int compare_DNChoices = sizeof( compare_DChoices ) / sizeof( wxString );
+	compare_D = new wxChoice( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, compare_DNChoices, compare_DChoices, 0 );
+	compare_D->SetSelection( 0 );
+	searchOptions_L->Add( compare_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart32_CB, 0, wxALL, 5 );
+	searchRAM_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchRAM_S->Wrap( -1 );
+	searchOptions_L->Add( searchRAM_S, 0, wxALL, 5 );
 	
-	ignorePart32_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32_TXT->Enable( false );
+	wxArrayString searchRAM_DChoices;
+	searchRAM_D = new wxChoice( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchRAM_DChoices, 0 );
+	searchRAM_D->SetSelection( 0 );
+	searchOptions_L->Add( searchRAM_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart32_TXT, 0, wxALL, 5 );
+	searchType_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Search Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchType_S->Wrap( -1 );
+	searchOptions_L->Add( searchType_S, 0, wxALL, 5 );
 	
-	ignorePart64_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a QWORD value"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64_CB->Enable( false );
+	wxString searchType_DChoices[] = { wxT("Dump"), wxT("Equal To ( = )"), wxT("Not Equal To ( != )"), wxT("More Than ( > )"), wxT("More Than or Equal To ( >= )"), wxT("Less Than ( < )"), wxT("Less Than or Equal To  ( <= )") };
+	int searchType_DNChoices = sizeof( searchType_DChoices ) / sizeof( wxString );
+	searchType_D = new wxChoice( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchType_DNChoices, searchType_DChoices, 0 );
+	searchType_D->SetSelection( 0 );
+	searchOptions_L->Add( searchType_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart64_CB, 0, wxALL, 5 );
+	searchSize_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Size"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchSize_S->Wrap( -1 );
+	searchOptions_L->Add( searchSize_S, 0, wxALL, 5 );
 	
-	ignorePart64_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64_TXT->Enable( false );
+	wxString searchSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
+	int searchSize_DNChoices = sizeof( searchSize_DChoices ) / sizeof( wxString );
+	searchSize_D = new wxChoice( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchSize_DNChoices, searchSize_DChoices, 0 );
+	searchSize_D->SetSelection( 0 );
+	searchOptions_L->Add( searchSize_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart64_TXT, 0, wxALL, 5 );
+	searchValueType_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("Value Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchValueType_S->Wrap( -1 );
+	searchOptions_L->Add( searchValueType_S, 0, wxALL, 5 );
 	
-	ignorePart8Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a CHAR range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8Range_CB->Enable( false );
+	wxString searchValueType_DChoices[] = { wxT("HexaDecimal"), wxT("Integer"), wxT("Float") };
+	int searchValueType_DNChoices = sizeof( searchValueType_DChoices ) / sizeof( wxString );
+	searchValueType_D = new wxChoice( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchValueType_DNChoices, searchValueType_DChoices, 0 );
+	searchValueType_D->SetSelection( 0 );
+	searchOptions_L->Add( searchValueType_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart8Range_CB, 0, wxALL, 5 );
+	searchIsSigned_CB = new wxCheckBox( searchOptions_P, wxID_ANY, wxT("Is Signed"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchIsSigned_CB->Enable( false );
 	
-	wxBoxSizer* ignorePart8Range_L;
-	ignorePart8Range_L = new wxBoxSizer( wxHORIZONTAL );
+	searchOptions_L->Add( searchIsSigned_CB, 0, wxALL, 5 );
 	
-	ignorePart8RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8RangeFrom_TXT->Enable( false );
+	searchIsSigned_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("( Goes below 0 )"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchIsSigned_S->Wrap( -1 );
+	searchOptions_L->Add( searchIsSigned_S, 0, wxALL, 5 );
 	
-	ignorePart8Range_L->Add( ignorePart8RangeFrom_TXT, 0, wxALL, 5 );
+	searchIsBinary_CB = new wxCheckBox( searchOptions_P, wxID_ANY, wxT("Treat as Binary"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_L->Add( searchIsBinary_CB, 0, wxALL, 5 );
 	
-	ignorePart8Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8Range_S->Wrap( -1 );
-	ignorePart8Range_S->Enable( false );
+	searchIsBinary_S = new wxStaticText( searchOptions_P, wxID_ANY, wxT("( Use '&&' in tests )"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchIsBinary_S->Wrap( -1 );
+	searchOptions_L->Add( searchIsBinary_S, 0, wxALL, 5 );
 	
-	ignorePart8Range_L->Add( ignorePart8Range_S, 0, wxALL, 5 );
+	searchOptions_LV->Add( searchOptions_L, 1, wxEXPAND, 5 );
 	
-	ignorePart8RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart8RangeTo_TXT->Enable( false );
+	searchOptions_LINE2 = new wxStaticLine( searchOptions_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	searchOptions_LV->Add( searchOptions_LINE2, 0, wxEXPAND | wxALL, 5 );
 	
-	ignorePart8Range_L->Add( ignorePart8RangeTo_TXT, 0, wxALL, 5 );
+	wxBoxSizer* searchOptions_LH1;
+	searchOptions_LH1 = new wxBoxSizer( wxHORIZONTAL );
 	
-	ignore_L->Add( ignorePart8Range_L, 1, wxEXPAND, 5 );
+	dump_B = new wxButton( searchOptions_P, wxID_ANY, wxT("Dump"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH1->Add( dump_B, 1, wxALL, 5 );
 	
-	ignorePart16Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a WORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16Range_CB->Enable( false );
+	search_B = new wxButton( searchOptions_P, wxID_ANY, wxT("Search"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH1->Add( search_B, 1, wxALL, 5 );
 	
-	ignore_L->Add( ignorePart16Range_CB, 0, wxALL, 5 );
+	searchUndo_B = new wxButton( searchOptions_P, wxID_ANY, wxT("Undo"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH1->Add( searchUndo_B, 1, wxALL, 5 );
 	
-	wxBoxSizer* ignorePart16Range_L;
-	ignorePart16Range_L = new wxBoxSizer( wxHORIZONTAL );
+	searchOptions_LV->Add( searchOptions_LH1, 0, wxEXPAND, 5 );
 	
-	ignorePart16RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16RangeFrom_TXT->Enable( false );
+	wxBoxSizer* searchOptions_LH2;
+	searchOptions_LH2 = new wxBoxSizer( wxHORIZONTAL );
 	
-	ignorePart16Range_L->Add( ignorePart16RangeFrom_TXT, 0, wxALL, 5 );
+	searchLT_B = new wxButton( searchOptions_P, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchLT_B, 1, wxALL, 5 );
 	
-	ignorePart16Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16Range_S->Wrap( -1 );
-	ignorePart16Range_S->Enable( false );
+	searchLTE_B = new wxButton( searchOptions_P, wxID_ANY, wxT("<="), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchLTE_B, 1, wxALL, 5 );
 	
-	ignorePart16Range_L->Add( ignorePart16Range_S, 0, wxALL, 5 );
+	searchEqual_B = new wxButton( searchOptions_P, wxID_ANY, wxT("="), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchEqual_B, 1, wxALL, 5 );
 	
-	ignorePart16RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart16RangeTo_TXT->Enable( false );
+	searchNOTE_B = new wxButton( searchOptions_P, wxID_ANY, wxT("!="), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchNOTE_B, 1, wxALL, 5 );
 	
-	ignorePart16Range_L->Add( ignorePart16RangeTo_TXT, 0, wxALL, 5 );
+	searchGTE_B = new wxButton( searchOptions_P, wxID_ANY, wxT(">="), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchGTE_B, 1, wxALL, 5 );
 	
-	ignore_L->Add( ignorePart16Range_L, 1, wxEXPAND, 5 );
+	searchGT_B = new wxButton( searchOptions_P, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	searchOptions_LH2->Add( searchGT_B, 1, wxALL, 5 );
 	
-	ignorePart32Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a DWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32Range_CB->Enable( false );
+	searchOptions_LV->Add( searchOptions_LH2, 0, wxEXPAND, 5 );
 	
-	ignore_L->Add( ignorePart32Range_CB, 0, wxALL, 5 );
+	searchOptions_P->SetSizer( searchOptions_LV );
+	searchOptions_P->Layout();
+	searchOptions_LV->Fit( searchOptions_P );
+	search_L->Add( searchOptions_P, 1, wxALL|wxEXPAND, 5 );
 	
-	wxBoxSizer* ignorePart32Range_L;
-	ignorePart32Range_L = new wxBoxSizer( wxHORIZONTAL );
-	
-	ignorePart32RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32RangeFrom_TXT->Enable( false );
-	
-	ignorePart32Range_L->Add( ignorePart32RangeFrom_TXT, 0, wxALL, 5 );
-	
-	ignorePart32Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32Range_S->Wrap( -1 );
-	ignorePart32Range_S->Enable( false );
-	
-	ignorePart32Range_L->Add( ignorePart32Range_S, 0, wxALL, 5 );
-	
-	ignorePart32RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart32RangeTo_TXT->Enable( false );
-	
-	ignorePart32Range_L->Add( ignorePart32RangeTo_TXT, 0, wxALL, 5 );
-	
-	ignore_L->Add( ignorePart32Range_L, 1, wxEXPAND, 5 );
-	
-	ignorePart64Range_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Is part of a QWORD range between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64Range_CB->Enable( false );
-	
-	ignore_L->Add( ignorePart64Range_CB, 0, wxALL, 5 );
-	
-	wxBoxSizer* ignorePart64Range_L;
-	ignorePart64Range_L = new wxBoxSizer( wxHORIZONTAL );
-	
-	ignorePart64RangeFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64RangeFrom_TXT->Enable( false );
-	
-	ignorePart64Range_L->Add( ignorePart64RangeFrom_TXT, 0, wxALL, 5 );
-	
-	ignorePart64Range_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64Range_S->Wrap( -1 );
-	ignorePart64Range_S->Enable( false );
-	
-	ignorePart64Range_L->Add( ignorePart64Range_S, 0, wxALL, 5 );
-	
-	ignorePart64RangeTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignorePart64RangeTo_TXT->Enable( false );
-	
-	ignorePart64Range_L->Add( ignorePart64RangeTo_TXT, 0, wxALL, 5 );
-	
-	ignore_L->Add( ignorePart64Range_L, 1, wxEXPAND, 5 );
-	
-	ignoreAddressOutside_CB = new wxCheckBox( ignore_SW, wxID_ANY, wxT("Ignore if result address is not between"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignore_L->Add( ignoreAddressOutside_CB, 0, wxALL, 5 );
-	
-	wxBoxSizer* ignoreAddressOutside_L;
-	ignoreAddressOutside_L = new wxBoxSizer( wxHORIZONTAL );
-	
-	ignoreAddressOutsideFrom_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreAddressOutsideFrom_TXT->SetMaxLength( 16 ); 
-	ignoreAddressOutside_L->Add( ignoreAddressOutsideFrom_TXT, 0, wxALL, 5 );
-	
-	ignoreAddressOutside_S = new wxStaticText( ignore_SW, wxID_ANY, wxT("and"), wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreAddressOutside_S->Wrap( -1 );
-	ignoreAddressOutside_L->Add( ignoreAddressOutside_S, 0, wxALL, 5 );
-	
-	ignoreAddressOutsideTo_TXT = new wxTextCtrl( ignore_SW, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	ignoreAddressOutsideTo_TXT->SetMaxLength( 16 ); 
-	ignoreAddressOutside_L->Add( ignoreAddressOutsideTo_TXT, 0, wxALL, 5 );
-	
-	ignore_L->Add( ignoreAddressOutside_L, 1, wxEXPAND, 5 );
-	
-	ignore_SW->SetSizer( ignore_L );
-	ignore_SW->Layout();
-	ignore_L->Fit( ignore_SW );
-	QL0->Add( ignore_SW, 1, wxEXPAND | wxALL, 5 );
-	
-	QP->SetSizer( QL0 );
-	QP->Layout();
-	QL0->Fit( QP );
-	NB->AddPage( QP, wxT("Find"), false );
+	search_P->SetSizer( search_L );
+	search_P->Layout();
+	search_L->Fit( search_P );
+	NB->AddPage( search_P, wxT("Search"), false );
 	RP = new wxPanel( NB, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* RL;
 	RL = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -759,27 +725,30 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	wxFlexGridSizer* fgSizer37;
 	fgSizer37 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer37->AddGrowableCol( 1 );
 	fgSizer37->SetFlexibleDirection( wxBOTH );
 	fgSizer37->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	resultHackRAM_S = new wxStaticText( RHP, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	resultHackRAM_S = new wxStaticText( RHP, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, 0 );
 	resultHackRAM_S->Wrap( -1 );
 	fgSizer37->Add( resultHackRAM_S, 0, wxALL, 5 );
 	
 	wxArrayString resultHackRAM_DChoices;
 	resultHackRAM_D = new wxChoice( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, resultHackRAM_DChoices, 0 );
 	resultHackRAM_D->SetSelection( 0 );
-	fgSizer37->Add( resultHackRAM_D, 0, wxALL, 5 );
+	resultHackRAM_D->SetMinSize( wxSize( 50,-1 ) );
 	
-	resultHackByte_S = new wxStaticText( RHP, wxID_ANY, wxT("Bytes"), wxDefaultPosition, wxDefaultSize, 0 );
-	resultHackByte_S->Wrap( -1 );
-	fgSizer37->Add( resultHackByte_S, 0, wxALL, 5 );
+	fgSizer37->Add( resultHackRAM_D, 0, wxALL|wxEXPAND, 5 );
 	
-	wxString resultHackByte_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
-	int resultHackByte_DNChoices = sizeof( resultHackByte_DChoices ) / sizeof( wxString );
-	resultHackByte_D = new wxChoice( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, resultHackByte_DNChoices, resultHackByte_DChoices, 0 );
-	resultHackByte_D->SetSelection( 0 );
-	fgSizer37->Add( resultHackByte_D, 0, wxALL|wxEXPAND, 5 );
+	resultHackSize_S = new wxStaticText( RHP, wxID_ANY, wxT("Size"), wxDefaultPosition, wxDefaultSize, 0 );
+	resultHackSize_S->Wrap( -1 );
+	fgSizer37->Add( resultHackSize_S, 0, wxALL, 5 );
+	
+	wxString resultHackSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
+	int resultHackSize_DNChoices = sizeof( resultHackSize_DChoices ) / sizeof( wxString );
+	resultHackSize_D = new wxChoice( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, resultHackSize_DNChoices, resultHackSize_DChoices, 0 );
+	resultHackSize_D->SetSelection( 0 );
+	fgSizer37->Add( resultHackSize_D, 0, wxALL|wxEXPAND, 5 );
 	
 	resultHackAddress_S = new wxStaticText( RHP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, 0 );
 	resultHackAddress_S->Wrap( -1 );
@@ -788,6 +757,16 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	resultHackAddress_TXT = new wxTextCtrl( RHP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	resultHackAddress_TXT->SetMaxLength( 16 ); 
 	fgSizer37->Add( resultHackAddress_TXT, 0, wxALL|wxEXPAND, 5 );
+	
+	resultHackMode_S = new wxStaticText( RHP, wxID_ANY, wxT("Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	resultHackMode_S->Wrap( -1 );
+	fgSizer37->Add( resultHackMode_S, 0, wxALL, 5 );
+	
+	wxString resultHackMode_DChoices[] = { wxT("HexaDecimal"), wxT("Unsigned Integer"), wxT("Float"), wxT("Signed Integer") };
+	int resultHackMode_DNChoices = sizeof( resultHackMode_DChoices ) / sizeof( wxString );
+	resultHackMode_D = new wxChoice( RHP, wxID_ANY, wxDefaultPosition, wxDefaultSize, resultHackMode_DNChoices, resultHackMode_DChoices, 0 );
+	resultHackMode_D->SetSelection( 0 );
+	fgSizer37->Add( resultHackMode_D, 0, wxALL, 5 );
 	
 	resultHackValue_S = new wxStaticText( RHP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
 	resultHackValue_S->Wrap( -1 );
@@ -1137,9 +1116,9 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HCHead->SetFlexibleDirection( wxBOTH );
 	HCHead->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	HCCS = new wxStaticText( HCP, wxID_ANY, wxT("Code Type"), wxDefaultPosition, wxDefaultSize, 0 );
-	HCCS->Wrap( -1 );
-	HCHead->Add( HCCS, 0, wxALL|wxEXPAND, 5 );
+	codeType_S = new wxStaticText( HCP, wxID_ANY, wxT("Code Type"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	codeType_S->Wrap( -1 );
+	HCHead->Add( codeType_S, 0, wxALL|wxEXPAND, 5 );
 	
 	wxString codeType_DChoices[] = { wxT("Write"), wxT("Copy"), wxT("Test"), wxT("Increment"), wxT("Decrement"), wxT("List Write") };
 	int codeType_DNChoices = sizeof( codeType_DChoices ) / sizeof( wxString );
@@ -1151,9 +1130,9 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	codeRepeat_S->Wrap( -1 );
 	HCHead->Add( codeRepeat_S, 0, wxALIGN_BOTTOM|wxALL, 5 );
 	
-	HCRAMS = new wxStaticText( HCP, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-	HCRAMS->Wrap( -1 );
-	HCHead->Add( HCRAMS, 0, wxALL|wxEXPAND, 5 );
+	codeRAM_S = new wxStaticText( HCP, wxID_ANY, wxT("Memory"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	codeRAM_S->Wrap( -1 );
+	HCHead->Add( codeRAM_S, 0, wxALL|wxEXPAND, 5 );
 	
 	wxArrayString codeRAM_DChoices;
 	codeRAM_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeRAM_DChoices, 0 );
@@ -1166,9 +1145,9 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	HCHead->Add( codeRepeat_SN, 1, wxALL|wxEXPAND, 5 );
 	
-	sHackA = new wxStaticText( HCP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-	sHackA->Wrap( -1 );
-	HCHead->Add( sHackA, 0, wxALL|wxEXPAND, 5 );
+	codeAddress_S = new wxStaticText( HCP, wxID_ANY, wxT("Address"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	codeAddress_S->Wrap( -1 );
+	HCHead->Add( codeAddress_S, 0, wxALL|wxEXPAND, 5 );
 	
 	codeAddress_TXT = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	HCHead->Add( codeAddress_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -1179,18 +1158,24 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	codeFixed_D->SetSelection( 0 );
 	HCHead->Add( codeFixed_D, 0, wxALL|wxEXPAND, 5 );
 	
-	sHackV = new wxStaticText( HCP, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-	sHackV->Wrap( -1 );
-	HCHead->Add( sHackV, 0, wxALL|wxEXPAND, 5 );
-	
-	codeValue_TXT = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	HCHead->Add( codeValue_TXT, 0, wxALL|wxEXPAND, 5 );
-	
 	wxString codeSize_DChoices[] = { wxT("CHAR"), wxT("WORD"), wxT("DWORD"), wxT("QWORD") };
 	int codeSize_DNChoices = sizeof( codeSize_DChoices ) / sizeof( wxString );
 	codeSize_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeSize_DNChoices, codeSize_DChoices, 0 );
 	codeSize_D->SetSelection( 0 );
+	codeSize_D->SetMinSize( wxSize( 50,-1 ) );
+	
 	HCHead->Add( codeSize_D, 0, wxALL|wxEXPAND, 5 );
+	
+	codeValue_TXT = new wxTextCtrl( HCP, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	HCHead->Add( codeValue_TXT, 0, wxALL|wxEXPAND, 5 );
+	
+	wxString codeMode_DChoices[] = { wxT("HexaDecimal"), wxT("Unsigned Integer"), wxT("Float"), wxT("Signed Integer") };
+	int codeMode_DNChoices = sizeof( codeMode_DChoices ) / sizeof( wxString );
+	codeMode_D = new wxChoice( HCP, wxID_ANY, wxDefaultPosition, wxDefaultSize, codeMode_DNChoices, codeMode_DChoices, 0 );
+	codeMode_D->SetSelection( 0 );
+	codeMode_D->SetMinSize( wxSize( 50,-1 ) );
+	
+	HCHead->Add( codeMode_D, 0, wxALL|wxEXPAND, 5 );
 	
 	HCL->Add( HCHead, 1, wxEXPAND, 5 );
 	
@@ -1386,6 +1371,7 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	PFStartB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
 	appTitle_D->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appTitle_DOnBlur ), NULL, this );
 	appUpdate_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appUpdate_BOnClick ), NULL, this );
+	appName_TXT->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appName_TXTOnBlur ), NULL, this );
 	APPCheck->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
 	fileTitle_D->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
 	fileTitle_D->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
@@ -1395,24 +1381,65 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	RAMG->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );
 	APPLIST->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
-	findNo_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::findNo_DOnChange ), NULL, this );
+	goodAGT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodAGT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodAGTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodAGTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodALT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodALT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodALTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodALTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodVEqual_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVEqual_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVNOTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVNOTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVGT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVGT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVGTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVGTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVLT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVLT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVLTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVLTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badAGT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badAGT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badAGTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badAGTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badALT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badALT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badALTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badALTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badVEqual_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVEqual_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVNOTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVNOTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVGT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVGT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVGTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVGTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVLT_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVLT_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVLTE_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVLTE_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	compare_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::compare_DOnChoice ), NULL, this );
+	searchValueType_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::searchValueType_DOnChoice ), NULL, this );
 	dump_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dump_BOnClick ), NULL, this );
-	find_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::find_BOnClick ), NULL, this );
-	undoFind_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::undoFind_BOnClick ), NULL, this );
-	value1_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	value2_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreInsideFrom_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreInsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreOutsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreAddressOutsideFrom_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
-	ignoreAddressOutsideTo_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	search_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::search_BOnClick ), NULL, this );
+	searchUndo_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchUndo_BOnClick ), NULL, this );
+	searchLT_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchLT_BOnClick ), NULL, this );
+	searchLTE_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchLTE_BOnClick ), NULL, this );
+	searchEqual_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchEqual_BOnClick ), NULL, this );
+	searchNOTE_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchNOTE_BOnClick ), NULL, this );
+	searchGTE_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchGTE_BOnClick ), NULL, this );
+	searchGT_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchGT_BOnClick ), NULL, this );
 	RG->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::result_GOnSelect ), NULL, this );
 	resultHack_G->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::resultHack_GOnSelectCell ), NULL, this );
 	resultHackAdd_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::resultHackAdd_BOnClick ), NULL, this );
 	resultHackDel_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::resultHackDel_BOnClick ), NULL, this );
 	resultHackAddress_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
-	resultHackValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	resultHackAddress_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::address_TXTOnKeyUp ), NULL, this );
+	resultHackValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::resultValue_TXTOnKeyDown ), NULL, this );
+	resultHackValue_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::resultValue_TXTOnKeyUp ), NULL, this );
 	EAB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	editorAddress_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
 	EVB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
@@ -1434,6 +1461,10 @@ HEXFRM::HEXFRM( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bHTSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
 	codeType_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
 	codeRepeat_SN->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HEXFRM::codeRepeat_SNOnSpin ), NULL, this );
+	codeAddress_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	codeAddress_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::address_TXTOnKeyUp ), NULL, this );
+	codeValue_TXT->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::codeValue_TXTOnKeyDown ), NULL, this );
+	codeValue_TXT->Connect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::codeValue_TXTOnKeyUp ), NULL, this );
 	HCUseC->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCUOnChange ), NULL, this );
 	HCAddB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
 	HCLoadB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCLoadOnClick ), NULL, this );
@@ -1455,6 +1486,7 @@ HEXFRM::~HEXFRM()
 	PFStartB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::PFStartOnClick ), NULL, this );
 	appTitle_D->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appTitle_DOnBlur ), NULL, this );
 	appUpdate_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::appUpdate_BOnClick ), NULL, this );
+	appName_TXT->Disconnect( wxEVT_KILL_FOCUS, wxFocusEventHandler( HEXFRM::appName_TXTOnBlur ), NULL, this );
 	APPCheck->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::mWaitOnChange ), NULL, this );
 	fileTitle_D->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( HEXFRM::BINDOnChange ), NULL, this );
 	fileTitle_D->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HEXFRM::BINDOnEdit ), NULL, this );
@@ -1464,24 +1496,65 @@ HEXFRM::~HEXFRM()
 	RAMG->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( HEXFRM::ram_GOnChange ), NULL, this );
 	APPLIST->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPLISTOnClick ), NULL, this );
 	APPUSE->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::APPUSEOnClick ), NULL, this );
-	findNo_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::findNo_DOnChange ), NULL, this );
+	goodAGT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodAGT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodAGTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodAGTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodALT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodALT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodALTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	goodALTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	goodVEqual_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVEqual_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVNOTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVNOTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVGT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVGT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVGTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVGTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVLT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVLT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	goodVLTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	goodVLTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badAGT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badAGT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badAGTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badAGTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badALT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badALT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badALTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyDown ), NULL, this );
+	badALTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::byte_TXTOnKeyUp ), NULL, this );
+	badVEqual_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVEqual_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVNOTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVNOTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVGT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVGT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVGTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVGTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVLT_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVLT_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	badVLTE_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::search_TXTOnKeyDown ), NULL, this );
+	badVLTE_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::search_TXTOnKeyUp ), NULL, this );
+	compare_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::compare_DOnChoice ), NULL, this );
+	searchValueType_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::searchValueType_DOnChoice ), NULL, this );
 	dump_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::dump_BOnClick ), NULL, this );
-	find_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::find_BOnClick ), NULL, this );
-	undoFind_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::undoFind_BOnClick ), NULL, this );
-	value1_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	value2_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreInsideFrom_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreInsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreOutsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
-	ignoreAddressOutsideFrom_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
-	ignoreAddressOutsideTo_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	search_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::search_BOnClick ), NULL, this );
+	searchUndo_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchUndo_BOnClick ), NULL, this );
+	searchLT_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchLT_BOnClick ), NULL, this );
+	searchLTE_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchLTE_BOnClick ), NULL, this );
+	searchEqual_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchEqual_BOnClick ), NULL, this );
+	searchNOTE_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchNOTE_BOnClick ), NULL, this );
+	searchGTE_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchGTE_BOnClick ), NULL, this );
+	searchGT_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::searchGT_BOnClick ), NULL, this );
 	RG->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::result_GOnSelect ), NULL, this );
 	resultHack_G->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( HEXFRM::resultHack_GOnSelectCell ), NULL, this );
 	resultHackAdd_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::resultHackAdd_BOnClick ), NULL, this );
 	resultHackDel_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::resultHackDel_BOnClick ), NULL, this );
 	resultHackAddress_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
-	resultHackValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::value_TXTOnKeyDown ), NULL, this );
+	resultHackAddress_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::address_TXTOnKeyUp ), NULL, this );
+	resultHackValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::resultValue_TXTOnKeyDown ), NULL, this );
+	resultHackValue_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::resultValue_TXTOnKeyUp ), NULL, this );
 	EAB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EAOnClick ), NULL, this );
 	editorAddress_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
 	EVB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::EVOnClick ), NULL, this );
@@ -1503,6 +1576,10 @@ HEXFRM::~HEXFRM()
 	bHTSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::bHTSaveOnClick ), NULL, this );
 	codeType_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( HEXFRM::HCCDOnChange ), NULL, this );
 	codeRepeat_SN->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HEXFRM::codeRepeat_SNOnSpin ), NULL, this );
+	codeAddress_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::address_TXTOnKeyDown ), NULL, this );
+	codeAddress_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::address_TXTOnKeyUp ), NULL, this );
+	codeValue_TXT->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( HEXFRM::codeValue_TXTOnKeyDown ), NULL, this );
+	codeValue_TXT->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( HEXFRM::codeValue_TXTOnKeyUp ), NULL, this );
 	HCUseC->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( HEXFRM::HCUOnChange ), NULL, this );
 	HCAddB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCAddBOnClick ), NULL, this );
 	HCLoadB->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HEXFRM::HCLoadOnClick ), NULL, this );

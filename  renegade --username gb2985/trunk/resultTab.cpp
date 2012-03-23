@@ -10,14 +10,14 @@ void ME::resultHackAdd_BOnClick( wxCommandEvent& event )
 {
 	xStr resultHackRAM = wxT( "0" );
 	u64 resultHackAddress = getHEX( resultHackAddress_TXT->GetValue() );
-	xStr resultHackValue = resultHackValue_TXT->GetValue();
-	xStr resultHackByte;
-	switch ( resultHackByte_D->GetSelection() )
+	xStr value = resultHackValue_TXT->GetValue();
+	xStr valueSize;
+	switch ( resultHackSize_D->GetSelection() )
 	{
-		case 1: resultHackByte = wxT( '2' ); break;
-		case 2: resultHackByte = wxT( '4' ); break;
-		case 3: resultHackByte = wxT( '8' ); break;
-		default: resultHackByte = wxT( '1' );
+		case 1: valueSize = wxT( '2' ); break;
+		case 2: valueSize = wxT( '4' ); break;
+		case 3: valueSize = wxT( '8' ); break;
+		default: valueSize = wxT( '1' );
 	}
 	s32 resultHack = -1, i;
 	s32 resultHackLength = resultHack_G->GetRows();
@@ -43,8 +43,8 @@ void ME::resultHackAdd_BOnClick( wxCommandEvent& event )
 	text.Printf( wxT("%01X"), resultHackAddress );
 	resultHack_G->SetCellValue( resultHack, 0, resultHackRAM );
 	resultHack_G->SetCellValue( resultHack, 1, text );
-	resultHack_G->SetCellValue( resultHack, 2, resultHackValue );
-	resultHack_G->SetCellValue( resultHack, 3, resultHackByte );
+	resultHack_G->SetCellValue( resultHack, 2, value );
+	resultHack_G->SetCellValue( resultHack, 3, valueSize );
 }
 void ME::resultHackDel_BOnClick( wxCommandEvent& event )
 {

@@ -71,7 +71,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 	s32 startLine, endLine = 0;
 	bool useTest, useKids = true;
 	xStr text;
-	if (hack->use && r.IsOk()) {
+	if ( hack->use && r.IsOk() ) {
 		u32 xSize;
 		u32 k;
 		CL code;
@@ -110,7 +110,7 @@ void ME::HCUse(xTID& r, HANDLE appHandle, u32 line, u32 stop) {
 				ramValue = HCReadH( appHandle, xAddress, xSize );
 				useTest = Test( code.test, ramValue, code.value );
 				if ( useTest ) {
-					if (code.reiterate > 0)
+					if ( code.reiterate > 0 )
 					{
 						/* Move up call stack with new stop line and tell this
 						instance to skip the specified lines */
