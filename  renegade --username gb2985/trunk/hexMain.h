@@ -45,7 +45,7 @@ class ME: public HEXFRM {
 		s32 findValueLength;
 		xStr dumpPath;
 		xStr bytePath;
-		void GetValue( wxTextCtrl* obj, u64& value, s32 valueType = 0, bool isSigned = false );
+		void GetValue( wxTextCtrl* obj, u64& value, s32 valueType = 0, bool isSigned = false, u64 valueSize = 0u );
 		void GetValues( void );
 		u32 GetNow( void );
 		u32 GetNowBinary( void );

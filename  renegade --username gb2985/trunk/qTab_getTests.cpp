@@ -11,58 +11,66 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 #include "hexMain.h"
-void ME::GetValue( wxTextCtrl* obj, u64& value, s32 valueType, bool isSigned )
+void ME::GetValue( wxTextCtrl* obj, u64& value, s32 valueType, bool isSigned, u64 valueSize )
 {
 	xStr text = obj->GetValue();
 	switch ( valueType )
 	{
 		case 2:
-			value = getHEXFromFloat( text );
+			value = getHEXFromFloat( text, valueSize );
 			break;
 		case 1:
 			if ( isSigned )
 			{
-				value = getHEXFromSignedDecimal( text );
+				value = getHEXFromSignedDecimal( text, valueSize );
 			}
 			else
 			{
-				value = getHEXFromDecimal( text );
+				value = getHEXFromDecimal( text, valueSize );
 			}
 			break;
 		default:
-			value = getHEX( text );
+			value = getHEX( text, valueSize );
 	}
 }
 void ME::GetValues( void )
 {
 	s32 valueType = searchValueType_D->GetSelection();
 	bool isSigned = searchIsSigned_CB->GetValue();
+	u64 valueSize = 0u;
+	switch ( searchSize_D->GetSelection() )
+	{
+		case 0: valueSize = 0xFF; break;
+		case 1: valueSize = 0xFFFF; break;
+		case 2: valueSize = 0xFFFFFFFF; break;
+		default: valueSize = 0u;
+	}
 	// Accept
 	// - Address
-	GetValue( goodAGT_TXT, goodAGT, valueType, isSigned );
-	GetValue( goodAGTE_TXT, goodAGTE, valueType, isSigned );
-	GetValue( goodALT_TXT, goodALT, valueType, isSigned );
-	GetValue( goodALTE_TXT, goodALTE, valueType, isSigned );
+	GetValue( goodAGT_TXT, goodAGT, valueType, isSigned, valueSize );
+	GetValue( goodAGTE_TXT, goodAGTE, valueType, isSigned, valueSize );
+	GetValue( goodALT_TXT, goodALT, valueType, isSigned, valueSize );
+	GetValue( goodALTE_TXT, goodALTE, valueType, isSigned, valueSize );
 	// - Value
-	GetValue( goodVEqual_TXT, goodVEqual, valueType, isSigned );
-	GetValue( goodVNOTE_TXT, goodVNOTE, valueType, isSigned );
-	GetValue( goodVGT_TXT, goodVGT, valueType, isSigned );
-	GetValue( goodVGTE_TXT, goodVGTE, valueType, isSigned );
-	GetValue( goodVLT_TXT, goodVLT, valueType, isSigned );
-	GetValue( goodVLTE_TXT, goodVLTE, valueType, isSigned );
+	GetValue( goodVEqual_TXT, goodVEqual, valueType, isSigned, valueSize );
+	GetValue( goodVNOTE_TXT, goodVNOTE, valueType, isSigned, valueSize );
+	GetValue( goodVGT_TXT, goodVGT, valueType, isSigned, valueSize );
+	GetValue( goodVGTE_TXT, goodVGTE, valueType, isSigned, valueSize );
+	GetValue( goodVLT_TXT, goodVLT, valueType, isSigned, valueSize );
+	GetValue( goodVLTE_TXT, goodVLTE, valueType, isSigned, valueSize );
 	// Don't Accept
 	// - Address
-	GetValue( badAGT_TXT, badAGT, valueType, isSigned );
-	GetValue( badAGTE_TXT, badAGTE, valueType, isSigned );
-	GetValue( badALT_TXT, badALT, valueType, isSigned );
-	GetValue( badALTE_TXT, badALTE, valueType, isSigned );
+	GetValue( badAGT_TXT, badAGT, valueType, isSigned, valueSize );
+	GetValue( badAGTE_TXT, badAGTE, valueType, isSigned, valueSize );
+	GetValue( badALT_TXT, badALT, valueType, isSigned, valueSize );
+	GetValue( badALTE_TXT, badALTE, valueType, isSigned, valueSize );
 	// - Value
-	GetValue( badVEqual_TXT, badVEqual, valueType, isSigned );
-	GetValue( badVNOTE_TXT, badVNOTE, valueType, isSigned );
-	GetValue( badVGT_TXT, badVGT, valueType, isSigned );
-	GetValue( badVGTE_TXT, badVGTE, valueType, isSigned );
-	GetValue( badVLT_TXT, badVLT, valueType, isSigned );
-	GetValue( badVLTE_TXT, badVLTE, valueType, isSigned );
+	GetValue( badVEqual_TXT, badVEqual, valueType, isSigned, valueSize );
+	GetValue( badVNOTE_TXT, badVNOTE, valueType, isSigned, valueSize );
+	GetValue( badVGT_TXT, badVGT, valueType, isSigned, valueSize );
+	GetValue( badVGTE_TXT, badVGTE, valueType, isSigned, valueSize );
+	GetValue( badVLT_TXT, badVLT, valueType, isSigned, valueSize );
+	GetValue( badVLTE_TXT, badVLTE, valueType, isSigned, valueSize );
 }
 // Value
 u32 ME::GetGood( void )

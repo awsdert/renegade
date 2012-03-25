@@ -88,23 +88,23 @@ u64 ME::getHEXFromSignedDecimal( xStr text, u64 uSize )
 		switch ( uSize )
 		{
 			case 0xFF:
-				limit = -128;
+				limit = SINT8_MIN;
 				break;
 			case 0xFFFF:
-				limit = -32767;
+				limit = SINT16_MIN;
 				break;
 			case 0xFFFFFFFF:
-				limit = -2147483647;
+				limit = SINT32_MIN;
 				break;
 			default:
-				limit = -3028092406290448383LL;
+				limit = SINT64_MIN;
 		}
-		tmpText.Printf( wxT("%lli"), limit );
+		tmpText.Printf( wxT("%lli"), limit ); j++; i++;
 		while ( ( c = text[ i ] ) )
 		{
 			if ( c >= n0 && c <= n9 )
 			{
-				if ( value < limit || j >= ( tmpText.length() - 1 ) )
+				if ( value < limit || j >= tmpText.length() )
 				{
 					value = limit;
 					break;
@@ -121,16 +121,16 @@ u64 ME::getHEXFromSignedDecimal( xStr text, u64 uSize )
 		switch ( uSize )
 		{
 			case 0xFF:
-				limit = 127;
+				limit = SINT8_MAX;
 				break;
 			case 0xFFFF:
-				limit = 32767;
+				limit = SINT16_MAX;
 				break;
 			case 0xFFFFFFFF:
-				limit = 2147483647;
+				limit = SINT32_MAX;
 				break;
 			default:
-				limit = 3028092406290448383LL;
+				limit = SINT64_MAX;
 		}
 		tmpText.Printf( wxT("%lli"), limit );
 		while ( ( c = text[ i ] ) )
@@ -149,7 +149,41 @@ u64 ME::getHEXFromSignedDecimal( xStr text, u64 uSize )
 			i++;
 		}
 	}
-	return static_cast < u64 > ( value );
+	u64 is = 0u;
+	u32 shiftBy = 0u;
+	u32 bitLimit = 0u;
+	u8 v8 = 0u;
+	u16 v16 = 0u;
+	u32 v32 = 0u;
+	switch ( uSize )
+	{
+		case 0xFF: bitLimit = 8u; break;
+		case 0xFFFF: bitLimit = 16u; break;
+		case 0xFFFFFFFF: bitLimit = 32u; break;
+		default: bitLimit = 0u;
+	}
+	for ( i = 0u; i < bitLimit; i++ )
+	{
+		shiftBy = 1u;
+		shiftBy <<= i;
+		if ( i < 8u )
+		{
+			v8 = v8 | ( value & shiftBy );
+		}
+		if ( i < 16u )
+		{
+			v16 = v16 | ( value & shiftBy );
+		}
+		v32 = v32 | ( value & shiftBy );
+	}
+	switch ( bitLimit )
+	{
+		case 8u: is = 0u | v8; break;
+		case 16u: is = 0u | v16; break;
+		case 32u: is = 0u | v32; break;
+		default: is = 0u | value;
+	}
+	return is;
 }
 u64 ME::getHEXFromFloat( xStr text, u64 uSize )
 {
@@ -214,8 +248,36 @@ u64 ME::getHEXFromFloat( xStr text, u64 uSize )
 			i++;
 		}
 		value3 = value1 + value2;
-		limit = 1e+38;
-		value3 = ( value3 < limit ) ? limit : value3;
+		limit = 1e+37;
+		value3 = ( value3 > limit ) ? limit : value3;
 	}
-	return static_cast < u64 > ( value3 );
+	u64 is = 0u;
+	u32 v32 = 0x0;
+	u64 shiftBy = 0x0;
+	u64 valueU = *(&value3);
+	switch ( uSize )
+	{
+		case 0xFF:
+		case 0xFFFF:
+			is = 0u;
+			break;
+		case 0xFFFFFFFF:
+			for ( i = 63u; i > 56u; i-- )
+			{
+				shiftBy = 0x1;
+				shiftBy <<= i;
+				v32 = v32 | ( ( valueU & shiftBy ) >> 32u );
+			}
+			for ( i = 0u; i < 26u; i++ )
+			{
+				shiftBy = 0x1;
+				shiftBy <<= i;
+				v32 = v32 | ( valueU & shiftBy );
+			}
+			is = 0u | v32;
+			break;
+		default:
+			is = valueU;
+	}
+	return is;
 }

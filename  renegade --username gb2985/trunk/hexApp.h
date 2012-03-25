@@ -44,6 +44,14 @@ u32 getReadSize( void );
 enum ESIZE { SE = 0, LE, LSE };
 void MB(xStr text = wxT(""), xStr title = wxT(""));
 xStr getAppExe(DWORD appID);
+#define SINT8_MAX       127
+#define SINT8_MIN      -127
+#define SINT16_MAX      32767
+#define SINT16_MIN     -32767
+#define SINT32_MAX      2147483647
+#define SINT32_MIN     -2147483647
+#define SINT64_MAX      3028092406290448383LL
+#define SINT64_MIN     -3028092406290448383LL
 class hexApp : public wxApp
 {
     public:

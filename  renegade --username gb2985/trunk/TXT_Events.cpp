@@ -66,7 +66,7 @@ void ME::validateValue( wxKeyEvent& event, u32 valueMode, s32 valueSize )
 			uSize = 0xFFFFFFFF;
 			break;
 		case 3:
-			uSize = 0xFFFFFFFFFFFFFFFFLL;
+			uSize = 0u;
 			break;
 		default:
 			uSize = 0xFF;
@@ -82,12 +82,37 @@ void ME::validateValue( wxKeyEvent& event, u32 valueMode, s32 valueSize )
 			text.Printf( wxT("%llu"), value );
 			break;
 		case 3u:
-			value = getHEXFromSignedDecimal( text, uSize );
-			text.Printf( wxT("%lli"), value );
+			if ( text != wxT("-") && text != wxT("-0") )
+			{
+				value = getHEXFromSignedDecimal( text, uSize );
+				if ( uSize == 0xFF )
+				{
+					text.Printf( wxT("%i"), static_cast<s8>(value) );
+				}
+				else if ( uSize == 0xFFFF )
+				{
+					text.Printf( wxT("%i"), static_cast<s16>(value) );
+				}
+				else if ( uSize == 0xFFFFFFFF )
+				{
+					text.Printf( wxT("%i"), static_cast<s32>(value) );
+				}
+				else
+				{
+					text.Printf( wxT("%lli"), value );
+				}
+			}
 			break;
 		case 2u:
 			value = getHEXFromFloat( text, uSize );
-			text.Printf( wxT("%llf"), value );
+			if ( uSize == 0u )
+			{
+				text.Printf( wxT("%llf"), value );
+			}
+			else
+			{
+				text.Printf( wxT("%f"), static_cast<f32>(value) );
+			}
 			break;
 		default:
 			value = getHEX( text, uSize );
