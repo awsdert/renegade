@@ -7,8 +7,8 @@
  * License:
  **************************************************************/
 
-#ifndef WX_PCH_H_INCLUDED
-#define WX_PCH_H_INCLUDED
+#ifndef WX_PCH_H_INCLUDED_
+#define WX_PCH_H_INCLUDED_
 
 // basic wxWidgets headers
 #include <wx/wxprec.h>
@@ -22,7 +22,7 @@
 #endif
 
 #ifdef WX_PRECOMP
-#include "hexVar.h"
+#include "cleanAll.h"
 #endif // WX_PRECOMP
 
 #endif // WX_PCH_H_INCLUDED

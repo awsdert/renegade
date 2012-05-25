@@ -3690,47 +3690,39 @@
 	"hexMain.h"
 	"hexM.h"
 
-1327878792 source:z:\hex\svn\trunk\wx_pch.h
+1335564602 source:z:\hex\svn\trunk\wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
-	"hexVar.h"
+	"cleanAll.h"
 
-1332669498 source:z:\hex\svn\trunk\hexmain.cpp
+1333840288 source:z:\hex\svn\trunk\hexmain.cpp
 	"hexMain.h"
 	<string.h>
 	<wx/string.h>
 	<wx/dynarray.h>
 	<wx/arrimpl.cpp>
 
-1327878792 z:\hex\svn\trunk\wx_pch.h
+1333741796 z:\hex\svn\trunk\wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
-	"hexVar.h"
+	"cleanAll.h"
 
 1326630964 z:\hex\svn\trunk\hexm.h
 	"hexApp.h"
 	"hexMain.h"
 
-1332530004 z:\hex\svn\trunk\hexapp.h
+1335558552 z:\hex\svn\trunk\hexapp.h
 	"wx_pch.h"
-	<wx/tokenzr.h>
-	<wx/app.h>
-	<wx/treectrl.h>
-	<windows.h>
-	<tlhelp32.h>
-	<psapi.h>
+	"cleanAll.h"
+	"G.h"
 
-1332669498 z:\hex\svn\trunk\hexmain.h
-	<wx/filefn.h>
-	<wx/ffile.h>
-	<wx/textfile.h>
-	<wx/dir.h>
-	<wx/stdpaths.h>
+1333870334 z:\hex\svn\trunk\hexmain.h
 	"hexApp.h"
 	"GUIFrame.h"
+	"cleanAll.h"
 	"hexVar.h"
 
-1332436668 z:\hex\svn\trunk\guiframe.h
+1333069616 z:\hex\svn\trunk\guiframe.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -3771,13 +3763,14 @@
 1189864952 source:z:\hex\svn\trunk\resource.rc
 	"wx/msw/wx.rc"
 
-1332529198 source:z:\hex\svn\trunk\hexapp.cpp
-	"hexApp.h"
-	"hexMain.h"
+1337888964 source:z:\hex\svn\trunk\hexapp.cpp
+	"cleanAll.h"
+	"G.h"
 
-1332439808 source:z:\hex\svn\trunk\guiframe.cpp
+1333741712 source:z:\hex\svn\trunk\guiframe.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
+	"cleanAll.h"
 	"GUIFrame.h"
 
 1309446776 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\treectrl.h
@@ -4193,20 +4186,20 @@
 	"wx/longlong.h"
 	"wx/string.h"
 
-1332443516 z:\hex\svn\trunk\hexvar.h
+1333251772 z:\hex\svn\trunk\hexvar.h
 	"hexApp.h"
 	"GUIFrame.h"
 
-1332443892 source:z:\hex\svn\trunk\ht.cpp
+1333744674 source:z:\hex\svn\trunk\ht.cpp
 	"hexMain.h"
 
-1332444088 source:z:\hex\svn\trunk\hexvar.cpp
+1333177982 source:z:\hex\svn\trunk\hexvar.cpp
 	"hexVar.h"
 
-1332443980 source:z:\hex\svn\trunk\db.cpp
+1333745318 source:z:\hex\svn\trunk\db.cpp
 	"hexMain.h"
 
-1332234122 source:z:\hex\svn\trunk\hc.cpp
+1333744470 source:z:\hex\svn\trunk\hc.cpp
 	"hexMain.h"
 	<math.h>
 
@@ -4215,20 +4208,20 @@
 	"wx/string.h"
 	"wx/arrstr.h"
 
-1332285432 source:z:\hex\svn\trunk\app.cpp
+1333840242 source:z:\hex\svn\trunk\app.cpp
 	"hexApp.h"
 
-1332285432 source:z:\hex\svn\trunk\etab.cpp
+1333744984 source:z:\hex\svn\trunk\etab.cpp
 	"hexMain.h"
 
-1332011486 source:z:\hex\svn\trunk\hcc.cpp
+1333785392 source:z:\hex\svn\trunk\hcc.cpp
 	"hexMain.h"
 	<math.h>
 
 1332443862 source:z:\hex\svn\trunk\htab.cpp
 	"hexMain.h"
 
-1330638224 source:z:\hex\svn\trunk\hexevents.cpp
+1333745138 source:z:\hex\svn\trunk\hexevents.cpp
 	"hexMain.h"
 
 1332522394 source:z:\hex\svn\trunk\qtab.cpp
@@ -4243,20 +4236,20 @@
 	"wx/convauto.h"
 	<stdio.h>
 
-1332670836 source:z:\hex\svn\trunk\txt_events.cpp
+1333744842 source:z:\hex\svn\trunk\txt_events.cpp
 	"hexMain.h"
 
-1332189792 source:z:\hex\svn\trunk\resulttab.cpp
+1333745302 source:z:\hex\svn\trunk\resulttab.cpp
 	"hexMain.h"
 
 1332438332 source:z:\hex\svn\trunk\test.cpp
 	"hexMain.h"
 
-1332671966 source:z:\hex\svn\trunk\gethex.cpp
+1332674660 source:z:\hex\svn\trunk\gethex.cpp
 	"hexMain.h"
 	<wx/defs.h>
 
-1332669576 source:z:\hex\svn\trunk\qtab_gettests.cpp
+1333745276 source:z:\hex\svn\trunk\qtab_gettests.cpp
 	"hexMain.h"
 
 1309446776 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\statline.h
@@ -4297,4 +4290,290 @@
 
 1332441262 source:z:\hex\svn\trunk\qtab_events.cpp
 	"hexMain.h"
+
+1333525452 source:z:\hex\svn\trunk\cleangui.cpp
+	"cleanGUI.h"
+
+1333525854 z:\hex\svn\trunk\cleangui.h
+	"cleanFRM.h"
+	"cleanType.h"
+	"cleanHex.h"
+	"cleanCLS.h"
+	"cleanAPP.h"
+
+1337886424 z:\hex\svn\trunk\cleanfrm.h
+	<wx/artprov.h>
+	<wx/xrc/xmlres.h>
+	<wx/cshelp.h>
+	<wx/intl.h>
+	<wx/string.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	<wx/icon.h>
+	<wx/gdicmn.h>
+	<wx/toolbar.h>
+	<wx/font.h>
+	<wx/colour.h>
+	<wx/settings.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/statbox.h>
+	<wx/choice.h>
+	<wx/button.h>
+	<wx/radiobut.h>
+	<wx/spinctrl.h>
+	<wx/scrolwin.h>
+	<wx/listctrl.h>
+	<wx/gauge.h>
+	<wx/checkbox.h>
+	<wx/statline.h>
+	<wx/grid.h>
+	<wx/treectrl.h>
+	<wx/hyperlink.h>
+	<wx/notebook.h>
+	<wx/statusbr.h>
+	<wx/frame.h>
+	<wx/listbox.h>
+	<wx/dialog.h>
+	<wx/slider.h>
+
+1337890786 z:\hex\svn\trunk\cleantype.h
+	<stdexcept>
+	<vector>
+	<wx/string.h>
+	<wx/tokenzr.h>
+	<wx/arrstr.h>
+	<wx/fileconf.h>
+	<wx/event.h>
+	<wx/treectrl.h>
+	<wx/listctrl.h>
+	<wx/filefn.h>
+	<wx/ffile.h>
+	<wx/textfile.h>
+	<wx/dir.h>
+	<wx/stdpaths.h>
+	<windows.h>
+	<tlhelp32.h>
+	<psapi.h>
+
+1335564602 z:\hex\svn\trunk\cleanhex.h
+	"cleanType.h"
+
+1337885070 z:\hex\svn\trunk\cleancls.h
+	"cleanType.h"
+
+1336836898 z:\hex\svn\trunk\cleanapp.h
+	"cleanType.h"
+
+1336836898 source:z:\hex\svn\trunk\cleanapp.cpp
+	"cleanAPP.h"
+
+1337939942 source:z:\hex\svn\trunk\g.cpp
+	"G.h"
+
+1337886466 z:\hex\svn\trunk\g.h
+	"cleanFRM.h"
+
+1337886424 source:z:\hex\svn\trunk\cleanfrm.cpp
+	"wx/wxprec.h"
+	<wx/wx.h>
+	"cleanFRM.h"
+
+1309446776 e:\win32\tools\codeblocks\wxwidgets2.8\include\wx\gbsizer.h
+	"wx/sizer.h"
+
+1337885066 source:z:\hex\svn\trunk\cleancls.cpp
+	"cleanCLS.h"
+
+1337817382 source:z:\hex\svn\trunk\cleancode.cpp
+	"cleanAll.h"
+
+1337554554 source:z:\hex\svn\trunk\cleanhex.cpp
+	"cleanHex.h"
+
+1337815506 source:z:\hex\svn\trunk\cleantree.cpp
+	"G.h"
+
+1337881250 z:\hex\svn\trunk\cleanall.h
+	"cleanType.h"
+	"cleanHex.h"
+	"cleanAPP.h"
+	"cleanCLS.h"
+	<wx/app.h>
+
+1337881428 source:z:\hex\svn\trunk\cleaneditor.cpp
+	"G.h"
+
+1337676590 source:z:\hex\svn\trunk\cleanhook.cpp
+	"G.h"
+
+1337261376 source:z:\hex\svn\trunk\cleanout.cpp
+	"G.h"
+
+1337881840 source:z:\hex\svn\trunk\cleanvalue.cpp
+	"G.h"
+
+1337888818 source:z:\hex\svn\trunk\cleansearch.cpp
+	"G.h"
+
+1334452578 source:z:\hex\svn\trunk\cleandb.cpp
+	"G.h"
+
+1334003000 source:z:\hex\svn\trunk\cleanvalidate.cpp
+	"G.h"
+
+1337881596 source:z:\hex\svn\trunk\cleanorg.cpp
+	"G.h"
+	"GetOrg_DLG.h"
+
+1337881648 source:z:\hex\svn\trunk\cleanplatform.cpp
+	"G.h"
+	"GetPFM_DLG.h"
+
+1337881400 source:z:\hex\svn\trunk\cleanbin.cpp
+	"G.h"
+	"GetBin_DLG.h"
+
+1337881720 source:z:\hex\svn\trunk\cleanram.cpp
+	"G.h"
+
+1337766874 source:z:\hex\svn\trunk\cleanhack.cpp
+	"G.h"
+	"SetHack_DLG.h"
+
+1337881970 source:z:\hex\svn\trunk\cleandbp.cpp
+	"G.h"
+	"GetDBP_DLG.h"
+
+1337554996 source:z:\hex\svn\trunk\cleancodecls.cpp
+	"cleanCLS.h"
+
+1336753436 source:z:\hex\svn\trunk\cleanhackcls.cpp
+	"cleanCLS.h"
+
+1337890786 source:z:\hex\svn\trunk\cleanhooking.cpp
+	"G.h"
+
+1335563534 source:z:\hex\svn\trunk\choosedbp_dlg.cpp
+	"chooseDBP_DLG.h"
+
+1335626024 z:\hex\svn\trunk\choosedbp_dlg.h
+	"cleanFRM.h"
+	"cleanAll.h"
+
+1337275530 source:z:\hex\svn\trunk\getdbp_dlg.cpp
+	"GetDBP_DLG.h"
+
+1337258756 z:\hex\svn\trunk\getdbp_dlg.h
+	"cleanFRM.h"
+	"cleanAll.h"
+
+1337301990 source:z:\hex\svn\trunk\getorg_dlg.cpp
+	"GetOrg_DLG.h"
+
+1337301966 z:\hex\svn\trunk\getorg_dlg.h
+	"cleanFRM.h"
+	"cleanAll.h"
+
+1337275530 source:z:\hex\svn\trunk\getorg_dlg_fileio.cpp
+	"GetOrg_DLG.h"
+
+1335736966 source:z:\hex\svn\trunk\getorg_dlg_io.cpp
+	"GetOrg_DLG.h"
+
+1337275530 source:z:\hex\svn\trunk\getorg_dlg_itemio.cpp
+	"GetOrg_DLG.h"
+
+1337302018 source:z:\hex\svn\trunk\getpfm_dlg.cpp
+	"GetPFM_DLG.h"
+
+1337301966 z:\hex\svn\trunk\getpfm_dlg.h
+	"cleanFRM.h"
+
+1337275532 source:z:\hex\svn\trunk\getpfm_dlg_fileio.cpp
+	"GetPFM_DLG.h"
+
+1337275532 source:z:\hex\svn\trunk\getpfm_dlg_itemio.cpp
+	"GetPFM_DLG.h"
+
+1337374060 source:z:\hex\svn\trunk\getbin_dlg.cpp
+	"GetBin_DLG.h"
+
+1337304510 z:\hex\svn\trunk\getbin_dlg.h
+	"cleanFRM.h"
+
+1337275530 source:z:\hex\svn\trunk\getbin_dlg_fileio.cpp
+	"GetBin_DLG.h"
+
+1337275530 source:z:\hex\svn\trunk\getbin_dlg_itemio.cpp
+	"GetBin_DLG.h"
+
+1336394774 source:z:\hex\svn\trunk\cleanbincls.cpp
+	"cleanCLS.h"
+
+1336656452 source:z:\hex\svn\trunk\hexappbin.cpp
+	"cleanAll.h"
+
+1336656582 source:z:\hex\svn\trunk\hexapppfm.cpp
+	"cleanAll.h"
+
+1336656488 source:z:\hex\svn\trunk\hexappdbp.cpp
+	"cleanAll.h"
+
+1336656546 source:z:\hex\svn\trunk\hexapporg.cpp
+	"cleanAll.h"
+
+1337275530 source:z:\hex\svn\trunk\getdbp_dlg_fileio.cpp
+	"GetDBP_DLG.h"
+
+1337162434 source:z:\hex\svn\trunk\getdbp_dlg_itemio.cpp
+	"GetDBP_DLG.h"
+
+1336656514 source:z:\hex\svn\trunk\hexapphack.cpp
+	"cleanAll.h"
+
+1337939522 source:z:\hex\svn\trunk\g_events.cpp
+	"G.h"
+
+1337815124 source:z:\hex\svn\trunk\cleanhack_fileio.cpp
+	"G.h"
+
+1337412988 source:z:\hex\svn\trunk\cleanhack_itemio.cpp
+	"G.h"
+
+1337885932 source:z:\hex\svn\trunk\cleanout_events.cpp
+	"G.h"
+
+1337938146 source:z:\hex\svn\trunk\cleansearch_events.cpp
+	"G.h"
+
+1337262108 source:z:\hex\svn\trunk\g_txtonchange.cpp
+	"G.h"
+
+1337881442 source:z:\hex\svn\trunk\cleaneditor_events.cpp
+	"G.h"
+	<wx/dcclient.h>
+
+1337469434 source:z:\hex\svn\trunk\sethack_dlg.cpp
+	"SetHack_DLG.h"
+
+1337469070 z:\hex\svn\trunk\sethack_dlg.h
+	"cleanFRM.h"
+
+1337890014 source:z:\hex\svn\trunk\sethack_dlg_itemio.cpp
+	"SetHack_DLG.h"
+
+1337554932 source:z:\hex\svn\trunk\wx2_9.cpp
+	"cleanType.h"
+
+1337881868 source:z:\hex\svn\trunk\session_fileio.cpp
+	"G.h"
+
+1337881840 source:z:\hex\svn\trunk\cleanall_validate.cpp
+	"G.h"
+
+1337890786 source:z:\hex\svn\trunk\gtest.cpp
+	"cleanType.h"
 
