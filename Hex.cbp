@@ -6,7 +6,7 @@
 		<Option compiler="gcc" />
 		<Option virtualFolders="G_Bin\;G_DBP\;G_Org\;G_PFM\;G_HackTab\;" />
 		<Build>
-			<Target title="release">
+			<Target title="release 32bit">
 				<Option output="$(CBAPP32)\hex\hex" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(CBAPP32)\hex" />
 				<Option object_output="$(CBAPP32)\hex\obj\" />
@@ -14,16 +14,26 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-march=i386" />
 					<Add option="-O3" />
-					<Add directory="%WX%\lib\gcc_dll\mswu" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="%WX%\lib\gcc_dll\mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="libwxmsw28u.a" />
-					<Add directory="%WX%\lib\gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="release 64bit">
+				<Option output="$(CBAPP32)\hex\hex64" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(CBAPP32)\hex" />
+				<Option object_output="$(CBAPP32)\hex\obj64\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-march=athlon64" />
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
 				</Linker>
 			</Target>
 			<Target title="debug">
@@ -37,15 +47,9 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
-					<Add directory="%WX%\lib\gcc_dll\mswu" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="%WX%\lib\gcc_dll\mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="libwxmsw28u.a" />
-					<Add directory="%WX%\lib\gcc_dll" />
 				</Linker>
 			</Target>
 		</Build>
@@ -63,13 +67,17 @@
 			<Add option="-DWX_PRECOMP" />
 			<Add directory="%WX%\include" />
 			<Add directory="%WX%\contrib\include" />
+			<Add directory="%WX%\lib\gcc_dll\mswu" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="%WX%\include" />
+			<Add directory="%WX%\lib\gcc_dll\mswu" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-mthreads" />
+			<Add library="libwxmsw28u.a" />
 			<Add library="libpsapi.a" />
+			<Add directory="%WX%\lib\gcc_dll" />
 		</Linker>
 		<Unit filename="G.cpp" />
 		<Unit filename="G.h" />
