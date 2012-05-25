@@ -1027,28 +1027,28 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	dbpName_S->Wrap( -1 );
 	dbpMain_L->Add( dbpName_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	dbpName_TXT = new wxTextCtrl( dbp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	dbpName_TXT = new wxTextCtrl( dbp_P, dbpName_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	dbpMain_L->Add( dbpName_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	dbpFile_S = new wxStaticText( dbp_P, wxID_ANY, _("File"), wxDefaultPosition, wxDefaultSize, 0 );
 	dbpFile_S->Wrap( -1 );
 	dbpMain_L->Add( dbpFile_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	dbpFile_TXT = new wxTextCtrl( dbp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	dbpFile_TXT = new wxTextCtrl( dbp_P, dbpFile_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	dbpMain_L->Add( dbpFile_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	dbpSID_S = new wxStaticText( dbp_P, wxID_ANY, _("Serial ID"), wxDefaultPosition, wxDefaultSize, 0 );
 	dbpSID_S->Wrap( -1 );
 	dbpMain_L->Add( dbpSID_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	dbpSID_TXT = new wxTextCtrl( dbp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	dbpSID_TXT = new wxTextCtrl( dbp_P, dbpSID_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	dbpMain_L->Add( dbpSID_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	dbpPID_S = new wxStaticText( dbp_P, wxID_ANY, _("App / File ID"), wxDefaultPosition, wxDefaultSize, 0 );
 	dbpPID_S->Wrap( -1 );
 	dbpMain_L->Add( dbpPID_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	dbpPID_TXT = new wxTextCtrl( dbp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	dbpPID_TXT = new wxTextCtrl( dbp_P, dbpPID_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	dbpMain_L->Add( dbpPID_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	bSizer14->Add( dbpMain_L, 0, wxEXPAND, 5 );
@@ -1057,7 +1057,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	dbpNotes_S->Wrap( -1 );
 	bSizer14->Add( dbpNotes_S, 0, wxALL, 5 );
 	
-	dbpNotes_TA = new wxTextCtrl( dbp_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB );
+	dbpNotes_TA = new wxTextCtrl( dbp_P, dbpNotes_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB );
 	bSizer14->Add( dbpNotes_TA, 1, wxALL|wxEXPAND, 5 );
 	
 	wxGridSizer* dbpAct_LG;
@@ -1279,7 +1279,9 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	edit_G->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
 	dbpAreaAll_RB->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpAreaCheck_RB->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
+	dbpName_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	dbpFile_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
+	dbpPID_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte16_TXTOnChange ), NULL, this );
 	NewDBP_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::NewDBP_BOnClick ), NULL, this );
 	SetDBP_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetDBP_BOnClick ), NULL, this );
 	LoadDBP_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::LoadDBP_BOnClick ), NULL, this );
@@ -1373,7 +1375,9 @@ cleanFRM::~cleanFRM()
 	edit_G->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
 	dbpAreaAll_RB->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpAreaCheck_RB->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
+	dbpName_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	dbpFile_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
+	dbpPID_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte16_TXTOnChange ), NULL, this );
 	NewDBP_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::NewDBP_BOnClick ), NULL, this );
 	SetDBP_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetDBP_BOnClick ), NULL, this );
 	LoadDBP_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::LoadDBP_BOnClick ), NULL, this );

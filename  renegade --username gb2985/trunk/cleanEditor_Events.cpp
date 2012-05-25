@@ -80,10 +80,10 @@ void G::edit_GOnEdit( wxGridEvent& event )
 	}
 	event.Skip( isEdit );
 }
+bool isLastUp = false;
 void G::edit_GOnMouseWheel( wxMouseEvent& event )
 {
 	event.Skip();
-	// FIXME: Get rid of In/Decrement at Top/Bottom after 1st MouseWheel in opposite direction
 	// When move to 2.9.4 onwards this will replace current detection.
 //	if ( event.GetWheelAxis() != wxMOUSE_WHEEL_VERTICAL ) return;
 	wxWindowDC dc( edit_G );
@@ -95,6 +95,7 @@ void G::edit_GOnMouseWheel( wxMouseEvent& event )
 	edit_G->GetVirtualSize( &xP, &yP );
 	s32 d  = event.GetWheelDelta();
 	s32 d2 = floor( d / 2 );
+	s32 r = event.GetWheelRotation();
 	xE = dc.DeviceToLogicalX( xP ) + d + d2;
 	yE = dc.DeviceToLogicalY( yP ) + d + d2;
 	edit_G->CalcUnscrolledPosition( xS, yS, &x, &y );
@@ -108,12 +109,19 @@ void G::edit_GOnMouseWheel( wxMouseEvent& event )
 			while ( ( byte % 0x10  ) > 0 ) byte--;
 			while ( ( byte % 0x100 ) > 0 ) byte -= 0x10;
 		}
-		if ( event.GetWheelRotation() < 0 ) byte += 0x100;
-		else if ( byte > 0u ) byte -= 0x100;
+		if ( r < 0 )
+		{
+			if ( !isLastUp ) byte += 0x100;
+		}
+		else if ( byte > 0u )
+		{
+			if ( isLastUp ) byte -= 0x100;
+		}
 		xStr text;
 		text.Printf( hexVLL, byte );
 		editGet_TXT->ChangeValue( text );
 		FillEditor();
 		edit_G->Scroll( xS, yS );
 	}
+	isLastUp = ( r >= 0 );
 }

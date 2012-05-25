@@ -4301,7 +4301,7 @@
 	"cleanCLS.h"
 	"cleanAPP.h"
 
-1337886424 z:\hex\svn\trunk\cleanfrm.h
+1337960160 z:\hex\svn\trunk\cleanfrm.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -4534,7 +4534,7 @@
 1336656514 source:z:\hex\svn\trunk\hexapphack.cpp
 	"cleanAll.h"
 
-1337939522 source:z:\hex\svn\trunk\g_events.cpp
+1337954442 source:z:\hex\svn\trunk\g_events.cpp
 	"G.h"
 
 1337815124 source:z:\hex\svn\trunk\cleanhack_fileio.cpp
@@ -4546,13 +4546,13 @@
 1337885932 source:z:\hex\svn\trunk\cleanout_events.cpp
 	"G.h"
 
-1337938146 source:z:\hex\svn\trunk\cleansearch_events.cpp
+1337939982 source:z:\hex\svn\trunk\cleansearch_events.cpp
 	"G.h"
 
 1337262108 source:z:\hex\svn\trunk\g_txtonchange.cpp
 	"G.h"
 
-1337881442 source:z:\hex\svn\trunk\cleaneditor_events.cpp
+1337954962 source:z:\hex\svn\trunk\cleaneditor_events.cpp
 	"G.h"
 	<wx/dcclient.h>
 

@@ -31,12 +31,12 @@ void G::mShowDBP( void )
 	lArea_CB[ AREA_JP_CB  ]->SetValue( ( area == 0u || ( area & AREA_JP  ) > 0u ) );
 	lArea_CB[ AREA_DE_CB  ]->SetValue( ( area == 0u || ( area & AREA_DE  ) > 0u ) );
 	lArea_CB[ AREA_AUS_CB ]->SetValue( ( area == 0u || ( area & AREA_AUS ) > 0u ) );
-	dbpName_TXT->SetValue( dbp.nowName   );
-	dbpFile_TXT->SetValue( dbp.nowFile   );
-	dbpNotes_TA->SetValue( dbp.notes     );
-	dbpSID_TXT->SetValue(  dbp.SID );
-	text.Printf( hexV,     dbp.PID );
-	dbpPID_TXT->SetValue(  text    );
+	dbpName_TXT->ChangeValue( dbp.nowName   );
+	dbpFile_TXT->ChangeValue( dbp.nowFile   );
+	dbpNotes_TA->ChangeValue( dbp.notes     );
+	dbpSID_TXT->ChangeValue(  dbp.SID );
+	text.Printf( hexV, dbp.PID );
+	dbpPID_TXT->ChangeValue(  text    );
 }
 void G::mSaveDBP( void )
 {

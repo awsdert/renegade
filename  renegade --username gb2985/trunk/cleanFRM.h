@@ -74,6 +74,11 @@ class cleanFRM : public wxFrame
 			mLoadBin_ID,
 			mSaveBin_ID,
 			mSetBin_ID,
+			dbpName_ID,
+			dbpFile_ID,
+			dbpSID_ID,
+			dbpPID_ID,
+			dbpNotes_ID,
 		};
 		
 		wxNotebook* cleanFRM_NB;
@@ -304,6 +309,7 @@ class cleanFRM : public wxFrame
 		virtual void edit_GOnSelect( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnMouseWheel( wxMouseEvent& event ) { event.Skip(); }
 		virtual void dbpArea_RBOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void byte16_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void NewDBP_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void SetDBP_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void LoadDBP_BOnClick( wxCommandEvent& event ) { event.Skip(); }

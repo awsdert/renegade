@@ -36,6 +36,7 @@
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 					<Add directory="%WX%\lib\gcc_dll\mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -122,12 +123,6 @@
 		<Unit filename="GetPFM_DLG_ItemIO.cpp">
 			<Option virtualFolder="G_PFM\" />
 		</Unit>
-		<Unit filename="HT.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-			<Option virtualFolder="G_HackTab\" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="SetHack_DLG.cpp">
 			<Option virtualFolder="G_HackTab\" />
 		</Unit>
@@ -204,11 +199,6 @@
 		<Unit filename="hexAppHack.cpp" />
 		<Unit filename="hexAppOrg.cpp" />
 		<Unit filename="hexAppPFM.cpp" />
-		<Unit filename="hexEvents.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

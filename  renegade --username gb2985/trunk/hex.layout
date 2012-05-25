@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="release" />
-	<File name="G.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="2281" topLine="48" />
-	</File>
+	<ActiveTarget name="debug" />
 	<File name="G_Events.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2266" topLine="92" />
+		<Cursor position="200" topLine="62" />
 	</File>
-	<File name="cleanAll_Validate.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2336" topLine="0" />
+	<File name="cleanEditor.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="14" topLine="0" />
 	</File>
-	<File name="cleanSearch_Events.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1799" topLine="66" />
+	<File name="cleanEditor_Events.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1816" topLine="80" />
 	</File>
-	<File name="hexEvents.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="120" topLine="21" />
+	<File name="cleanHook.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="381" topLine="65" />
+	</File>
+	<File name="cleanHooking.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="347" topLine="84" />
 	</File>
 </CodeBlocks_layout_file>
