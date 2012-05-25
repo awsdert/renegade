@@ -4376,7 +4376,7 @@
 1337886466 z:\hex\svn\trunk\g.h
 	"cleanFRM.h"
 
-1337886424 source:z:\hex\svn\trunk\cleanfrm.cpp
+1337960160 source:z:\hex\svn\trunk\cleanfrm.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"cleanFRM.h"
@@ -4443,7 +4443,7 @@
 	"G.h"
 	"SetHack_DLG.h"
 
-1337881970 source:z:\hex\svn\trunk\cleandbp.cpp
+1337960108 source:z:\hex\svn\trunk\cleandbp.cpp
 	"G.h"
 	"GetDBP_DLG.h"
 
