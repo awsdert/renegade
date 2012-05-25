@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="HEX" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="G_Bin\;G_DBP\;G_Org\;G_PFM\;G_HackTab\;" />
+		<Build>
+			<Target title="release">
+				<Option output="$(CBAPP32)\hex\hex" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(CBAPP32)\hex" />
+				<Option object_output="$(CBAPP32)\hex\obj\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add directory="%WX%\lib\gcc_dll\mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="%WX%\lib\gcc_dll\mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libwxmsw28u.a" />
+					<Add directory="%WX%\lib\gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="debug">
+				<Option output="$(CBAPP32)\hex\hex_dbg" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(CBAPP32)\hex" />
+				<Option object_output="$(CBAPP32)\hex\obj_dbg" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add directory="%WX%\lib\gcc_dll\mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="%WX%\lib\gcc_dll\mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="libwxmsw28u.a" />
+					<Add directory="%WX%\lib\gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option='[[if (PLATFORM == PLATFORM_MSW &amp;&amp; (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;))) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-Winvalid-pch" />
+			<Add option="-include wx_pch.h" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DWX_PRECOMP" />
+			<Add directory="%WX%\include" />
+			<Add directory="%WX%\contrib\include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="%WX%\include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-mthreads" />
+			<Add library="libpsapi.a" />
+		</Linker>
+		<Unit filename="G.cpp" />
+		<Unit filename="G.h" />
+		<Unit filename="G_Events.cpp" />
+		<Unit filename="G_TXTOnChange.cpp" />
+		<Unit filename="GetBin_DLG.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="GetBin_DLG.h">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="GetBin_DLG_FileIO.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="GetBin_DLG_ItemIO.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="GetDBP_DLG.cpp">
+			<Option virtualFolder="G_DBP\" />
+		</Unit>
+		<Unit filename="GetDBP_DLG.h">
+			<Option virtualFolder="G_DBP\" />
+		</Unit>
+		<Unit filename="GetDBP_DLG_FileIO.cpp">
+			<Option virtualFolder="G_DBP\" />
+		</Unit>
+		<Unit filename="GetDBP_DLG_ItemIO.cpp">
+			<Option virtualFolder="G_DBP\" />
+		</Unit>
+		<Unit filename="GetOrg_DLG.cpp">
+			<Option virtualFolder="G_Org\" />
+		</Unit>
+		<Unit filename="GetOrg_DLG.h">
+			<Option virtualFolder="G_Org\" />
+		</Unit>
+		<Unit filename="GetOrg_DLG_FileIO.cpp">
+			<Option virtualFolder="G_Org\" />
+		</Unit>
+		<Unit filename="GetOrg_DLG_ItemIO.cpp">
+			<Option virtualFolder="G_Org\" />
+		</Unit>
+		<Unit filename="GetPFM_DLG.cpp">
+			<Option virtualFolder="G_PFM\" />
+		</Unit>
+		<Unit filename="GetPFM_DLG.h">
+			<Option virtualFolder="G_PFM\" />
+		</Unit>
+		<Unit filename="GetPFM_DLG_FileIO.cpp">
+			<Option virtualFolder="G_PFM\" />
+		</Unit>
+		<Unit filename="GetPFM_DLG_ItemIO.cpp">
+			<Option virtualFolder="G_PFM\" />
+		</Unit>
+		<Unit filename="SetHack_DLG.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="SetHack_DLG.h">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="SetHack_DLG_ItemIO.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanAPP.cpp" />
+		<Unit filename="cleanAPP.h" />
+		<Unit filename="cleanAll.h" />
+		<Unit filename="cleanAll_Validate.cpp" />
+		<Unit filename="cleanBin.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="cleanBinCLS.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="cleanCLS.cpp" />
+		<Unit filename="cleanCLS.h" />
+		<Unit filename="cleanCode.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanCodeCLS.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanDBP.cpp">
+			<Option virtualFolder="G_DBP\" />
+		</Unit>
+		<Unit filename="cleanEditor.cpp" />
+		<Unit filename="cleanEditor_Events.cpp" />
+		<Unit filename="cleanFRM.cpp" />
+		<Unit filename="cleanFRM.fbp" />
+		<Unit filename="cleanFRM.h" />
+		<Unit filename="cleanHack.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanHackCLS.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanHack_FileIO.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanHack_ItemIO.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanHex.cpp" />
+		<Unit filename="cleanHex.h" />
+		<Unit filename="cleanHook.cpp" />
+		<Unit filename="cleanHooking.cpp" />
+		<Unit filename="cleanOrg.cpp">
+			<Option virtualFolder="G_Org\" />
+		</Unit>
+		<Unit filename="cleanOut.cpp" />
+		<Unit filename="cleanOut_Events.cpp" />
+		<Unit filename="cleanPlatform.cpp">
+			<Option virtualFolder="G_PFM\" />
+		</Unit>
+		<Unit filename="cleanRam.cpp">
+			<Option virtualFolder="G_Bin\" />
+		</Unit>
+		<Unit filename="cleanSearch.cpp" />
+		<Unit filename="cleanSearch_Events.cpp" />
+		<Unit filename="cleanTree.cpp">
+			<Option virtualFolder="G_HackTab\" />
+		</Unit>
+		<Unit filename="cleanType.h" />
+		<Unit filename="cleanValue.cpp" />
+		<Unit filename="gTEST.cpp" />
+		<Unit filename="hexApp.cpp" />
+		<Unit filename="hexAppBin.cpp" />
+		<Unit filename="hexAppDBP.cpp" />
+		<Unit filename="hexAppHack.cpp" />
+		<Unit filename="hexAppOrg.cpp" />
+		<Unit filename="hexAppPFM.cpp" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="session_FileIO.cpp" />
+		<Unit filename="version.h" />
+		<Unit filename="wx2_9.cpp" />
+		<Unit filename="wx_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="10" rev_max="10" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H_" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
