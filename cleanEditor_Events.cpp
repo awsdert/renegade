@@ -75,9 +75,12 @@ void G::edit_GOnEditEnd(   wxGridEvent& event )
 	xStr text = edit_G->GetCellValue( row, col );
 	u64  address = GetHex( edit_G->GetRowLabelValue( row ) );
 	address  += col;
-	u8   size = ceil( text.length() / 2 );
-	if ( size < 1u ) size = 1u;
-	if ( size > 8u ) size = 8u;
+	u8   size;
+	u8   len = text.length();
+	if (      len < 2u ) size = 1u;
+	else if ( len < 4u ) size = 2u;
+	else if ( len < 8u ) size = 4u;
+	else                 size = 8u;
 	editSetRam( address, GetHex( text, size ), size );
 	isEdit    = false;
 }
