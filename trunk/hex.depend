@@ -4301,7 +4301,7 @@
 	"cleanCLS.h"
 	"cleanAPP.h"
 
-1337960160 z:\hex\svn\trunk\cleanfrm.h
+1338041680 z:\hex\svn\trunk\cleanfrm.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -4339,7 +4339,7 @@
 	<wx/dialog.h>
 	<wx/slider.h>
 
-1337890786 z:\hex\svn\trunk\cleantype.h
+1338018918 z:\hex\svn\trunk\cleantype.h
 	<stdexcept>
 	<vector>
 	<wx/string.h>
@@ -4370,13 +4370,13 @@
 1336836898 source:z:\hex\svn\trunk\cleanapp.cpp
 	"cleanAPP.h"
 
-1337939942 source:z:\hex\svn\trunk\g.cpp
+1338042422 source:z:\hex\svn\trunk\g.cpp
 	"G.h"
 
-1337886466 z:\hex\svn\trunk\g.h
+1338017572 z:\hex\svn\trunk\g.h
 	"cleanFRM.h"
 
-1337960160 source:z:\hex\svn\trunk\cleanfrm.cpp
+1338041680 source:z:\hex\svn\trunk\cleanfrm.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"cleanFRM.h"
@@ -4403,7 +4403,7 @@
 	"cleanCLS.h"
 	<wx/app.h>
 
-1337881428 source:z:\hex\svn\trunk\cleaneditor.cpp
+1338019532 source:z:\hex\svn\trunk\cleaneditor.cpp
 	"G.h"
 
 1337676590 source:z:\hex\svn\trunk\cleanhook.cpp
@@ -4534,7 +4534,7 @@
 1336656514 source:z:\hex\svn\trunk\hexapphack.cpp
 	"cleanAll.h"
 
-1337954442 source:z:\hex\svn\trunk\g_events.cpp
+1338017124 source:z:\hex\svn\trunk\g_events.cpp
 	"G.h"
 
 1337815124 source:z:\hex\svn\trunk\cleanhack_fileio.cpp
@@ -4552,7 +4552,7 @@
 1337262108 source:z:\hex\svn\trunk\g_txtonchange.cpp
 	"G.h"
 
-1337954962 source:z:\hex\svn\trunk\cleaneditor_events.cpp
+1338042630 source:z:\hex\svn\trunk\cleaneditor_events.cpp
 	"G.h"
 	<wx/dcclient.h>
 

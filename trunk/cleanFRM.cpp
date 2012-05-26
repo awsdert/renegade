@@ -462,7 +462,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	good_L->Add( goodA_LF, 0, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* goodV_FL;
-	goodV_FL = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, wxID_ANY, _("Value") ), wxVERTICAL );
+	goodV_FL = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, goodV_ID, _("Value") ), wxVERTICAL );
 	
 	goodV_L = new wxFlexGridSizer( 0, 2, 0, 0 );
 	goodV_L->AddGrowableCol( 1 );
@@ -530,7 +530,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bad_L->Add( badA_LF, 0, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* badV_FL;
-	badV_FL = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, wxID_ANY, _("Value") ), wxVERTICAL );
+	badV_FL = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, badV_ID, _("Value") ), wxVERTICAL );
 	
 	badV_L = new wxFlexGridSizer( 0, 2, 0, 0 );
 	badV_L->AddGrowableCol( 1 );
@@ -767,7 +767,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	outByte_S->Wrap( -1 );
 	outData3_L->Add( outByte_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	outByte_TXT = new wxTextCtrl( outData_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	outByte_TXT = new wxTextCtrl( outData_P, outByte_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	outByte_TXT->SetMaxLength( 16 ); 
 	outData3_L->Add( outByte_TXT, 0, wxALL|wxEXPAND, 5 );
 	
@@ -785,7 +785,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	outValue_S->Wrap( -1 );
 	outData3_L->Add( outValue_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	outValue_TXT = new wxTextCtrl( outData_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	outValue_TXT = new wxTextCtrl( outData_P, outValue_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	outData3_L->Add( outValue_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	outData2_L->Add( outData3_L, 1, wxEXPAND, 5 );
@@ -862,7 +862,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	editGet_B = new wxButton( editOptions_P, wxID_ANY, _("Read"), wxDefaultPosition, wxDefaultSize, 0 );
 	editOptions_L->Add( editGet_B, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
-	editGet_TXT = new wxTextCtrl( editOptions_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	editGet_TXT = new wxTextCtrl( editOptions_P, editGet_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	editGet_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	editOptions_L->Add( editGet_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -870,7 +870,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	editSet_B = new wxButton( editOptions_P, wxID_ANY, _("Write"), wxDefaultPosition, wxDefaultSize, 0 );
 	editOptions_L->Add( editSet_B, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
-	editSet_TXT = new wxTextCtrl( editOptions_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	editSet_TXT = new wxTextCtrl( editOptions_P, editSet_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	editOptions_L->Add( editSet_TXT, 0, wxALL, 5 );
 	
 	bSizer29->Add( editOptions_L, 0, wxEXPAND, 5 );
@@ -878,7 +878,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxStaticBoxSizer* sbSizer19;
 	sbSizer19 = new wxStaticBoxSizer( new wxStaticBox( editOptions_P, wxID_ANY, _("Value") ), wxVERTICAL );
 	
-	editValue_TXT = new wxTextCtrl( editOptions_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	editValue_TXT = new wxTextCtrl( editOptions_P, editValue_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	editValue_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	sbSizer19->Add( editValue_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -1188,6 +1188,12 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_hyperlink2 = new wxHyperlinkCtrl( about_P, wxID_ANY, _("Google Code Project"), wxT("http://code.google.com/p/renegade"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	bSizer4->Add( m_hyperlink2, 0, wxALL|wxEXPAND, 5 );
 	
+	m_hyperlink5 = new wxHyperlinkCtrl( about_P, wxID_ANY, _("SourceForge Project"), wxT("https://sourceforge.net/projects/hackerex/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizer4->Add( m_hyperlink5, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_hyperlink4 = new wxHyperlinkCtrl( about_P, wxID_ANY, _("GPLv3 Quick Guide"), wxT("http://www.gnu.org/licenses/quick-guide-gplv3.html"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizer4->Add( m_hyperlink4, 0, wxALIGN_CENTER|wxALL, 5 );
+	
 	m_staticText9 = new wxStaticText( about_P, wxID_ANY, _("Renegade64 / RenegadeEx (Viper)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 	m_staticText9->Wrap( -1 );
 	bSizer4->Add( m_staticText9, 0, wxALL|wxEXPAND, 5 );
@@ -1269,12 +1275,14 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	SetOut_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetOut_BOnClick ), NULL, this );
 	DelOut_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::DelOut_BOnClick ), NULL, this );
 	editShow_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editShow_BOnClick ), NULL, this );
-	editUpdate_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::EUOnChange ), NULL, this );
+	editUpdate_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::editUpdate_DOnChoice ), NULL, this );
 	editGet_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editGet_BOnClick ), NULL, this );
 	editGet_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editSet_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
+	editSet_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
-	edit_G->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEdit ), NULL, this );
+	edit_G->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
+	edit_G->Connect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
 	edit_G->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( cleanFRM::edit_GOnSelect ), NULL, this );
 	edit_G->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
 	dbpAreaAll_RB->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
@@ -1365,12 +1373,14 @@ cleanFRM::~cleanFRM()
 	SetOut_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetOut_BOnClick ), NULL, this );
 	DelOut_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::DelOut_BOnClick ), NULL, this );
 	editShow_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editShow_BOnClick ), NULL, this );
-	editUpdate_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::EUOnChange ), NULL, this );
+	editUpdate_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::editUpdate_DOnChoice ), NULL, this );
 	editGet_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editGet_BOnClick ), NULL, this );
 	editGet_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editSet_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
+	editSet_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
-	edit_G->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEdit ), NULL, this );
+	edit_G->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
+	edit_G->Disconnect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
 	edit_G->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( cleanFRM::edit_GOnSelect ), NULL, this );
 	edit_G->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
 	dbpAreaAll_RB->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );

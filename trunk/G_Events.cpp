@@ -38,10 +38,10 @@ u32  G::mGetRam( u64 &ramStart, u64 &ramEnd, s8 ramNo )
 void G::DelHook( void )
 {
 	--isHooked;
-	if ( isHooked != 0 ) return;
+	if ( isHooked > 0 ) return;
 	if ( hookApp )
 	{
-#ifdef WIN32
+#ifdef __WXMSW__
 		CloseHandle( appHandle );
 #else
 		appHandle = NULL;

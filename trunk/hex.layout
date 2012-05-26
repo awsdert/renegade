@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="debug" />
-	<File name="cleanCode.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="433" topLine="0" />
+	<File name="G.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="141" topLine="138" />
 	</File>
-	<File name="cleanDBP.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="732" topLine="21" />
+	<File name="G.h" open="1" top="0" tabpos="2">
+		<Cursor position="3496" topLine="197" />
 	</File>
-	<File name="cleanFRM.h" open="0" top="0" tabpos="0">
-		<Cursor position="1895" topLine="49" />
+	<File name="G_Events.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="887" topLine="12" />
+	</File>
+	<File name="cleanEditor.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="16" topLine="0" />
+	</File>
+	<File name="cleanEditor_Events.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1692" topLine="68" />
+	</File>
+	<File name="cleanType.h" open="1" top="0" tabpos="5">
+		<Cursor position="1729" topLine="51" />
 	</File>
 </CodeBlocks_layout_file>

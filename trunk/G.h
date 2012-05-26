@@ -83,7 +83,8 @@ class G : public cleanFRM
 		void editRam_DOnChange(    wxCommandEvent& event );
 		void editUpdate_DOnChoice( wxCommandEvent& event );
 		void edit_GOnMouseWheel(   wxMouseEvent&   event );
-		void edit_GOnEdit(         wxGridEvent&    event );
+		void edit_GOnEditBegin(    wxGridEvent&    event );
+		void edit_GOnEditEnd(      wxGridEvent&    event );
 		void edit_GOnSelect(       wxGridEvent&    event );
 		void editShow_BOnClick(    wxCommandEvent& event );
 		void editGet_BOnClick(     wxCommandEvent& event );
@@ -192,7 +193,6 @@ class G : public cleanFRM
 		s32  editRow;
 		s32  editCol;
 		void FillEditor(  void );
-		void editSetItem( wxGridEvent& event );
 		void editSetRam( u64 address, u64 value, u8 size );
 		// Database Tab
 		DBP            mGetDBP(  void );
