@@ -56,7 +56,7 @@ s32 MB( xStr text, xStr title = wxT("Message"), s32 mode = wxOK );
 #define BitLeft( m_type, m_value, m_by ) ( ( m_type )m_value << m_by )
 #define BitRight( m_type, m_value, m_by ) ( ( m_type )m_value >> m_by )
 // - Value Types
-const u32 readSize = 0x20000000;
+const u32 readSize = 0x10000000;
 enum { ENDIAN_LITTLE, ENDIAN_BIG, ENDIAN_LB, ENDIAN_COUNT };
 #define GetAddress( m_Address, m_ToAddress, m_Size, m_Endian ) \
 m_ToAddress = m_Address; \

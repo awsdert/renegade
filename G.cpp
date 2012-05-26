@@ -42,10 +42,10 @@ cleanFRM( parent )
 	wxSize size( 50, -1 );
 	for ( index = 0; index < QV_COUNT; ++index )
 	{
-		mQVG_CB[   index ] = new wxCheckBox( good_SCROLL, wxID_ANY, array[ index ] );
-		mQVB_CB[   index ] = new wxCheckBox( bad_SCROLL,  wxID_ANY, array[ index ] );
-		mQVG_TXT[  index ] = new wxTextCtrl( good_SCROLL, wxID_ANY, text );
-		mQVB_TXT[  index ] = new wxTextCtrl( bad_SCROLL,  wxID_ANY, text );
+		mQVG_CB[   index ] = new wxCheckBox( good_SCROLL, goodV_ID, array[ index ] );
+		mQVB_CB[   index ] = new wxCheckBox( bad_SCROLL,  badV_ID, array[ index ] );
+		mQVG_TXT[  index ] = new wxTextCtrl( good_SCROLL, goodV_ID, text );
+		mQVB_TXT[  index ] = new wxTextCtrl( bad_SCROLL,  badV_ID, text );
 		mQVG_TXT[  index ]->SetMinSize( size );
 		mQVB_TXT[  index ]->SetMinSize( size );
 		mQVGArray[ index ] = 0u;
@@ -54,9 +54,9 @@ cleanFRM( parent )
 		goodV_L->Add( mQVG_TXT[ index ], 0, wxEXPAND | wxBORDER | wxALL, 5 );
 		badV_L->Add(  mQVB_CB[  index ], 0, wxALIGN_CENTER_VERTICAL | wxBORDER | wxALL, 5 );
 		badV_L->Add(  mQVB_TXT[ index ], 0, wxEXPAND | wxBORDER | wxALL, 5 );
-		Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ), mQVG_TXT[ index ] );
-		Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ), mQVB_TXT[ index ] );
 	}
+	Connect( goodV_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
+	Connect( badV_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
 	good_SCROLL->FitInside();
 	bad_SCROLL->FitInside();
 	// - Time
@@ -151,11 +151,8 @@ void G::GOnClose( wxCloseEvent& event )
 	hookUntil = 0;
 	listUntil = 0;
 	editUntil = 0;
-	for ( s8 i = 0; i < QV_COUNT; ++i )
-	{
-		Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ), mQVG_TXT[ i ] );
-		Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ), mQVB_TXT[ i ] );
-	}
+	Disconnect( goodV_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
+	Disconnect( badV_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
 	ramName_D->Clear();
 	ListApps_LC->DeleteAllItems();
 	tree_T->DeleteAllItems();

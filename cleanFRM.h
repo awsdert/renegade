@@ -74,6 +74,13 @@ class cleanFRM : public wxFrame
 			mLoadBin_ID,
 			mSaveBin_ID,
 			mSetBin_ID,
+			goodV_ID,
+			badV_ID,
+			outByte_ID,
+			outValue_ID,
+			editGet_ID,
+			editSet_ID,
+			editValue_ID,
 			dbpName_ID,
 			dbpFile_ID,
 			dbpSID_ID,
@@ -251,6 +258,8 @@ class cleanFRM : public wxFrame
 		wxStaticText* m_staticText10;
 		wxHyperlinkCtrl* m_hyperlink3;
 		wxHyperlinkCtrl* m_hyperlink2;
+		wxHyperlinkCtrl* m_hyperlink5;
+		wxHyperlinkCtrl* m_hyperlink4;
 		wxStaticText* m_staticText9;
 		wxHyperlinkCtrl* m_hyperlink1;
 		wxStatusBar* SB;
@@ -301,11 +310,12 @@ class cleanFRM : public wxFrame
 		virtual void SetOut_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DelOut_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void editShow_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void EUOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void editUpdate_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void editGet_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void editSet_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void edit_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
-		virtual void edit_GOnEdit( wxGridEvent& event ) { event.Skip(); }
+		virtual void edit_GOnEditEnd( wxGridEvent& event ) { event.Skip(); }
+		virtual void edit_GOnEditBegin( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnSelect( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnMouseWheel( wxMouseEvent& event ) { event.Skip(); }
 		virtual void dbpArea_RBOnChange( wxCommandEvent& event ) { event.Skip(); }

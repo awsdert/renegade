@@ -50,14 +50,7 @@ void G::editSetRam( u64 address, u64 value, u8 size )
 		bin_BF.Seek( address, wxFromStart );
 		bin_BF.Write( &value, size );
 	}
-	FillEditor();
 	DelHook();
-}
-void G::editSetItem( wxGridEvent& event )
-{
-	isFocus = true;
-	editRow = event.GetRow();
-	editCol = event.GetCol();
 }
 void G::editSet_BOnClick( wxCommandEvent& event )
 {
@@ -65,20 +58,39 @@ void G::editSet_BOnClick( wxCommandEvent& event )
 	u64 address = GetHex( editSet_TXT->GetValue() );
 	u64 value   = GetHex( editValue_TXT->GetValue(), size );
 	editSetRam( address, value, size );
+	FillEditor();
+}
+void G::edit_GOnEditBegin( wxGridEvent& event )
+{
+	s32 col = event.GetCol();
+	if ( col >= 16 ) return;
+	isEdit = true;
+	event.Skip();
+}
+void G::edit_GOnEditEnd(   wxGridEvent& event )
+{
+	u8   col  = event.GetCol();
+	if ( col >= 16u ) return;
+	u8   row  = event.GetRow();
+	xStr text = edit_G->GetCellValue( row, col );
+	u64  address = GetHex( edit_G->GetRowLabelValue( row ) );
+	address  += col;
+	u8   size = ceil( text.length() / 2 );
+	if ( size < 1u ) size = 1u;
+	if ( size > 8u ) size = 8u;
+	editSetRam( address, GetHex( text, size ), size );
+	isEdit    = false;
 }
 void G::edit_GOnSelect(    wxGridEvent& event )
 {
-	editSetItem( event );
-}
-void G::edit_GOnEdit( wxGridEvent& event )
-{
-	isEdit = false;
+	s32 row = event.GetRow();
 	s32 col = event.GetCol();
-	if ( col >= 0 && col < 16 )
-	{
-		isEdit = true;
-	}
-	event.Skip( isEdit );
+	bool doEvent = ( col < 16 );
+	event.Skip( doEvent );
+	if ( !doEvent ) return;
+	isFocus = true;
+	editRow = row;
+	editCol = col;
 }
 bool isLastUp = false;
 void G::edit_GOnMouseWheel( wxMouseEvent& event )

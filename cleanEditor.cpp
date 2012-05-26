@@ -2,6 +2,7 @@
 void G::FillEditor( void )
 {
 	SetTime();
+	if ( isEdit ) return;
 	NewHook();
 	s8  ramNo = editRam_D->GetSelection();
 	u64 ramStart = 0u;
@@ -11,14 +12,8 @@ void G::FillEditor( void )
 	u64 byte     = GetHex( editGet_TXT->GetValue() );
 	if ( byte > 0u )
 	{
-		while ( ( byte % 0x10 ) > 0 )
-		{
-			byte--;
-		}
-		while ( ( byte % 0x100 ) > 0 )
-		{
-			byte -= 0x10;
-		}
+		while ( ( byte % 0x10  ) > 0 ) byte--;
+		while ( ( byte % 0x100 ) > 0 ) byte -= 0x10;
 	}
 	u32  divByte = byte + 0x100;
 	u8*  ram8    = new u8[ useSize ];
