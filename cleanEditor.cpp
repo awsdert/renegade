@@ -4,6 +4,7 @@ void G::FillEditor( void )
 	SetTime();
 	if ( isEdit ) return;
 	NewHook();
+	++editIsRecursing;
 	s8  ramNo = editRam_D->GetSelection();
 	u64 ramStart = 0u;
 	u64 ramEnd   = 0u;
@@ -66,4 +67,5 @@ void G::FillEditor( void )
 	delete [] ram8;
 	DelHook();
 	if ( isFocus ) edit_G->SelectBlock( editRow, editCol, editRow, editCol, false );
+	--editIsRecursing;
 }

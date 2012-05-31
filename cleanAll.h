@@ -42,4 +42,6 @@ xAStr BuildCode( CODE& code );
 void  BuildCode( CODE& code, s32 &index, xAStr &array );
 void  doChange( wxCommandEvent& event, s32 mode = 0, s32 theSize = 0 );
 void  doKeyDown( wxKeyEvent& event, s32 mode = 0 );
+f32   gHexToF32( u64 value );
+f64   gHexToF64( u64 value );
 #endif

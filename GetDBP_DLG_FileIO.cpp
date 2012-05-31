@@ -1,6 +1,7 @@
 #include "GetDBP_DLG.h"
 void GetDBP_DLG::dLoadDBP( void )
 {
+	isModified = false;
 	DBP dbp;
 	dDBPList.resize( 1, dbp );
 	dbp.isDefault = false;
@@ -66,6 +67,7 @@ void GetDBP_DLG::dLoadDBP( void )
 }
 void GetDBP_DLG::dSaveDBP( void )
 {
+	isModified = false;
 	DBP dbp;
 	xStr text, path, file, txt;
 	gGetDBPFile( path, file );
@@ -74,15 +76,23 @@ void GetDBP_DLG::dSaveDBP( void )
 	file_TF.Clear();
 	u32 area = 0u;
 	u16 iCount = dDBPList.size();
+	gGetHackFile( path, file );
 	for ( u16 i = 0u; i < iCount; ++i )
 	{
 		dbp = dDBPList[ i ];
+		if ( dbp.isDefault ) continue;
 		text = wxT( "[" ) + dbp.nowName + wxT( "]" );
 		file_TF.AddLine( text, wxTextFileType_Dos );
 		txt.Clear();
 		area = dbp.area;
 		if ( ( area & AREA_UK ) > 0u ) txt += wxT( "uk" );
 		text = wxT( ";" ) + dbp.nowFile + wxT( ";" ) + txt;
+		// Change old data
+		file = path + dbp.oldFile + wxT( ".hexcl" );
+		if ( wxFileExists( file ) )
+			wxRenameFile( file, path + dbp.nowFile + wxT( ".hexcl" ) );
+		dbp.oldName = dbp.nowName;
+		dbp.oldFile = dbp.nowFile;
 	}
 }
 void GetDBP_DLG::dLoadDBI( void )

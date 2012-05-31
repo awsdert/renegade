@@ -36,6 +36,7 @@ class GetDBP_DLG : public cleanGetDBP_DLG
 		std::vector< u16 >  dIdList;
 		// Variables
 		u16  fromID; // Highest used ID
+		bool isModified;
 		// Profile Functions
 		s32   dNewDBP( DBP  dbp  );
 		void  dSetDBP( s32  index, DBP  dbp  );

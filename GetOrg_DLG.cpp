@@ -12,6 +12,14 @@ cleanGetOrg_DLG( parent )
 }
 void GetOrg_DLG::GetOrg_DLGOnClose(     wxCloseEvent&   event )
 {
+	if ( isModified )
+	{
+		switch ( MB( wxT( "Do you wish to save changes?" ), wxT("List is Modified"), wxYES_NO | wxCANCEL ) )
+		{
+			case wxYES: dSaveOrg(); break;
+			case wxCANCEL: return;
+		}
+	}
 	dShowOrg();
 	event.Skip();
 }
@@ -34,6 +42,7 @@ void GetOrg_DLG::dNewOrg_OnClick(    wxCommandEvent& event )
 	delete org;
 	dOrgName_LB->Select( index );
 	dShowOrg();
+	isModified = true;
 }
 void GetOrg_DLG::dSetOrg_OnClick(    wxCommandEvent& event )
 {
@@ -45,6 +54,7 @@ void GetOrg_DLG::dSetOrg_OnClick(    wxCommandEvent& event )
 		dSetOrg( index, org );
 		delete org;
 		dShowOrg();
+		isModified = true;
 	}
 }
 void GetOrg_DLG::dUseOrg_OnClick(    wxCommandEvent& event )
@@ -61,5 +71,6 @@ void GetOrg_DLG::dDelOrg_OnClick(    wxCommandEvent& event )
 		index = ( index > 0 ) ? index - 1 : 0;
 		dOrgName_LB->Select( index );
 		dShowOrg();
+		isModified = true;
 	}
 }

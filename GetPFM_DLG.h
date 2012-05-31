@@ -27,6 +27,7 @@ class GetPFM_DLG : public cleanGetPFM_DLG
 		/** Constructor */
 		GetPFM_DLG( wxWindow* parent );
 	//// end generated class members
+		bool isModified;
 		// Methods
 		s8    dNewPFM( PFM* pfm   );
 		s8    dSetPFM( s8   index, PFM* pfm  );

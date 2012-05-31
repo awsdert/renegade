@@ -20,7 +20,7 @@ class PFM : public ORG
 		PFM(  void );
 		~PFM( void );
 	public:
-		s8   endian;
+		s8  endian;
 };
 class RAM
 {
@@ -72,7 +72,6 @@ class DBI : public wxClientData
 		~DBI( void );
 	public:
 		s32 index;
-		s64 error;
 };
 class DBP : public ORG
 {
@@ -81,6 +80,7 @@ class DBP : public ORG
 		~DBP( void );
 	public:
 		u32  area;
+		xStr format; // Use Drop down
 		u16  PID;
 		xStr SID;
 		xStr notes;
@@ -99,10 +99,10 @@ class CODE
 	public:
 		u8    ram;
 		u8    type;
-		u8    size;
+		u32   size;
 		u8    test;
 		u64   slide;
-		u8    loop;
+		u16   loop;
 		u8    ptrDepth;
 		u64   byte;
 		u32   increment;

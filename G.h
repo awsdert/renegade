@@ -188,6 +188,7 @@ class G : public cleanFRM
 		// Results Tab
 		void      ShowOut( s16 no, u8 size );
 		// Editor Tab
+		s32  editIsRecursing;
 		bool isEdit;
 		bool isFocus;
 		s32  editRow;

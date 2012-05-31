@@ -30,6 +30,7 @@ class GetOrg_DLG : public cleanGetOrg_DLG
 	private:
 		// Variables
 		xStr  orgIni;
+		bool  isModified;
 		// Methods
 		s8    dNewOrg( ORG* org   );
 		s8    dSetOrg( s8   index, ORG* org  );

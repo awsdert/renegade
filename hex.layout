@@ -1,22 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
-	<File name="G.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="141" topLine="138" />
+	<ActiveTarget name="release 64bit" />
+	<File name="GetBin_DLG_FileIO.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2694" topLine="81" />
 	</File>
-	<File name="G.h" open="1" top="0" tabpos="2">
-		<Cursor position="3496" topLine="197" />
+	<File name="GetDBP_DLG_FileIO.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2235" topLine="72" />
 	</File>
-	<File name="G_Events.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="887" topLine="12" />
+	<File name="GetOrg_DLG_FileIO.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1147" topLine="34" />
 	</File>
-	<File name="cleanEditor.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="16" topLine="0" />
+	<File name="GetPFM_DLG_FileIO.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1183" topLine="37" />
 	</File>
-	<File name="cleanEditor_Events.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1692" topLine="68" />
+	<File name="cleanAll_Validate.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="884" topLine="18" />
 	</File>
-	<File name="cleanType.h" open="1" top="0" tabpos="5">
-		<Cursor position="1729" topLine="51" />
+	<File name="cleanCode.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="372" topLine="0" />
+	</File>
+	<File name="cleanHex.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3181" topLine="152" />
+	</File>
+	<File name="cleanType.h" open="0" top="0" tabpos="0">
+		<Cursor position="2983" topLine="98" />
+	</File>
+	<File name="hexAppOrg.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="115" topLine="0" />
+	</File>
+	<File name="hexAppPFM.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="134" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
