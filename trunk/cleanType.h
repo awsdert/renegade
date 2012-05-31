@@ -14,7 +14,7 @@
 #include <wx/textfile.h>
 #include <wx/dir.h>
 #include <wx/stdpaths.h>
-#ifdef WIN32
+#ifdef __WXMSW__
 #include <windows.h>
 #include <tlhelp32.h>
 #include <psapi.h>

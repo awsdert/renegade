@@ -1,6 +1,7 @@
 #include "GetPFM_DLG.h"
 void GetPFM_DLG::dLoadPFM( void )
 {
+	isModified = false;
 	xStrT st;
 	PFM*  pfm;
 	xStr  key, text, path, file;
@@ -48,23 +49,29 @@ void GetPFM_DLG::dLoadPFM( void )
 }
 void GetPFM_DLG::dSavePFM( void )
 {
+	isModified = false;
 	PFM* pfm;
 	xStr text, path, file;
 	s8   count = dPFMName_LB->GetCount();
 	gGetPFMFile( path, file );
 	wxFileConfig pfm_TF( gGetTitle(), gGetVendor(), file );
+	gGetBinFile( path, file );
 	for ( s8 index = 0; index < count; ++index )
 	{
 		pfm = dGetPFM( index );
-		if ( !pfm->isDefault )
+		if ( pfm->isDefault ) continue;
+		switch ( pfm->endian )
 		{
-			switch ( pfm->endian )
-			{
-				case ENDIAN_BIG: text = wxT( ";1" ); break;
-				case ENDIAN_LB:  text = wxT( ";2" ); break;
-				default:         text = wxT( ";0" ); break;
-			}
-			pfm_TF.Write( pfm->nowName, pfm->nowFile + text );
+			case ENDIAN_BIG: text = wxT( ";1" ); break;
+			case ENDIAN_LB:  text = wxT( ";2" ); break;
+			default:         text = wxT( ";0" ); break;
 		}
+		pfm_TF.Write( pfm->nowName, pfm->nowFile + text );
+		// Change old data
+		file = path + pfm->oldFile + wxT( ".hexb" );
+		if ( wxFileExists( file ) )
+			wxRenameFile( file, path + pfm->nowFile + wxT( ".hexb" ) );
+		pfm->oldName = pfm->nowName;
+		pfm->oldFile = pfm->nowFile;
 	}
 }

@@ -70,7 +70,8 @@ void G::edit_GOnEditBegin( wxGridEvent& event )
 void G::edit_GOnEditEnd(   wxGridEvent& event )
 {
 	u8   col  = event.GetCol();
-	if ( col >= 16u ) return;
+	if ( col >= 16u || editIsRecursing > 0 ) return;
+	++editIsRecursing;
 	u8   row  = event.GetRow();
 	xStr text = edit_G->GetCellValue( row, col );
 	u64  address = GetHex( edit_G->GetRowLabelValue( row ) );
@@ -82,7 +83,9 @@ void G::edit_GOnEditEnd(   wxGridEvent& event )
 	else if ( len < 8u ) size = 4u;
 	else                 size = 8u;
 	editSetRam( address, GetHex( text, size ), size );
+	FillEditor();
 	isEdit    = false;
+	--editIsRecursing;
 }
 void G::edit_GOnSelect(    wxGridEvent& event )
 {

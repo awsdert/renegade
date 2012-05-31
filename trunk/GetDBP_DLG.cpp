@@ -29,6 +29,7 @@ void GetDBP_DLG::dNewDBP_OnClick(    wxCommandEvent& event )
 	dNewDBI( dbi );
 	delete dbi;
 	dLoadDBI();
+	isModified = true;
 }
 void GetDBP_DLG::dSetDBP_OnClick(     wxCommandEvent& event )
 {
@@ -38,6 +39,7 @@ void GetDBP_DLG::dSetDBP_OnClick(     wxCommandEvent& event )
 	if ( dbp.isDefault ) return;
 	dbp      = dGetDBP();
 	dLoadDBI();
+	isModified = true;
 }
 void GetDBP_DLG::dGetDBP_OnClick(     wxCommandEvent& event ) { dShowDBP(); }
 void GetDBP_DLG::dDelDBP_OnClick(     wxCommandEvent& event )
@@ -52,6 +54,14 @@ void GetDBP_DLG::dSetArea_RBOnClick(  wxCommandEvent& event )
 void GetDBP_DLG::dDBPName_LBOnSelect( wxCommandEvent& event ) { dShowDBP(); }
 void GetDBP_DLG::GetDBP_DLGOnClose(   wxCloseEvent&   event )
 {
+	if ( isModified )
+	{
+		switch ( MB( wxT( "Do you wish to save changes?" ), wxT("List is Modified"), wxYES_NO | wxCANCEL ) )
+		{
+			case wxYES: dSaveDBP(); break;
+			case wxCANCEL: return;
+		}
+	}
 	s32 index = dDBPName_LB->GetSelection();
 	if ( index < 0 ) index = 0;
 	s32 count = dDBPName_LB->GetCount();

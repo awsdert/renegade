@@ -1,6 +1,7 @@
 #include "GetOrg_DLG.h"
 void GetOrg_DLG::dLoadOrg( void )
 {
+	isModified     = false;
 	bool  atKey    = false;
 	long  i        = 0;
 	ORG*  org;
@@ -37,6 +38,7 @@ void GetOrg_DLG::dLoadOrg( void )
 void GetOrg_DLG::dSaveOrg( void )
 {
 	ORG*  org;
+	isModified = false;
 	xStr  text, path, file, name;
 	gGetOrgFile( path, file );
 	s8    i      = 1;
@@ -44,18 +46,17 @@ void GetOrg_DLG::dSaveOrg( void )
 	wxFileConfig cfgIni( gGetTitle(), gGetVendor(), file );
 	cfgIni.DeleteGroup( orgIni );
 	cfgIni.SetPath(     orgIni );
+	gGetPFMFile( path, file );
 	for ( ; i < iCount; ++i )
 	{
 		org  = dGetOrg( i );
-		if ( !org->isDefault )
-		{
-			file = path + org->oldFile + wxT( ".hexp" );
-			if ( wxFileExists( file ) )
-			{
-				wxRenameFile( file, path + org->nowFile + wxT( ".hexp" ) );
-			}
-			org->oldFile = org->nowFile;
-			cfgIni.Write( org->nowName, org->nowFile );
-		}
+		if ( org->isDefault ) continue;
+		cfgIni.Write( org->nowName, org->nowFile );
+		// Change old data
+		file = path + org->oldFile + wxT( ".hexp" );
+		if ( wxFileExists( file ) )
+			wxRenameFile( file, path + org->nowFile + wxT( ".hexp" ) );
+		org->oldName = org->nowName;
+		org->oldFile = org->nowFile;
 	}
 }

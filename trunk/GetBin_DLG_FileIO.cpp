@@ -79,6 +79,7 @@ void GetBin_DLG::dSaveBin( void )
 	gGetBinFile( path, file );
 	wxFileConfig cfgBin( dTitle, dVendor, file );
 	cfgBin.DeleteAll();
+	gGetDBPFile( path, file );
 	for ( i = 0; i < iCount; ++i )
 	{
 		bin    = dGetBin( i );
@@ -98,5 +99,11 @@ void GetBin_DLG::dSaveBin( void )
 						ram.ptrDepth, ram.byte, ram.size );
 			cfgBin.Write( key, ram.name + text );
 		}
+		// Change old data
+		file = path + bin->oldFile + wxT( ".hexdb" );
+		if ( wxFileExists( file ) )
+			wxRenameFile( file, path + bin->nowFile + wxT( ".hexdb" ) );
+		bin->oldName = bin->nowName;
+		bin->oldFile = bin->nowFile;
 	}
 }

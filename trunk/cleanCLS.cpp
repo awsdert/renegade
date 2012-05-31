@@ -46,8 +46,8 @@ void OUTDATA::Clear( void )
 	size    = 0u;
 }
 // Database Tab
-DBI::DBI(  void ) { index = -1; error = 0; }
-DBI::~DBI( void ) { index = -1; error = 0; }
+DBI::DBI(  void ) { index = -1; }
+DBI::~DBI( void ) { index = -1; }
 DBP::DBP(  void ) : ORG()
 {
 	area = AREA_ALL;

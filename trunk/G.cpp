@@ -5,6 +5,7 @@ cleanFRM( parent )
 {
 	// Initialise
 	isHooked  = 0;
+	editIsRecursing = 0;
 	isFocus   = false;
 	isEdit    = false;
 	lLastText = wxT( "Last State"   );

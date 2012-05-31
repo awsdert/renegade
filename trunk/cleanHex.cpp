@@ -18,7 +18,7 @@ u64 GetHex( xStr text, u8 size )
 					value <<= 4u;
 					value += c;
 				}
-				count++;
+				++count;
 			}
 			else if ( c >= cA && c <= cF )
 			{
@@ -28,13 +28,10 @@ u64 GetHex( xStr text, u8 size )
 					value <<= 4u;
 					value += ( c + 10u );
 				}
-				count++;
+				++count;
 			}
-			else if ( c == cSplit )
-			{
-				break;
-			}
-			i++;
+			else if ( c == cSplit ) break;
+			++i;
 		}
 		switch ( size )
 		{
@@ -68,13 +65,10 @@ u64 GetHexFromU64( xStr text, u8 size )
 					value *= 10u;
 					value += c;
 				}
-				count++;
+				++count;
 			}
-			else if ( c == cSplit )
-			{
-				break;
-			}
-			index++;
+			else if ( c == cSplit ) break;
+			++index;
 		}
 		switch ( size )
 		{
@@ -109,11 +103,8 @@ u64 GetHexFromS64( xStr text, u8 size )
 				v64 *= 10u;
 				v64 += c;
 			}
-			else if ( c == cSplit )
-			{
-				break;
-			}
-			i++;
+			else if ( c == cSplit ) break;
+			++i;
 		}
 		switch ( size )
 		{
@@ -130,7 +121,7 @@ u64 GetHexFromS64( xStr text, u8 size )
 u64 GetHexFromF64( xStr text, u8 size )
 {
 	u64 value = 0u;
-	if ( !text.IsEmpty() )
+	if ( !text.IsEmpty() && ( size == 4u || size == 8u ) )
 	{
 		bool isNeg = false;
 		bool isSplit = false;
@@ -141,64 +132,75 @@ u64 GetHexFromF64( xStr text, u8 size )
 		//u64 shift;
 		if ( text[ 0 ] == cNeg )
 		{
-			i++;
+			++i;
 			isNeg = true;
 		}
 		while ( ( c = text[ i ] ) && v64 >= 0 )
 		{
 			if ( c >= c0 && c <= c9 )
 			{
-				c -= c0;
+				c   -= c0;
 				v64 *= 10;
 				v64 += c;
 			}
 			else if ( c == cDot )
 			{
-				i++;
+				++i;
 				isSplit = true;
 				break;
 			}
-			else if ( c == cSplit )
-			{
-				break;
-			}
-			i++;
+			else if ( c == cSplit ) break;
+			++i;
 		}
-		if ( !isSplit )
+		if ( isSplit )
 		{
 			f64 tmp = 1;
 			while ( ( c = text[ i ] ) && v64 >= 0 )
 			{
 				if ( c >= c0 && c <= c9 )
 				{
-					c -= c0;
+					c   -= c0;
 					tmp /= 10;
-					v64 += ( c * tmp );
+					v64 += ( tmp * c );
 				}
-				else if ( c == cSplit )
-				{
-					break;
-				}
-				i++;
+				else if ( c == cSplit ) break;
+				++i;
 			}
 		}
-		switch ( size )
-		{
-			case 1u: case 2u: limit = 0; break;
-			case 4u: limit = SFLT32_MAX;
-		}
+		if ( size == 4u ) limit = SFLT32_MAX;
 		v64 = ( v64 > limit || v64 < 0 ) ? limit : v64;
 		v64 = isNeg ? -v64 : v64;
+		u8* tList;
+		u8* vList = reinterpret_cast< u8* >( &value );
 		if ( size == 4u )
 		{
 			f32 v32 = v64;
-			u32 vtmp = reinterpret_cast< u32 >( &v32 );
-			value = vtmp;
+			tList = reinterpret_cast< u8* >( &v32 );
+			for ( i = 0; i < 4; ++i )
+				vList[ i + 4 ] = tList[ i ];
 		}
 		else
 		{
-			value = reinterpret_cast< u64 >( &v64 );
+			tList = reinterpret_cast< u8* >( &v64 );
+			for ( i = 0; i < 8; ++i )
+				vList[ i ] = tList[ i ];
 		}
 	}
 	return value;
+}
+f32 gHexToF32( u64 value )
+{
+	u8* t02 = reinterpret_cast< u8* >( &value );
+	f32 val = 0x0;
+	u8* t03 = reinterpret_cast< u8* >( &val );
+	for ( s32 i = 0; i < 4; ++i ) t03[ i ] = t02[ i + 4 ];
+	return val;
+}
+f64 gHexToF64( u64 value )
+{
+	u8* t02 = reinterpret_cast< u8* >( &value );
+	f64 val = 0x0;
+	u8* t03 = reinterpret_cast< u8* >( &val );
+	for ( s32 i = 0; i < 8; ++i ) t03[ i ] = t02[ i ];
+	return val;
 }

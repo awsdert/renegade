@@ -28,8 +28,17 @@ void doChange( wxCommandEvent& event, s32 mode, s32 theSize )
 			text.Printf( wxT( "%01lli" ), value );
 			break;
 		case VAL_SFLT:
+			if ( tmp.EndsWith( wxT( "." ) ) ) return;
 			value = GetHexFromF64( tmp, size );
-			text.Printf( wxT("%01e"), value );
+			if ( size == 4u )
+			{
+				f32 v32 = gHexToF32( value );
+				text.Printf( wxT("%01g"), v32 );
+			}
+			else if ( size == 8u )
+			{
+				text.Printf( wxT("%01lg"), value );
+			}
 			break;
 		default: text = tmp;
 	}

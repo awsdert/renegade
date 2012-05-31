@@ -87,6 +87,7 @@ void GetDBP_DLG::dDelDBI( s32 index )
 	dLoadDBI();
 	if ( index < 1 ) dDBPName_LB->Select( 0 );
 	else dDBPName_LB->Select( index - 1 );
+	isModified = true;
 }
 void GetDBP_DLG::dDelDBP( s32 index )
 {

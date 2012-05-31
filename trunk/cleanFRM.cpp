@@ -859,7 +859,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	editOptions_L->Add( editRam_D, 0, wxALL|wxEXPAND, 5 );
 	
-	editGet_B = new wxButton( editOptions_P, wxID_ANY, _("Read"), wxDefaultPosition, wxDefaultSize, 0 );
+	editGet_B = new wxButton( editOptions_P, editGet_ID, _("Read"), wxDefaultPosition, wxDefaultSize, 0 );
 	editOptions_L->Add( editGet_B, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
 	editGet_TXT = new wxTextCtrl( editOptions_P, editGet_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );

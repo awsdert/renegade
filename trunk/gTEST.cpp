@@ -1,6 +1,7 @@
 #include "cleanType.h"
 u8 gTEST[ QV_COUNT ];
 u8*  gGetQTests( void ) { return gTEST; }
+u8   gGetQTest( s32 index ) { return gTEST[ index ]; }
 void gSetQTests( void )
 {
 	// DO NOT MODIFY
