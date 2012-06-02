@@ -1,4 +1,8 @@
 #include "G.h"
+void G::byte_TXTOnChange( wxCommandEvent& event )
+{
+	doChange( event, VAL_HEX, 3 );
+}
 void G::out_TXTOnChange( wxCommandEvent& event )
 {
 	s8 mode = outMode_D->GetSelection();
@@ -11,3 +15,6 @@ void G::edit_TXTOnChange( wxCommandEvent& event )
 	s8 size = editSize_D->GetSelection();
 	doChange( event, mode, size );
 }
+void G::name_TXTOnChange( wxCommandEvent& event ) { doChange( event, VAL_NAME ); }
+void G::path_TXTOnChange( wxCommandEvent& event ) { doChange( event, VAL_PATH ); }
+void G::file_TXTOnChange( wxCommandEvent& event ) { doChange( event, VAL_FILE ); }

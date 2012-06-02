@@ -118,16 +118,16 @@
             <event name="OnSetFocus"></event>
             <event name="OnSize"></event>
             <event name="OnUpdateUI"></event>
-            <object class="wxBoxSizer" expanded="1">
+            <object class="wxBoxSizer" expanded="0">
                 <property name="minimum_size">480,460</property>
                 <property name="name">cleanFRM_L</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">0</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>
-                    <object class="wxNotebook" expanded="1">
+                    <object class="wxNotebook" expanded="0">
                         <property name="BottomDockable">1</property>
                         <property name="LeftDockable">1</property>
                         <property name="RightDockable">1</property>
@@ -1561,7 +1561,7 @@
                                                                             <event name="OnRightUp"></event>
                                                                             <event name="OnSetFocus"></event>
                                                                             <event name="OnSize"></event>
-                                                                            <event name="OnText"></event>
+                                                                            <event name="OnText">name_TXTOnChange</event>
                                                                             <event name="OnTextEnter"></event>
                                                                             <event name="OnTextMaxLen"></event>
                                                                             <event name="OnTextURL"></event>
@@ -2319,7 +2319,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">mBinName_ID</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -2497,7 +2497,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">mBinFile_ID</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -2694,7 +2694,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">mBinPath_ID</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -2873,7 +2873,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">mBinBind_ID</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -2978,7 +2978,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">isApp_ID</property>
                                                                             <property name="label">Application</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
@@ -3060,13 +3060,13 @@
                                                                             <property name="dock">Dock</property>
                                                                             <property name="dock_fixed">0</property>
                                                                             <property name="docking">Left</property>
-                                                                            <property name="enabled">0</property>
+                                                                            <property name="enabled">1</property>
                                                                             <property name="fg"></property>
                                                                             <property name="floatable">1</property>
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">isFile_ID</property>
                                                                             <property name="label">File</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
@@ -3155,7 +3155,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">binHook_ID</property>
                                                                             <property name="label">Hook</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
@@ -3165,7 +3165,7 @@
                                                                             <property name="minimize_button">0</property>
                                                                             <property name="minimum_size"></property>
                                                                             <property name="moveable">1</property>
-                                                                            <property name="name">HookBin_B</property>
+                                                                            <property name="name">binHook_B</property>
                                                                             <property name="pane_border">1</property>
                                                                             <property name="pane_position"></property>
                                                                             <property name="pane_size"></property>
@@ -3188,7 +3188,7 @@
                                                                             <property name="window_extra_style"></property>
                                                                             <property name="window_name"></property>
                                                                             <property name="window_style"></property>
-                                                                            <event name="OnButtonClick">HookBin_BOnClick</event>
+                                                                            <event name="OnButtonClick">binHook_BOnClick</event>
                                                                             <event name="OnChar"></event>
                                                                             <event name="OnEnterWindow"></event>
                                                                             <event name="OnEraseBackground"></event>
@@ -3243,7 +3243,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">binLaunch_ID</property>
                                                                             <property name="label">Launch</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
@@ -3253,7 +3253,7 @@
                                                                             <property name="minimize_button">0</property>
                                                                             <property name="minimum_size"></property>
                                                                             <property name="moveable">1</property>
-                                                                            <property name="name">LaunchBin_B</property>
+                                                                            <property name="name">binLaunch_B</property>
                                                                             <property name="pane_border">1</property>
                                                                             <property name="pane_position"></property>
                                                                             <property name="pane_size"></property>
@@ -3276,7 +3276,7 @@
                                                                             <property name="window_extra_style"></property>
                                                                             <property name="window_name"></property>
                                                                             <property name="window_style"></property>
-                                                                            <event name="OnButtonClick">LaunchBin_BOnClick</event>
+                                                                            <event name="OnButtonClick">binLaunch_BOnClick</event>
                                                                             <event name="OnChar"></event>
                                                                             <event name="OnEnterWindow"></event>
                                                                             <event name="OnEraseBackground"></event>
@@ -3524,7 +3524,7 @@
                                                                             <property name="font"></property>
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
-                                                                            <property name="id">wxID_ANY</property>
+                                                                            <property name="id">mRamName_ID</property>
                                                                             <property name="layer"></property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -4756,7 +4756,7 @@
                                                             <property name="minimize_button">0</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="moveable">1</property>
-                                                            <property name="name">UseApp_B</property>
+                                                            <property name="name">binUse_B</property>
                                                             <property name="pane_border">1</property>
                                                             <property name="pane_position"></property>
                                                             <property name="pane_size"></property>
@@ -4779,7 +4779,7 @@
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
                                                             <property name="window_style"></property>
-                                                            <event name="OnButtonClick">UseApp_BOnClick</event>
+                                                            <event name="OnButtonClick">binUse_BOnClick</event>
                                                             <event name="OnChar"></event>
                                                             <event name="OnEnterWindow"></event>
                                                             <event name="OnEraseBackground"></event>
@@ -5181,11 +5181,11 @@
                                 </object>
                             </object>
                         </object>
-                        <object class="notebookpage" expanded="1">
+                        <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">Search</property>
                             <property name="select">0</property>
-                            <object class="wxPanel" expanded="1">
+                            <object class="wxPanel" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
                                 <property name="RightDockable">1</property>
@@ -5263,7 +5263,7 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxFlexGridSizer" expanded="1">
+                                <object class="wxFlexGridSizer" expanded="0">
                                     <property name="cols">3</property>
                                     <property name="flexible_direction">wxBOTH</property>
                                     <property name="growablecols">0,1,2</property>
@@ -5536,11 +5536,11 @@
                                             <event name="OnUpdateUI"></event>
                                         </object>
                                     </object>
-                                    <object class="sizeritem" expanded="1">
+                                    <object class="sizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND | wxALL</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxScrolledWindow" expanded="1">
+                                        <object class="wxScrolledWindow" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -5620,7 +5620,7 @@
                                             <event name="OnSetFocus"></event>
                                             <event name="OnSize"></event>
                                             <event name="OnUpdateUI"></event>
-                                            <object class="wxBoxSizer" expanded="1">
+                                            <object class="wxBoxSizer" expanded="0">
                                                 <property name="minimum_size">150,-1</property>
                                                 <property name="name">good_L</property>
                                                 <property name="orient">wxVERTICAL</property>
@@ -6408,11 +6408,11 @@
                                             </object>
                                         </object>
                                     </object>
-                                    <object class="sizeritem" expanded="1">
+                                    <object class="sizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND | wxALL</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxScrolledWindow" expanded="1">
+                                        <object class="wxScrolledWindow" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -6492,7 +6492,7 @@
                                             <event name="OnSetFocus"></event>
                                             <event name="OnSize"></event>
                                             <event name="OnUpdateUI"></event>
-                                            <object class="wxBoxSizer" expanded="1">
+                                            <object class="wxBoxSizer" expanded="0">
                                                 <property name="minimum_size">150,-1</property>
                                                 <property name="name">bad_L</property>
                                                 <property name="orient">wxVERTICAL</property>
@@ -9412,11 +9412,11 @@
                                 </object>
                             </object>
                         </object>
-                        <object class="notebookpage" expanded="1">
+                        <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">Results</property>
                             <property name="select">0</property>
-                            <object class="wxPanel" expanded="1">
+                            <object class="wxPanel" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
                                 <property name="RightDockable">1</property>
@@ -9494,7 +9494,7 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxFlexGridSizer" expanded="1">
+                                <object class="wxFlexGridSizer" expanded="0">
                                     <property name="cols">2</property>
                                     <property name="flexible_direction">wxBOTH</property>
                                     <property name="growablecols">0</property>
@@ -9611,7 +9611,7 @@
                                             <event name="OnUpdateUI"></event>
                                         </object>
                                     </object>
-                                    <object class="sizeritem" expanded="1">
+                                    <object class="sizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND | wxALL</property>
                                         <property name="proportion">0</property>
@@ -11004,7 +11004,7 @@
                                 </object>
                             </object>
                         </object>
-                        <object class="notebookpage" expanded="1">
+                        <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">Editor</property>
                             <property name="select">0</property>
@@ -12484,11 +12484,11 @@
                                                     </object>
                                                 </object>
                                             </object>
-                                            <object class="sizeritem" expanded="1">
+                                            <object class="sizeritem" expanded="0">
                                                 <property name="border">5</property>
                                                 <property name="flag">wxEXPAND</property>
                                                 <property name="proportion">1</property>
-                                                <object class="wxGrid" expanded="1">
+                                                <object class="wxGrid" expanded="0">
                                                     <property name="BottomDockable">1</property>
                                                     <property name="LeftDockable">1</property>
                                                     <property name="RightDockable">1</property>
@@ -15082,7 +15082,7 @@
                                                                     <property name="font"></property>
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
-                                                                    <property name="id">wxID_ANY</property>
+                                                                    <property name="id">mHackName_ID</property>
                                                                     <property name="layer"></property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
@@ -15882,11 +15882,11 @@
                                 </object>
                             </object>
                         </object>
-                        <object class="notebookpage" expanded="1">
+                        <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">About</property>
                             <property name="select">0</property>
-                            <object class="wxPanel" expanded="1">
+                            <object class="wxPanel" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
                                 <property name="RightDockable">1</property>
@@ -15964,7 +15964,7 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxBoxSizer" expanded="1">
+                                <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
                                     <property name="name">bSizer4</property>
                                     <property name="orient">wxVERTICAL</property>
@@ -16238,11 +16238,11 @@
                                             <event name="OnUpdateUI"></event>
                                         </object>
                                     </object>
-                                    <object class="sizeritem" expanded="1">
+                                    <object class="sizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="flag">wxALIGN_CENTER|wxALL</property>
                                         <property name="proportion">0</property>
-                                        <object class="wxHyperlinkCtrl" expanded="1">
+                                        <object class="wxHyperlinkCtrl" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -16329,11 +16329,11 @@
                                             <event name="OnUpdateUI"></event>
                                         </object>
                                     </object>
-                                    <object class="sizeritem" expanded="1">
+                                    <object class="sizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="flag">wxALIGN_CENTER|wxALL</property>
                                         <property name="proportion">0</property>
-                                        <object class="wxHyperlinkCtrl" expanded="1">
+                                        <object class="wxHyperlinkCtrl" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -23110,7 +23110,7 @@
                 </object>
             </object>
         </object>
-        <object class="Dialog" expanded="1">
+        <object class="Dialog" expanded="0">
             <property name="BottomDockable">1</property>
             <property name="LeftDockable">1</property>
             <property name="RightDockable">1</property>
@@ -23206,12 +23206,12 @@
             <event name="OnSetFocus"></event>
             <event name="OnSize"></event>
             <event name="OnUpdateUI"></event>
-            <object class="wxBoxSizer" expanded="1">
+            <object class="wxBoxSizer" expanded="0">
                 <property name="minimum_size">480,460</property>
                 <property name="name">dSetHack_LV</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">0</property>
@@ -23450,7 +23450,7 @@
                         </object>
                     </object>
                 </object>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>

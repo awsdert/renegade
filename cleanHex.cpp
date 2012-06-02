@@ -125,6 +125,7 @@ u64 GetHexFromF64( xStr text, u8 size )
 	{
 		bool isNeg = false;
 		bool isSplit = false;
+		bool isExponent = false;
 		wxChar c;
 		s32 i = 0;
 		f64 v64 = 0;
@@ -149,6 +150,12 @@ u64 GetHexFromF64( xStr text, u8 size )
 				isSplit = true;
 				break;
 			}
+			else if ( c == cE )
+			{
+				++i;
+				isExponent = true;
+				break;
+			}
 			else if ( c == cSplit ) break;
 			++i;
 		}
@@ -163,9 +170,38 @@ u64 GetHexFromF64( xStr text, u8 size )
 					tmp /= 10;
 					v64 += ( tmp * c );
 				}
+				else if ( c == cE )
+				{
+					++i;
+					isExponent = true;
+					break;
+				}
 				else if ( c == cSplit ) break;
 				++i;
 			}
+		}
+		if ( isExponent )
+		{
+			s32 e = 0.0;
+			s32 expLimit = 308;
+			if ( size == 4u ) expLimit = 38;
+			while ( ( c = text[ i ] ) && v64 >= 0 && e < expLimit )
+			{
+				if ( c == cNeg ) isNeg = true;
+				else if ( c >= c0 && c <= c9 )
+				{
+					c   -= c0;
+					e   *= 10;
+					if ( e > expLimit )
+					{
+						e /= 10;
+						break;
+					}
+				}
+				else if ( c == cSplit ) break;
+				++i;
+			}
+			v64 *= e;
 		}
 		if ( size == 4u ) limit = SFLT32_MAX;
 		v64 = ( v64 > limit || v64 < 0 ) ? limit : v64;

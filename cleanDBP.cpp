@@ -102,14 +102,6 @@ void G::SaveDBP_BOnClick( wxCommandEvent& event )
 {
 	mSaveDBP();
 }
-void G::dbpFile_TXTOnChange( wxCommandEvent& event )
-{
-	doChange( event, VAL_FILE );
-}
-void G::dbpFile_TXTOnKeyDown( wxKeyEvent& event )
-{
-	doKeyDown( event, VAL_FILE );
-}
 void G::dbpArea_RBOnChange( wxCommandEvent& event )
 {
 	gEnable( !dbpAreaAll_RB->GetValue(), dbpAreaCB_P );

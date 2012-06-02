@@ -74,6 +74,15 @@ class cleanFRM : public wxFrame
 			mLoadBin_ID,
 			mSaveBin_ID,
 			mSetBin_ID,
+			mBinName_ID,
+			mBinFile_ID,
+			mBinPath_ID,
+			mBinBind_ID,
+			isApp_ID,
+			isFile_ID,
+			binHook_ID,
+			binLaunch_ID,
+			mRamName_ID,
 			goodV_ID,
 			badV_ID,
 			outByte_ID,
@@ -86,6 +95,7 @@ class cleanFRM : public wxFrame
 			dbpSID_ID,
 			dbpPID_ID,
 			dbpNotes_ID,
+			mHackName_ID,
 		};
 		
 		wxNotebook* cleanFRM_NB;
@@ -118,8 +128,8 @@ class cleanFRM : public wxFrame
 		wxTextCtrl* binBind_TXT;
 		wxRadioButton* isApp_RB;
 		wxRadioButton* isFile_RB;
-		wxButton* HookBin_B;
-		wxButton* LaunchBin_B;
+		wxButton* binHook_B;
+		wxButton* binLaunch_B;
 		wxPanel* ram_P;
 		wxChoice* ramName_D;
 		wxTextCtrl* ramName_TXT;
@@ -135,7 +145,7 @@ class cleanFRM : public wxFrame
 		wxChoice* UseHook_D;
 		wxStaticText* ListApps_S;
 		wxChoice* ListApps_D;
-		wxButton* UseApp_B;
+		wxButton* binUse_B;
 		wxRadioButton* ListApps_RB;
 		wxButton* ListApps_B;
 		wxRadioButton* ListWindows_RB;
@@ -284,15 +294,15 @@ class cleanFRM : public wxFrame
 		virtual void binPath_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void path_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void binBind_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void HookBin_BOnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void LaunchBin_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void binHook_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void binLaunch_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ramName_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void byte_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void NewRam_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void SetRam_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void UseHook_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ListApps_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
-		virtual void UseApp_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void binUse_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ListApps_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void dump_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void find_BOnClick( wxCommandEvent& event ) { event.Skip(); }

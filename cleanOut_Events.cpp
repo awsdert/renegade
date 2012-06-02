@@ -68,9 +68,4 @@ void G::outData_LCOnSelect( wxListEvent& event )
 	text.Printf( hexVLL, mOutArray[ i ].value );
 	outValue_TXT->ChangeValue( text );
 }
-void G::out_TXTOnKeyDown( wxKeyEvent& event )
-{
-	s8 mode = outMode_D->GetSelection();
-	doKeyDown( event, mode );
-}
 
