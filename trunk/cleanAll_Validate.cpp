@@ -1,4 +1,46 @@
 #include "G.h"
+xStr lGetName( xStr &text )
+{
+	xStr txt;
+	xStr safe = wxT( "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+- _()" );
+	text.UpperCase();
+	wxChar c;
+	s32 i = 0;
+	while ( ( c = text[ i ] ) )
+	{
+		if ( safe.Contains( c ) ) txt += text[ i ];
+		++i;
+	}
+	return txt;
+}
+xStr lGetFile( xStr &text )
+{
+	xStr txt;
+	xStr safe = wxT( "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+- _()[]." );
+	text.UpperCase();
+	wxChar c;
+	s32 i = 0;
+	while ( ( c = text[ i ] ) )
+	{
+		if ( safe.Contains( c ) ) txt += text[ i ];
+		++i;
+	}
+	return txt;
+}
+xStr lGetPath( xStr &text )
+{
+	xStr txt;
+	xStr safe = wxT( "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+- _()[]/\\" );
+	text.UpperCase();
+	wxChar c;
+	s32 i = 0;
+	while ( ( c = text[ i ] ) )
+	{
+		if ( safe.Contains( c ) ) txt += text[ i ];
+		++i;
+	}
+	return txt;
+}
 void doChange( wxCommandEvent& event, s32 mode, s32 theSize )
 {
 	wxTextCtrl* obj = ( wxTextCtrl* )event.GetEventObject();
@@ -28,7 +70,13 @@ void doChange( wxCommandEvent& event, s32 mode, s32 theSize )
 			text.Printf( wxT( "%01lli" ), value );
 			break;
 		case VAL_SFLT:
-			if ( tmp.EndsWith( wxT( "." ) ) ) return;
+			if
+			(
+				tmp.EndsWith( wxT( "." ) ) ||
+				tmp.EndsWith( wxT( "e" ) ) ||
+				tmp.EndsWith( wxT( "E" ) )
+			)
+			return;
 			value = GetHexFromF64( tmp, size );
 			if ( size == 4u )
 			{
@@ -40,80 +88,12 @@ void doChange( wxCommandEvent& event, s32 mode, s32 theSize )
 				text.Printf( wxT("%01lg"), value );
 			}
 			break;
+		case VAL_NAME: text = lGetName( tmp ); break;
+		case VAL_PATH: text = lGetPath( tmp ); break;
+		case VAL_FILE: text = lGetFile( tmp ); break;
 		default: text = tmp;
 	}
 	obj->ChangeValue( text );
 	pos = ( pos > text.length() ) ? text.length() : pos;
 	obj->SetInsertionPoint( pos );
-}
-void doKeyDown( wxKeyEvent& event, s32 mode )
-{
-	bool doEvent = false;
-	s32 key = event.GetKeyCode();
-	if ( key > WXK_START )
-	{
-		doEvent = true;
-	}
-	else
-	{
-		wxChar c = key;
-		xStr text = c;
-		text.Upper();
-		c = text[ 0 ];
-		switch ( key )
-		{
-			case WXK_RETURN:
-			case WXK_TAB:
-			case WXK_BACK:
-			case WXK_DELETE:
-			case WXK_INSERT:
-			case WXK_UP:
-			case WXK_LEFT:
-			case WXK_RIGHT:
-			case WXK_DOWN:
-				doEvent = true;
-		}
-		if ( !doEvent )
-		{
-			wxTextCtrl* obj = ( wxTextCtrl* )event.GetEventObject();
-			xStr text = obj->GetValue();
-			u64 pos = obj->GetInsertionPoint();
-			switch ( mode )
-			{
-				case VAL_HEX:
-					doEvent = ( IsBetween( c, c0, c9 ) || IsBetween( c, cA, cF ) );
-					break;
-				case VAL_UINT:
-					doEvent = IsBetween( c, c0, c9 );
-					break;
-				case VAL_SINT:
-					if ( c == cNeg && !text.Contains( cNeg ) && pos == 0 )
-					{
-						doEvent = true;
-					}
-					else if ( IsBetween( c, c0, c9 ) )
-					{
-						doEvent = true;
-					}
-					break;
-				case VAL_SFLT:
-					if ( c == cNeg && !text.Contains( cNeg ) && pos == 0 )
-					{
-						doEvent = true;
-					}
-					else if ( c == cDot && !text.Contains( cDot ) )
-					{
-						doEvent = true;
-					}
-					else if ( IsBetween( c, c0, c9 ) )
-					{
-						doEvent = true;
-					}
-					break;
-				case VAL_COUNT:
-					doEvent = true;
-			}
-		}
-	}
-	event.Skip( doEvent );
 }

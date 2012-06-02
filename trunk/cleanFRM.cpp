@@ -193,7 +193,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	binName_S->Wrap( -1 );
 	binData1_L->Add( binName_S, 0, wxALL, 5 );
 	
-	binName_TXT = new wxTextCtrl( bin_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	binName_TXT = new wxTextCtrl( bin_P, mBinName_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	binName_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	binData1_L->Add( binName_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -202,7 +202,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	binFile_S->Wrap( -1 );
 	binData1_L->Add( binFile_S, 0, wxALL, 5 );
 	
-	binFile_TXT = new wxTextCtrl( bin_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	binFile_TXT = new wxTextCtrl( bin_P, mBinFile_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	binFile_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	binData1_L->Add( binFile_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -218,7 +218,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	binPath_B = new wxButton( bin_P, wxID_ANY, _("Path"), wxDefaultPosition, wxDefaultSize, 0 );
 	binData2_L->Add( binPath_B, 0, wxALL, 5 );
 	
-	binPath_TXT = new wxTextCtrl( bin_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	binPath_TXT = new wxTextCtrl( bin_P, mBinPath_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	binPath_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	binData2_L->Add( binPath_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -226,7 +226,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	binBind_B = new wxButton( bin_P, wxID_ANY, _("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
 	binData2_L->Add( binBind_B, 0, wxALL, 5 );
 	
-	binBind_TXT = new wxTextCtrl( bin_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	binBind_TXT = new wxTextCtrl( bin_P, mBinBind_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	binBind_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	binData2_L->Add( binBind_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -236,20 +236,18 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxGridSizer* binGrid_LG;
 	binGrid_LG = new wxGridSizer( 0, 2, 0, 0 );
 	
-	isApp_RB = new wxRadioButton( bin_P, wxID_ANY, _("Application"), wxDefaultPosition, wxDefaultSize, 0 );
+	isApp_RB = new wxRadioButton( bin_P, isApp_ID, _("Application"), wxDefaultPosition, wxDefaultSize, 0 );
 	isApp_RB->SetValue( true ); 
 	binGrid_LG->Add( isApp_RB, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	isFile_RB = new wxRadioButton( bin_P, wxID_ANY, _("File"), wxDefaultPosition, wxDefaultSize, 0 );
-	isFile_RB->Enable( false );
-	
+	isFile_RB = new wxRadioButton( bin_P, isFile_ID, _("File"), wxDefaultPosition, wxDefaultSize, 0 );
 	binGrid_LG->Add( isFile_RB, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	HookBin_B = new wxButton( bin_P, wxID_ANY, _("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
-	binGrid_LG->Add( HookBin_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	binHook_B = new wxButton( bin_P, binHook_ID, _("Hook"), wxDefaultPosition, wxDefaultSize, 0 );
+	binGrid_LG->Add( binHook_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	LaunchBin_B = new wxButton( bin_P, wxID_ANY, _("Launch"), wxDefaultPosition, wxDefaultSize, 0 );
-	binGrid_LG->Add( LaunchBin_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	binLaunch_B = new wxButton( bin_P, binLaunch_ID, _("Launch"), wxDefaultPosition, wxDefaultSize, 0 );
+	binGrid_LG->Add( binLaunch_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	bin_L->Add( binGrid_LG, 0, wxEXPAND, 5 );
 	
@@ -272,7 +270,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	ramName_L->Add( ramName_D, 0, wxALL|wxEXPAND, 5 );
 	
-	ramName_TXT = new wxTextCtrl( ram_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	ramName_TXT = new wxTextCtrl( ram_P, mRamName_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	ramName_TXT->SetMinSize( wxSize( 50,-1 ) );
 	
 	ramName_L->Add( ramName_TXT, 0, wxALL|wxEXPAND, 5 );
@@ -365,8 +363,8 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	ListApps_D->SetSelection( 0 );
 	Update_L->Add( ListApps_D, 0, wxALL|wxEXPAND, 5 );
 	
-	UseApp_B = new wxButton( hook_P, wxID_ANY, _("Select"), wxDefaultPosition, wxDefaultSize, 0 );
-	Update_L->Add( UseApp_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	binUse_B = new wxButton( hook_P, wxID_ANY, _("Select"), wxDefaultPosition, wxDefaultSize, 0 );
+	Update_L->Add( binUse_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	ListApps_RB = new wxRadioButton( hook_P, wxID_ANY, _("All Apps"), wxDefaultPosition, wxDefaultSize, 0 );
 	Update_L->Add( ListApps_RB, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
@@ -1127,7 +1125,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	mHackName_S->Wrap( -1 );
 	bSizer17->Add( mHackName_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	mHackName_TXT = new wxTextCtrl( tree_P, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	mHackName_TXT = new wxTextCtrl( tree_P, mHackName_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer17->Add( mHackName_TXT, 1, wxALL, 5 );
 	
 	mUseHack_CB = new wxCheckBox( tree_P, wxID_ANY, _("Use"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -1227,6 +1225,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( mLoadPFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadPFM_OnClick ) );
 	this->Connect( mSavePFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSavePFM_OnClick ) );
 	this->Connect( mSetPFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSetPFM_OnClick ) );
+	pfmName_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	pfmFile_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
 	this->Connect( mListBin_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mListBin_OnClick ) );
 	this->Connect( mLoadBin_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadBin_OnClick ) );
@@ -1238,8 +1237,8 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	binPath_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::path_TXTOnChange ), NULL, this );
 	binBind_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binBind_BOnClick ), NULL, this );
 	binBind_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
-	HookBin_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::HookBin_BOnClick ), NULL, this );
-	LaunchBin_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::LaunchBin_BOnClick ), NULL, this );
+	binHook_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binHook_BOnClick ), NULL, this );
+	binLaunch_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binLaunch_BOnClick ), NULL, this );
 	ramName_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ramName_DOnChoice ), NULL, this );
 	ramName_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	ramByte_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
@@ -1248,7 +1247,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	SetRam_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetRam_BOnClick ), NULL, this );
 	UseHook_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::UseHook_DOnChoice ), NULL, this );
 	ListApps_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ListApps_DOnChoice ), NULL, this );
-	UseApp_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::UseApp_BOnClick ), NULL, this );
+	binUse_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binUse_BOnClick ), NULL, this );
 	ListApps_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::ListApps_BOnClick ), NULL, this );
 	goodAGT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	goodAGTE_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
@@ -1325,6 +1324,7 @@ cleanFRM::~cleanFRM()
 	this->Disconnect( mLoadPFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadPFM_OnClick ) );
 	this->Disconnect( mSavePFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSavePFM_OnClick ) );
 	this->Disconnect( mSetPFM_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSetPFM_OnClick ) );
+	pfmName_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	pfmFile_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
 	this->Disconnect( mListBin_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mListBin_OnClick ) );
 	this->Disconnect( mLoadBin_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadBin_OnClick ) );
@@ -1336,8 +1336,8 @@ cleanFRM::~cleanFRM()
 	binPath_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::path_TXTOnChange ), NULL, this );
 	binBind_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binBind_BOnClick ), NULL, this );
 	binBind_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::file_TXTOnChange ), NULL, this );
-	HookBin_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::HookBin_BOnClick ), NULL, this );
-	LaunchBin_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::LaunchBin_BOnClick ), NULL, this );
+	binHook_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binHook_BOnClick ), NULL, this );
+	binLaunch_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binLaunch_BOnClick ), NULL, this );
 	ramName_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ramName_DOnChoice ), NULL, this );
 	ramName_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
 	ramByte_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
@@ -1346,7 +1346,7 @@ cleanFRM::~cleanFRM()
 	SetRam_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::SetRam_BOnClick ), NULL, this );
 	UseHook_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::UseHook_DOnChoice ), NULL, this );
 	ListApps_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ListApps_DOnChoice ), NULL, this );
-	UseApp_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::UseApp_BOnClick ), NULL, this );
+	binUse_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binUse_BOnClick ), NULL, this );
 	ListApps_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::ListApps_BOnClick ), NULL, this );
 	goodAGT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	goodAGTE_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );

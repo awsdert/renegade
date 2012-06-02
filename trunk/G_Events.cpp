@@ -3,20 +3,23 @@ void G::NewHook( void )
 {
 	++isHooked;
 	if ( isHooked > 1 ) return;
+	xStr binPath = binPath_TXT->GetValue();
 	xStr binFile = binBind_TXT->GetValue();
+	xStr text = binPath + gGetSlash() + binFile;
 	if ( hookApp )
 	{
 		appHandle = GetAppHandle( binFile );
+		if ( appHandle == NULL )
+		{
+			if ( LaunchExe( text ) )
+				appHandle = GetAppHandle( binFile );
+		}
+		if ( appHandle == NULL ) --isHooked;
 	}
 	else
 	{
-		xStr binPath = binPath_TXT->GetValue();
-		xStr text = binPath + gGetSlash() + binFile;
-		if ( !bin_BF.Exists( text ) )
-		{
-			bin_BF.Create( text );
-		}
-		bin_BF.Open( text );
+		if ( !wxFileExists( text ) ) --isHooked;
+		else bin_BF.Open( text );
 	}
 }
 u32  G::mGetRam( u64 &ramStart, u64 &ramEnd, s8 ramNo )
@@ -39,14 +42,8 @@ void G::DelHook( void )
 {
 	--isHooked;
 	if ( isHooked > 0 ) return;
-	if ( hookApp )
-	{
-#ifdef __WXMSW__
-		CloseHandle( appHandle );
-#else
-		appHandle = NULL;
-#endif
-	}
+	if ( isHooked < 0 ) isHooked = 0;
+	if ( hookApp ) DelAppHandle( appHandle );
 	else
 	{
 		bin_BF.Close();
@@ -115,6 +112,3 @@ void G::GOnIdle( wxIdleEvent& event )
 	event.Skip();
 	event.RequestMore( doEvent );
 }
-void G::name_TXTOnChange( wxCommandEvent& event ){}
-void G::path_TXTOnChange( wxCommandEvent& event ){}
-void G::file_TXTOnChange( wxCommandEvent& event ){}

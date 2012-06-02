@@ -4301,7 +4301,7 @@
 	"cleanCLS.h"
 	"cleanAPP.h"
 
-1338069938 z:\hex\svn\trunk\cleanfrm.h
+1338542980 z:\hex\svn\trunk\cleanfrm.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -4339,7 +4339,7 @@
 	<wx/dialog.h>
 	<wx/slider.h>
 
-1338458416 z:\hex\svn\trunk\cleantype.h
+1338621106 z:\hex\svn\trunk\cleantype.h
 	<stdexcept>
 	<vector>
 	<wx/string.h>
@@ -4364,10 +4364,10 @@
 1338369316 z:\hex\svn\trunk\cleancls.h
 	"cleanType.h"
 
-1336836898 z:\hex\svn\trunk\cleanapp.h
+1338556468 z:\hex\svn\trunk\cleanapp.h
 	"cleanType.h"
 
-1336836898 source:z:\hex\svn\trunk\cleanapp.cpp
+1338556468 source:z:\hex\svn\trunk\cleanapp.cpp
 	"cleanAPP.h"
 
 1338371288 source:z:\hex\svn\trunk\g.cpp
@@ -4376,7 +4376,7 @@
 1338371288 z:\hex\svn\trunk\g.h
 	"cleanFRM.h"
 
-1338069938 source:z:\hex\svn\trunk\cleanfrm.cpp
+1338542980 source:z:\hex\svn\trunk\cleanfrm.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"cleanFRM.h"
@@ -4390,7 +4390,7 @@
 1337817382 source:z:\hex\svn\trunk\cleancode.cpp
 	"cleanAll.h"
 
-1338457720 source:z:\hex\svn\trunk\cleanhex.cpp
+1338621622 source:z:\hex\svn\trunk\cleanhex.cpp
 	"cleanHex.h"
 
 1337815506 source:z:\hex\svn\trunk\cleantree.cpp
@@ -4412,7 +4412,7 @@
 1337261376 source:z:\hex\svn\trunk\cleanout.cpp
 	"G.h"
 
-1337881840 source:z:\hex\svn\trunk\cleanvalue.cpp
+1338542602 source:z:\hex\svn\trunk\cleanvalue.cpp
 	"G.h"
 
 1338416200 source:z:\hex\svn\trunk\cleansearch.cpp
@@ -4443,7 +4443,7 @@
 	"G.h"
 	"SetHack_DLG.h"
 
-1337960108 source:z:\hex\svn\trunk\cleandbp.cpp
+1338542602 source:z:\hex\svn\trunk\cleandbp.cpp
 	"G.h"
 	"GetDBP_DLG.h"
 
@@ -4477,7 +4477,7 @@
 	"cleanFRM.h"
 	"cleanAll.h"
 
-1338156592 source:z:\hex\svn\trunk\getorg_dlg_fileio.cpp
+1338464006 source:z:\hex\svn\trunk\getorg_dlg_fileio.cpp
 	"GetOrg_DLG.h"
 
 1335736966 source:z:\hex\svn\trunk\getorg_dlg_io.cpp
@@ -4492,7 +4492,7 @@
 1338156994 z:\hex\svn\trunk\getpfm_dlg.h
 	"cleanFRM.h"
 
-1338156994 source:z:\hex\svn\trunk\getpfm_dlg_fileio.cpp
+1338465224 source:z:\hex\svn\trunk\getpfm_dlg_fileio.cpp
 	"GetPFM_DLG.h"
 
 1337275532 source:z:\hex\svn\trunk\getpfm_dlg_itemio.cpp
@@ -4504,7 +4504,7 @@
 1337304510 z:\hex\svn\trunk\getbin_dlg.h
 	"cleanFRM.h"
 
-1337275530 source:z:\hex\svn\trunk\getbin_dlg_fileio.cpp
+1338463950 source:z:\hex\svn\trunk\getbin_dlg_fileio.cpp
 	"GetBin_DLG.h"
 
 1337275530 source:z:\hex\svn\trunk\getbin_dlg_itemio.cpp
@@ -4525,7 +4525,7 @@
 1336656546 source:z:\hex\svn\trunk\hexapporg.cpp
 	"cleanAll.h"
 
-1338157242 source:z:\hex\svn\trunk\getdbp_dlg_fileio.cpp
+1338465028 source:z:\hex\svn\trunk\getdbp_dlg_fileio.cpp
 	"GetDBP_DLG.h"
 
 1338157242 source:z:\hex\svn\trunk\getdbp_dlg_itemio.cpp
@@ -4534,7 +4534,7 @@
 1336656514 source:z:\hex\svn\trunk\hexapphack.cpp
 	"cleanAll.h"
 
-1338017124 source:z:\hex\svn\trunk\g_events.cpp
+1338556466 source:z:\hex\svn\trunk\g_events.cpp
 	"G.h"
 
 1337815124 source:z:\hex\svn\trunk\cleanhack_fileio.cpp
@@ -4543,13 +4543,13 @@
 1337412988 source:z:\hex\svn\trunk\cleanhack_itemio.cpp
 	"G.h"
 
-1337885932 source:z:\hex\svn\trunk\cleanout_events.cpp
+1338542602 source:z:\hex\svn\trunk\cleanout_events.cpp
 	"G.h"
 
 1337939982 source:z:\hex\svn\trunk\cleansearch_events.cpp
 	"G.h"
 
-1337262108 source:z:\hex\svn\trunk\g_txtonchange.cpp
+1338542602 source:z:\hex\svn\trunk\g_txtonchange.cpp
 	"G.h"
 
 1338371288 source:z:\hex\svn\trunk\cleaneditor_events.cpp
@@ -4571,7 +4571,7 @@
 1337881868 source:z:\hex\svn\trunk\session_fileio.cpp
 	"G.h"
 
-1338457814 source:z:\hex\svn\trunk\cleanall_validate.cpp
+1338542358 source:z:\hex\svn\trunk\cleanall_validate.cpp
 	"G.h"
 
 1338364630 source:z:\hex\svn\trunk\gtest.cpp
