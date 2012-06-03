@@ -33,8 +33,8 @@
 #include <wx/scrolwin.h>
 #include <wx/listctrl.h>
 #include <wx/gauge.h>
-#include <wx/checkbox.h>
 #include <wx/statline.h>
+#include <wx/checkbox.h>
 #include <wx/grid.h>
 #include <wx/treectrl.h>
 #include <wx/hyperlink.h>
@@ -83,7 +83,9 @@ class cleanFRM : public wxFrame
 			binHook_ID,
 			binLaunch_ID,
 			mRamName_ID,
+			goodA_ID,
 			goodV_ID,
+			badA_ID,
 			badV_ID,
 			outByte_ID,
 			outValue_ID,
@@ -155,23 +157,7 @@ class cleanFRM : public wxFrame
 		wxStaticText* bad_S;
 		wxGauge* byte_PB;
 		wxScrolledWindow* good_SCROLL;
-		wxCheckBox* goodAGT_CB;
-		wxTextCtrl* goodAGT_TXT;
-		wxCheckBox* goodAGTE_CB;
-		wxTextCtrl* goodAGTE_TXT;
-		wxCheckBox* goodALT_CB;
-		wxTextCtrl* goodALT_TXT;
-		wxCheckBox* goodALTE_CB;
-		wxTextCtrl* goodALTE_TXT;
 		wxScrolledWindow* bad_SCROLL;
-		wxCheckBox* badAGT_CB;
-		wxTextCtrl* badAGT_TXT;
-		wxCheckBox* badAGTE_CB;
-		wxTextCtrl* badAGTE_TXT;
-		wxCheckBox* badALT_CB;
-		wxTextCtrl* badALT_TXT;
-		wxCheckBox* badALTE_CB;
-		wxTextCtrl* badALTE_TXT;
 		wxPanel* findOptions_P;
 		wxStaticText* out_S;
 		wxStaticLine* findOptions_LINE1;
@@ -350,7 +336,9 @@ class cleanFRM : public wxFrame
 		
 	
 	public:
+		wxFlexGridSizer* goodA_L;
 		wxFlexGridSizer* goodV_L;
+		wxFlexGridSizer* badA_L;
 		wxFlexGridSizer* badV_L;
 		wxGridSizer* dbpAreaCB_LG;
 		wxTreeCtrl* tree_T;

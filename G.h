@@ -121,6 +121,12 @@ class G : public cleanFRM
 		s32      GetListLength( void );
 	private:
 		std::vector< wxCheckBox* > lArea_CB;
+		std::vector< wxCheckBox* > mQAG_CB;
+		std::vector< wxTextCtrl* > mQAG_TXT;
+		std::vector< u64         > mQAGArray;
+		std::vector< wxCheckBox* > mQAB_CB;
+		std::vector< wxTextCtrl* > mQAB_TXT;
+		std::vector< u64         > mQABArray;
 		std::vector< wxCheckBox* > mQVG_CB;
 		std::vector< wxTextCtrl* > mQVG_TXT;
 		std::vector< u64         > mQVGArray;
@@ -176,13 +182,11 @@ class G : public cleanFRM
 		void           ListApps(    void );
 		void           ListWindows( void );
 		// Search Tab
-		u64       gAGT, gAGTE, gALT, gALTE;
-		u64       bAGT, bAGTE, bALT, bALTE;
 		u64       GetValue( wxTextCtrl* obj, u8 mode );
-		u32       GetGood( void );
-		u32       GetBad(  void );
-		u32       GetGoodByte( void );
-		u32       GetBadByte(  void );
+		u32       GetQVG( void );
+		u32       GetQVB( void );
+		u32       GetQAG( void );
+		u32       GetQAB( void );
 		void      SetSearch( s16 no );
 		void      Search( s16 no, s8 type );
 		// Results Tab

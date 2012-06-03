@@ -1,14 +1,23 @@
 #include "cleanType.h"
-u8 gTEST[ QV_COUNT ];
-u8*  gGetQTests( void ) { return gTEST; }
-u8   gGetQTest( s32 index ) { return gTEST[ index ]; }
+u8 gQATest[ QA_COUNT ];
+u8 gQVTest[ QV_COUNT ];
+u8*  gGetQATest( void ) { return gQATest; }
+u8*  gGetQVTest( void ) { return gQVTest; }
 void gSetQTests( void )
 {
 	// DO NOT MODIFY
-	gTEST[ QV_EQUAL         ] = gTEqual;
-	gTEST[ QV_NOT_EQUAL     ] = gTNotE;
-	gTEST[ QV_MORE_THAN     ] = gTMoreT;
-	gTEST[ QV_MORE_OR_EQUAL ] = gTMoreE;
-	gTEST[ QV_LESS_THAN     ] = gTLessT;
-	gTEST[ QV_LESS_OR_EQUAL ] = gTLessE;
+	// Address
+	gQATest[ QA_MT  ] = gTMoreT;
+	gQATest[ QA_MTE ] = gTMoreE;
+	gQATest[ QA_LT  ] = gTLessT;
+	gQATest[ QA_LTE ] = gTLessE;
+	// Value
+	gQVTest[ QV_EQUAL   ] = gTEqual;
+	gQVTest[ QV_NOT     ] = gTNotE;
+	gQVTest[ QV_MT      ] = gTMoreT;
+	gQVTest[ QV_MTE     ] = gTMoreE;
+	gQVTest[ QV_LT      ] = gTLessT;
+	gQVTest[ QV_LTE     ] = gTLessE;
+	gQVTest[ QV_GOT     ] = gTGot;
+	gQVTest[ QV_NOT_GOT ] = gTNotG;
 }
