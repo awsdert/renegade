@@ -15,56 +15,56 @@ void G::find_BOnClick( wxCommandEvent& event )
 }
 void G::findEqual_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_EQUAL );
+	findType_D->SetSelection( QD_EQUAL );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_EQUAL );
+		Search( no, QD_EQUAL );
 	}
 }
 void G::findNOTE_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_NOTE );
+	findType_D->SetSelection( QD_NOT );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_NOTE );
+		Search( no, QD_NOT );
 	}
 }
 void G::findGT_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_GT );
+	findType_D->SetSelection( QD_MT );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_GT );
+		Search( no, QD_MT );
 	}
 }
 void G::findGTE_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_GTE );
+	findType_D->SetSelection( QD_MTE );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_GTE );
+		Search( no, QD_MTE );
 	}
 }
 void G::findLT_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_LT );
+	findType_D->SetSelection( QD_LT );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_LT );
+		Search( no, QD_LT );
 	}
 }
 void G::findLTE_BOnClick( wxCommandEvent& event )
 {
-	findType_D->SetSelection( FIND_LTE );
+	findType_D->SetSelection( QD_LTE );
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		Search( no, FIND_LTE );
+		Search( no, QD_LTE );
 	}
 }
 void G::findUndo_BOnClick( wxCommandEvent& event )
@@ -138,7 +138,7 @@ void G::findMode_DOnChoice( wxCommandEvent& event )
 				break;
 		}
 		mQVG_TXT[ i ]->ChangeValue( txtG );
-		mQVB_TXT[ i ]->ChangeValue( txtG );
+		mQVB_TXT[ i ]->ChangeValue( txtB );
 	}
 	prevMode = mode;
 }

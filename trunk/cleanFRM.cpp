@@ -415,45 +415,12 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	good_L->SetMinSize( wxSize( 150,-1 ) ); 
 	wxStaticBoxSizer* goodA_LF;
-	goodA_LF = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, wxID_ANY, _("Address") ), wxVERTICAL );
+	goodA_LF = new wxStaticBoxSizer( new wxStaticBox( good_SCROLL, goodA_ID, _("Address") ), wxVERTICAL );
 	
-	wxFlexGridSizer* goodA_L;
 	goodA_L = new wxFlexGridSizer( 0, 2, 0, 0 );
 	goodA_L->AddGrowableCol( 1 );
 	goodA_L->SetFlexibleDirection( wxBOTH );
 	goodA_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	goodAGT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, _(">"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodA_L->Add( goodAGT_CB, 0, wxALL, 5 );
-	
-	goodAGT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodAGT_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	goodA_L->Add( goodAGT_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	goodAGTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, _(">="), wxDefaultPosition, wxDefaultSize, 0 );
-	goodA_L->Add( goodAGTE_CB, 0, wxALL, 5 );
-	
-	goodAGTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodAGTE_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	goodA_L->Add( goodAGTE_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	goodALT_CB = new wxCheckBox( good_SCROLL, wxID_ANY, _("<"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodA_L->Add( goodALT_CB, 0, wxALL, 5 );
-	
-	goodALT_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodALT_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	goodA_L->Add( goodALT_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	goodALTE_CB = new wxCheckBox( good_SCROLL, wxID_ANY, _("<="), wxDefaultPosition, wxDefaultSize, 0 );
-	goodA_L->Add( goodALTE_CB, 0, wxALL, 5 );
-	
-	goodALTE_TXT = new wxTextCtrl( good_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	goodALTE_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	goodA_L->Add( goodALTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	goodA_LF->Add( goodA_L, 1, wxEXPAND, 5 );
 	
@@ -483,45 +450,12 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	bad_L->SetMinSize( wxSize( 150,-1 ) ); 
 	wxStaticBoxSizer* badA_LF;
-	badA_LF = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, wxID_ANY, _("Address") ), wxVERTICAL );
+	badA_LF = new wxStaticBoxSizer( new wxStaticBox( bad_SCROLL, badA_ID, _("Address") ), wxVERTICAL );
 	
-	wxFlexGridSizer* badA_L;
 	badA_L = new wxFlexGridSizer( 0, 2, 0, 0 );
 	badA_L->AddGrowableCol( 1 );
 	badA_L->SetFlexibleDirection( wxBOTH );
 	badA_L->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	badAGT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, _(">"), wxDefaultPosition, wxDefaultSize, 0 );
-	badA_L->Add( badAGT_CB, 0, wxALL, 5 );
-	
-	badAGT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	badAGT_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	badA_L->Add( badAGT_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	badAGTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, _(">="), wxDefaultPosition, wxDefaultSize, 0 );
-	badA_L->Add( badAGTE_CB, 0, wxALL, 5 );
-	
-	badAGTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	badAGTE_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	badA_L->Add( badAGTE_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	badALT_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, _("<"), wxDefaultPosition, wxDefaultSize, 0 );
-	badA_L->Add( badALT_CB, 0, wxALL, 5 );
-	
-	badALT_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	badALT_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	badA_L->Add( badALT_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	badALTE_CB = new wxCheckBox( bad_SCROLL, wxID_ANY, _("<="), wxDefaultPosition, wxDefaultSize, 0 );
-	badA_L->Add( badALTE_CB, 0, wxALL, 5 );
-	
-	badALTE_TXT = new wxTextCtrl( bad_SCROLL, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
-	badALTE_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	badA_L->Add( badALTE_TXT, 0, wxALL|wxEXPAND, 5 );
 	
 	badA_LF->Add( badA_L, 1, wxEXPAND, 5 );
 	
@@ -658,9 +592,8 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	findType_S->Wrap( -1 );
 	findOptions2_L->Add( findType_S, 0, wxALL, 5 );
 	
-	wxString findType_DChoices[] = { _("Dump"), _("Equal To ( = )"), _("Not Equal To ( != )"), _("More Than ( > )"), _("More Than or Equal To ( >= )"), _("Less Than ( < )"), _("Less Than or Equal To  ( <= )") };
-	int findType_DNChoices = sizeof( findType_DChoices ) / sizeof( wxString );
-	findType_D = new wxChoice( findOptions_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, findType_DNChoices, findType_DChoices, 0 );
+	wxArrayString findType_DChoices;
+	findType_D = new wxChoice( findOptions_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, findType_DChoices, 0 );
 	findType_D->SetSelection( 0 );
 	findType_D->SetMinSize( wxSize( 50,-1 ) );
 	
@@ -1249,14 +1182,6 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	ListApps_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ListApps_DOnChoice ), NULL, this );
 	binUse_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binUse_BOnClick ), NULL, this );
 	ListApps_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::ListApps_BOnClick ), NULL, this );
-	goodAGT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodAGTE_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodALT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodALTE_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badAGT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badAGTE_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badALT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badALTE_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	dump_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::dump_BOnClick ), NULL, this );
 	find_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::find_BOnClick ), NULL, this );
 	findUndo_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::findUndo_BOnClick ), NULL, this );
@@ -1348,14 +1273,6 @@ cleanFRM::~cleanFRM()
 	ListApps_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::ListApps_DOnChoice ), NULL, this );
 	binUse_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::binUse_BOnClick ), NULL, this );
 	ListApps_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::ListApps_BOnClick ), NULL, this );
-	goodAGT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodAGTE_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodALT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	goodALTE_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badAGT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badAGTE_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badALT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
-	badALTE_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	dump_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::dump_BOnClick ), NULL, this );
 	find_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::find_BOnClick ), NULL, this );
 	findUndo_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::findUndo_BOnClick ), NULL, this );

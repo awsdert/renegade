@@ -3,7 +3,7 @@ CODE SetHack_DLG::dGetCode( void )
 {
 	CODE  code;
 	u64   value;
-	u8*   vTEST    = gGetQTests();
+	u8*   vTEST    = gGetQVTest();
 	code.type      = dCodeType_D->GetSelection();
 	code.ptrDepth  = dCodePtr_SN->GetValue();
 	code.size      = gGetUSize( dCodeSize_D->GetSelection() );
@@ -24,18 +24,7 @@ CODE SetHack_DLG::dGetCode( void )
 	}
 	else if ( code.type == CT_TEST )
 	{
-		switch ( dCodeTest_D->GetSelection() )
-		{
-			case FIND_EQUAL: value = vTEST[ QV_EQUAL         ]; break;
-			case FIND_NOTE:  value = vTEST[ QV_NOT_EQUAL     ]; break;
-			case FIND_GT:    value = vTEST[ QV_MORE_THAN     ]; break;
-			case FIND_GTE:   value = vTEST[ QV_MORE_OR_EQUAL ]; break;
-			case FIND_LT:    value = vTEST[ QV_LESS_THAN     ]; break;
-			case FIND_LTE:   value = vTEST[ QV_LESS_OR_EQUAL ]; break;
-			case FIND_BIN:   value = TEST_BIN;   break;
-			case FIND_DUMP:  value = TEST_RANGE; break;
-			default: value = 0u;
-		}
+		value = vTEST[ dCodeTest_D->GetSelection() ];
 		code.test = value;
 		switch ( dCodeTestThen_D->GetSelection() )
 		{

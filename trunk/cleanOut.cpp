@@ -1,6 +1,7 @@
 #include "G.h"
 void G::ShowOut( s16 no, u8 size )
 {
+	out_LC->DeleteAllItems();
 	if ( IsBetween( no, 0, 255 ) )
 	{
 		xStr   text, hexC;
@@ -23,7 +24,7 @@ void G::ShowOut( s16 no, u8 size )
 		u32*   old32     = reinterpret_cast< u32* >( old8 );
 		u64*   old64     = reinterpret_cast< u64* >( old8 );
 		bool*  theByte   = new bool[ jCount ];
-		oldByteText.Printf( wxT( "byte%02u.bin" ), no );
+		oldByteText.Printf( wxT( "byte%02i.bin" ), no );
 		oldByte.Open( path + oldByteText );
 		u64    address   = 0u;
 		u64    nextByte  = 0u;
@@ -32,7 +33,7 @@ void G::ShowOut( s16 no, u8 size )
 		{
 			u64    byteCount = tmp;
 			u64    oldValue;
-			hexC.Printf( wxT( "%%0%ullu" ), size * 2u );
+			hexC.Printf( wxT( "%%0%ullX" ), size * 2u );
 			if ( iCount < 0 || iCount > i ) iCount = 0;
 			item.SetId( 0 );
 			item.SetText( wxT( "Address" ) );
@@ -96,10 +97,10 @@ void G::ShowOut( s16 no, u8 size )
 							text.Printf( hexC, oldValue );
 							item.SetText( text );
 							out_LC->SetItem( item );
-							out++;
+							++out;
 						}
 						nextByte += size;
-						k++;
+						++k;
 					}
 				}
 				oldDump.Close();

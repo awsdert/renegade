@@ -67,9 +67,13 @@ if ( m_Endian == ENDIAN_BIG ) \
 }
 enum { SIZE_8 = 0, SIZE_16, SIZE_32, SIZE_64, SIZE_COUNT };
 enum { VAL_HEX = 0, VAL_SINT, VAL_UINT, VAL_SFLT, VAL_COUNT, VAL_NAME, VAL_PATH, VAL_FILE };
-enum { FIND_EQUAL = 0, FIND_NOTE, FIND_GT, FIND_GTE, FIND_LT,
-	FIND_LTE, FIND_BIN, FIND_DUMP, FIND_COUNT };
-enum { ADD_NEXT = 0, ADD_PREV, ADD_TOP, ADD_BOTTOM };
+enum
+{
+	ADD_NEXT = 0,
+	ADD_PREV,
+	ADD_TOP,
+	ADD_BOTTOM
+};
 enum
 {
 	AREA_UK_CB = 0,
@@ -81,21 +85,55 @@ enum
 };
 enum
 {
+	QA_MT = 0,
+	QA_MTE,
+	QA_LT,
+	QA_LTE,
+	QA_COUNT
+};
+enum
+{
 	QV_EQUAL = 0,
-	QV_NOT_EQUAL,
-	QV_MORE_THAN,
-	QV_MORE_OR_EQUAL,
-	QV_LESS_THAN,
-	QV_LESS_OR_EQUAL,
+	QV_NOT,
+	QV_MT,
+	QV_MTE,
+	QV_LT,
+	QV_LTE,
+	QV_GOT,
+	QV_NOT_GOT,
 	QV_COUNT
 };
+enum
+{
+	QD_DUMP = 0,
+	QD_EQUAL,
+	QD_NOT,
+	QD_MT,
+	QD_MTE,
+	QD_LT,
+	QD_LTE,
+	QD_COUNT
+};
+/*enum
+{
+	TD_EQUAL = 0u,
+	TD_NOT_EQUAL,
+	TD_MORE_THAN,
+	TD_MORE_OR_EQUAL,
+	TD_LESS_THAN,
+	TD_LESS_OR_EQUAL,
+	TD_COUNT
+};*/
 #define gTEqual 0x1
 #define gTNotE  0x10
 #define gTMoreT 0x2
 #define gTMoreE 0x20
 #define gTLessT 0x4
 #define gTLessE 0x40
-u8*  gGetQTests( void );
+#define gTGot   0x8
+#define gTNotG  0x80
+u8*  gGetQATest( void );
+u8*  gGetQVTest( void );
 void gSetQTests( void );
 #define AREA_UK       0x1
 #define AREA_US       0x2
@@ -103,8 +141,6 @@ void gSetQTests( void );
 #define AREA_JP       0x8
 #define AREA_DE       0x10
 #define AREA_ALL      0xFFFFFFFF
-#define TEST_BIN      0x8
-#define TEST_RANGE    0x80
 #define UINT8_MAX     0xFF
 #define SINT8_MAX       127
 #define SINT8_MIN      -127

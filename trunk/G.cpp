@@ -26,21 +26,65 @@ cleanFRM( parent )
 	}
 	dbp_P->Layout();
 	// Find Tab
+	wxSize size( 50, -1 );
+	// Drop Down
+	array.Clear();
+	array.SetCount( QD_COUNT );
+	array[ QD_DUMP  ] = wxT( "Dump" );
+	array[ QD_EQUAL ] = wxT( "Equal To ( == )" );
+	array[ QD_NOT   ] = wxT( "Not Equal To ( != )" );
+	array[ QD_MT    ] = wxT( "More Than ( > )" );
+	array[ QD_MTE   ] = wxT( "More Than or Equal To ( >= )" );
+	array[ QD_LT    ] = wxT( "Less Than ( < )" );
+	array[ QD_LTE   ] = wxT( "Less Than or Equal To ( <= )" );
+	findType_D->Append( array );
+	// ADDRESS
+	array.Clear();
+	array.SetCount( QA_COUNT );
+	array[ QA_MT  ] = wxT( ">"  );
+	array[ QA_MTE ] = wxT( ">=" );
+	array[ QA_LT  ] = wxT( "<"  );
+	array[ QA_LTE ] = wxT( "<=" );
+	mQAG_CB.resize(   QA_COUNT );
+	mQAG_TXT.resize(  QA_COUNT );
+	mQAGArray.resize( QA_COUNT );
+	mQAB_CB.resize(   QA_COUNT );
+	mQAB_TXT.resize(  QA_COUNT );
+	mQABArray.resize( QA_COUNT );
+	for ( index = 0; index < QA_COUNT; ++index )
+	{
+		mQAG_CB[   index ] = new wxCheckBox( good_SCROLL, goodA_ID, array[ index ] );
+		mQAB_CB[   index ] = new wxCheckBox( bad_SCROLL,  badA_ID, array[ index ] );
+		mQAG_TXT[  index ] = new wxTextCtrl( good_SCROLL, goodA_ID, text );
+		mQAB_TXT[  index ] = new wxTextCtrl( bad_SCROLL,  badA_ID, text );
+		mQAG_TXT[  index ]->SetMinSize( size );
+		mQAB_TXT[  index ]->SetMinSize( size );
+		mQAGArray[ index ] = 0u;
+		mQABArray[ index ] = 0u;
+		goodA_L->Add( mQAG_CB[  index ], 0, wxALIGN_CENTER_VERTICAL | wxBORDER | wxALL, 5 );
+		goodA_L->Add( mQAG_TXT[ index ], 0, wxEXPAND | wxBORDER | wxALL, 5 );
+		badA_L->Add(  mQAB_CB[  index ], 0, wxALIGN_CENTER_VERTICAL | wxBORDER | wxALL, 5 );
+		badA_L->Add(  mQAB_TXT[ index ], 0, wxEXPAND | wxBORDER | wxALL, 5 );
+	}
+	Connect( goodA_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
+	Connect( badA_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
+	// VALUES
 	array.Clear();
 	array.SetCount( QV_COUNT );
-	array[ QV_EQUAL         ] = wxT( "="  );
-	array[ QV_NOT_EQUAL     ] = wxT( "!=" );
-	array[ QV_MORE_THAN     ] = wxT( ">"  );
-	array[ QV_MORE_OR_EQUAL ] = wxT( ">=" );
-	array[ QV_LESS_THAN     ] = wxT( "<"  );
-	array[ QV_LESS_OR_EQUAL ] = wxT( "<=" );
+	array[ QV_EQUAL   ] = wxT( "==" );
+	array[ QV_NOT     ] = wxT( "!=" );
+	array[ QV_MT      ] = wxT( ">"  );
+	array[ QV_MTE     ] = wxT( ">=" );
+	array[ QV_LT      ] = wxT( "<"  );
+	array[ QV_LTE     ] = wxT( "<=" );
+	array[ QV_GOT     ] = wxT( "R&V>0" );
+	array[ QV_NOT_GOT ] = wxT( "R&V=0" );
 	mQVG_CB.resize(   QV_COUNT );
 	mQVG_TXT.resize(  QV_COUNT );
 	mQVGArray.resize( QV_COUNT );
 	mQVB_CB.resize(   QV_COUNT );
 	mQVB_TXT.resize(  QV_COUNT );
 	mQVBArray.resize( QV_COUNT );
-	wxSize size( 50, -1 );
 	for ( index = 0; index < QV_COUNT; ++index )
 	{
 		mQVG_CB[   index ] = new wxCheckBox( good_SCROLL, goodV_ID, array[ index ] );
@@ -152,6 +196,8 @@ void G::GOnClose( wxCloseEvent& event )
 	hookUntil = 0;
 	listUntil = 0;
 	editUntil = 0;
+	Disconnect( goodA_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
+	Disconnect( badA_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
 	Disconnect( goodV_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
 	Disconnect( badV_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
 	ramName_D->Clear();

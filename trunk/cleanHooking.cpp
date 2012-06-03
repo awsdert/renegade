@@ -205,11 +205,10 @@ void G::UseHook( xTreeID root, s32 endian, s8 cIndex, s8 cCount )
 						}
 						switch ( code.test )
 						{
-							case TEST_BIN:
-								tBool = ( ( value & code[ 0 ] ) > 0u ); break;
-							case TEST_RANGE:
-								tBool = ( value >= code[ 0 ] && value <= code[ 1 ] );
-								break;
+							case gTGot:
+								tBool = ( ( value & code[ 0 ] ) >  0u ); break;
+							case gTNotG:
+								tBool = ( ( value & code[ 0 ] ) == 0u ); break;
 							case gTEqual: tBool = ( value == code[ 0 ] ); break;
 							case gTNotE:  tBool = ( value != code[ 0 ] ); break;
 							case gTMoreT: tBool = ( value >  code[ 0 ] ); break;

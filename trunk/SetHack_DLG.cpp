@@ -31,7 +31,16 @@ cleanSetHack_DLG( parent )
 	dCodeRam_D->Append( array );
 	dCodeRam_D->Select( 0 );
 	// Set Tests
-	array = gGetTests();
+	array.Clear();
+	array.SetCount( QV_COUNT );
+	array[ QV_EQUAL   ] = wxT( "Equal To ( == )" );
+	array[ QV_NOT     ] = wxT( "Not Equal To ( != )" );
+	array[ QV_MT      ] = wxT( "More Than ( > )" );
+	array[ QV_MTE     ] = wxT( "More Than or Equal To ( >= )" );
+	array[ QV_LT      ] = wxT( "Less Than ( < )" );
+	array[ QV_LTE     ] = wxT( "Less Than or Equal To ( <= )" );
+	array[ QV_GOT     ] = wxT( "Contains ( R&V>0 )" );
+	array[ QV_NOT_GOT ] = wxT( "Does Not Contain ( R&V=0 )" );
 	dCodeTest_D->Append( array );
 	dCodeTest_D->Select( 0 );
 	// Set Columns

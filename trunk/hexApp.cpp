@@ -25,7 +25,6 @@ xStr  gVendor = wxT( "Shadow Flare Industries" );
 xStr  gSlash;
 xAStr gArea;
 xAStr gSizes;
-xAStr gTests;
 bool hexApp::OnInit() {
 	gArea.SetCount( AREA_COUNT );
 	gArea[ AREA_UK_CB  ] = wxT( "UK"  );
@@ -38,14 +37,6 @@ bool hexApp::OnInit() {
 	gSizes[ SIZE_16 ] = wxT( "16bit" );
 	gSizes[ SIZE_32 ] = wxT( "32bit" );
 	gSizes[ SIZE_64 ] = wxT( "64bit" );
-	gTests.SetCount( FIND_COUNT );
-	gTests[ FIND_EQUAL ] = wxT( "Equal to"              );
-	gTests[ FIND_NOTE  ] = wxT( "Not Equal to"          );
-	gTests[ FIND_GT    ] = wxT( "More Than"             );
-	gTests[ FIND_GTE   ] = wxT( "More Than or Equal to" );
-	gTests[ FIND_LT    ] = wxT( "Less Than"             );
-	gTests[ FIND_LTE   ] = wxT( "Less Than or Equal to" );
-	gTests[ FIND_BIN   ] = wxT( "Contains"              );
 	gSetQTests();
 	gSlash     = wxGetCwd().Contains( wxT( "\\" ) ) ? wxT( "\\" ) : wxT( "/" );
 	rootWindow = new G( 0 );
@@ -71,7 +62,6 @@ void  gEnable( bool enable, wxWindow* obj )
 	}
 }
 xAStr gGetSizes( void ) { return gSizes; }
-xAStr gGetTests( void ) { return gTests; }
 u8   gGetUSize( s8 size )
 {
 	u8 value = 0u;

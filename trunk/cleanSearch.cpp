@@ -25,58 +25,57 @@ u64  G::GetValue( wxTextCtrl* obj, u8 mode )
 	}
 	return value;
 }
-u32  G::GetGood( void )
+u32  G::GetQAG( void )
+{
+	u32 test  = 0u;
+	u8* vTEST = gGetQATest();
+	for ( s32 i = 0; i < QA_COUNT; ++i )
+	{
+		if ( mQAG_CB[ i ]->GetValue() )
+		{
+			test          += vTEST[ i ];
+			mQAGArray[ i ] = GetValue( mQAG_TXT[ i ], VAL_HEX );
+		}
+		else mQAGArray[ i ] = 0u;
+	}
+	return test;
+}
+u32  G::GetQAB( void )
+{
+	u32 test  = 0u;
+	u8* vTEST = gGetQATest();
+	for ( s32 i = 0; i < QA_COUNT; ++i )
+	{
+		if ( mQAB_CB[ i ]->GetValue() )
+		{
+			test          += vTEST[ i ];
+			mQABArray[ i ] = GetValue( mQAB_TXT[ i ], VAL_HEX );
+		}
+		else mQABArray[ i ] = 0u;
+	}
+	return test;
+}
+u32  G::GetQVG( void )
 {
 	u32 test  = 0u;
 	u8  mode  = findMode_D->GetSelection();
-	u8* vTEST = gGetQTests();
+	u8* vTEST = gGetQVTest();
 	for ( s32 i = 0; i < QV_COUNT; ++i )
 	{
 		if ( mQVG_CB[ i ]->GetValue() )
 		{
-			test += vTEST[ i ];
+			test          += vTEST[ i ];
 			mQVGArray[ i ] = GetValue( mQVG_TXT[ i ], mode );
 		}
 		else mQVGArray[ i ] = 0u;
 	}
 	return test;
 }
-u32  G::GetGoodByte( void )
+u32  G::GetQVB( void )
 {
 	u32 test = 0u;
 	u8  mode = findMode_D->GetSelection();
-	gAGT     = 0u;
-	gAGTE    = 0u;
-	gALT     = 0u;
-	gALTE    = 0u;
-	u8* vTEST = gGetQTests();
-	if ( goodAGT_CB->GetValue() )
-	{
-		test  += vTEST[ QV_MORE_THAN ];
-		gAGT   = GetValue( goodAGT_TXT, mode );
-	}
-	if ( goodAGTE_CB->GetValue() )
-	{
-		test  += vTEST[ QV_MORE_OR_EQUAL ];
-		gAGTE  = GetValue( goodAGTE_TXT, mode );
-	}
-	if ( goodALT_CB->GetValue() )
-	{
-		test  += vTEST[ QV_LESS_THAN ];
-		gALT   = GetValue( goodALT_TXT, mode );
-	}
-	if ( goodALTE_CB->GetValue() )
-	{
-		test  += vTEST[ QV_LESS_OR_EQUAL ];
-		gALTE  = GetValue( goodALTE_TXT, mode );
-	}
-	return test;
-}
-u32  G::GetBad( void )
-{
-	u32 test = 0u;
-	u8  mode = findMode_D->GetSelection();
-	u8* vTEST = gGetQTests();
+	u8* vTEST = gGetQVTest();
 	for ( s32 i = 0; i < QV_COUNT; ++i )
 	{
 		if ( mQVB_CB[ i ]->GetValue() )
@@ -88,41 +87,9 @@ u32  G::GetBad( void )
 	}
 	return test;
 }
-u32  G::GetBadByte( void )
-{
-	u32 test = 0u;
-	u8  mode = findMode_D->GetSelection();
-	bAGT     = 0u;
-	bAGTE    = 0u;
-	bALT     = 0u;
-	bALTE    = 0u;
-	u8* vTEST = gGetQTests();
-	if ( badAGT_CB->GetValue() )
-	{
-		test  += vTEST[ QV_MORE_THAN ];
-		bAGT   = GetValue( badAGT_TXT, mode );
-	}
-	if ( badAGTE_CB->GetValue() )
-	{
-		test  += vTEST[ QV_MORE_OR_EQUAL ];
-		bAGTE  = GetValue( badAGTE_TXT, mode );
-	}
-	if ( badALT_CB->GetValue() )
-	{
-		test  += vTEST[ QV_LESS_THAN ];
-		bALT   = GetValue( badALT_TXT, mode );
-	}
-	if ( badALTE_CB->GetValue() )
-	{
-		test  += vTEST[ QV_LESS_OR_EQUAL ];
-		bALTE  = GetValue( badALTE_TXT, mode );
-	}
-	return test;
-}
 void G::Search( s16 no, s8 type )
 {
 	NewHook();
-	u8* vTEST   = gGetQTests();
 	xStr  slash = gGetSlash();
 	xStr  text, path = wxGetCwd() + slash + wxT( "ram" ) + slash, toDump, toByte;
 	toDump.Printf( wxT( "dump%02i.bin" ), no );
@@ -184,10 +151,11 @@ void G::Search( s16 no, s8 type )
 	u64 ramValue = 0u;
 	u64 oldValue = 0u;
 	u64 ramByte  = 0u;
-	u32 gTest    = GetGood();
-	u32 gATest   = GetGoodByte();
-	u32 bTest    = GetBad();
-	u32 bATest   = GetBadByte();
+	s32 fTest    = findType_D->GetSelection();
+	u32 QAGTest  = GetQAG();
+	u32 QABTest  = GetQAB();
+	u32 QVGTest  = GetQVG();
+	u32 QVBTest  = GetQVB();
 	u64 outNo    = 0u;
 	// Begin Search
 	xStr outText = wxT("Results: %llu");
@@ -236,7 +204,7 @@ void G::Search( s16 no, s8 type )
 		{
 			nextOut += addOut;
 			text.Printf( outText, outNo );
-			progress++;
+			++progress;
 			byte_PB->SetValue( progress );
 			out_S->SetLabel( text );
 		}
@@ -262,72 +230,71 @@ void G::Search( s16 no, s8 type )
 						ramValue = ram8[ k ];
 						oldValue = old8[ k ];
 				}
-				nowByte = true;
-				if ( gTest > 0u )
+				switch ( fTest )
 				{
-					if ( ( gTest & TEST_BIN ) > 0u )
-					{
-						nowByte = ( ( ramValue & mQVGArray[ QV_EQUAL ] ) > 0u );
-					}
-					else
-					{
-						nowByte = (            ( gTest & vTEST[ QV_EQUAL         ] ) > 0u ) ? ( ramValue == mQVGArray[ QV_EQUAL         ] ) : true;
-						nowByte = ( nowByte && ( gTest & vTEST[ QV_NOT_EQUAL     ] ) > 0u ) ? ( ramValue != mQVGArray[ QV_NOT_EQUAL     ] ) : nowByte;
-						nowByte = ( nowByte && ( gTest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( ramValue >  mQVGArray[ QV_MORE_THAN     ] ) : nowByte;
-						nowByte = ( nowByte && ( gTest & vTEST[ QV_MORE_OR_EQUAL ] ) > 0u ) ? ( ramValue >= mQVGArray[ QV_MORE_OR_EQUAL ] ) : nowByte;
-						nowByte = ( nowByte && ( gTest & vTEST[ QV_LESS_THAN     ] ) > 0u ) ? ( ramValue <  mQVGArray[ QV_LESS_THAN     ] ) : nowByte;
-						nowByte = ( nowByte && ( gTest & vTEST[ QV_LESS_OR_EQUAL ] ) > 0u ) ? ( ramValue <= mQVGArray[ QV_LESS_OR_EQUAL ] ) : nowByte;
-					}
+					case QD_EQUAL: nowByte = ( ramValue == oldValue ); break;
+					case QD_NOT:   nowByte = ( ramValue != oldValue ); break;
+					case QD_MT:    nowByte = ( ramValue >  oldValue ); break;
+					case QD_MTE:   nowByte = ( ramValue >= oldValue ); break;
+					case QD_LT:    nowByte = ( ramValue <  oldValue ); break;
+					case QD_LTE:   nowByte = ( ramValue <= oldValue ); break;
+					default:       nowByte = true;
 				}
-				if ( gATest > 0u )
+				if ( QAGTest > 0u )
 				{
-					nowByte = ( nowByte && ( gATest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( address >  gAGT   ) : nowByte;
-					nowByte = ( nowByte && ( gATest & vTEST[ QV_MORE_OR_EQUAL ] ) > 0u ) ? ( address >= gAGTE  ) : nowByte;
-					nowByte = ( nowByte && ( gATest & vTEST[ QV_LESS_THAN     ] ) > 0u ) ? ( address <  gALT   ) : nowByte;
-					nowByte = ( nowByte && ( gATest & vTEST[ QV_LESS_OR_EQUAL ] ) > 0u ) ? ( address <= gALTE  ) : nowByte;
+					nowByte = ( nowByte && ( QAGTest & gTMoreT ) > 0u ) ? ( address >  mQAGArray[ QA_MT  ] ) : nowByte;
+					nowByte = ( nowByte && ( QAGTest & gTMoreE ) > 0u ) ? ( address >= mQAGArray[ QA_MTE ] ) : nowByte;
+					nowByte = ( nowByte && ( QAGTest & gTLessT ) > 0u ) ? ( address <  mQAGArray[ QA_LT  ] ) : nowByte;
+					nowByte = ( nowByte && ( QAGTest & gTLessE ) > 0u ) ? ( address <= mQAGArray[ QA_LTE ] ) : nowByte;
 				}
-				if ( bTest > 0u )
+				if ( QABTest > 0u )
 				{
-					if ( ( bTest & TEST_BIN ) > 0u )
-					{
-						nowByte = ( nowByte && ( ramValue & mQVBArray[ QV_EQUAL ] ) > 0u );
-					}
-					else
-					{
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_EQUAL         ] ) > 0u ) ? ( ramValue == mQVBArray[ QV_EQUAL         ] ) : true;
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_NOT_EQUAL     ] ) > 0u ) ? ( ramValue != mQVBArray[ QV_NOT_EQUAL     ] ) : nowByte;
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( ramValue >  mQVBArray[ QV_MORE_THAN     ] ) : nowByte;
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_MORE_OR_EQUAL ] ) > 0u ) ? ( ramValue >= mQVBArray[ QV_MORE_OR_EQUAL ] ) : nowByte;
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_LESS_THAN     ] ) > 0u ) ? ( ramValue <  mQVBArray[ QV_LESS_THAN     ] ) : nowByte;
-						nowByte = ( nowByte && ( bTest & vTEST[ QV_LESS_OR_EQUAL ] ) > 0u ) ? ( ramValue <= mQVBArray[ QV_LESS_OR_EQUAL ] ) : nowByte;
-					}
+					nowByte = ( nowByte && ( QABTest & gTMoreT ) > 0u ) ? ( address >  mQAGArray[ QA_MT  ] ) : nowByte;
+					nowByte = ( nowByte && ( QABTest & gTMoreE ) > 0u ) ? ( address >= mQAGArray[ QA_MTE ] ) : nowByte;
+					nowByte = ( nowByte && ( QABTest & gTLessT ) > 0u ) ? ( address <  mQAGArray[ QA_LT  ] ) : nowByte;
+					nowByte = ( nowByte && ( QABTest & gTLessE ) > 0u ) ? ( address <= mQAGArray[ QA_LTE ] ) : nowByte;
 				}
-				if ( bATest > 0u )
+				if ( QVGTest > 0u )
 				{
-					nowByte = ( nowByte && ( bATest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( address  >  bAGT    ) : nowByte;
-					nowByte = ( nowByte && ( bATest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( address  >= bAGTE   ) : nowByte;
-					nowByte = ( nowByte && ( bATest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( address  <  bALT    ) : nowByte;
-					nowByte = ( nowByte && ( bATest & vTEST[ QV_MORE_THAN     ] ) > 0u ) ? ( address  <= bALTE   ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTEqual ) > 0u ) ? ( ramValue == mQVGArray[ QV_EQUAL ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTNotE  ) > 0u ) ? ( ramValue != mQVGArray[ QV_NOT   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTMoreT ) > 0u ) ? ( ramValue >  mQVGArray[ QV_MT    ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTMoreE ) > 0u ) ? ( ramValue >= mQVGArray[ QV_MTE   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTLessT ) > 0u ) ? ( ramValue <  mQVGArray[ QV_LT    ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTLessE ) > 0u ) ? ( ramValue <= mQVGArray[ QV_LTE   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTGot   ) > 0u ) ? ( ( ramValue & mQVGArray[ QV_GOT     ] ) >  0u ) : nowByte;
+					nowByte = ( nowByte && ( QVGTest & gTNotG  ) > 0u ) ? ( ( ramValue & mQVGArray[ QV_NOT_GOT ] ) == 0u ) : nowByte;
 				}
-				outNo       += nowByte ? 1u : 0u;
+				if ( QVBTest > 0u )
+				{
+					nowByte = ( nowByte && ( QVBTest & gTEqual ) > 0u ) ? ( ramValue == mQVBArray[ QV_EQUAL ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTNotE  ) > 0u ) ? ( ramValue != mQVBArray[ QV_NOT   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTMoreT ) > 0u ) ? ( ramValue >  mQVBArray[ QV_MT    ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTMoreE ) > 0u ) ? ( ramValue >= mQVBArray[ QV_MTE   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTLessT ) > 0u ) ? ( ramValue <  mQVBArray[ QV_LT    ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTLessE ) > 0u ) ? ( ramValue <= mQVBArray[ QV_LTE   ] ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTGot   ) > 0u ) ? ( ( ramValue & mQVBArray[ QV_GOT     ] ) >  0u ) : nowByte;
+					nowByte = ( nowByte && ( QVBTest & gTNotG  ) > 0u ) ? ( ( ramValue & mQVBArray[ QV_NOT_GOT ] ) == 0u ) : nowByte;
+				}
+				if ( nowByte ) ++outNo;
 				switch ( size )
 				{
 					case 8u:
-						theByte[ i + 7u ] = theByte;
-						theByte[ i + 6u ] = theByte;
-						theByte[ i + 5u ] = theByte;
-						theByte[ i + 4u ] = theByte;
+						theByte[ i + 7u ] = nowByte;
+						theByte[ i + 6u ] = nowByte;
+						theByte[ i + 5u ] = nowByte;
+						theByte[ i + 4u ] = nowByte;
 					case 4u:
-						theByte[ i + 3u ] = theByte;
-						theByte[ i + 2u ] = theByte;
+						theByte[ i + 3u ] = nowByte;
+						theByte[ i + 2u ] = nowByte;
 					case 2u:
-						theByte[ i + 1u ] = theByte;
+						theByte[ i + 1u ] = nowByte;
 					default:
 						theByte[ i ] = nowByte;
 				}
 			}
 			ramByte += size;
-			k++;
+			++k;
 		}
 	}
 	delete [] old8;
