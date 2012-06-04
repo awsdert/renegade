@@ -6,14 +6,15 @@ void G::UseHook( void )
 	{
 		SetTime();
 		s32 endian = mGetPFMEndian();
-		for ( s8 index = 0; index < 16; ++index )
+		s32 i = 0;
+		for ( ; i < 16; ++i )
 		{
-			hookArray[ index ] = mGetRamByte( index );
+			hookArray[ i ] = mGetRamByte( i );
 		}
 		u64 flipped;
 		OUTDATA data;
 		s32 iCount = mOutArray.size();
-		for ( s32 i = 0; i < iCount; ++i )
+		for ( i = 0; i < iCount; ++i )
 		{
 			data = mOutArray[ i ];
 			GetAddress( data.address, flipped, data.size, endian );

@@ -10,21 +10,10 @@ void G::SetSearch( s16 no )
 		text.Printf( wxT( "Search %i" ), i );
 		findUse_D->Append( text );
 	}
-	findUse_D->Select( i - 1 );
+	findUse_D->Select( no );
 }
 u64  G::GetValue( wxTextCtrl* obj, u8 mode )
-{
-	u64 value = 0u;
-	xStr text = obj->GetValue();
-	switch ( mode )
-	{
-		case VAL_HEX: value = GetHex( text ); break;
-		case VAL_UINT: value = GetHexFromU64( text ); break;
-		case VAL_SINT: value = GetHexFromS64( text ); break;
-		case VAL_SFLT: value = GetHexFromF64( text ); break;
-	}
-	return value;
-}
+	{ return gGetValue( obj->GetValue(), mode ); }
 u32  G::GetQAG( void )
 {
 	u32 test  = 0u;
@@ -94,18 +83,10 @@ void G::Search( s16 no, s8 type )
 	xStr  text, path = wxGetCwd() + slash + wxT( "ram" ) + slash, toDump, toByte;
 	toDump.Printf( wxT( "dump%02i.bin" ), no );
 	toByte.Printf( wxT( "byte%02i.bin" ), no );
-	s8    theSize    = findSize_D->GetSelection();
-	u8    size       = 1u;
-	switch ( theSize )
-	{
-		case 1: size = 2u; break;
-		case 2: size = 4u; break;
-		case 3: size = 8u;
-	}
+	u8    size       = gGetUSize( findSize_D->GetSelection() );
 	s8 ramNo         = findRam_D->GetSelection();
 	if ( ramNo < 0 ) ramNo = 0;
 	u64   address    = 0u;
-	u32   i          = 0u, j = 0u, k = 0u;
 	u64   nextByte   = 0u;
 	u64   nextOut    = 0u;
 	u64   atByte     = mGetRamByte( ramNo );
@@ -119,39 +100,46 @@ void G::Search( s16 no, s8 type )
 	}
 	else
 	{
-		bin_BF.Length();
+		upToByte = bin_BF.Length();
 	}
 	u64   endByte    = mGetRamSize( ramNo );
 	if ( endByte > upToByte ) endByte = upToByte;
-	u32   addByte    = ( endByte < readSize ) ? endByte : readSize;
+	u32   i, iNext   = 0u, j, k = 0u;
+	u32   jCount     = ( endByte < readSize ) ? endByte : readSize;
 	u64   addOut     = endByte / 10u;
-	u8*   ram8       = new u8[ addByte ];
+	u8*   ram8       = new u8[ jCount ];
 	u16*  ram16      = reinterpret_cast< u16* >( ram8 );
 	u32*  ram32      = reinterpret_cast< u32* >( ram8 );
 	u64*  ram64      = reinterpret_cast< u64* >( ram8 );
-	u8*   old8       = new u8[ addByte ];
+	u8*   old8       = new u8[ jCount ];
 	u16*  old16      = reinterpret_cast< u16* >( old8 );
 	u32*  old32      = reinterpret_cast< u32* >( old8 );
 	u64*  old64      = reinterpret_cast< u64* >( old8 );
 	bool  nowByte    = false;
-	bool* theByte    = new bool[ addByte ];
+	bool* theByte    = new bool[ jCount ];
+	for ( j = 0u; j < jCount; ++j )
+	{
+		theByte[ j ] = false;
+	}
 	wxFile nowDump_BF, nowByte_BF, oldDump_BF, oldByte_BF;
-	nowDump_BF.Create( path + toDump, true );
-	nowDump_BF.Open(   path + toDump, bin_BF.write );
-	nowByte_BF.Create( path + toByte, true );
-	nowByte_BF.Open(   path + toByte, bin_BF.write );
+	text = path + toDump;
+	if ( wxFileExists( text ) ) { wxRemoveFile( text ); }
+	nowDump_BF.Create( text );
+	nowDump_BF.Open(   text, nowDump_BF.read_write );
+	text = path + toByte;
+	if ( wxFileExists( text ) ) { wxRemoveFile( text ); }
+	nowByte_BF.Create( text );
+	nowByte_BF.Open(   text, nowByte_BF.read_write );
 	if ( no > 0 )
 	{
 		toDump.Printf( wxT( "dump%02i.bin" ), no - 1 );
 		toByte.Printf( wxT( "byte%02i.bin" ), no - 1 );
-		oldDump_BF.Open( path + toDump, bin_BF.read );
-		oldByte_BF.Open( path + toByte, bin_BF.read );
+		oldDump_BF.Open( path + toDump );
+		oldByte_BF.Open( path + toByte );
 	}
 	// Get Test Modes
 	u64 ramValue = 0u;
 	u64 oldValue = 0u;
-	u64 ramByte  = 0u;
-	s32 fTest    = findType_D->GetSelection();
 	u32 QAGTest  = GetQAG();
 	u32 QABTest  = GetQAB();
 	u32 QVGTest  = GetQVG();
@@ -163,41 +151,50 @@ void G::Search( s16 no, s8 type )
 	byte_PB->SetRange( 10 );
 	byte_PB->SetValue( 0 );
 	s32 progress = 0;
-	for ( address = 0u, i = 0u; address < endByte; ++address, ++i )
+	for
+	(
+		address = 0u, i = jCount;
+		address < endByte;
+		++address, ++i
+	)
 	{
-		if ( address == nextByte )
+		if ( i == jCount )
 		{
-			nextByte += addByte;
-			nowDump_BF.Write( ram8, addByte );
-			nowByte_BF.Write( theByte, addByte );
+			nextByte += jCount;
+			if ( address > 0u )
+			{
+				nowDump_BF.Write( ram8,    jCount );
+				nowByte_BF.Write( theByte, jCount );
+			}
 			if ( nextByte > endByte )
 			{
-				nextByte -= addByte;
-				addByte   = endByte - nextByte;
+				nextByte -= jCount;
+				jCount    = endByte - nextByte;
 				nextByte  = endByte;
 			}
 			if ( hookApp )
 			{
-				GetRamX( appHandle, atByte, ram8, addByte );
-				atByte   += addByte;
+				GetRamX( appHandle, atByte, ram8, jCount );
+				atByte   += jCount;
 			}
 			else
 			{
-				bin_BF.Read( ram8, addByte );
+				bin_BF.Read( ram8, jCount );
 			}
 			if ( no > 0 )
 			{
-				oldDump_BF.Read( old8, addByte );
-				oldByte_BF.Read( theByte, addByte );
+				oldDump_BF.Read( old8,    jCount );
+				oldByte_BF.Read( theByte, jCount );
 			}
 			else
 			{
-				for ( j = 0u; j < addByte; ++j )
+				for ( j = 0u; j < jCount; ++j )
 				{
 					theByte[ j ] = true;
 				}
 			}
 			i = 0u;
+			iNext = 0u;
 			k = 0u;
 		}
 		if ( address == nextOut )
@@ -208,7 +205,7 @@ void G::Search( s16 no, s8 type )
 			byte_PB->SetValue( progress );
 			out_S->SetLabel( text );
 		}
-		if ( address == ramByte )
+		if ( i == iNext )
 		{
 			if ( theByte[ i ] )
 			{
@@ -230,16 +227,20 @@ void G::Search( s16 no, s8 type )
 						ramValue = ram8[ k ];
 						oldValue = old8[ k ];
 				}
-				switch ( fTest )
+				if ( no > 0 )
 				{
-					case QD_EQUAL: nowByte = ( ramValue == oldValue ); break;
-					case QD_NOT:   nowByte = ( ramValue != oldValue ); break;
-					case QD_MT:    nowByte = ( ramValue >  oldValue ); break;
-					case QD_MTE:   nowByte = ( ramValue >= oldValue ); break;
-					case QD_LT:    nowByte = ( ramValue <  oldValue ); break;
-					case QD_LTE:   nowByte = ( ramValue <= oldValue ); break;
-					default:       nowByte = true;
+					switch ( type )
+					{
+						case QD_EQUAL: nowByte = ( ramValue == oldValue ); break;
+						case QD_NOT:   nowByte = ( ramValue != oldValue ); break;
+						case QD_MT:    nowByte = ( ramValue >  oldValue ); break;
+						case QD_MTE:   nowByte = ( ramValue >= oldValue ); break;
+						case QD_LT:    nowByte = ( ramValue <  oldValue ); break;
+						case QD_LTE:   nowByte = ( ramValue <= oldValue ); break;
+						default:       nowByte = true;
+					}
 				}
+				else { nowByte = true; }
 				if ( QAGTest > 0u )
 				{
 					nowByte = ( nowByte && ( QAGTest & gTMoreT ) > 0u ) ? ( address >  mQAGArray[ QA_MT  ] ) : nowByte;
@@ -276,33 +277,36 @@ void G::Search( s16 no, s8 type )
 					nowByte = ( nowByte && ( QVBTest & gTGot   ) > 0u ) ? ( ( ramValue & mQVBArray[ QV_GOT     ] ) >  0u ) : nowByte;
 					nowByte = ( nowByte && ( QVBTest & gTNotG  ) > 0u ) ? ( ( ramValue & mQVBArray[ QV_NOT_GOT ] ) == 0u ) : nowByte;
 				}
-				if ( nowByte ) ++outNo;
+				if ( nowByte ) { ++outNo; }
 				switch ( size )
 				{
 					case 8u:
-						theByte[ i + 7u ] = nowByte;
-						theByte[ i + 6u ] = nowByte;
-						theByte[ i + 5u ] = nowByte;
-						theByte[ i + 4u ] = nowByte;
+						theByte[ i + 7u ] = false;
+						theByte[ i + 6u ] = false;
+						theByte[ i + 5u ] = false;
+						theByte[ i + 4u ] = false;
 					case 4u:
-						theByte[ i + 3u ] = nowByte;
-						theByte[ i + 2u ] = nowByte;
+						theByte[ i + 3u ] = false;
+						theByte[ i + 2u ] = false;
 					case 2u:
-						theByte[ i + 1u ] = nowByte;
+						theByte[ i + 1u ] = false;
 					default:
 						theByte[ i ] = nowByte;
 				}
 			}
-			ramByte += size;
+			iNext += size;
 			++k;
 		}
 	}
-	delete [] old8;
-	nowDump_BF.Write( ram8, addByte );
+	if ( i == jCount )
+	{
+		nowDump_BF.Write( ram8,    jCount );
+		nowByte_BF.Write( theByte, jCount );
+	}
 	nowDump_BF.Close();
-	delete [] ram8;
-	nowByte_BF.Write( theByte, addByte );
 	nowByte_BF.Close();
+	delete [] ram8;
+	delete [] old8;
 	delete [] theByte;
 	if ( no > 0 )
 	{

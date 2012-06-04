@@ -27,6 +27,7 @@ cleanFRM( parent )
 	dbp_P->Layout();
 	// Find Tab
 	wxSize size( 50, -1 );
+	SetSearch( 0 );
 	// Drop Down
 	array.Clear();
 	array.SetCount( QD_COUNT );
@@ -38,6 +39,7 @@ cleanFRM( parent )
 	array[ QD_LT    ] = wxT( "Less Than ( < )" );
 	array[ QD_LTE   ] = wxT( "Less Than or Equal To ( <= )" );
 	findType_D->Append( array );
+	findType_D->Select( 0 );
 	// ADDRESS
 	array.Clear();
 	array.SetCount( QA_COUNT );
@@ -140,11 +142,7 @@ cleanFRM( parent )
 	editSize_D->Select( 0 );
 	// - Value Modes
 	array.Clear();
-	array.SetCount( VAL_COUNT );
-	array[ VAL_HEX ]  = wxT( "HexaDecimal"  );
-	array[ VAL_SINT ] = wxT( "Signed No"    );
-	array[ VAL_UINT ] = wxT( "Unsigned No"  );
-	array[ VAL_SFLT ] = wxT( "Signed Float" );
+	array = gGetValModes();
 	findMode_D->Clear();
 	findMode_D->Append( array );
 	findMode_D->Select( 0 );

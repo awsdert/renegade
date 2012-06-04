@@ -301,6 +301,7 @@ class cleanFRM : public wxFrame
 		virtual void findLT_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void compare_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void findMode_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void out_LCOnSelect( wxListEvent& event ) { event.Skip(); }
 		virtual void outData_LCOnSelect( wxListEvent& event ) { event.Skip(); }
 		virtual void out_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void SetOut_BOnClick( wxCommandEvent& event ) { event.Skip(); }

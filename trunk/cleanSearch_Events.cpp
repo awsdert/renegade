@@ -9,8 +9,7 @@ void G::find_BOnClick( wxCommandEvent& event )
 	s16 no = findUse_D->GetSelection();
 	if ( no < 255 )
 	{
-		s8 type = findType_D->GetSelection();
-		Search( no, type );
+		Search( no, findType_D->GetSelection() );
 	}
 }
 void G::findEqual_BOnClick( wxCommandEvent& event )

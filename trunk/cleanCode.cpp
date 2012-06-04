@@ -162,7 +162,7 @@ void BuildCode( CODE& code, s32 &index, xAStr &array )
 			if ( code.size > 4u )
 			{
 				vText = part1 + part2;
-				if ( code.loop > 0u )
+				if ( code.loop > 0u && code.type != CT_COPY )
 				{
 					BuildCode_Inc();
 					iText = part1 + part2;
@@ -178,7 +178,7 @@ void BuildCode( CODE& code, s32 &index, xAStr &array )
 		{
 			vText = part1;
 			bText = part2;
-			if ( code.loop > 0u )
+			if ( code.loop > 0u && code.type != CT_COPY )
 			{
 				BuildCode_Inc();
 				iText = part2;

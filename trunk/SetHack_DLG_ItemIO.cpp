@@ -4,6 +4,7 @@ CODE SetHack_DLG::dGetCode( void )
 	CODE  code;
 	u64   value;
 	u8*   vTEST    = gGetQVTest();
+	u8    mode     = dCodeMode_D->GetSelection();
 	code.type      = dCodeType_D->GetSelection();
 	code.ptrDepth  = dCodePtr_SN->GetValue();
 	code.size      = gGetUSize( dCodeSize_D->GetSelection() );
@@ -19,7 +20,7 @@ CODE SetHack_DLG::dGetCode( void )
 	{
 		s32 iCount = tmp.GetCount();
 		for ( s32 i = 1; i < iCount; ++i )
-			code.NewItem( GetHex( tmp[ i ], code.size ) );
+			code.NewItem( gGetValue( tmp[ i ], mode, code.size ) );
 		code.test = code.GetCount();
 	}
 	else if ( code.type == CT_TEST )
