@@ -1193,6 +1193,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	findLT_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::findLT_BOnClick ), NULL, this );
 	findUse_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::compare_DOnChoice ), NULL, this );
 	findMode_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::findMode_DOnChoice ), NULL, this );
+	out_LC->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( cleanFRM::out_LCOnSelect ), NULL, this );
 	outData_LC->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( cleanFRM::outData_LCOnSelect ), NULL, this );
 	outByte_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	outValue_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::out_TXTOnChange ), NULL, this );
@@ -1284,6 +1285,7 @@ cleanFRM::~cleanFRM()
 	findLT_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::findLT_BOnClick ), NULL, this );
 	findUse_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::compare_DOnChoice ), NULL, this );
 	findMode_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::findMode_DOnChoice ), NULL, this );
+	out_LC->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( cleanFRM::out_LCOnSelect ), NULL, this );
 	outData_LC->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( cleanFRM::outData_LCOnSelect ), NULL, this );
 	outByte_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	outValue_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::out_TXTOnChange ), NULL, this );

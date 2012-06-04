@@ -68,4 +68,21 @@ void G::outData_LCOnSelect( wxListEvent& event )
 	text.Printf( hexVLL, mOutArray[ i ].value );
 	outValue_TXT->ChangeValue( text );
 }
-
+void G::out_LCOnSelect( wxListEvent& event )
+{
+	wxListItem item = event.GetItem();
+	xStr text;
+	item.SetColumn( 0 );
+	out_LC->GetItem( item );
+	u64  value = GetHex( item.GetText() );
+	text.Printf( hexVLL, value );
+	outByte_TXT->ChangeValue( text );
+	if ( outEdit_CB->GetValue() )
+	{
+		editGet_TXT->ChangeValue( text );
+	}
+	item.SetColumn( 1 );
+	out_LC->GetItem( item );
+	value = GetHex( item.GetText() );
+	outValue_TXT->ChangeValue( text );
+}

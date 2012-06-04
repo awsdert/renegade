@@ -30,6 +30,11 @@ cleanSetHack_DLG( parent )
 	}
 	dCodeRam_D->Append( array );
 	dCodeRam_D->Select( 0 );
+	// Set Value Modes
+	array.Clear();
+	array = gGetValModes();
+	dCodeMode_D->Append( array );
+	dCodeMode_D->Select( 0 );
 	// Set Tests
 	array.Clear();
 	array.SetCount( QV_COUNT );

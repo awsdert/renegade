@@ -2,6 +2,9 @@
 void G::ShowOut( s16 no, u8 size )
 {
 	out_LC->DeleteAllItems();
+	s8 col = out_LC->GetColumnCount();
+	for ( ; col >= 0; --col )
+		{ out_LC->DeleteColumn( col ); }
 	if ( IsBetween( no, 0, 255 ) )
 	{
 		xStr   text, hexC;
@@ -10,12 +13,12 @@ void G::ShowOut( s16 no, u8 size )
 		xStr   oldDumpText, oldByteText;
 		xStr   slash     = gGetSlash();
 		xStr   path      = wxGetCwd() + slash + wxT( "ram" ) + slash;
-		u8     col       = 1u;
 		s16    i         = no;
-		s16    iCount    = no - 5u;
+		s16    iCount    = no - 5;
 		u32    j         = 0u;
+		u32    jNext     = 0u;
+		u32    jByte     = 0u;
 		u32    jCount    = readSize;
-		u64    jNext     = 0u;
 		u32    k         = 0u;
 		u8     out       = 0u;
 		u8     outCount  = 100u;
@@ -34,40 +37,59 @@ void G::ShowOut( s16 no, u8 size )
 			u64    byteCount = tmp;
 			u64    oldValue;
 			hexC.Printf( wxT( "%%0%ullX" ), size * 2u );
-			if ( iCount < 0 || iCount > i ) iCount = 0;
+			if
+			(
+				iCount < 0 ||
+				iCount > i
+			)
+			{
+				iCount = 0;
+			}
 			item.SetId( 0 );
 			item.SetText( wxT( "Address" ) );
 			out_LC->InsertColumn( 0, item );
-			for ( ; i >= iCount; --i, ++col )
+			for
+			(
+				col = 1;
+				i >= iCount;
+				--i, ++col
+			)
 			{
-				text.Printf(        wxT( "Value %u" ),     col );
-				oldDumpText.Printf( wxT( "dump%02u.bin" ), i   );
+				// Add Column
+				text.Printf( wxT( "Value %i" ), col );
 				item.SetColumn( col  );
 				column.SetId(   col  );
 				column.SetText( text );
 				out_LC->InsertColumn( col, column );
-				oldDump.Open( path + oldDumpText );
-				oldByte.Seek( 0u,    wxFromStart );
-				nextByte  = 0u;
-				out       = 0u;
-				jNext     = 0u;
-				for ( address = 0u; ( address < byteCount && out < outCount ); ++address, ++j )
+				// Open File
+				text.Printf( wxT( "dump%02u.bin" ), i   );
+				oldDump.Open( path + text );
+				oldByte.Seek( 0u, wxFromStart );
+				nextByte = 0u;
+				out      = 0u;
+				for
+				(
+					address = 0u, j = jCount;
+					( address < byteCount && out < outCount );
+					++address, ++j
+				)
 				{
-					if ( address == jNext )
+					if ( j == jCount )
 					{
-						jNext += jCount;
-						if ( jNext > byteCount )
+						jByte += jCount;
+						if ( jByte > byteCount )
 						{
-							jNext -= jCount;
-							jCount = byteCount - jNext;
-							jNext += jCount;
+							jByte -= jCount;
+							jCount = byteCount - jByte;
+							jByte += jCount;
 						}
 						oldDump.Read( old8,    jCount );
 						oldByte.Read( theByte, jCount );
-						j = 0u;
-						k = 0u;
+						j     = 0u;
+						jNext = 0u;
+						k     = 0u;
 					}
-					if ( address == nextByte )
+					if ( j == jNext )
 					{
 						if ( theByte[ j ] )
 						{
@@ -99,7 +121,7 @@ void G::ShowOut( s16 no, u8 size )
 							out_LC->SetItem( item );
 							++out;
 						}
-						nextByte += size;
+						jNext += size;
 						++k;
 					}
 				}

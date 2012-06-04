@@ -132,9 +132,11 @@ enum
 #define gTLessE 0x40
 #define gTGot   0x8
 #define gTNotG  0x80
-u8*  gGetQATest( void );
-u8*  gGetQVTest( void );
-void gSetQTests( void );
+u8*   gGetQATest( void );
+u8*   gGetQVTest( void );
+xAStr gGetValModes( void );
+u64   gGetValue( xStr text, u8 mode, u8 size = 8u );
+void  gSetQTests( void );
 #define AREA_UK       0x1
 #define AREA_US       0x2
 #define AREA_AUS      0x4
