@@ -3763,7 +3763,7 @@
 1189864952 source:z:\hex\svn\trunk\resource.rc
 	"wx/msw/wx.rc"
 
-1338765652 source:z:\hex\svn\trunk\hexapp.cpp
+1338969742 source:z:\hex\svn\trunk\hexapp.cpp
 	"cleanAll.h"
 	"G.h"
 
@@ -4301,7 +4301,7 @@
 	"cleanCLS.h"
 	"cleanAPP.h"
 
-1338833736 z:\hex\svn\trunk\cleanfrm.h
+1338882728 z:\hex\svn\trunk\cleanfrm.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/cshelp.h>
@@ -4315,12 +4315,12 @@
 	<wx/font.h>
 	<wx/colour.h>
 	<wx/settings.h>
+	<wx/choice.h>
+	<wx/sizer.h>
+	<wx/statbox.h>
+	<wx/panel.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
-	<wx/sizer.h>
-	<wx/panel.h>
-	<wx/statbox.h>
-	<wx/choice.h>
 	<wx/button.h>
 	<wx/radiobut.h>
 	<wx/spinctrl.h>
@@ -4339,7 +4339,7 @@
 	<wx/dialog.h>
 	<wx/slider.h>
 
-1338807688 z:\hex\svn\trunk\cleantype.h
+1338969742 z:\hex\svn\trunk\cleantype.h
 	<stdexcept>
 	<vector>
 	<wx/string.h>
@@ -4370,13 +4370,13 @@
 1338556468 source:z:\hex\svn\trunk\cleanapp.cpp
 	"cleanAPP.h"
 
-1338832376 source:z:\hex\svn\trunk\g.cpp
+1338883506 source:z:\hex\svn\trunk\g.cpp
 	"G.h"
 
-1338762412 z:\hex\svn\trunk\g.h
+1338969742 z:\hex\svn\trunk\g.h
 	"cleanFRM.h"
 
-1338833736 source:z:\hex\svn\trunk\cleanfrm.cpp
+1338883638 source:z:\hex\svn\trunk\cleanfrm.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"cleanFRM.h"
@@ -4403,7 +4403,7 @@
 	"cleanCLS.h"
 	<wx/app.h>
 
-1338371288 source:z:\hex\svn\trunk\cleaneditor.cpp
+1338841476 source:z:\hex\svn\trunk\cleaneditor.cpp
 	"G.h"
 
 1337676590 source:z:\hex\svn\trunk\cleanhook.cpp
@@ -4443,7 +4443,7 @@
 	"G.h"
 	"SetHack_DLG.h"
 
-1338542602 source:z:\hex\svn\trunk\cleandbp.cpp
+1338970236 source:z:\hex\svn\trunk\cleandbp.cpp
 	"G.h"
 	"GetDBP_DLG.h"
 
@@ -4453,7 +4453,7 @@
 1336753436 source:z:\hex\svn\trunk\cleanhackcls.cpp
 	"cleanCLS.h"
 
-1338765312 source:z:\hex\svn\trunk\cleanhooking.cpp
+1338834024 source:z:\hex\svn\trunk\cleanhooking.cpp
 	"G.h"
 
 1335563534 source:z:\hex\svn\trunk\choosedbp_dlg.cpp
@@ -4525,10 +4525,10 @@
 1336656546 source:z:\hex\svn\trunk\hexapporg.cpp
 	"cleanAll.h"
 
-1338465028 source:z:\hex\svn\trunk\getdbp_dlg_fileio.cpp
+1338969742 source:z:\hex\svn\trunk\getdbp_dlg_fileio.cpp
 	"GetDBP_DLG.h"
 
-1338157242 source:z:\hex\svn\trunk\getdbp_dlg_itemio.cpp
+1338969938 source:z:\hex\svn\trunk\getdbp_dlg_itemio.cpp
 	"GetDBP_DLG.h"
 
 1336656514 source:z:\hex\svn\trunk\hexapphack.cpp
@@ -4552,7 +4552,7 @@
 1338542602 source:z:\hex\svn\trunk\g_txtonchange.cpp
 	"G.h"
 
-1338371288 source:z:\hex\svn\trunk\cleaneditor_events.cpp
+1338841476 source:z:\hex\svn\trunk\cleaneditor_events.cpp
 	"G.h"
 	<wx/dcclient.h>
 
@@ -4568,15 +4568,18 @@
 1337554932 source:z:\hex\svn\trunk\wx2_9.cpp
 	"cleanType.h"
 
-1337881868 source:z:\hex\svn\trunk\session_fileio.cpp
+1338970306 source:z:\hex\svn\trunk\session_fileio.cpp
 	"G.h"
 
 1338622348 source:z:\hex\svn\trunk\cleanall_validate.cpp
 	"G.h"
 
-1338807688 source:z:\hex\svn\trunk\gtest.cpp
+1338969742 source:z:\hex\svn\trunk\gtest.cpp
 	"cleanType.h"
 
 1338053748 source:z:\hex\svn\trunk\gbuildcodesonyps2.cpp
+	"cleanAll.h"
+
+1338969742 source:z:\hex\svn\trunk\area.cpp
 	"cleanAll.h"
 

@@ -4,25 +4,27 @@ G::G( wxWindow* parent )
 cleanFRM( parent )
 {
 	// Initialise
+	editX = 0;
+	editY = 0;
 	isHooked  = 0;
 	editIsRecursing = 0;
 	isFocus   = false;
 	isEdit    = false;
-	lLastText = wxT( "Last State"   );
-	lOrgText  = wxT( "Organisation" );
-	lPFMText  = wxT( "Platform"     );
-	lBinText  = wxT( "Binary"       );
-	lDBPText  = wxT( "Profile"      );
+	mCfgText  = wxT( "Configuration" );
+	mOrgText  = wxT( "Organisation"  );
+	mPFMText  = wxT( "Platform"      );
+	mBinText  = wxT( "Binary"        );
+	mDBPText  = wxT( "Profile"       );
 	// wxChoice filling
-	lArea_CB.resize( AREA_COUNT );
+	mArea_CB.resize( AREA_COUNT );
 	xStr  text = wxT( '0' );
 	xAStr array = gGetArea();
 	s32 index;
 	for ( index = 0; index < AREA_COUNT; ++index )
 	{
-		lArea_CB[ index ] = new wxCheckBox( dbpAreaCB_P, wxID_ANY, array[ index ] );
-		dbpAreaCB_LG->Add( lArea_CB[ index ], 0, wxBORDER | wxALL, 5 );
-		lArea_CB[ index ]->SetValue( true );
+		mArea_CB[ index ] = new wxCheckBox( dbpAreaCB_P, wxID_ANY, array[ index ] );
+		dbpAreaCB_LG->Add( mArea_CB[ index ], 0, wxBORDER | wxALL, 5 );
+		mArea_CB[ index ]->SetValue( true );
 	}
 	dbp_P->Layout();
 	// Find Tab
@@ -187,6 +189,7 @@ cleanFRM( parent )
 	item.SetText( wxT( "Part 2" ) );
 	code_LC->InsertColumn( 1, item );
 	// Load Last Session
+	mLoadSessions();
 	mLoadSession();
 }
 void G::GOnClose( wxCloseEvent& event )

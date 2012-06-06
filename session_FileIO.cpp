@@ -1,16 +1,42 @@
 #include "G.h"
-void G::mLoadSession( s8 sessionId )
+void G::mLoadSessions( void )
 {
-	// TODO(awsdert) Rewrite Session Loading
+	xStr  text, path, file, name = wxT( "TotalSessions" ), value = wxT('0');
+	xStr  title = gGetTitle(), vendor = gGetVendor();
+	u8    i, iCount;
+	gGetOrgFile( path, file );
+	wxFileConfig hex_TF( title, vendor, file );
+	hex_TF.SetPath( mCfgText );
+	if ( hex_TF.Read( name, &text ) )
+	{
+		iCount = GetHexFromU64( text, 1u );
+		if ( iCount > 5 ) iCount = 5;
+	}
+	else iCount = 0u;
+	session_D->Clear();
+	for ( i = 0u; i < iCount; ++i )
+	{
+		text.Printf( wxT( "Session %u" ), i + 1u );
+		session_D->Append( text );
+	}
+	session_D->Select( i - 1u );
+}
+void G::mLoadSession( void )
+{
+	s8 sessionId = session_D->GetSelection();
+	if ( sessionId < 0 || sessionId > 4 ) return;
+	++sessionId;
+	xStr sessionText;
+	sessionText.Printf( wxT( "/Session_%i" ), sessionId );
 	xStrT st;
 	xStr  key, text, path, file, name;
 	xStr  title = gGetTitle(), vendor = gGetVendor();
 	gGetOrgFile( path, file );
 	wxFileConfig hex_TF( title, vendor, file );
-	hex_TF.SetPath( lLastText );
-	if ( hex_TF.Read( lOrgText, &name ) )
+	hex_TF.SetPath( sessionText );
+	if ( hex_TF.Read( mOrgText, &name ) )
 	{
-		hex_TF.SetPath( wxT("/") + lOrgText );
+		hex_TF.SetPath( wxT("/") + mOrgText );
 		if ( hex_TF.Read( name, &text ) )
 		{
 			ORG org;
@@ -20,8 +46,8 @@ void G::mLoadSession( s8 sessionId )
 			org.nowFile   = text;
 			org.oldFile   = text;
 			gSetOrg( org );
-			hex_TF.SetPath( wxT("/") + lLastText );
-			if ( hex_TF.Read( lPFMText, &name ) )
+			hex_TF.SetPath( sessionText );
+			if ( hex_TF.Read( mPFMText, &name ) )
 			{
 				gGetPFMFile( path, file );
 				wxFileConfig org_TF( title, vendor, file );
@@ -42,7 +68,7 @@ void G::mLoadSession( s8 sessionId )
 						pfm.endian = ENDIAN_LB;
 					else pfm.endian = ENDIAN_LITTLE;
 					gSetPFM( pfm );
-					if ( hex_TF.Read( lBinText, &name ) )
+					if ( hex_TF.Read( mBinText, &name ) )
 					{
 						gGetBinFile( path, file );
 						wxFileConfig pfm_TF( title, vendor, file );
@@ -88,7 +114,7 @@ void G::mLoadSession( s8 sessionId )
 								}
 							}
 							gSetBin( bin );
-							if ( hex_TF.Read( lDBPText, &name ) )
+							if ( hex_TF.Read( mDBPText, &name ) )
 							{
 								gGetDBPFile( path, file );
 								wxTextFile bin_TF;
@@ -161,3 +187,49 @@ void G::mLoadSession( s8 sessionId )
 	mShowDBP();
 	mLoadHack();
 }
+void G::mSaveSession( void )
+{
+	s8 sessionId = session_D->GetSelection();
+	if ( sessionId < 0 || sessionId > 4 ) return;
+	++sessionId;
+	xStr sessionText;
+	sessionText.Printf( wxT( "Session_%i" ), sessionId );
+	xStr  path, file;
+	xStr  title = gGetTitle(), vendor = gGetVendor();
+	gGetOrgFile( path, file );
+	wxFileConfig hex_TF( title, vendor, file );
+	hex_TF.SetPath( sessionText );
+	hex_TF.Write( mOrgText, gGetOrg().nowName );
+	hex_TF.Write( mPFMText, gGetPFM().nowName );
+	hex_TF.Write( mBinText, gGetBin().nowName );
+	hex_TF.Write( mDBPText, gGetDBP().nowName );
+}
+void G::session_DOnChoice(   wxCommandEvent& event ) { mLoadSession(); }
+void G::NewSession_OnClick(  wxCommandEvent& event )
+{
+	s8 iCount = session_D->GetCount();
+	if ( iCount < 6 )
+	{
+		xStr text;
+		text.Printf( wxT( "Session %i" ), iCount );
+		session_D->Append( text );
+		session_D->Select( iCount );
+		mSaveSession();
+	}
+	else MB( wxT( "Cannot have more than 5 sessions" ) );
+}
+void G::DelSession_OnClick(  wxCommandEvent& event )
+{
+	s8 i = session_D->GetSelection();
+	if ( i < 0 ) return;
+	++i;
+	xStr sessionText;
+	sessionText.Printf( wxT( "Session_%i" ), i );
+	xStr  path, file;
+	xStr  title = gGetTitle(), vendor = gGetVendor();
+	gGetOrgFile( path, file );
+	wxFileConfig hex_TF( title, vendor, file );
+	hex_TF.DeleteGroup( sessionText );
+}
+void G::LoadSession_OnClick( wxCommandEvent& event ) { mLoadSession(); }
+void G::SaveSession_OnClick( wxCommandEvent& event ) { mSaveSession(); }

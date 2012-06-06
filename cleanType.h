@@ -114,16 +114,6 @@ enum
 	QD_LTE,
 	QD_COUNT
 };
-/*enum
-{
-	TD_EQUAL = 0u,
-	TD_NOT_EQUAL,
-	TD_MORE_THAN,
-	TD_MORE_OR_EQUAL,
-	TD_LESS_THAN,
-	TD_LESS_OR_EQUAL,
-	TD_COUNT
-};*/
 #define gTEqual 0x1
 #define gTNotE  0x10
 #define gTMoreT 0x2
@@ -143,6 +133,9 @@ void  gSetQTests( void );
 #define AREA_JP       0x8
 #define AREA_DE       0x10
 #define AREA_ALL      0xFFFFFFFF
+xAStr gGetArea(  void );
+u32*  gGetAreas( void );
+void  gSetArea(  void );
 #define UINT8_MAX     0xFF
 #define SINT8_MAX       127
 #define SINT8_MIN      -127

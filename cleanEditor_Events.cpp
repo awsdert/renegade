@@ -91,9 +91,37 @@ void G::edit_GOnSelect(    wxGridEvent& event )
 {
 	s32 row = event.GetRow();
 	s32 col = event.GetCol();
+	if ( row < 0 || col < 0 )
+	{
+		wxGridCellCoordsArray array = edit_G->GetSelectionBlockTopLeft();
+		wxGridCellCoords cell;
+		if ( array.GetCount() > 0 )
+		{
+			cell = array[ 0 ];
+			if ( row < 0 ) row = cell.GetRow();
+			if ( col < 0 ) col = cell.GetCol();
+		}
+		if ( row < 0 || col < 0 )
+		{
+			array = edit_G->GetSelectedCells();
+			if ( array.GetCount() > 0 )
+			{
+				cell = array[ 0 ];
+				if ( row < 0 ) row = cell.GetRow();
+				if ( col < 0 ) col = cell.GetCol();
+			}
+			if ( row < 0 || col < 0 )
+			{
+				wxArrayInt rows, cols;
+				rows = edit_G->GetSelectedRows();
+				cols = edit_G->GetSelectedCols();
+				if ( row < 0 && !( row = rows[ 0 ] ) ) row = 0;
+				if ( col < 0 && !( col = cols[ 0 ] ) ) col = 0;
+			}
+		}
+	}
 	bool doEvent = ( col < 16 );
 	event.Skip( doEvent );
-	if ( !doEvent ) return;
 	isFocus = true;
 	editRow = row;
 	editCol = col;
@@ -104,21 +132,13 @@ void G::edit_GOnMouseWheel( wxMouseEvent& event )
 	event.Skip();
 	// When move to 2.9.4 onwards this will replace current detection.
 //	if ( event.GetWheelAxis() != wxMOUSE_WHEEL_VERTICAL ) return;
-	wxWindowDC dc( edit_G );
 	s32 x  = 0, y  = 0;
 	s32 xS = 0, yS = 0;
-	s32 xP = 0, yP = 0;
-	s32 xE = 0, yE = 0;
-	edit_G->GetViewStart(   &xS, &yS );
-	edit_G->GetVirtualSize( &xP, &yP );
-	s32 d  = event.GetWheelDelta();
-	s32 d2 = floor( d / 2 );
+	edit_G->GetViewStart( &xS, &yS );
 	s32 r = event.GetWheelRotation();
-	xE = dc.DeviceToLogicalX( xP ) + d + d2;
-	yE = dc.DeviceToLogicalY( yP ) + d + d2;
 	edit_G->CalcUnscrolledPosition( xS, yS, &x, &y );
-	bool isXScrolling = ( x > 0 && x < xE );
-	bool isYScrolling = ( y > 0 && y < yE );
+	bool isXScrolling = ( x != editX );
+	bool isYScrolling = ( y != editY );
 	if ( !isXScrolling && !isYScrolling )
 	{
 		u64 byte = GetHex( editGet_TXT->GetValue() );
@@ -141,5 +161,7 @@ void G::edit_GOnMouseWheel( wxMouseEvent& event )
 		FillEditor();
 		edit_G->Scroll( xS, yS );
 	}
+	editX = x;
+	editY = y;
 	isLastUp = ( r >= 0 );
 }
