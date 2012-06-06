@@ -66,6 +66,11 @@ void G::FillEditor( void )
 	}
 	delete [] ram8;
 	DelHook();
-	if ( isFocus ) edit_G->SelectBlock( editRow, editCol, editRow, editCol, false );
+	if ( isFocus )
+	{
+		edit_G->SetGridCursor(   editRow, editCol );
+		edit_G->MakeCellVisible( editRow, editCol );
+	}
+	edit_G->Scroll( editX, editY );
 	--editIsRecursing;
 }

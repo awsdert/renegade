@@ -1,16 +1,16 @@
 #include "cleanType.h"
-u8    gQATest[ QA_COUNT ];
-u8    gQVTest[ QV_COUNT ];
-xAStr gValMode;
-u8*   gGetQATest(   void ) { return gQATest; }
-u8*   gGetQVTest(   void ) { return gQVTest; }
-xAStr gGetValModes( void ) { return gValMode; }
+u8    lQATest[ QA_COUNT ];
+u8    lQVTest[ QV_COUNT ];
+xAStr lValMode;
+u8*   gGetQATest(   void ) { return lQATest; }
+u8*   gGetQVTest(   void ) { return lQVTest; }
+xAStr gGetValModes( void ) { return lValMode; }
 u64   gGetValue( xStr text, u8 mode, u8 size )
 {
 	u64 value = 0u;
 	switch ( mode )
 	{
-		case VAL_HEX: value = GetHex( text, size ); break;
+		case VAL_HEX: value  = GetHex( text, size ); break;
 		case VAL_UINT: value = GetHexFromU64( text, size ); break;
 		case VAL_SINT: value = GetHexFromS64( text, size ); break;
 		case VAL_SFLT: value = GetHexFromF64( text, size ); break;
@@ -21,23 +21,23 @@ void gSetQTests( void )
 {
 	// DO NOT MODIFY
 	// Address
-	gQATest[ QA_MT  ] = gTMoreT;
-	gQATest[ QA_MTE ] = gTMoreE;
-	gQATest[ QA_LT  ] = gTLessT;
-	gQATest[ QA_LTE ] = gTLessE;
+	lQATest[ QA_MT  ] = gTMoreT;
+	lQATest[ QA_MTE ] = gTMoreE;
+	lQATest[ QA_LT  ] = gTLessT;
+	lQATest[ QA_LTE ] = gTLessE;
 	// Value
-	gQVTest[ QV_EQUAL   ] = gTEqual;
-	gQVTest[ QV_NOT     ] = gTNotE;
-	gQVTest[ QV_MT      ] = gTMoreT;
-	gQVTest[ QV_MTE     ] = gTMoreE;
-	gQVTest[ QV_LT      ] = gTLessT;
-	gQVTest[ QV_LTE     ] = gTLessE;
-	gQVTest[ QV_GOT     ] = gTGot;
-	gQVTest[ QV_NOT_GOT ] = gTNotG;
+	lQVTest[ QV_EQUAL   ] = gTEqual;
+	lQVTest[ QV_NOT     ] = gTNotE;
+	lQVTest[ QV_MT      ] = gTMoreT;
+	lQVTest[ QV_MTE     ] = gTMoreE;
+	lQVTest[ QV_LT      ] = gTLessT;
+	lQVTest[ QV_LTE     ] = gTLessE;
+	lQVTest[ QV_GOT     ] = gTGot;
+	lQVTest[ QV_NOT_GOT ] = gTNotG;
 	// Value Mode
-	gValMode.SetCount( VAL_COUNT );
-	gValMode[ VAL_HEX  ] = wxT( "Hexadecimal" );
-	gValMode[ VAL_SINT ] = wxT( "Signed Integer" );
-	gValMode[ VAL_UINT ] = wxT( "Unsigned Integer" );
-	gValMode[ VAL_SFLT ] = wxT( "Signed Float" );
+	lValMode.SetCount( VAL_COUNT );
+	lValMode[ VAL_HEX  ] = wxT( "Hexadecimal" );
+	lValMode[ VAL_SINT ] = wxT( "Signed Integer" );
+	lValMode[ VAL_UINT ] = wxT( "Unsigned Integer" );
+	lValMode[ VAL_SFLT ] = wxT( "Signed Float" );
 }

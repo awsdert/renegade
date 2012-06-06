@@ -21,12 +21,12 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/choice.h>
+#include <wx/sizer.h>
+#include <wx/statbox.h>
+#include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/sizer.h>
-#include <wx/panel.h>
-#include <wx/statbox.h>
-#include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/radiobut.h>
 #include <wx/spinctrl.h>
@@ -57,7 +57,12 @@ class cleanFRM : public wxFrame
 	protected:
 		enum
 		{
-			mListOrg_ID = 1000,
+			LoadSession_ID = 1000,
+			SaveSession_ID,
+			NewSession_ID,
+			DelSession_ID,
+			session_ID,
+			mListOrg_ID,
 			mLoadOrg_ID,
 			mSaveOrg_ID,
 			mSetOrg_ID,
@@ -103,6 +108,9 @@ class cleanFRM : public wxFrame
 		wxNotebook* cleanFRM_NB;
 		wxPanel* hook_P;
 		wxScrolledWindow* hook_SW;
+		wxPanel* session_P;
+		wxToolBar* session_TBar;
+		wxChoice* session_D;
 		wxPanel* org_P;
 		wxToolBar* mOrg_TBar;
 		wxPanel* SetOrg_P;
@@ -263,6 +271,11 @@ class cleanFRM : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void GOnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void GOnIdle( wxIdleEvent& event ) { event.Skip(); }
+		virtual void LoadSession_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SaveSession_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void NewSession_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DelSession_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void session_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ListOrg_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mLoadOrg_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void mSaveOrg_OnClick( wxCommandEvent& event ) { event.Skip(); }

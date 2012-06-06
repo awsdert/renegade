@@ -18,7 +18,20 @@ s32  GetDBP_DLG::dNewDBI( DBI* dbi )
 	{
 		DBI* now  = dGetDBI( dbi );
 		DBP  dbp  = dGetDBP( now->index );
-		index     = dDBPName_LB->Append( dbp.nowName, now );
+		xStr text;
+		if ( dbp.area > 0u && AREA_COUNT > 0 )
+		{
+			xAStr txtArray = gGetArea();
+			u32*  hexArray = gGetAreas();
+			text = wxT( " ( " ) + txtArray[ 0 ];
+			for ( s32 i = 1; i < AREA_COUNT; ++i )
+			{
+				if ( ( dbp.area & hexArray[ i ] ) > 0u )
+					text += wxT( ", " ) + txtArray[ i ];
+			}
+			text += wxT( " )" );
+		}
+		index     = dDBPName_LB->Append( dbp.nowName + text, now );
 	}
 	return index;
 }
@@ -34,7 +47,20 @@ void GetDBP_DLG::dSetDBI( s32 index, DBI* dbi )
 		throw std::out_of_range( "Tried to set DBI outside range" );
 	DBI* now = dGetDBI( dbi );
 	DBP  dbp = dGetDBP( dbi->index );
-	dDBPName_LB->SetString( index, dbp.nowName );
+	xStr text;
+	if ( dbp.area > 0u && AREA_COUNT > 0 )
+	{
+		xAStr txtArray = gGetArea();
+		u32*  hexArray = gGetAreas();
+		text = wxT( " ( " ) + txtArray[ 0 ];
+		for ( s32 i = 1; i < AREA_COUNT; ++i )
+		{
+			if ( ( dbp.area & hexArray[ i ] ) > 0u )
+				text += wxT( ", " ) + txtArray[ i ];
+		}
+		text += wxT( " )" );
+	}
+	dDBPName_LB->SetString( index, dbp.nowName + text );
 	dDBPName_LB->SetClientObject( index, now );
 }
 DBP& GetDBP_DLG::dGetDBP( s32  index )

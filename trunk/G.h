@@ -24,6 +24,11 @@ class G : public cleanFRM
 		void file_TXTOnChange(    wxCommandEvent& event );
 		void edit_TXTOnChange(    wxCommandEvent& event );
 		// Hook
+		void session_DOnChoice(   wxCommandEvent& event );
+		void NewSession_OnClick(  wxCommandEvent& event );
+		void DelSession_OnClick(  wxCommandEvent& event );
+		void LoadSession_OnClick( wxCommandEvent& event );
+		void SaveSession_OnClick( wxCommandEvent& event );
 		// - Organisation
 		void mListOrg_OnClick(    wxCommandEvent& event );
 		void mLoadOrg_OnClick(    wxCommandEvent& event );
@@ -120,7 +125,7 @@ class G : public cleanFRM
 		void     AddApp( wxString id, wxString exe, wxString title );
 		s32      GetListLength( void );
 	private:
-		std::vector< wxCheckBox* > lArea_CB;
+		std::vector< wxCheckBox* > mArea_CB;
 		std::vector< wxCheckBox* > mQAG_CB;
 		std::vector< wxTextCtrl* > mQAG_TXT;
 		std::vector< u64         > mQAGArray;
@@ -134,14 +139,16 @@ class G : public cleanFRM
 		std::vector< wxTextCtrl* > mQVB_TXT;
 		std::vector< u64         > mQVBArray;
 		std::vector< OUTDATA     > mOutArray;
-		void     mLoadSession( s8 sessionId = -1 );
+		void     mLoadSessions( void );
+		void     mLoadSession(  void );
+		void     mSaveSession(  void );
 		u64      hookArray[ 16 ];
 		uHandle  appHandle;
 		s32      isHooked;
 		bool     hookApp;
 		wxFile   bin_BF;
 		xTreeID  treePrev;
-		xStr     lLastText, lOrgText, lPFMText, lBinText, lDBPText;
+		xStr     mCfgText, mOrgText, mPFMText, mBinText, mDBPText;
 		void     NewHook( void );
 		void     UseHook( void );
 		void     UseHook( xTreeID root, s32 endian, s8 cIndex = 0, s8 cCount = 0 );
@@ -194,6 +201,8 @@ class G : public cleanFRM
 		// Editor Tab
 		s32  editIsRecursing;
 		bool isEdit;
+		s32  editY;
+		s32  editX;
 		bool isFocus;
 		s32  editRow;
 		s32  editCol;

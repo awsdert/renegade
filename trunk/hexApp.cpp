@@ -23,20 +23,15 @@ G*    rootWindow;
 xStr  gTitle  = wxT( "HackerEX" );
 xStr  gVendor = wxT( "Shadow Flare Industries" );
 xStr  gSlash;
-xAStr gArea;
 xAStr gSizes;
-bool hexApp::OnInit() {
-	gArea.SetCount( AREA_COUNT );
-	gArea[ AREA_UK_CB  ] = wxT( "UK"  );
-	gArea[ AREA_US_CB  ] = wxT( "US"  );
-	gArea[ AREA_JP_CB  ] = wxT( "JP"  );
-	gArea[ AREA_DE_CB  ] = wxT( "DE"  );
-	gArea[ AREA_AUS_CB ] = wxT( "AUS" );
+bool hexApp::OnInit()
+{
 	gSizes.SetCount( SIZE_COUNT );
 	gSizes[ SIZE_8  ] = wxT( "8bit"  );
 	gSizes[ SIZE_16 ] = wxT( "16bit" );
 	gSizes[ SIZE_32 ] = wxT( "32bit" );
 	gSizes[ SIZE_64 ] = wxT( "64bit" );
+	gSetArea();
 	gSetQTests();
 	gSlash     = wxGetCwd().Contains( wxT( "\\" ) ) ? wxT( "\\" ) : wxT( "/" );
 	rootWindow = new G( 0 );
@@ -47,7 +42,6 @@ bool hexApp::OnInit() {
 xStr  gGetTitle(  void ) { return gTitle;  }
 xStr  gGetVendor( void ) { return gVendor; }
 xStr  gGetSlash(  void ) { return gSlash;  }
-xAStr gGetArea(   void ) { return gArea;   }
 void  gEnable( bool enable, wxWindow* obj )
 {
 	if ( !enable )

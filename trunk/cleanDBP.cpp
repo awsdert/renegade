@@ -6,11 +6,11 @@ DBP G::mGetDBP( void )
 	u32 area = 0u;
 	if ( !dbpAreaAll_RB->GetValue() )
 	{
-		if ( lArea_CB[ AREA_UK_CB  ]->GetValue() ) area += AREA_UK;
-		if ( lArea_CB[ AREA_US_CB  ]->GetValue() ) area += AREA_US;
-		if ( lArea_CB[ AREA_JP_CB  ]->GetValue() ) area += AREA_JP;
-		if ( lArea_CB[ AREA_DE_CB  ]->GetValue() ) area += AREA_DE;
-		if ( lArea_CB[ AREA_AUS_CB ]->GetValue() ) area += AREA_AUS;
+		u32* hexArray = gGetAreas();
+		for ( s32 i = 0; i < AREA_COUNT; ++i )
+		{
+			if ( mArea_CB[ i ]->GetValue() ) area += hexArray[ i ];
+		}
 	}
 	dbp.area    = area;
 	dbp.nowFile = dbpFile_TXT->GetValue();
@@ -26,11 +26,11 @@ void G::mShowDBP( void )
 	u32  area = dbp.area;
 	dbpAreaAll_RB->SetValue(   ( area == 0u ) );
 	dbpAreaCheck_RB->SetValue( ( area != 0u ) );
-	lArea_CB[ AREA_UK_CB  ]->SetValue( ( area == 0u || ( area & AREA_UK  ) > 0u ) );
-	lArea_CB[ AREA_US_CB  ]->SetValue( ( area == 0u || ( area & AREA_US  ) > 0u ) );
-	lArea_CB[ AREA_JP_CB  ]->SetValue( ( area == 0u || ( area & AREA_JP  ) > 0u ) );
-	lArea_CB[ AREA_DE_CB  ]->SetValue( ( area == 0u || ( area & AREA_DE  ) > 0u ) );
-	lArea_CB[ AREA_AUS_CB ]->SetValue( ( area == 0u || ( area & AREA_AUS ) > 0u ) );
+		u32* hexArray = gGetAreas();
+	for ( s32 i = 0; i < AREA_COUNT; ++i )
+	{
+		mArea_CB[ i ]->SetValue( ( area == 0u || ( area & hexArray[ i ] ) > 0u ) );
+	}
 	dbpName_TXT->ChangeValue( dbp.nowName   );
 	dbpFile_TXT->ChangeValue( dbp.nowFile   );
 	dbpNotes_TA->ChangeValue( dbp.notes     );

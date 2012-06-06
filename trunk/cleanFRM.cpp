@@ -54,6 +54,33 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bsHookScroll = new wxBoxSizer( wxVERTICAL );
 	
 	bsHookScroll->SetMinSize( wxSize( 230,-1 ) ); 
+	session_P = new wxPanel( hook_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxStaticBoxSizer* session_L;
+	session_L = new wxStaticBoxSizer( new wxStaticBox( session_P, wxID_ANY, _("Session") ), wxVERTICAL );
+	
+	session_TBar = new wxToolBar( session_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_FLAT|wxTB_HORZ_TEXT|wxTB_NODIVIDER|wxTB_NOICONS ); 
+	session_TBar->AddTool( LoadSession_ID, _("Load"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	session_TBar->AddTool( SaveSession_ID, _("Save"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	session_TBar->AddTool( NewSession_ID, _("New"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	session_TBar->AddTool( DelSession_ID, _("Delete"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	session_TBar->Realize(); 
+	
+	session_L->Add( session_TBar, 0, wxEXPAND, 5 );
+	
+	wxArrayString session_DChoices;
+	session_D = new wxChoice( session_P, session_ID, wxDefaultPosition, wxDefaultSize, session_DChoices, 0 );
+	session_D->SetSelection( 0 );
+	session_L->Add( session_D, 0, wxEXPAND|wxTOP, 5 );
+	
+	session_P->SetSizer( session_L );
+	session_P->Layout();
+	session_L->Fit( session_P );
+	bsHookScroll->Add( session_P, 0, wxEXPAND | wxALL, 5 );
+	
 	org_P = new wxPanel( hook_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* org_L;
 	org_L = new wxStaticBoxSizer( new wxStaticBox( org_P, wxID_ANY, _("Organisation") ), wxVERTICAL );
@@ -1148,6 +1175,11 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( cleanFRM::GOnClose ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( cleanFRM::GOnIdle ) );
+	this->Connect( LoadSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::LoadSession_OnClick ) );
+	this->Connect( SaveSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::SaveSession_OnClick ) );
+	this->Connect( NewSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::NewSession_OnClick ) );
+	this->Connect( DelSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::DelSession_OnClick ) );
+	session_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::session_DOnChoice ), NULL, this );
 	this->Connect( mListOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::ListOrg_BOnClick ) );
 	this->Connect( mLoadOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadOrg_OnClick ) );
 	this->Connect( mSaveOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSaveOrg_OnClick ) );
@@ -1240,6 +1272,11 @@ cleanFRM::~cleanFRM()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( cleanFRM::GOnClose ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( cleanFRM::GOnIdle ) );
+	this->Disconnect( LoadSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::LoadSession_OnClick ) );
+	this->Disconnect( SaveSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::SaveSession_OnClick ) );
+	this->Disconnect( NewSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::NewSession_OnClick ) );
+	this->Disconnect( DelSession_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::DelSession_OnClick ) );
+	session_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::session_DOnChoice ), NULL, this );
 	this->Disconnect( mListOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::ListOrg_BOnClick ) );
 	this->Disconnect( mLoadOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mLoadOrg_OnClick ) );
 	this->Disconnect( mSaveOrg_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( cleanFRM::mSaveOrg_OnClick ) );
