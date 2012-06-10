@@ -241,6 +241,7 @@
 			<Option target="Windows - Release 64bit" />
 			<Option target="Windows - Debug" />
 		</Unit>
+		<Unit filename="area.cpp" />
 		<Unit filename="cleanAPP.cpp">
 			<Option target="Windows - Release 32bit" />
 			<Option target="Windows - Release 64bit" />

@@ -63,8 +63,8 @@ void G::editSet_BOnClick( wxCommandEvent& event )
 void G::edit_GOnEditBegin( wxGridEvent& event )
 {
 	s32 col = event.GetCol();
-	if ( col >= 16 ) return;
-	isEdit = true;
+	if ( col >= 16 ) event.Veto();
+	else isEdit = true;
 	event.Skip();
 }
 void G::edit_GOnEditEnd(   wxGridEvent& event )
@@ -87,81 +87,90 @@ void G::edit_GOnEditEnd(   wxGridEvent& event )
 	isEdit    = false;
 	--editIsRecursing;
 }
-void G::edit_GOnSelect(    wxGridEvent& event )
+bool lFromUser = false;
+void G::edit_TXTOnMouseWheel( wxMouseEvent& event )
 {
-	s32 row = event.GetRow();
-	s32 col = event.GetCol();
-	if ( row < 0 || col < 0 )
+	u64 address = GetHex( editGet_TXT->GetValue() );
+	while ( ( address % 0x10  ) > 0u ) --address;
+	while ( ( address % 0x100 ) > 0u ) address -= 0x10;
+	if ( event.GetWheelRotation() >= 0 )
 	{
-		wxGridCellCoordsArray array = edit_G->GetSelectionBlockTopLeft();
-		wxGridCellCoords cell;
-		if ( array.GetCount() > 0 )
-		{
-			cell = array[ 0 ];
-			if ( row < 0 ) row = cell.GetRow();
-			if ( col < 0 ) col = cell.GetCol();
-		}
-		if ( row < 0 || col < 0 )
-		{
-			array = edit_G->GetSelectedCells();
-			if ( array.GetCount() > 0 )
-			{
-				cell = array[ 0 ];
-				if ( row < 0 ) row = cell.GetRow();
-				if ( col < 0 ) col = cell.GetCol();
-			}
-			if ( row < 0 || col < 0 )
-			{
-				wxArrayInt rows, cols;
-				rows = edit_G->GetSelectedRows();
-				cols = edit_G->GetSelectedCols();
-				if ( row < 0 && !( row = rows[ 0 ] ) ) row = 0;
-				if ( col < 0 && !( col = cols[ 0 ] ) ) col = 0;
-			}
-		}
+		if ( address > 0u ) address -= 0x100;
 	}
-	bool doEvent = ( col < 16 );
-	event.Skip( doEvent );
-	isFocus = true;
-	editRow = row;
-	editCol = col;
+	else
+	{
+		if ( address < UINT64_MAX ) address += 0x100;
+	}
+	xStr txt;
+	txt.Printf( hexVLL, address );
+	editGet_TXT->ChangeValue( txt );
+	FillEditor();
 }
-bool isLastUp = false;
 void G::edit_GOnMouseWheel( wxMouseEvent& event )
 {
 	event.Skip();
-	// When move to 2.9.4 onwards this will replace current detection.
-//	if ( event.GetWheelAxis() != wxMOUSE_WHEEL_VERTICAL ) return;
-	s32 x  = 0, y  = 0;
-	s32 xS = 0, yS = 0;
-	edit_G->GetViewStart( &xS, &yS );
 	s32 r = event.GetWheelRotation();
-	edit_G->CalcUnscrolledPosition( xS, yS, &x, &y );
-	bool isXScrolling = ( x != editX );
-	bool isYScrolling = ( y != editY );
-	if ( !isXScrolling && !isYScrolling )
-	{
-		u64 byte = GetHex( editGet_TXT->GetValue() );
-		if ( byte > 0u )
-		{
-			while ( ( byte % 0x10  ) > 0 ) byte--;
-			while ( ( byte % 0x100 ) > 0 ) byte -= 0x10;
-		}
-		if ( r < 0 )
-		{
-			if ( !isLastUp ) byte += 0x100;
-		}
-		else if ( byte > 0u )
-		{
-			if ( isLastUp ) byte -= 0x100;
-		}
-		xStr text;
-		text.Printf( hexVLL, byte );
-		editGet_TXT->ChangeValue( text );
-		FillEditor();
-		edit_G->Scroll( xS, yS );
-	}
-	editX = x;
-	editY = y;
-	isLastUp = ( r >= 0 );
+	editScroll( r, true );
 }
+void G::editScroll( s32 direction, bool fromUser, s32 orient )
+{
+	if ( orient != wxVERTICAL || !fromUser ) return;
+	s32 xS = 0, yS = 0;
+	s32 w  = 0, h  = 0;
+	s32 xL = 0, yL = 0;
+	edit_G->GetViewStart( &xS, &yS );
+	edit_G->GetScrollPixelsPerUnit( &xL, &yL );
+	s32 x  = xS * xL;
+	s32 y  = yS * yL;
+	edit_G->GetClientSize( &w, &h );
+	lFromUser = false;
+	++editIsRecursing;
+	if ( ( y <= 0 || y >= h ) && ( x <= 0 || x >= w ) )
+	{
+		u64 address = GetHex( editGet_TXT->GetValue() );
+		while ( ( address % 0x10  ) > 0u ) --address;
+		while ( ( address % 0x100 ) > 0u ) address -= 0x10;
+		if ( direction >= 0 )
+		{
+			if ( address > 0u && y <= 0 ) address -= 0x100;
+		}
+		else
+		{
+			if ( address < UINT64_MAX && y >= h ) address += 0x100;
+		}
+		xStr txt;
+		txt.Printf( hexVLL, address );
+		editGet_TXT->ChangeValue( txt );
+		FillEditor();
+	}
+	--editIsRecursing;
+}
+void G::edit_GOnKeyDown( wxKeyEvent&   event )
+{
+	lFromUser = true;
+	event.Skip();
+}
+/*
+void G::edit_GOnPaint( wxPaintEvent& event )
+{
+	if ( !mSetEditor )
+	{
+		editRow = edit_G->GetGridCursorRow();
+		editCol = edit_G->GetGridCursorCol();
+		edit_G->GetViewStart( &editX, &editY );
+	}
+	edit_G->ClearSelection();
+	edit_G->SetGridCursor( editRow, editCol );
+	edit_G->Scroll( editX, editY );
+	mSetEditor = false;
+	///
+	event.Skip();
+}
+//*/
+/*
+void G::edit_GOnUpdate( wxUpdateUIEvent& event )
+{
+	if ( mSetEditor == 2 ) mSetEditor = 3;
+	event.Skip();
+}
+//*/

@@ -10736,7 +10736,7 @@
                                                                         <event name="OnMiddleUp"></event>
                                                                         <event name="OnMotion"></event>
                                                                         <event name="OnMouseEvents"></event>
-                                                                        <event name="OnMouseWheel"></event>
+                                                                        <event name="OnMouseWheel">edit_TXTOnMouseWheel</event>
                                                                         <event name="OnPaint"></event>
                                                                         <event name="OnRightDClick"></event>
                                                                         <event name="OnRightDown"></event>
@@ -11453,7 +11453,7 @@
                                                     <property name="grid_lines">1</property>
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
-                                                    <property name="id">wxID_ANY</property>
+                                                    <property name="id">edit_G_ID</property>
                                                     <property name="label_bg"></property>
                                                     <property name="label_font"></property>
                                                     <property name="label_text"></property>
@@ -11529,8 +11529,8 @@
                                                     <event name="OnGridLabelRightDClick"></event>
                                                     <event name="OnGridRangeSelect"></event>
                                                     <event name="OnGridRowSize"></event>
-                                                    <event name="OnGridSelectCell">edit_GOnSelect</event>
-                                                    <event name="OnKeyDown"></event>
+                                                    <event name="OnGridSelectCell"></event>
+                                                    <event name="OnKeyDown">edit_GOnKeyDown</event>
                                                     <event name="OnKeyUp"></event>
                                                     <event name="OnKillFocus"></event>
                                                     <event name="OnLeaveWindow"></event>
@@ -11543,7 +11543,7 @@
                                                     <event name="OnMotion"></event>
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel">edit_GOnMouseWheel</event>
-                                                    <event name="OnPaint"></event>
+                                                    <event name="OnPaint">edit_GOnPaint</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>

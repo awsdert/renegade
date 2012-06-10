@@ -97,6 +97,7 @@ class cleanFRM : public wxFrame
 			editGet_ID,
 			editSet_ID,
 			editValue_ID,
+			edit_G_ID,
 			dbpName_ID,
 			dbpFile_ID,
 			dbpSID_ID,
@@ -322,12 +323,14 @@ class cleanFRM : public wxFrame
 		virtual void editShow_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void editUpdate_DOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void editGet_BOnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void edit_TXTOnMouseWheel( wxMouseEvent& event ) { event.Skip(); }
 		virtual void editSet_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void edit_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void edit_GOnEditEnd( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnEditBegin( wxGridEvent& event ) { event.Skip(); }
-		virtual void edit_GOnSelect( wxGridEvent& event ) { event.Skip(); }
+		virtual void edit_GOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void edit_GOnMouseWheel( wxMouseEvent& event ) { event.Skip(); }
+		virtual void edit_GOnPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void dbpArea_RBOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void byte16_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void NewDBP_BOnClick( wxCommandEvent& event ) { event.Skip(); }

@@ -4,11 +4,8 @@ G::G( wxWindow* parent )
 cleanFRM( parent )
 {
 	// Initialise
-	editX = 0;
-	editY = 0;
 	isHooked  = 0;
 	editIsRecursing = 0;
-	isFocus   = false;
 	isEdit    = false;
 	mCfgText  = wxT( "Configuration" );
 	mOrgText  = wxT( "Organisation"  );
@@ -197,10 +194,11 @@ void G::GOnClose( wxCloseEvent& event )
 	hookUntil = 0;
 	listUntil = 0;
 	editUntil = 0;
-	Disconnect( goodA_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
-	Disconnect( badA_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
-	Disconnect( goodV_ID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
-	Disconnect( badV_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
+	Disconnect( goodA_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
+	Disconnect( badA_ID,   wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::byte_TXTOnChange ) );
+	Disconnect( goodV_ID,  wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
+	Disconnect( badV_ID,   wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( G::find_TXTOnChange ) );
+	//*/
 	ramName_D->Clear();
 	ListApps_LC->DeleteAllItems();
 	tree_T->DeleteAllItems();

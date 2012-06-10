@@ -4,6 +4,7 @@ void G::FillEditor( void )
 	SetTime();
 	if ( isEdit ) return;
 	NewHook();
+	edit_G->Freeze();
 	++editIsRecursing;
 	s8  ramNo = editRam_D->GetSelection();
 	u64 ramStart = 0u;
@@ -18,6 +19,7 @@ void G::FillEditor( void )
 	}
 	u32  divByte = byte + 0x100;
 	u8*  ram8    = new u8[ useSize ];
+	u16* ram16   = reinterpret_cast< u16* >( ram8 );
 	if ( hookApp )
 	{
 		GetRamX( appHandle, ramStart + byte, ram8, useSize );
@@ -27,35 +29,34 @@ void G::FillEditor( void )
 		bin_BF.Seek( ramStart + byte, wxFromStart );
 		bin_BF.Read( ram8, useSize );
 	}
-	u16    c;
 	wxChar cAscii;
 	xStr   sAscii;
-	wxChar cUnicode;
+	xStr   cUnicode;
 	xStr   sUnicode;
 	xStr   text;
 	bool getUnicode = false;
-	edit_G->DeleteRows( 0, edit_G->GetRows(), false );
-	u32 i = 0u, row = 0u, col = 0u;
-	for ( ; ( row < 0x30 && byte < divByte && i < useSize ); ++row )
+	u32 i = 0u, i16 = 0u, row = 0u, col = 0u;
+	u32 rowMax   = edit_G->GetRows();
+	u32 rowCount = 0x30;
+	if ( rowCount > rowMax ) edit_G->AppendRows( rowCount - rowMax, false );
+	else if ( rowCount < rowMax ) edit_G->DeleteRows( rowCount - 1, rowMax - rowCount, false );
+	for ( ; ( row < rowCount && byte < divByte && i < useSize ); ++row )
 	{
-		edit_G->AppendRows( 1, false );
 		text.Printf( hex64, byte + i );
 		edit_G->SetRowLabelValue( row, text );
 		sAscii.Clear();
 		sUnicode.Clear();
 		for ( col = 0u; ( col < 16u && i < useSize ); ++col, ++i )
 		{
-			cAscii  = ram8[ i ];
+			cAscii = ram8[ i ];
 			sAscii += cAscii;
 			getUnicode = false;
 			if ( getUnicode )
 			{
-				c   = ram8[ i - 1 ];
-				c <<= 8u;
-				c  += ram8[ i ];
-				cUnicode   = c;
+				cUnicode.FromUTF8( reinterpret_cast< char* >( &ram16[ i16 ] ) );
 				sUnicode  += cUnicode;
 				getUnicode = false;
+				++i16;
 			}
 			else getUnicode = true;
 			text.Printf( hex8, ram8[ i ] );
@@ -66,11 +67,14 @@ void G::FillEditor( void )
 	}
 	delete [] ram8;
 	DelHook();
-	if ( isFocus )
-	{
-		edit_G->SetGridCursor(   editRow, editCol );
-		edit_G->MakeCellVisible( editRow, editCol );
-	}
-	edit_G->Scroll( editX, editY );
 	--editIsRecursing;
+	edit_G->Thaw();
+}
+void G::edit_GOnPaint( wxPaintEvent& event )
+{
+	s32 row = edit_G->GetGridCursorRow();
+	s32 col = edit_G->GetGridCursorCol();
+	edit_G->ClearSelection();
+	edit_G->SetGridCursor( row, col );
+	event.Skip();
 }

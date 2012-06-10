@@ -878,7 +878,7 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer29->Fit( editOptions_P );
 	bSizer36->Add( editOptions_P, 0, wxEXPAND, 5 );
 	
-	edit_G = new wxGrid( edit_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	edit_G = new wxGrid( edit_P, edit_G_ID, wxDefaultPosition, wxDefaultSize, 0 );
 	
 	// Grid
 	edit_G->CreateGrid( 0, 18 );
@@ -1234,14 +1234,16 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	editShow_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editShow_BOnClick ), NULL, this );
 	editUpdate_D->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::editUpdate_DOnChoice ), NULL, this );
 	editGet_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editGet_BOnClick ), NULL, this );
+	editGet_TXT->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_TXTOnMouseWheel ), NULL, this );
 	editGet_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editSet_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
 	editSet_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
 	edit_G->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
 	edit_G->Connect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
-	edit_G->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( cleanFRM::edit_GOnSelect ), NULL, this );
+	edit_G->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( cleanFRM::edit_GOnKeyDown ), NULL, this );
 	edit_G->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
+	edit_G->Connect( wxEVT_PAINT, wxPaintEventHandler( cleanFRM::edit_GOnPaint ), NULL, this );
 	dbpAreaAll_RB->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpAreaCheck_RB->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpName_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
@@ -1331,14 +1333,16 @@ cleanFRM::~cleanFRM()
 	editShow_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editShow_BOnClick ), NULL, this );
 	editUpdate_D->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( cleanFRM::editUpdate_DOnChoice ), NULL, this );
 	editGet_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editGet_BOnClick ), NULL, this );
+	editGet_TXT->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_TXTOnMouseWheel ), NULL, this );
 	editGet_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editSet_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
 	editSet_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
 	edit_G->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
 	edit_G->Disconnect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
-	edit_G->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( cleanFRM::edit_GOnSelect ), NULL, this );
+	edit_G->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( cleanFRM::edit_GOnKeyDown ), NULL, this );
 	edit_G->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
+	edit_G->Disconnect( wxEVT_PAINT, wxPaintEventHandler( cleanFRM::edit_GOnPaint ), NULL, this );
 	dbpAreaAll_RB->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpAreaCheck_RB->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( cleanFRM::dbpArea_RBOnChange ), NULL, this );
 	dbpName_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::name_TXTOnChange ), NULL, this );
