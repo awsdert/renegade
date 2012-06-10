@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Windows - Release 32bit" />
+	<File name="G_Events.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="2218" topLine="93" />
+	</File>
+	<File name="cleanEditor.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1638" topLine="49" />
+	</File>
 </CodeBlocks_layout_file>

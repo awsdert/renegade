@@ -62,7 +62,7 @@ void G::ShowOut( s16 no, u8 size )
 				column.SetText( text );
 				out_LC->InsertColumn( col, column );
 				// Open File
-				text.Printf( wxT( "dump%02u.bin" ), i   );
+				text.Printf( wxT( "dump%02u.bin" ), i );
 				oldDump.Open( path + text );
 				oldByte.Seek( 0u, wxFromStart );
 				nextByte = 0u;

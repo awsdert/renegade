@@ -17,6 +17,7 @@ class G : public cleanFRM
 		// Handlers for cleanFRM events.
 		void GOnIdle(  wxIdleEvent&  event );
 		void GOnClose( wxCloseEvent& event );
+		void edit_GOnPaint( wxPaintEvent& event );
 		void byte_TXTOnKeyDown(   wxKeyEvent&     event );
 		void byte_TXTOnChange(    wxCommandEvent& event );
 		void name_TXTOnChange(    wxCommandEvent& event );
@@ -83,17 +84,20 @@ class G : public cleanFRM
 		void SetOut_BOnClick(      wxCommandEvent& event );
 		void DelOut_BOnClick(      wxCommandEvent& event );
 		// Editor Tab
-		void editByte_BOnClick(    wxCommandEvent& event );
-		void editValue_BOnClick(   wxCommandEvent& event );
-		void editRam_DOnChange(    wxCommandEvent& event );
-		void editUpdate_DOnChoice( wxCommandEvent& event );
-		void edit_GOnMouseWheel(   wxMouseEvent&   event );
-		void edit_GOnEditBegin(    wxGridEvent&    event );
-		void edit_GOnEditEnd(      wxGridEvent&    event );
-		void edit_GOnSelect(       wxGridEvent&    event );
-		void editShow_BOnClick(    wxCommandEvent& event );
-		void editGet_BOnClick(     wxCommandEvent& event );
-		void editSet_BOnClick(     wxCommandEvent& event );
+		//void edit_GOnPaint(        wxPaintEvent& event );
+		//void edit_GOnUpdate(       wxUpdateUIEvent& event );
+		void editRam_DOnChange(    wxCommandEvent&  event );
+		void editByte_BOnClick(    wxCommandEvent&  event );
+		void editValue_BOnClick(   wxCommandEvent&  event );
+		void editUpdate_DOnChoice( wxCommandEvent&  event );
+		void editShow_BOnClick(    wxCommandEvent&  event );
+		void editGet_BOnClick(     wxCommandEvent&  event );
+		void editSet_BOnClick(     wxCommandEvent&  event );
+		void edit_TXTOnMouseWheel( wxMouseEvent&    event );
+		void edit_GOnMouseWheel(   wxMouseEvent&    event );
+		void edit_GOnEditBegin(    wxGridEvent&     event );
+		void edit_GOnEditEnd(      wxGridEvent&     event );
+		void edit_GOnKeyDown(      wxKeyEvent&      event );
 		// Database Tab
 		void SetDBP_BOnClick(      wxCommandEvent& event );
 		void LoadDBP_BOnClick(     wxCommandEvent& event );
@@ -201,12 +205,8 @@ class G : public cleanFRM
 		// Editor Tab
 		s32  editIsRecursing;
 		bool isEdit;
-		s32  editY;
-		s32  editX;
-		bool isFocus;
-		s32  editRow;
-		s32  editCol;
 		void FillEditor(  void );
+		void editScroll( s32 direction, bool fromUser, s32 orient = wxVERTICAL );
 		void editSetRam( u64 address, u64 value, u8 size );
 		// Database Tab
 		DBP            mGetDBP(  void );
