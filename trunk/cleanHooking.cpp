@@ -13,6 +13,8 @@ void G::UseHook( void )
 		}
 		u64 flipped;
 		OUTDATA data;
+		NewHook();
+		if ( isHooked < 1 ) return;
 		s32 iCount = mOutArray.size();
 		for ( i = 0; i < iCount; ++i )
 		{
@@ -20,7 +22,6 @@ void G::UseHook( void )
 			GetAddress( data.address, flipped, data.size, endian );
 			SetRamX( appHandle, flipped, &data.value, data.size  );
 		}
-		NewHook();
 		UseHook( root, endian );
 		DelHook();
 	}

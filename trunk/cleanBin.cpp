@@ -102,9 +102,7 @@ void G::mSetBin_OnClick( wxCommandEvent& event )
 void G::HookBin_BOnClick(  wxCommandEvent& event )
 {
 	listUntil = 0u;
-	editUntil = 0u;
 	ListApps_D->Select( 0 );
-	editUpdate_D->Select( 0 );
 	UseHook_D->Select( 1 );
 	SetTime( hookAdd, 1 );
 	UseHook();
@@ -112,9 +110,7 @@ void G::HookBin_BOnClick(  wxCommandEvent& event )
 void G::UseHook_DOnChoice( wxCommandEvent& event )
 {
 	listUntil = 0u;
-	editUntil = 0u;
 	ListApps_D->Select( 0 );
-	editUpdate_D->Select( 0 );
 	s32 mode  = UseHook_D->GetSelection();
 	SetTime( hookAdd, mode );
 	if ( mode > 0 )

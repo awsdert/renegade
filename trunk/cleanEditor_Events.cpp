@@ -20,9 +20,7 @@ void G::editShow_BOnClick(    wxCommandEvent& event )
 }
 void G::editUpdate_DOnChoice( wxCommandEvent& event )
 {
-	hookAdd  = 0u;
 	listAdd  = 0u;
-	UseHook_D->Select( 0 );
 	ListApps_D->Select( 0 );
 	s32 mode = editUpdate_D->GetSelection();
 	SetTime( editAdd, mode );
@@ -33,15 +31,14 @@ void G::editUpdate_DOnChoice( wxCommandEvent& event )
 }
 void G::editGet_BOnClick( wxCommandEvent& event )
 {
-	hookAdd = 0u;
 	listAdd = 0u;
-	UseHook_D->Select( 0 );
 	ListApps_D->Select( 0 );
 	FillEditor();
 }
 void G::editSetRam( u64 address, u64 value, u8 size )
 {
 	NewHook();
+	if ( isHooked < 1 ) return;
 	u8  ramNo = editRam_D->GetSelection();
 	address  += mGetRamByte( ramNo );
 	if ( hookApp ) SetRamX( appHandle, address, &value, size );
@@ -62,12 +59,12 @@ void G::editSet_BOnClick( wxCommandEvent& event )
 }
 void G::edit_GOnEditBegin( wxGridEvent& event )
 {
-	s32 col = event.GetCol();
-	if ( col >= 16 ) event.Veto();
+	if ( event.GetCol() >= 16 ) event.Veto();
 	else isEdit = true;
 	event.Skip();
 }
-void G::edit_GOnEditEnd(   wxGridEvent& event )
+void G::edit_GOnEditEnd(  wxGridEvent& event ) { isEdit = false; }
+void G::edit_GOnChange(   wxGridEvent& event )
 {
 	u8   col  = event.GetCol();
 	if ( col >= 16u || editIsRecursing > 0 ) return;
@@ -84,7 +81,6 @@ void G::edit_GOnEditEnd(   wxGridEvent& event )
 	else                 size = 8u;
 	editSetRam( address, GetHex( text, size ), size );
 	FillEditor();
-	isEdit    = false;
 	--editIsRecursing;
 }
 bool lFromUser = false;
@@ -150,27 +146,3 @@ void G::edit_GOnKeyDown( wxKeyEvent&   event )
 	lFromUser = true;
 	event.Skip();
 }
-/*
-void G::edit_GOnPaint( wxPaintEvent& event )
-{
-	if ( !mSetEditor )
-	{
-		editRow = edit_G->GetGridCursorRow();
-		editCol = edit_G->GetGridCursorCol();
-		edit_G->GetViewStart( &editX, &editY );
-	}
-	edit_G->ClearSelection();
-	edit_G->SetGridCursor( editRow, editCol );
-	edit_G->Scroll( editX, editY );
-	mSetEditor = false;
-	///
-	event.Skip();
-}
-//*/
-/*
-void G::edit_GOnUpdate( wxUpdateUIEvent& event )
-{
-	if ( mSetEditor == 2 ) mSetEditor = 3;
-	event.Skip();
-}
-//*/

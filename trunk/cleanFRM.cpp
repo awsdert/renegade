@@ -1239,7 +1239,8 @@ cleanFRM::cleanFRM( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	editSet_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
 	editSet_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
-	edit_G->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
+	edit_G->Connect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnChange ), NULL, this );
+	edit_G->Connect( wxEVT_GRID_EDITOR_HIDDEN, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
 	edit_G->Connect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
 	edit_G->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( cleanFRM::edit_GOnKeyDown ), NULL, this );
 	edit_G->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );
@@ -1338,7 +1339,8 @@ cleanFRM::~cleanFRM()
 	editSet_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( cleanFRM::editSet_BOnClick ), NULL, this );
 	editSet_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::byte_TXTOnChange ), NULL, this );
 	editValue_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( cleanFRM::edit_TXTOnChange ), NULL, this );
-	edit_G->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
+	edit_G->Disconnect( wxEVT_GRID_CELL_CHANGE, wxGridEventHandler( cleanFRM::edit_GOnChange ), NULL, this );
+	edit_G->Disconnect( wxEVT_GRID_EDITOR_HIDDEN, wxGridEventHandler( cleanFRM::edit_GOnEditEnd ), NULL, this );
 	edit_G->Disconnect( wxEVT_GRID_EDITOR_SHOWN, wxGridEventHandler( cleanFRM::edit_GOnEditBegin ), NULL, this );
 	edit_G->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( cleanFRM::edit_GOnKeyDown ), NULL, this );
 	edit_G->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( cleanFRM::edit_GOnMouseWheel ), NULL, this );

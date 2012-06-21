@@ -11498,7 +11498,7 @@
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
-                                                    <event name="OnGridCellChange">edit_GOnEditEnd</event>
+                                                    <event name="OnGridCellChange">edit_GOnChange</event>
                                                     <event name="OnGridCellLeftClick"></event>
                                                     <event name="OnGridCellLeftDClick"></event>
                                                     <event name="OnGridCellRightClick"></event>
@@ -11521,7 +11521,7 @@
                                                     <event name="OnGridCmdSelectCell"></event>
                                                     <event name="OnGridColSize"></event>
                                                     <event name="OnGridEditorCreated"></event>
-                                                    <event name="OnGridEditorHidden"></event>
+                                                    <event name="OnGridEditorHidden">edit_GOnEditEnd</event>
                                                     <event name="OnGridEditorShown">edit_GOnEditBegin</event>
                                                     <event name="OnGridLabelLeftClick"></event>
                                                     <event name="OnGridLabelLeftDClick"></event>

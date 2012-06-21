@@ -95,6 +95,7 @@ class G : public cleanFRM
 		void editSet_BOnClick(     wxCommandEvent&  event );
 		void edit_TXTOnMouseWheel( wxMouseEvent&    event );
 		void edit_GOnMouseWheel(   wxMouseEvent&    event );
+		void edit_GOnChange(       wxGridEvent&     event );
 		void edit_GOnEditBegin(    wxGridEvent&     event );
 		void edit_GOnEditEnd(      wxGridEvent&     event );
 		void edit_GOnKeyDown(      wxKeyEvent&      event );

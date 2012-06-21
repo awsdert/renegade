@@ -104,7 +104,10 @@ void G::mMoveHack( xTreeID tid, s32 direction )
 				xStr  text;
 				HACK* data = new HACK;
 				text.Printf( wxT( "New Hack %i" ), tree_T->GetCount() );
-				root = mNewHack( root, text, data, tid, ADD_NEXT );
+				id   = tree_T->GetNextSibling( tid );
+				if ( !id.IsOk() )
+					root = mNewHack( root, text, data, tid, ADD_TOP );
+				else root = id;
 				id   = mNewHack( root, name, hack, id,  ADD_TOP  );
 				delete data;
 		}
@@ -174,7 +177,15 @@ void G::DelHack_BOnClick( wxCommandEvent& event )
 }
 void G::MoveHack_BOnClick( wxCommandEvent& event )
 {
-	// TODO: Impliment Moving Hack
+	s32 dir;
+	switch ( MoveHack_D->GetSelection() )
+	{
+		case 0: dir = WXK_UP; break;
+		case 2: dir = WXK_LEFT; break;
+		case 3: dir = WXK_RIGHT; break;
+		default: dir = WXK_DOWN;
+	}
+	mMoveHack( GetHackID(), dir );
 }
 void G::GetHacks_BOnClick( wxCommandEvent& event )
 {
