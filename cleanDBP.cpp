@@ -85,6 +85,7 @@ void G::mLoadDBP( void )
 	GetDBP_DLG d( this );
 	d.ShowModal();
 	mShowDBP();
+	mLoadHack();
 }
 void G::SetDBP_BOnClick( wxCommandEvent& event )
 {

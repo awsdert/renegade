@@ -42,15 +42,12 @@ uHandle GetAppHandle( const xStr appExe )
 #ifdef __WXMSW__
 	xStr exe;
 	PROCESSENTRY32 pe32;
-	pe32.dwSize = sizeof( pe32 );
+	pe32.dwSize = sizeof( PROCESSENTRY32 );
 	HANDLE shot = CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0 );
 	Process32First( shot, &pe32 );
 	do {
-		if ( exe.Printf( wxT( "%s" ), pe32.szExeFile ) < 0 )
-		{
-			MB( exe );
-		}
-		else if ( exe.CmpNoCase( appExe ) == 0 )
+		exe.Printf( wxT( "%s" ), pe32.szExeFile );
+		if ( exe.CmpNoCase( appExe ) == 0 )
 		{
 			ah = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pe32.th32ProcessID );
 			break;
@@ -61,14 +58,11 @@ uHandle GetAppHandle( const xStr appExe )
 }
 void  DelAppHandle( uHandle &fHandle )
 {
-	if ( fHandle != NULL )
-	{
 #ifdef __WXMSW__
-		CloseHandle( fHandle );
+	CloseHandle( fHandle );
 #else
-		fHandle = NULL;
+	fHandle = NULL;
 #endif
-	}
 }
 xStr GetAppExe( DWORD appID )
 {

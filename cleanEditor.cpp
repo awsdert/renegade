@@ -4,6 +4,7 @@ void G::FillEditor( void )
 	SetTime();
 	if ( isEdit ) return;
 	NewHook();
+	if ( isHooked < 1 ) return;
 	edit_G->Freeze();
 	++editIsRecursing;
 	s8  ramNo = editRam_D->GetSelection();

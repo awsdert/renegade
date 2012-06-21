@@ -2,6 +2,7 @@
 void G::byte_TXTOnChange( wxCommandEvent& event )
 {
 	doChange( event, VAL_HEX, 3 );
+	if ( event.GetId() == editGet_ID ) FillEditor();
 }
 void G::out_TXTOnChange( wxCommandEvent& event )
 {

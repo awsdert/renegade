@@ -84,5 +84,6 @@ void G::out_LCOnSelect( wxListEvent& event )
 	item.SetColumn( 1 );
 	out_LC->GetItem( item );
 	value = GetHex( item.GetText() );
+	text.Printf( hexVLL, value );
 	outValue_TXT->ChangeValue( text );
 }

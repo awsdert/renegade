@@ -190,19 +190,23 @@ void G::mLoadSession( void )
 void G::mSaveSession( void )
 {
 	s8 sessionId = session_D->GetSelection();
-	if ( sessionId < 0 || sessionId > 4 ) return;
+	if ( sessionId < 0 ) return;
 	++sessionId;
-	xStr sessionText;
-	sessionText.Printf( wxT( "Session_%i" ), sessionId );
-	xStr  path, file;
+	xStr name;
+	name.Printf( wxT( "Session_%i" ), sessionId );
+	xStr  text, path, file;
 	xStr  title = gGetTitle(), vendor = gGetVendor();
 	gGetOrgFile( path, file );
 	wxFileConfig hex_TF( title, vendor, file );
-	hex_TF.SetPath( sessionText );
+	hex_TF.SetPath( name );
 	hex_TF.Write( mOrgText, gGetOrg().nowName );
 	hex_TF.Write( mPFMText, gGetPFM().nowName );
 	hex_TF.Write( mBinText, gGetBin().nowName );
 	hex_TF.Write( mDBPText, gGetDBP().nowName );
+	hex_TF.SetPath( wxT( '/' ) + mCfgText );
+	name = wxT( "TotalSessions" );
+	text.Printf( wxT("%01i"), session_D->GetCount() );
+	hex_TF.Write( name, text );
 }
 void G::session_DOnChoice(   wxCommandEvent& event ) { mLoadSession(); }
 void G::NewSession_OnClick(  wxCommandEvent& event )
@@ -211,7 +215,7 @@ void G::NewSession_OnClick(  wxCommandEvent& event )
 	if ( iCount < 6 )
 	{
 		xStr text;
-		text.Printf( wxT( "Session %i" ), iCount );
+		text.Printf( wxT( "Session %i" ), iCount + 1 );
 		session_D->Append( text );
 		session_D->Select( iCount );
 		mSaveSession();

@@ -22,6 +22,14 @@ void G::NewHook( void )
 		else bin_BF.Open( text );
 	}
 }
+void G::DelHook( void )
+{
+	--isHooked;
+	if ( isHooked > 0 ) return;
+	if ( isHooked < 0 ) isHooked = 0;
+	if ( hookApp ) DelAppHandle( appHandle );
+	else bin_BF.Close();
+}
 u32  G::mGetRam( u64 &ramStart, u64 &ramEnd, s8 ramNo )
 {
 	if ( ramNo < 0 ) ramNo = 0;
@@ -37,17 +45,6 @@ u32  G::mGetRam( u64 &ramStart, u64 &ramEnd, s8 ramNo )
 	u32 useSize = ( ramEnd < readSize ) ? ramEnd : readSize;
 	if ( ramEnd > appSize ) ramEnd = appSize;
 	return useSize;
-}
-void G::DelHook( void )
-{
-	--isHooked;
-	if ( isHooked > 0 ) return;
-	if ( isHooked < 0 ) isHooked = 0;
-	if ( hookApp ) DelAppHandle( appHandle );
-	else
-	{
-		bin_BF.Close();
-	}
 }
 void G::SetTime( void )
 {
@@ -73,41 +70,35 @@ void G::SetTime( u32 &value, s32 mode )
 		default: value = 0u;
 	}
 }
+bool lDoHook = false;
+bool lDoEdit = false;
+bool lDoList = false;
 void G::GOnIdle( wxIdleEvent& event )
 {
 	bool doEvent = false;
 	s32 panelIndex = cleanFRM_NB->GetSelection();
 	xLL now = wxGetLocalTimeMillis();
-	if ( hookAdd > 0u )
+	lDoHook = ( hookAdd > 0u );
+	lDoList = ( listAdd > 0u && panelIndex == 0 );
+	lDoEdit = ( editAdd > 0u && panelIndex == 3 );
+	if ( lDoHook )
 	{
 		doEvent = true;
-		if ( now >= hookUntil )
-		{
-			UseHook();
-		}
+		if ( now >= hookUntil ) UseHook();
 	}
-	if ( listAdd > 0u && panelIndex == 0 )
+	if ( lDoList )
 	{
 		doEvent = true;
 		if ( now >= listUntil )
 		{
-			if ( ListApps_RB->GetValue() )
-			{
-				ListApps();
-			}
-			else
-			{
-				ListWindows();
-			}
+			if ( ListApps_RB->GetValue() ) ListApps();
+			else ListWindows();
 		}
 	}
-	if ( editAdd > 0u && panelIndex == 3 )
+	if ( lDoEdit )
 	{
 		doEvent = true;
-		if ( now >= editUntil )
-		{
-			FillEditor();
-		}
+		if ( now >= editUntil ) FillEditor();
 	}
 	event.Skip();
 	event.RequestMore( doEvent );

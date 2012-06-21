@@ -79,6 +79,7 @@ u32  G::GetQVB( void )
 void G::Search( s16 no, s8 type )
 {
 	NewHook();
+	if ( isHooked < 1 ) return;
 	xStr  slash = gGetSlash();
 	xStr  text, path = wxGetCwd() + slash + wxT( "ram" ) + slash, toDump, toByte;
 	toDump.Printf( wxT( "dump%02i.bin" ), no );

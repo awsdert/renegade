@@ -326,6 +326,7 @@ class cleanFRM : public wxFrame
 		virtual void edit_TXTOnMouseWheel( wxMouseEvent& event ) { event.Skip(); }
 		virtual void editSet_BOnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void edit_TXTOnChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void edit_GOnChange( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnEditEnd( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnEditBegin( wxGridEvent& event ) { event.Skip(); }
 		virtual void edit_GOnKeyDown( wxKeyEvent& event ) { event.Skip(); }
