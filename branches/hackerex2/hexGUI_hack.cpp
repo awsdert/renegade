@@ -1,4 +1,5 @@
 #include "hexGUI_G.hpp"
+/*
 bool G::ListHacks( void )
 {
 	ui08  aSize = 0u;
@@ -7,7 +8,7 @@ bool G::ListHacks( void )
 		return ListHacks( hacks, aSize );
 	return false;
 }
-
+///
 bool G::ListHacks( Hack* hacks, ui08& aSize )
 {
 	HexTree_P->Show();
@@ -36,3 +37,4 @@ bool G::ShowHack( Hack* hacks, ui08& aSize, Hack& hack, ui16 i )
 	return hack.hckItem.IsOk();
 }
 
+//*/

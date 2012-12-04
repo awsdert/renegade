@@ -20,9 +20,11 @@ class G : public HexGUI
 	public:
 		G( wxWindow* parent );
 		~G( void );
+		void ClearTmps( Text path );
 		/** Internal Stuff */
 		enum
 		{
+			HEX_LIST_SESSION = 0,
 			HEX_LIST_ORG,
 			HEX_LIST_PFM,
 			HEX_LIST_BIN,
@@ -33,6 +35,7 @@ class G : public HexGUI
 			HEX_LIST_HCK,
 			HEX_LIST_COUNT
 		};
+		Text m_sep;
 		bool m_ListCfg;
 		TxtA m_ListCfgNames;
 		bool m_ListCwd;
@@ -63,32 +66,41 @@ class G : public HexGUI
 		bool Read( HANDLE& hApp, wxFile& hBin );
 		bool Read( HANDLE& hApp, wxFile& hBin, wxTextCtrl* oText );
 		bool ListTabs( void );
-		bool CheckPaths( bool& isCfg, Text& path, Text& hckP, TxtA& txtA );
-		bool CheckTmpBin( Text& path, int inMode = -1 );
-		bool LoadDatT( void );
-		bool SaveDatT( void );
-		bool LoadDatB( void* vDat, ui08& aSize, int inMode = -1 );
-		bool SaveDatB( void* vDat, ui08  aSize, int inMode = -1 );
+		// Shared DB Functions
+		bool CheckFilesT( Text& path, Text& leaf, int inMode = -1 );
+		bool CheckFilesT( Text& path, Text& leaf, Text& subP, int inMode = -1 );
+		bool CheckDirs( Text& path, Text& leaf, int inMode = -1 );
+		void LoadData( int inMode = -1 );
+		void ListData( int s = 0, int inMode = -1 );
+		void SaveData( int inMode = -1 );
 		/** Organisations */
-		bool LoadOrgT( CfgF& file, Text& path );
-		bool ListOrgs( void );
-		void ShowOrgD( int s = 0 );
+		void LoadOrgs( OrgV& dat, TxtF& file, bool isTmpFile = true );
+		void SaveOrgs( OrgV& dat, TxtF& file, TxtF& temp, bool isTmpFile = true );
+		void ListOrgs( OrgV& dat );
+		int  FindOrgI( OrgV& dat, Text& name );
+		void ShowOrgD( Org*  obj );
 		/** Platforms */
-		void ShowPfmD( int s = 0 );
-		bool LoadPfmT( CfgF& file, Text& path );
+		void LoadPfms( PfmV& dat, TxtF& file, bool isTmpFile = true );
+		void SavePfms( PfmV& dat, TxtF& file, bool isTmpFile = true );
+		void ListPfms( PfmV& dat );
+		int  FindPfmI( PfmV& dat, Text& name );
+		void ShowPfmD( Pfm&  obj );
 		/** Binarys ( Applications / Files ) */
-		bool LoadBinT( CfgF& file, Text& path );
-		void ShowBinD( int s = 0 );
-		bool ListApps( void );
-		bool ListBins( void );
+		void LoadBins( BinV& dat, TxtF& file, bool isTmpFile = true );
+		void SaveBins( BinV& dat, TxtF& file, TxtF& temp, bool isTmpFile = true );
+		void ListBins( BinV& dat );
+		void ShowBinD( Bin&  obj );
+		void ShowRamD( Ram&  obj );
+		void ListApps( void );
 		/** Profiles ( Hacklists ) */
-		void ShowPflD( int s = 0 );
-		bool LoadPflT( TxtF& file, Text& path );
+		void LoadPfls( PflV& dat, TxtF& file, bool isTmpFile = true );
+		void SavePfls( PflV& dat, TxtF& file, TxtF& temp, bool isTmpFile = true );
+		void ListPfls( PflV& dat );
+		void ShowPflD( Pfl&  obj );
 		/** Hacklist */
-		bool ListHacks( void );
-		bool ListHacks( Hack* vect, ui08& aSize );
-		bool ShowHack(  Hack* vect, ui08& aSize, Hack& hack, ui16 index );
-		/** Codelist (for individual Hacks) */
+		void ListHcks( HckV& dat );
+		void ShowHack( Hack& obj );
+		void ShowCode( Code& obj );
 };
 
 #endif

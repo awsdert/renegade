@@ -14,7 +14,7 @@ const ui64 g_hackID	= g_parent << 32u;
 
 xsC_START
 
-bool xsDLL LoadHckT_Hex( TxtF& file, ui08 version );
+bool xsDLL LoadHckT_Hex( TxtF& file, Hack* hacks, ui08 version );
 bool xsDLL MakeHack_Hex_1( Hack& hack, TxtA& block, int& codeIndex, ui32& lineIndex );
 bool xsDLL MakeHack_Hex_2( Hack& hack, TxtA& block, int& codeIndex, ui32& lineIndex, ui08& cCount );
 

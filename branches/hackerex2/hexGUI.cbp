@@ -44,6 +44,8 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add library="libwxmsw28ud.a" />
+					<Add library="bin\dbg\libmswHackerEX.a" />
+					<Add library="bin\dbg\libhexDB.a" />
 					<Add directory="$(#wx)/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -76,6 +78,8 @@
 		<Unit filename="hexGUI_app.hpp" />
 		<Unit filename="hexGUI_db.cpp" />
 		<Unit filename="hexGUI_db.hpp" />
+		<Unit filename="hexGUI_dbCheck.cpp" />
+		<Unit filename="hexGUI_dbFind.cpp" />
 		<Unit filename="hexGUI_dbList.cpp" />
 		<Unit filename="hexGUI_dbLoad.cpp" />
 		<Unit filename="hexGUI_dbSave.cpp" />

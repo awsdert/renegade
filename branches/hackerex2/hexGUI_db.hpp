@@ -7,6 +7,7 @@
 class Org
 {
 public:
+	Org( void );
 	Text fileNow;
 	Text fileOld;
 	Text nameNow;

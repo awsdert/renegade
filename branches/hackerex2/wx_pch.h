@@ -5,6 +5,7 @@
 #include <wx/wxprec.h>
 #include <wx/stdpaths.h>
 #include <wx/tokenzr.h>
+#include <wx/dir.h>
 #include <wx/fileconf.h>
 #include <wx/treectrl.h>
 #include <wx/textfile.h>

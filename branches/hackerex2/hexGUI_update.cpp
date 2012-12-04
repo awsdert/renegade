@@ -2,26 +2,36 @@
 void G::UpdatePanels( void )
 {
 // TODO(awsdert) 0: Refine G::UpdatePanels()
-	int i, iCount = m_List_Ps.size();
-	for ( i = 0; i < iCount; ++i )
-	{
+	int i, iEnd = m_List_Ps.size();
+	for ( i = 0; i < iEnd; ++i )
 		m_List_Ps[ i ]->Hide();
-	}
-	if ( m_ListCfg )
+	TxtF file;
+	const wxChar sep = wxT('/');
+	const wxChar tild = wxT('~');
+	Text path, leaf, subP, nowP, tmpP;
+	if ( !CheckFilesT( path, leaf, subP ) )
+		return;
+	nowP = path + sep + leaf;
+	tmpP = nowP + tild;
+	if ( !wxFileExists( tmpP ) )
+		LoadData();
+	if ( !file.Open( nowP ) )
+		return;
+	if ( m_ListCfg == true )
 	{
 		HexSession_P->Show();
 		HexName_P->Show();
-		HexFile_P->Show();
 	}
 	else
 	{
 		switch ( m_ListNow )
 		{
 		case HEX_LIST_ORG:
+		{
 			HexName_P->Show();
 			HexFile_P->Show();
-			ListOrgs();
 			break;
+		}
 		case HEX_LIST_PFM:
 			HexName_P->Show();
 			HexFile_P->Show();
@@ -30,6 +40,8 @@ void G::UpdatePanels( void )
 		}
 	}
 	HexBody_SW->FitInside();
+	file.Close();
+	ListData( m_ListNow );
 }
 void G::UpdateTheme( Text name )
 {
@@ -38,7 +50,7 @@ void G::UpdateTheme( Text name )
 		return;
 	}
 	int i, iCount = 12;
-	Text theme = ( wxGetCwd() + wxT("/../themes/") + name + wxT("/") );
+	Text ico, theme = ( wxGetCwd() + wxT("/../themes/") + name + wxT("/") );
 	wxImage img;
 	img.AddHandler( new wxICOHandler );
 	TxtA tha;
@@ -58,7 +70,9 @@ void G::UpdateTheme( Text name )
 	tha[ 11 ] = wxT("cross.ico");	tia[ 11 ] = HexSet_TT_ID;
 	for ( i = 0; i < iCount; ++i )
 	{
-		img.LoadFile( theme + tha[ i ], wxBITMAP_TYPE_ICO );
+		ico = theme + tha[ i ];
+		if ( !wxFileExists( ico ) ) continue;
+		img.LoadFile( ico, wxBITMAP_TYPE_ICO );
 		HexGUI_TB->SetToolNormalBitmap( tia[ i ], img );
 	}
 }

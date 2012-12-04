@@ -1,33 +1,33 @@
 #include "hexGUI_G.hpp"
-void G::ShowOrgD( int s )
+void G::ShowOrgD( Org* obj )
 {
-	//ui16 index = 0u;
-	ui08 aSize = 0u;
-	Org* data = NULL;
-	if ( !LoadDatB( data, aSize, HEX_LIST_ORG ) )
-		return;
+	HexName_TXT->ChangeValue( obj->nameNow );
+	HexFile_TXT->ChangeValue( obj->fileNow );
 }
-void G::ShowPfmD( int s )
+void G::ShowPfmD( Pfm& obj )
 {
-	//ui16 index = 0u;
-	ui08 aSize = 0u;
-	Pfm* data = NULL;
-	if ( !LoadDatB( data, aSize, HEX_LIST_PFM ) )
-		return;
+	ShowOrgD( &obj );
+	HexEndian_DD->Select( obj.endian );
 }
-void G::ShowBinD( int s )
+void G::ShowBinD( Bin& obj )
 {
-	//ui16 index = 0u;
-	ui08 aSize = 0u;
-	Bin* data = NULL;
-	if ( !LoadDatB( data, aSize, HEX_LIST_BIN ) )
-		return;
+	// TODO: Implement G::ShowBinD();
+	ShowOrgD( &obj );
 }
-void G::ShowPflD( int s )
+void G::ShowRamD( Ram& obj )
 {
-	//ui16 index = 0u;
-	ui08 aSize = 0u;
-	Pfl* data = NULL;
-	if ( !LoadDatB( data, aSize, HEX_LIST_PFL ) )
-		return;
+	// TODO: Implement G::ShowRamD();
+}
+void G::ShowPflD( Pfl& obj )
+{
+	// TODO: Implement G::ShowPflD();
+	ShowOrgD( &obj );
+}
+void G::ShowHack( Hack& obj )
+{
+	// TODO: Implement G::ShowHack();
+}
+void G::ShowCode( Code& obj )
+{
+	// TODO: Implement G::ShowCode();
 }

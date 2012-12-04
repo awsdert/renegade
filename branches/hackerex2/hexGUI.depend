@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1354306059 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbload.cpp
+1354629772 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbload.cpp
 	"hexGUI_G.hpp"
 
-1354008638 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.hpp
+1354631113 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.hpp
 	"hexGUI_wxFB.h"
 	"hexGUI_global.hpp"
 	"hexGUI_db.hpp"
@@ -2469,10 +2469,11 @@
 	<windows.h>
 	<TargetConditionals.h>
 
-1351762039 c:\me\prjs\cpp\hackerex\hackerex2\wx_pch.h
+1354447962 c:\me\prjs\cpp\hackerex\hackerex2\wx_pch.h
 	<wx/wxprec.h>
 	<wx/stdpaths.h>
 	<wx/tokenzr.h>
+	<wx/dir.h>
 	<wx/fileconf.h>
 	<wx/treectrl.h>
 	<wx/textfile.h>
@@ -3748,14 +3749,14 @@
 	"wx/string.h"
 	"wx/string.h"
 
-1353494304 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.hpp
+1354532554 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.hpp
 	"hexGUI_global.hpp"
 	"hexDB_hack.hpp"
 
 1354060740 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hack.hpp
 	"hexGUI_global.hpp"
 
-1354093149 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_main.hpp
+1354451231 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_main.hpp
 	"hexGUI_global.hpp"
 	"hexDLL_global.hpp"
 	"hexDB_hack.hpp"
@@ -3764,16 +3765,16 @@
 1353849386 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hexio.hpp
 	"hexGUI_global.hpp"
 
-1354305796 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbsave.cpp
+1354629772 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbsave.cpp
 	"hexGUI_G.hpp"
 
-1354093240 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbshow.cpp
+1354629626 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbshow.cpp
 	"hexGUI_G.hpp"
 
-1354303854 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.cpp
+1354630370 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.cpp
 	"hexGUI_G.hpp"
 
-1354234660 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_hack.cpp
+1354484049 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_hack.cpp
 	"hexGUI_G.hpp"
 
 1354060753 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_main.cpp
@@ -3783,7 +3784,7 @@
 1353173362 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_app.hpp
 	"hexGUI_global.hpp"
 
-1354235185 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_update.cpp
+1354529510 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_update.cpp
 	"hexGUI_G.hpp"
 
 1354233850 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_wxfb.cpp
@@ -3811,9 +3812,19 @@
 
 1309439518 c:\me\cpp\wxwidgets2.8\include\wx\msw\rcdefs.h
 
-1354061274 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.cpp
+1354532766 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.cpp
 	"hexGUI_db.hpp"
 
-1354306594 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dblist.cpp
+1354631219 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dblist.cpp
+	"hexGUI_G.hpp"
+
+1309439576 c:\me\cpp\wxwidgets2.8\include\wx\dir.h
+	"wx/longlong.h"
+	"wx/string.h"
+
+1354618557 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbcheck.cpp
+	"hexGUI_G.hpp"
+
+1354630917 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbfind.cpp
 	"hexGUI_G.hpp"
 

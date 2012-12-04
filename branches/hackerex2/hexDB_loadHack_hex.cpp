@@ -1,15 +1,14 @@
 #include "hexDB_main.hpp"
-bool xsDLL LoadHckT_Hex( TxtF&	file, ui08 version )
+bool xsDLL LoadHckT_Hex( TxtF&	file, HckV& hacks, ui08 version )
 {
 	if ( file.GetLineCount() > 0 )
 	{
 		Text name, text;
 		Hack hack;
-		HckV hacks;
-		hacks.resize( 1u );
 		TxtA block;
 		ui32 next = 1u;
 		ui32 h = 0u, hCount = 1u;
+		hacks.resize( 1u );
 		long line;
 		ui08 cCount = 0u; // Speedup - reduces the number of times the vector is resized
 		bool b = false, done = false;
@@ -55,12 +54,13 @@ bool xsDLL LoadHckT_Hex( TxtF&	file, ui08 version )
 			}
 			else if ( !done )
 			{
-				if ( !GetHex( &line, text, 8u ) ) return false;
+				if ( !GetHex( &line, text, 8u ) )
+					return false;
 				h = ( line & g_hackID ) >> 32u;
 				if ( h >= hCount )
 				{
 					hCount	= h + 1u;
-					hacks.resize( hCount );
+					hacks.resize( h + 1u );
 				}
 				hack	= hacks[ h ];
 				cCount	= ( line & g_cCount ) >> 16u;

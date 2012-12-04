@@ -1,223 +1,133 @@
 #include "hexGUI_G.hpp"
-bool G::CheckPaths( bool& isCfg, Text& path, Text& hckP, TxtA& dirA )
+void G::LoadData( int inMode )
 {
-// TODO(awsdert) 0: Refine G::CheckPaths();
-	// 1st Checks
-	isCfg	= true;
-	bool b	= true;
-	Text now, old;
-	path = m_ListCwd ? wxGetCwd() + wxT("/..") : wxGetDataDir();
-	if ( !wxDirExists( path ) )
-		b = wxMkdir( path );
-	if ( !b )
-		return b;
-	// 2nd Checks
-	const wxChar sep	= wxT('/');
-	const Text orgDir	= sep + m_org.fileNow;
-	const Text pfmDir	= sep + m_pfm.fileNow;
-	const Text binDir	= sep + m_bin.fileNow;
-	const Text pflDir	= sep + m_pfl.fileNow;
-	switch ( m_ListNow )
+	if ( inMode < 0 || inMode > HEX_LIST_COUNT )
+		inMode = m_ListNow;
+	TxtF file, temp;
+	const wxChar tild = wxT('~');
+	Text path, leaf, subP, nowP, tmpP;
+	if ( !CheckFilesT( path, leaf, subP ) )
+		return;
+	nowP = path + m_sep + leaf;
+	tmpP = nowP + tild;
+	if ( !wxFileExists( tmpP ) )
+		temp.Create( tmpP );
+	if ( !file.Open( nowP ) || !temp.Open( tmpP ) )
+		return;
+	switch ( inMode )
 	{
-	case HEX_LIST_ORG:
-		now = wxT( "/hex.ini" );
-		break;
-	case HEX_LIST_PFM:
-		dirA.Add( m_orgPath );
-		now = ( orgDir + wxT(".hexp") );
-		break;
-	case HEX_LIST_BIN:
-		dirA.Add( m_orgPath );
-		dirA.Add( orgDir );
-		now = ( pfmDir + wxT(".hexb") );
-		break;
-	case HEX_LIST_PFL:
-		dirA.Add( m_orgPath );
-		dirA.Add( orgDir );
-		dirA.Add( pfmDir );
-		old = ( binDir + wxT(".hexdb") );
-		now = ( binDir + wxT(".hexh") );
-		isCfg = false;
-		break;
-	case HEX_LIST_HCK:
-		dirA.Add( m_orgPath );
-		dirA.Add( orgDir );
-		dirA.Add( pfmDir );
-		dirA.Add( binDir );
-		old = ( pflDir + wxT(".hexcl") );
-		now = ( pflDir + wxT(".hexc") );
-		break;
-	}
-	int i, iCount = dirA.GetCount();
-	for ( i = 0; ( b && i < iCount ); ++i )
-	{
-		path += dirA[ i ];
-		if ( !wxDirExists( path ) )
-			b = wxMkdir( path );
-	}
-	if ( !b )
-		return b;
-	// 3rd Checks
-	TxtF file;
-	Text nowP = path + now, oldP = path + old;
-	if ( !wxFileExists( nowP ) )
-		b = file.Create( nowP );
-	if ( b )
-	{
-		hckP = path + pflDir;
-		if ( m_ListNow == HEX_LIST_HCK && !wxDirExists( hckP ) )
-			b = wxMkdir( hckP );
-		if ( b && !old.IsEmpty() && wxFileExists( path + old ) )
+		case HEX_LIST_ORG:
 		{
-			Text temp( path + old );
-			switch ( m_ListNow )
-			{
-			case HEX_LIST_PFL:
-				b = wxRenameFile( oldP, nowP, true );
-				break;
-			case HEX_LIST_HCK:
-				b = wxRenameFile( oldP, hckP + pflDir + wxT(".hex00000001"), true );
-			}
-			wxRemoveFile( oldP );
+			OrgV dat1;
+			LoadOrgs( dat1, file, false );
+			m_org = dat1[ 0 ];
+			m_Org = 0;
+			SaveOrgs( dat1, file, temp );
+			break;
+		}
+		case HEX_LIST_PFM:
+		{
+			PfmV dat2;
+			LoadPfms( dat2, file, false );
+			m_pfm = dat2[ 0 ];
+			m_Pfm = 0;
+			SavePfms( dat2, temp );
+			break;
 		}
 	}
-	path = nowP;
-	return b;
+	file.Close();
+	temp.Close();
 }
-bool G::LoadDatT( void )
+void G::LoadOrgs( OrgV& dat, TxtF& file, bool isTmpFile )
 {
-// TODO(awsdert) 0: Refine G::LoadDatT()
-	TxtA dirA;
-	Text path, hckP, tmp;
-	bool b = true, isCfg = true;
-	if ( CheckPaths( isCfg, path, hckP, dirA ) )
+	dat.resize( 1 );
+	bool  inOrg = false;
+	Text  lineTxt, oldN, val, oldF, nowN, nowF;
+	const Text orgHead = wxT("[Organisation]");
+	const Text del = wxT('=');
+	const Text sc = wxT(';');
+	TxtT  txtT;
+	Org   obj;
+	for
+	(
+		lineTxt = file.GetFirstLine();
+		!file.Eof();
+		lineTxt = file.GetNextLine()
+	)
 	{
-		tmp = path + wxT("~");
-		if ( isCfg )
+		if ( lineTxt.IsEmpty() )
+			continue;
+		if ( !inOrg )
 		{
-			CfgF cfg( wxT("HackerEX"), wxT("Awsdert"), path, wxT(""), wxCONFIG_USE_LOCAL_FILE );
-			switch ( m_ListNow )
-			{
-			case HEX_LIST_ORG: b = LoadOrgT( cfg, tmp ); break;
-			case HEX_LIST_PFM: b = LoadPfmT( cfg, tmp ); break;
-			case HEX_LIST_BIN: b = LoadBinT( cfg, tmp ); break;
-			default: b = false;
-			}
+			inOrg = ( lineTxt == orgHead );
+			continue;
+		}
+		else if ( !lineTxt.Contains( del ) )
+			break;
+		txtT.SetString( lineTxt, del );
+		oldN = txtT.GetNextToken();
+		val = txtT.GetNextToken();
+		if ( isTmpFile )
+		{
+			txtT.SetString( val, sc );
+			oldF = txtT.GetNextToken();
+			nowN = txtT.GetNextToken();
+			nowF = txtT.GetNextToken();
 		}
 		else
 		{
-			TxtF file( path );
-			Text e, ext = wxT("hexc"), leafExt = path.AfterLast( wxT('.') );
-			ui32 i = 1;
-			ui08 iCount = 1;
-			switch ( m_ListNow )
-			{
-			case HEX_LIST_PFL: b = LoadPflT( file, tmp ); break;
-			case HEX_LIST_HCK:
-				for ( ; i < iCount; ++i )
-				{
-					GetTxtFromUI( e, &i, 4u );
-					e = ext + e;
-					if ( leafExt == e )
-						b = LoadHckT_Hex( file, i );
-				}
-				b = b ? ListHacks() : false;
-				break;
-			default: b = false;
-			}
-			file.Close();
+			oldF = val;
+			nowN = oldN;
+			nowF = val;
 		}
+		obj.fileNow = nowF;
+		obj.fileOld = oldF;
+		obj.nameNow = nowN;
+		obj.nameOld = oldN;
+		dat.push_back( obj );
 	}
-	return b;
+	dat[ m_Org ] = m_org;
 }
-
-bool G::LoadOrgT( CfgF& file, Text& path )
+void G::LoadPfms( PfmV& dat, TxtF& file, bool isTmpFile )
 {
-	Text key, value;
-	bool b;
-	long i;
-	file.SetPath( m_iniOrgPath );
-	ui08 aSize = 1u;
-	Org org;
-	OrgV vOrg;
-	vOrg.resize( 1u );
+	Pfm obj;
+	dat.resize( 1 );
+	Text lineTxt, val, nowN, nowF, oldN, oldF;
+	TxtT txtT;
+	ui08 edn = 0u;
+	const Text del = wxT('=');
+	const Text sc = wxT(';');
 	for
 	(
-		b = file.GetFirstEntry( key, i );
-		( b && aSize < 255u );
-		b = file.GetNextEntry( key, i )
+		lineTxt = file.GetFirstLine();
+		!file.Eof();
+		lineTxt = file.GetNextLine()
 	)
 	{
-		if ( key.IsEmpty() ) continue;
-		if ( !file.Read( key, &value, wxT("default") ) ) break;
-		org.fileNow = value;
-		org.fileOld = value;
-		org.nameNow = key;
-		org.nameOld = key;
-		vOrg.push_back( org );
-		++aSize;
-	}
-	m_org = vOrg[ 0 ];
-	return SaveDatB( &vOrg[0u], aSize, HEX_LIST_ORG );
-}
-bool G::LoadDatB( void* vDat, ui08& aSize, int inMode )
-{
-	Size bSize = 0u;
-	Text path, text;
-	switch ( inMode )
-	{
-		case HEX_LIST_ORG:
-			bSize	= sizeof( Org );
-			break;
-		case HEX_LIST_PFM:
-			bSize	= sizeof( Pfm );
-			break;
-		case HEX_LIST_BIN:
-			bSize	= sizeof( Bin );
-			break;
-		case HEX_LIST_PFL:
-			bSize	= sizeof( Pfl );
-			break;
-		case HEX_LIST_HCK:
-			bSize	= sizeof( Hack );
-			break;
-		default: return false;
-	}
-	if ( !CheckTmpBin( path, inMode ) )
-		return false;
-	path += wxT(".bin~");
-	wxFile file( path );
-	Size fSize = file.Length();
-	aSize = fSize / bSize;/*
-	text.Printf( wxT( "%u" ), aSize );
-	if ( wxMessageBox( path, text, wxOK | wxCANCEL ) == wxCANCEL )
-		return false;//*/
-	switch ( inMode )
-	{
-		case HEX_LIST_ORG:
+		if ( lineTxt.IsEmpty() )
+			continue;
+		txtT.SetString( lineTxt, del );
+		oldN = txtT.GetNextToken();
+		val  = txtT.GetNextToken();
+		txtT.SetString( val, sc );
+		oldF = txtT.GetNextToken();
+		GetHex( &edn, txtT.GetNextToken() );
+		if ( isTmpFile )
 		{
-			Org a[ aSize ];
-			vDat = &a;
-			file.Read( vDat, fSize );
-			break;
+			nowN = txtT.GetNextToken();
+			nowF = txtT.GetNextToken();
 		}
-		default: return false;
+		else
+		{
+			nowN = oldN;
+			nowF = oldF;
+		}
+		obj.fileNow = nowF;
+		obj.fileOld = oldF;
+		obj.nameNow = nowN;
+		obj.nameOld = oldN;
+		obj.endian	= edn;
+		dat.push_back( obj );
 	}
-	return file.Close();
-}
-
-bool G::LoadPfmT( CfgF& file, Text& path )
-{
-// TODO: Implement G::LoadPfmT()
-	return false;
-}
-bool G::LoadBinT( CfgF& file, Text& path )
-{
-// TODO: Implement G::LoadBinT()
-	return false;
-}
-bool G::LoadPflT( TxtF& file, Text& path )
-{
-// TODO: Implement G::LoadPflT()
-	return false;
+	dat[ m_Pfm ] = m_pfm;
 }
