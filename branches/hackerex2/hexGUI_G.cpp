@@ -20,19 +20,19 @@ G::G( wxWindow* parent ) : HexGUI( parent )
 	m_ListCwd = true;
 	m_ListNow = HEX_LIST_ORG;
 	m_ListOld = 0;
-	m_List_Ps.resize( 12 );
-	m_List_Ps[  0 ] = HexSession_P;
-	m_List_Ps[  1 ] = HexName_P;
-	m_List_Ps[  2 ] = HexFile_P;
-	m_List_Ps[  3 ] = HexEndian_P;
-	m_List_Ps[  4 ] = HexBin_P;
-	m_List_Ps[  5 ] = HexRam_P;
-	m_List_Ps[  6 ] = HexPfl_P;
-	m_List_Ps[  7 ] = HexHck_P;
-	m_List_Ps[  8 ] = HexPtr_P;
-	m_List_Ps[  9 ] = HexVal_P;
-	m_List_Ps[ 10 ] = HexQ_P;
-	m_List_Ps[ 11 ] = HexOut_P;
+	m_ListEnd = 11;
+	m_List_Ps.resize( m_ListEnd );
+	m_List_Ps[  0 ] = HexName_P;
+	m_List_Ps[  1 ] = HexFile_P;
+	m_List_Ps[  2 ] = HexEndian_P;
+	m_List_Ps[  3 ] = HexBin_P;
+	m_List_Ps[  4 ] = HexRam_P;
+	m_List_Ps[  5 ] = HexPfl_P;
+	m_List_Ps[  6 ] = HexHck_P;
+	m_List_Ps[  7 ] = HexPtr_P;
+	m_List_Ps[  8 ] = HexVal_P;
+	m_List_Ps[  9 ] = HexQ_P;
+	m_List_Ps[ 10 ] = HexOut_P;
 	UpdatePanels();
 	UpdateTheme( wxT("visualpharm-win8") );
 }
@@ -51,10 +51,9 @@ void G::ClearTmps( Text path )
 	Text dspec = wxT("*");
 	Text fspec = wxT("*~");
 	Text name;
-	dir.GetFirst( &name, fspec, wxDIR_FILES );
 	for
 	(
-		b = dir.GetFirst( &name, fspec, wxDIR_DIRS );
+		b = dir.GetFirst( &name, fspec, wxDIR_FILES );
 		b; b = dir.GetNext( &name )
 	)
 	{

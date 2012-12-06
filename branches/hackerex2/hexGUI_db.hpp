@@ -31,21 +31,27 @@ public:
 	Text name;
 };
 
-class Bin : public Org
+class Bin : public Org, public Vect< Ram >
 {
 public:
 	Bin( void );
 	~Bin( void );
-	Ram& operator[] ( unsigned int );
-	Vect< Ram > ram;
 	Text name;
 	Text path;
 	ui08 type;
 };
 
+#define REGION_ALL	0xFFFFFFFF
+#define REGION_UK	0x1
+#define REGION_US	0x10
+#define REGION_DE	0x2
+#define REGION_JP	0x100
+#define REGION_AUS	0x8
+
 class Pfl : public Org
 {
 public:
+	ui32 region;
 	ui32 format; // The current format in use, default = 0u
 	ui16 profile;
 	Text serial;

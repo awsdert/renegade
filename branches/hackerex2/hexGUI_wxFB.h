@@ -20,19 +20,19 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/choice.h>
+#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
-#include <wx/textctrl.h>
+#include <wx/choice.h>
 #include <wx/stattext.h>
 #include <wx/radiobut.h>
 #include <wx/button.h>
 #include <wx/listbox.h>
-#include <wx/slider.h>
-#include <wx/spinctrl.h>
 #include <wx/checklst.h>
 #include <wx/checkbox.h>
+#include <wx/slider.h>
+#include <wx/spinctrl.h>
 #include <wx/scrolwin.h>
 #include <wx/treectrl.h>
 #include <wx/statline.h>
@@ -85,6 +85,15 @@ class HexGUI : public wxFrame
 			HexBinExec_B_ID,
 			HexBinHack_B_ID,
 			HexRamSize_TXT_ID,
+			HexPID_TXT_ID,
+			HexSID_TXT_ID,
+			HexNotes_TA_ID,
+			HexRegion_DD_ID,
+			HexRegionAll_RB_ID,
+			HexRegionSel_RB_ID,
+			HexRegion_CLB_ID,
+			HexUse_RB_ID,
+			HexUse_CB_ID,
 			HexVal_TXT_ID,
 			HexValF_DD_ID,
 			HexValB_SP_ID,
@@ -101,8 +110,6 @@ class HexGUI : public wxFrame
 		wxToolBar* HexQ_TB;
 		wxSplitterWindow* HexGUI_SP;
 		wxScrolledWindow* HexBody_SW;
-		wxPanel* HexSession_P;
-		wxChoice* HexSession_DD;
 		wxPanel* HexName_P;
 		wxTextCtrl* HexName_TXT;
 		wxPanel* HexFile_P;
@@ -125,7 +132,19 @@ class HexGUI : public wxFrame
 		wxStaticText* HexRamSize_S2;
 		wxTextCtrl* HexRamSize_TXT;
 		wxPanel* HexPfl_P;
+		wxStaticText* HexPID_S;
+		wxTextCtrl* HexPID_TXT;
+		wxStaticText* HexSID_S;
+		wxTextCtrl* HexSID_TXT;
+		wxStaticText* HexNotes_S;
+		wxTextCtrl* HexNotes_TA;
+		wxChoice* HexRegion_DD;
+		wxRadioButton* HexRegionAll_RB;
+		wxRadioButton* HexRegionSel_RB;
+		wxCheckListBox* HexRegion_CLB;
 		wxPanel* HexHck_P;
+		wxRadioButton* HexUse_RB;
+		wxCheckBox* HexUse_CB;
 		wxPanel* HexPtr_P;
 		wxTextCtrl* HexPtr_TXT;
 		wxStaticText* HexDepth_S;

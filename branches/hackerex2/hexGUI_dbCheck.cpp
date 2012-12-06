@@ -101,3 +101,54 @@ bool G::CheckFilesT( Text& path, Text& leaf, Text& subP, int inMode )
 	leaf += ext;
 	return b;
 }
+ui32 G::CheckRegion( Text region )
+{
+	region.UpperCase();
+	ui32 r = 0u;
+	Text comma = wxT(',');
+	TxtT txtT;
+	txtT.SetString( region, comma );
+	if ( !txtT.HasMoreTokens() )
+		return 0u;
+	Text val;
+	const Text uk	= wxT("UK");
+	const Text us	= wxT("US");
+	const Text aus	= wxT("AUS");
+	const Text de	= wxT("DE");
+	const Text jp	= wxT("JP");
+	for
+	(
+		val = txtT.GetNextToken();
+		txtT.HasMoreTokens();
+		val = txtT.GetNextToken()
+	)
+	{
+		if ( val == uk )
+			r |= REGION_UK;
+		else if ( val == us )
+			r |= REGION_US;
+		else if ( val == aus )
+			r |= REGION_AUS;
+		else if ( val == de )
+			r |= REGION_DE;
+		else if ( val == jp )
+			r |= REGION_JP;
+	}
+	return r;
+}
+Text G::CheckRegion( ui32 region )
+{
+	Text txt;
+	const wxChar comma = wxT(',');
+	if ( region & REGION_UK )
+		txt += comma + wxT("UK");
+	if ( region & REGION_US )
+		txt += comma + wxT("US");
+	if ( region & REGION_AUS )
+		txt += comma + wxT("AUS");
+	if ( region & REGION_DE )
+		txt += comma + wxT("DE");
+	if ( region & REGION_JP )
+		txt += comma + wxT("JP");
+	return txt.Right( txt.Length() - 2 );
+}

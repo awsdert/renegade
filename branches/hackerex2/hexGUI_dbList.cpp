@@ -51,39 +51,67 @@ void G::ListData( int s, int inMode )
 		Text name = HexList_LB->GetString( s );
 		switch ( inMode )
 		{
-		case HEX_LIST_ORG:
-		{
-			OrgV dat1;
-			LoadOrgs( dat1, file );
-			sd = FindOrgI( dat1, name );
-			m_org = dat1[ sd ];
-			m_Org = sd;
-			ShowOrgD( &m_org );
-			ListOrgs( dat1 );
-			SaveOrgs( dat1, file, temp );
-			break;
-		}
-		case HEX_LIST_PFM:
-		{
-			PfmV dat2;
-			LoadPfms( dat2, file );
-			sd = FindPfmI( dat2, name );
-			m_pfm = dat2[ sd ];
-			m_Pfm = sd;
-			ShowPfmD( m_pfm );
-			ListPfms( dat2 );
-			SavePfms( dat2, temp );
-			break;
-		}
-		case HEX_LIST_BIN:
-			//ShowBinD( s );
-			break;
-		case HEX_LIST_PFL:
-			//ShowPflD( s );
-			break;
+			case HEX_LIST_ORG:
+			{
+				OrgV dat1;
+				LoadOrgs( dat1, file );
+				sd = FindOrgI( dat1, name );
+				if ( sd < 0 ) sd = 0;
+				m_org = dat1[ sd ];
+				m_Org = sd;
+				ShowOrgD( &m_org );
+				ListOrgs( dat1 );
+				SaveOrgs( dat1, file, temp );
+				break;
+			}
+			case HEX_LIST_PFM:
+			{
+				PfmV dat2;
+				LoadPfms( dat2, file );
+				sd = FindPfmI( dat2, name );
+				if ( sd < 0 ) sd = 0;
+				m_pfm = dat2[ sd ];
+				m_Pfm = sd;
+				ShowPfmD( m_pfm );
+				ListPfms( dat2 );
+				SavePfms( dat2, temp );
+				break;
+			}
+			case HEX_LIST_BIN:
+			{
+				BinV dat3;
+				LoadBins( dat3, file );
+				sd = FindBinI( dat3, name );
+				if ( sd < 0 ) sd = 0;
+				m_bin= dat3[ sd ];
+				m_Bin = sd;
+				ShowBinD( m_bin );
+				ListBins( dat3 );
+				SaveBins( dat3, temp );
+				break;
+			}
+			case HEX_LIST_PFL:
+			{
+				PflV dat4;
+				LoadPfls( dat4, file );
+				sd = FindPflI( dat4, name );
+				if ( sd < 0 ) sd = 0;
+				m_pfl = dat4[ sd ];
+				m_Pfl = sd;
+				ShowPflD( m_pfl );
+				ListPfls( dat4 );
+				SavePfls( dat4, file, temp );
+				break;
+			}
 		}
 	}
 	HexList_LB->SetSelection( s );
+	Text def = wxT("Default");
+	bool en = true;
+	if ( HexList_LB->GetString( s ) == def )
+		en = false;
+	for ( int i = 0; i < m_ListEnd; ++i )
+		m_List_Ps[ i ]->Enable( en );
 	file.Close();
 	temp.Close();
 	if ( !m_ListCfg )

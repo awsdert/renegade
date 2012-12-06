@@ -91,7 +91,6 @@
 		<Unit filename="hexGUI_wxFB.cpp" />
 		<Unit filename="hexGUI_wxFB.h" />
 		<Unit filename="hexGUI_wxFBv3.2.fbp" />
-		<Unit filename="hexGUI_wxFBv3.3.fbp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

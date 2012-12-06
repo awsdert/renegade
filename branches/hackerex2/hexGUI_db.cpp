@@ -8,5 +8,6 @@ Org::Org( void )
 	nameOld = Tmp;
 }
 Pfm::Pfm( void ) : Org() {};
+Ram::Ram( void ) {};
 Bin::Bin( void ) : Org() {};
 Bin::~Bin( void ) {};

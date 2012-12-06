@@ -31,6 +31,20 @@ void G::SaveData( int inMode )
 			SavePfms( dat2, file, false );
 			break;
 		}
+		case HEX_LIST_BIN:
+		{
+			BinV dat3;
+			LoadBins( dat3, temp );
+			SaveBins( dat3, file, false );
+			break;
+		}
+		case HEX_LIST_PFL:
+		{
+			PflV dat4;
+			LoadPfls( dat4, temp );
+			SavePfls( dat4, temp, file, false );
+			break;
+		}
 	}
 	file.Close();
 	temp.Close();
@@ -94,6 +108,102 @@ void G::SavePfms( PfmV& dat, TxtF& file, bool isTmpFile )
 		if ( isTmpFile )
 			lineTxt += sc + obj.nameNow + sc + obj.fileNow;
 		file.AddLine( lineTxt, wxTextFileType_Dos );
+	}
+	file.Write( wxTextFileType_Dos );
+}
+void G::SaveBins( BinV& dat, TxtF& file, bool isTmpFile )
+{
+	Bin obj;
+	Ram ram;
+	Text txt, val;
+	ui08 ptr;
+	ui08 v64;
+	int i, iEnd = dat.size();
+	ui08 j, jEnd;
+	const wxChar* data = wxT("data=");
+	const wxChar del = wxT('=');
+	const wxChar sc  = wxT(';');
+	const wxChar bOpen = wxT('[');
+	const wxChar bClose = wxT(']');
+	const wxChar* app = wxT("app");
+	const wxChar* win = wxT("win");
+	const wxChar* fle = wxT("file");
+	for ( i = 0; i < iEnd; ++i )
+	{
+		obj = dat[ i ];
+		txt = bOpen + obj.nameOld + bClose;
+		file.AddLine( txt, wxTextFileType_Dos );
+		txt = data;
+		switch ( obj.type )
+		{
+			case 1u: txt += app; break;
+			case 2u: txt += win; break;
+			default: txt += fle;
+		}
+		txt += sc + obj.fileOld + sc + obj.name + sc + obj.path;
+		if ( isTmpFile )
+			txt += sc + obj.nameNow + sc + obj.fileNow;
+		jEnd = obj.size();
+		for ( j = 0u; j < jEnd; ++j )
+		{
+			ram = obj[ j ];
+			GetTxt( txt, &j );
+			txt += del + ram.name;
+			ptr = ram.depth;
+			GetTxt( val, &ptr );
+			txt += sc + val;
+			v64 = ram.addr;
+			GetTxt( val, &v64, 8u );
+			txt += sc + val;
+			v64 = ram.bytes;
+			GetTxt( val, &v64, 8u );
+			txt += sc + val;
+			file.AddLine( txt, wxTextFileType_Dos );
+		}
+	}
+}
+void G::SavePfls( PflV& dat, TxtF& file, TxtF& temp, bool isTmpFile )
+{
+	Pfl obj;
+	ui16 pid = 0u;
+	TxtT txtT;
+	Text txt, val;
+	const Text nl = wxT('\n');
+	const wxChar sColon	= wxT(';');
+	const wxChar hOpen	= wxT('[');
+	const wxChar hClose	= wxT(']');
+	const wxChar fSlash	= wxT('\\');
+	int i, iEnd = dat.size();
+	for ( i = 0; i < iEnd; ++i )
+	{
+		// Header
+		obj = dat[ i ];
+		txt = hOpen + obj.nameOld + hClose;
+		file.AddLine( txt, wxTextFileType_Dos );
+		// Data
+		txt = obj.fileOld;
+		txt += fSlash + CheckRegion( obj.region );
+		txt += fSlash + obj.serial;
+		pid = obj.profile;
+		GetTxt( val, &pid, 2u );
+		txt += fSlash + val;
+		if ( isTmpFile )
+			txt += fSlash + obj.nameNow + fSlash + obj.fileNow;
+		file.AddLine( txt, wxTextFileType_Dos );
+		// Notes
+		val = HexNotes_TA->GetValue();
+		txtT.SetString( val, nl );
+		for
+		(
+			txt = txtT.GetNextToken();
+			txtT.HasMoreTokens();
+			txt = txtT.GetNextToken()
+		)
+		{
+			if ( txt[ 0u ] == fSlash || txt[ 0u ] == hOpen || txt[ 0u ] == sColon )
+				txt = fSlash + txt;
+			file.AddLine( txt, wxTextFileType_Dos );
+		}
 	}
 	file.Write( wxTextFileType_Dos );
 }

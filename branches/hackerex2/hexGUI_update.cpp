@@ -2,7 +2,7 @@
 void G::UpdatePanels( void )
 {
 // TODO(awsdert) 0: Refine G::UpdatePanels()
-	int i, iEnd = m_List_Ps.size();
+	int i, iEnd = m_ListEnd;
 	for ( i = 0; i < iEnd; ++i )
 		m_List_Ps[ i ]->Hide();
 	TxtF file;
@@ -17,12 +17,7 @@ void G::UpdatePanels( void )
 		LoadData();
 	if ( !file.Open( nowP ) )
 		return;
-	if ( m_ListCfg == true )
-	{
-		HexSession_P->Show();
-		HexName_P->Show();
-	}
-	else
+	if ( !m_ListCfg )
 	{
 		switch ( m_ListNow )
 		{

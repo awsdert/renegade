@@ -41,6 +41,7 @@ class G : public HexGUI
 		bool m_ListCwd;
 		int m_ListNow;
 		int m_ListOld;
+		int m_ListEnd;
 		Vect< wxPanel* >m_List_Ps;
 		int m_Org;
 		int m_Pfm;
@@ -87,15 +88,19 @@ class G : public HexGUI
 		void ShowPfmD( Pfm&  obj );
 		/** Binarys ( Applications / Files ) */
 		void LoadBins( BinV& dat, TxtF& file, bool isTmpFile = true );
-		void SaveBins( BinV& dat, TxtF& file, TxtF& temp, bool isTmpFile = true );
+		void SaveBins( BinV& dat, TxtF& file, bool isTmpFile = true );
 		void ListBins( BinV& dat );
+		int  FindBinI( BinV& dat, Text& name );
 		void ShowBinD( Bin&  obj );
 		void ShowRamD( Ram&  obj );
 		void ListApps( void );
 		/** Profiles ( Hacklists ) */
+		ui32 CheckRegion( Text region );
+		Text CheckRegion( ui32 region );
 		void LoadPfls( PflV& dat, TxtF& file, bool isTmpFile = true );
 		void SavePfls( PflV& dat, TxtF& file, TxtF& temp, bool isTmpFile = true );
 		void ListPfls( PflV& dat );
+		int  FindPflI( PflV& dat, Text& name );
 		void ShowPflD( Pfl&  obj );
 		/** Hacklist */
 		void ListHcks( HckV& dat );
