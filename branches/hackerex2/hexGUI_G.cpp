@@ -10,9 +10,6 @@ G::G( wxWindow* parent ) : HexGUI( parent )
 	m_iniOrgPath	= wxT("/Organisation");
 	m_iniThemePath	= wxT("/Themes");
 	//
-	m_Org = 0;
-	m_Pfm = 0;
-	m_Bin = 0;
 	m_Pfl = 0;
 	m_Hck = 0;
 	// Lists
@@ -21,6 +18,9 @@ G::G( wxWindow* parent ) : HexGUI( parent )
 	m_ListNow = HEX_LIST_ORG;
 	m_ListOld = 0;
 	m_ListEnd = 11;
+	dataName.SetCount( HEX_LIST_COUNT );
+	dataNow.SetCount( HEX_LIST_COUNT );
+	dataOld.SetCount( HEX_LIST_COUNT );
 	m_List_Ps.resize( m_ListEnd );
 	m_List_Ps[  0 ] = HexName_P;
 	m_List_Ps[  1 ] = HexFile_P;
@@ -53,7 +53,7 @@ void G::ClearTmps( Text path )
 	Text name;
 	for
 	(
-		b = dir.GetFirst( &name, fspec, wxDIR_FILES );
+		b = dir.GetFirst( &name, fspec );
 		b; b = dir.GetNext( &name )
 	)
 	{
@@ -84,12 +84,23 @@ void G::HexGUI_TB_OnToolExec( wxCommandEvent& event )
 		UpdatePanels();
 		break;
 	case HexLoad_TT_ID:
-		LoadData();
+		LoadData( HEX_LOAD_SAVE2TEMP );
+		break;
+	case HexSave_TT_ID:
+		LoadData( HEX_LOAD_SAVE2FILE );
 		break;
 	}
 }
 
 void G::HexList_LB_OnSelect( wxCommandEvent& event )
 {
-	ListData( HexList_LB->GetSelection() );
+	int i = HexList_LB->GetSelection();
+	Text name = HexList_LB->GetString( i );
+	if ( m_ListCfg )
+		m_ListNow = i;
+	else
+		dataName[ m_ListNow ] = name;
+	LoadData( HEX_LOAD_LIST, m_ListNow, name );
+	i = HexList_LB->FindString( name );
+	HexList_LB->SetSelection( ( i < 0 ) ? 0 : i );
 }

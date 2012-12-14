@@ -73,16 +73,20 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="bin/hex.ini" />
+		<Unit filename="bin/org/sony.hexp" />
+		<Unit filename="bin/org/sony/ps2.hexb" />
 		<Unit filename="hexGUI_G.cpp" />
 		<Unit filename="hexGUI_G.hpp" />
+		<Unit filename="hexGUI_G_LoadBin.cpp" />
+		<Unit filename="hexGUI_G_LoadData.cpp" />
+		<Unit filename="hexGUI_G_LoadOrg.cpp" />
+		<Unit filename="hexGUI_G_LoadPfl.cpp" />
+		<Unit filename="hexGUI_G_LoadPfm.cpp" />
 		<Unit filename="hexGUI_app.hpp" />
 		<Unit filename="hexGUI_db.cpp" />
 		<Unit filename="hexGUI_db.hpp" />
 		<Unit filename="hexGUI_dbCheck.cpp" />
-		<Unit filename="hexGUI_dbFind.cpp" />
-		<Unit filename="hexGUI_dbList.cpp" />
-		<Unit filename="hexGUI_dbLoad.cpp" />
-		<Unit filename="hexGUI_dbSave.cpp" />
 		<Unit filename="hexGUI_dbShow.cpp" />
 		<Unit filename="hexGUI_global.hpp" />
 		<Unit filename="hexGUI_hack.cpp" />
@@ -99,7 +103,7 @@
 			<code_completion />
 			<debugger />
 			<DoxyBlocks>
-				<comment_style block="0" line="0" />
+				<comment_style block="4" line="0" />
 				<doxyfile_project />
 				<doxyfile_build />
 				<doxyfile_warnings />

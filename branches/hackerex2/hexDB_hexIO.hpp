@@ -33,11 +33,8 @@ enum
 xsC_START
 
 bool xsDLL GetHex( void* to, Text  from, ui08 tSize	= 1u, ui08 tType = HEX_TYPE_HEX );
-bool xsDLL GetTxt( Text& to, void* from, ui08 fSize	= 1u, ui08 fType = HEX_TYPE_HEX );
 bool xsDLL GetHexFromUI( void* to, Text  from, ui08 tSize = 1u );
-bool xsDLL GetTxtFromUI( Text& to, void* from, ui08 fSize = 1u );
 bool xsDLL GetHexFromSI( void* to, Text  from, ui08 tSize = 1u );
-bool xsDLL GetTxtFromSI( Text& to, void* from, ui08 fSize = 1u );
 bool xsDLL GetHexFromSF_IEEE754( void* to, Text  from, ui08 tSize = 1u );
 bool xsDLL GetTxtFromSF_IEEE754( Text& to, void* from, ui08 fSize = 1u );
 // Bool is for Equal (true) / not equal (false), result is 0x0 plus above

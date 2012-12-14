@@ -5,52 +5,52 @@ void G::UpdatePanels( void )
 	int i, iEnd = m_ListEnd;
 	for ( i = 0; i < iEnd; ++i )
 		m_List_Ps[ i ]->Hide();
-	TxtF file;
-	const wxChar sep = wxT('/');
-	const wxChar tild = wxT('~');
-	Text path, leaf, subP, nowP, tmpP;
-	if ( !CheckFilesT( path, leaf, subP ) )
-		return;
-	nowP = path + sep + leaf;
-	tmpP = nowP + tild;
-	if ( !wxFileExists( tmpP ) )
-		LoadData();
-	if ( !file.Open( nowP ) )
-		return;
 	if ( !m_ListCfg )
 	{
 		switch ( m_ListNow )
 		{
 		case HEX_LIST_ORG:
-		{
 			HexName_P->Show();
 			HexFile_P->Show();
 			break;
-		}
 		case HEX_LIST_PFM:
 			HexName_P->Show();
 			HexFile_P->Show();
 			HexEndian_P->Show();
 			break;
+		case HEX_LIST_BIN:
+			HexName_P->Show();
+			HexFile_P->Show();
+			HexBin_P->Show();
+			break;
+		case HEX_LIST_RAM:
+			HexName_P->Show();
+			HexRam_P->Show();
+			break;
 		}
 	}
 	HexBody_SW->FitInside();
-	file.Close();
-	ListData( m_ListNow );
+	LoadData( HEX_LOAD_LIST, m_ListNow, dataName[ m_ListNow ] );
+	if ( m_ListCfg )
+		i = m_ListNow;
+	else if ( dataNow[ m_ListNow ] == dataOld[ m_ListNow ] )
+		i = HexList_LB->FindString( dataName[ m_ListNow ] );
+	else
+		i = 0;
+	HexList_LB->SetSelection( i );
+	dataOld[ m_ListNow ] = dataNow[ m_ListNow ];
+	m_ListOld = m_ListNow;
 }
 void G::UpdateTheme( Text name )
 {
 	if ( name.IsEmpty() )
-	{
 		return;
-	}
 	int i, iCount = 12;
-	Text ico, theme = ( wxGetCwd() + wxT("/../themes/") + name + wxT("/") );
+	Text ico, theme = ( wxGetCwd() + m_sep + wxT("..") + m_sep + wxT("themes") + m_sep + name + m_sep );
 	wxImage img;
 	img.AddHandler( new wxICOHandler );
-	TxtA tha;
-	tha.SetCount( iCount );
-	Vect< int > tia( iCount );
+	Text tha[ iCount ];
+	int  tia[ iCount ];
 	tha[  0 ] = wxT("config.ico");	tia[  0 ] = HexMain_TT_ID;
 	tha[  1 ] = wxT("list.ico");	tia[  1 ] = HexList_TT_ID;
 	tha[  2 ] = wxT("load.ico");	tia[  2 ] = HexLoad_TT_ID;
@@ -68,6 +68,8 @@ void G::UpdateTheme( Text name )
 		ico = theme + tha[ i ];
 		if ( !wxFileExists( ico ) ) continue;
 		img.LoadFile( ico, wxBITMAP_TYPE_ICO );
+		if ( !img.IsOk() )
+			break;
 		HexGUI_TB->SetToolNormalBitmap( tia[ i ], img );
 	}
 }

@@ -18,27 +18,33 @@ class Pfm : public Org
 {
 public:
 	Pfm( void );
-	int endian;
+	ui08 endian;
 };
 
 class Ram
 {
 public:
 	Ram( void );
+	void Clear( void );
 	ui64 addr;
 	ui08 depth;
 	ui64 bytes;
 	Text name;
 };
 
-class Bin : public Org, public Vect< Ram >
+class Bin : public Org
 {
+private:
+	ui16 m_count;
 public:
 	Bin( void );
-	~Bin( void );
 	Text name;
 	Text path;
 	ui08 type;
+	Ram  ram[ 16u ];
+	ui16 size( void );
+	ui16 resize( ui16 count, bool clearAll = false );
+	Ram& operator[] ( ui16 i );
 };
 
 #define REGION_ALL	0xFFFFFFFF
@@ -57,10 +63,5 @@ public:
 	Text serial;
 	Text notes;
 };
-
-class OrgV : public Vect< Org > {};
-class PfmV : public Vect< Pfm > {};
-class BinV : public Vect< Bin > {};
-class PflV : public Vect< Pfl > {};
 
 #endif

@@ -206,14 +206,10 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxStaticBoxSizer* HexRam_LFV;
 	HexRam_LFV = new wxStaticBoxSizer( new wxStaticBox( HexRam_P, wxID_ANY, _("Memory") ), wxVERTICAL );
 	
-	HexRam_LB = new wxListBox( HexRam_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_NEEDED_SB|wxLB_SINGLE );
-	HexRam_LB->Append( _("All Memory") );
-	HexRam_LB->SetMinSize( wxSize( 100,-1 ) );
-	
-	HexRam_LFV->Add( HexRam_LB, 0, wxALL|wxEXPAND, 5 );
-	
 	HexRamSize_S1 = new wxStaticText( HexRam_P, wxID_ANY, _("0"), wxDefaultPosition, wxDefaultSize, 0 );
 	HexRamSize_S1->Wrap( -1 );
+	HexRamSize_S1->Hide();
+	
 	HexRam_LFV->Add( HexRamSize_S1, 0, wxALIGN_RIGHT|wxALL, 5 );
 	
 	wxBoxSizer* HexRamSize_LH;
@@ -597,16 +593,7 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 	
-	HexList_LB = new wxListBox( m_scrolledWindow7, HexList_LB_ID, wxDefaultPosition, wxSize( -1,-1 ), 0, NULL, wxLB_NEEDED_SB|wxLB_SINGLE|wxLB_SORT|wxNO_BORDER|wxSUNKEN_BORDER );
-	HexList_LB->Append( _("1: Hook > 1: Organistation") );
-	HexList_LB->Append( _("1: Hook > 2: Platform") );
-	HexList_LB->Append( _("1: Hook > 3: Binary") );
-	HexList_LB->Append( _("2: Hack > 1: Profile") );
-	HexList_LB->Append( _("2: Hack > 2: Hacklist") );
-	HexList_LB->Append( _("2: Hack > 3: Codelist") );
-	HexList_LB->Append( _("3: Memory > 1: Search") );
-	HexList_LB->Append( _("3: Memory > 2: Results") );
-	HexList_LB->Append( _("3: Memory > 3: Editor") );
+	HexList_LB = new wxListBox( m_scrolledWindow7, HexList_LB_ID, wxDefaultPosition, wxSize( -1,-1 ), 0, NULL, wxLB_NEEDED_SB|wxLB_SINGLE|wxNO_BORDER|wxSUNKEN_BORDER ); 
 	HexList_LB->SetMinSize( wxSize( 0,-1 ) );
 	
 	bSizer7->Add( HexList_LB, 1, wxEXPAND|wxLEFT, 5 );

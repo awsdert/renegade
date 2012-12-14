@@ -28,12 +28,12 @@
 #include <wx/stattext.h>
 #include <wx/radiobut.h>
 #include <wx/button.h>
-#include <wx/listbox.h>
 #include <wx/checklst.h>
 #include <wx/checkbox.h>
 #include <wx/slider.h>
 #include <wx/spinctrl.h>
 #include <wx/scrolwin.h>
+#include <wx/listbox.h>
 #include <wx/treectrl.h>
 #include <wx/statline.h>
 #include <wx/splitter.h>
@@ -127,7 +127,6 @@ class HexGUI : public wxFrame
 		wxButton* HexBinExec_B;
 		wxButton* HexBinHack_B;
 		wxPanel* HexRam_P;
-		wxListBox* HexRam_LB;
 		wxStaticText* HexRamSize_S1;
 		wxStaticText* HexRamSize_S2;
 		wxTextCtrl* HexRamSize_TXT;

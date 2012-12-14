@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1354754058 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbload.cpp
+1355446983 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbload.cpp
 	"hexGUI_G.hpp"
 
-1354837681 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.hpp
+1355406287 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.hpp
 	"hexGUI_wxFB.h"
 	"hexGUI_global.hpp"
 	"hexGUI_db.hpp"
 	"hexDB_main.hpp"
 
-1354837437 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_wxfb.h
+1355408579 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_wxfb.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/intl.h>
@@ -29,12 +29,12 @@
 	<wx/stattext.h>
 	<wx/radiobut.h>
 	<wx/button.h>
-	<wx/listbox.h>
 	<wx/checklst.h>
 	<wx/checkbox.h>
 	<wx/slider.h>
 	<wx/spinctrl.h>
 	<wx/scrolwin.h>
+	<wx/listbox.h>
 	<wx/treectrl.h>
 	<wx/statline.h>
 	<wx/splitter.h>
@@ -2469,7 +2469,7 @@
 	<windows.h>
 	<TargetConditionals.h>
 
-1354447962 c:\me\prjs\cpp\hackerex\hackerex2\wx_pch.h
+1355487349 c:\me\prjs\cpp\hackerex\hackerex2\wx_pch.h
 	<wx/wxprec.h>
 	<wx/stdpaths.h>
 	<wx/tokenzr.h>
@@ -3749,7 +3749,7 @@
 	"wx/string.h"
 	"wx/string.h"
 
-1354752960 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.hpp
+1355491030 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.hpp
 	"hexGUI_global.hpp"
 	"hexDB_hack.hpp"
 
@@ -3762,16 +3762,16 @@
 	"hexDB_hack.hpp"
 	"hexDB_hexIO.hpp"
 
-1353849386 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hexio.hpp
+1355446234 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hexio.hpp
 	"hexGUI_global.hpp"
 
-1354837481 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbsave.cpp
+1355447058 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbsave.cpp
 	"hexGUI_G.hpp"
 
 1354629626 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbshow.cpp
 	"hexGUI_G.hpp"
 
-1354837681 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.cpp
+1355408359 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g.cpp
 	"hexGUI_G.hpp"
 
 1354484049 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_hack.cpp
@@ -3784,10 +3784,10 @@
 1353173362 c:\me\prjs\cpp\hackerex\hackerex2\hexgui_app.hpp
 	"hexGUI_global.hpp"
 
-1354631459 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_update.cpp
+1355488309 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_update.cpp
 	"hexGUI_G.hpp"
 
-1354233850 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_wxfb.cpp
+1355408579 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_wxfb.cpp
 	"wx_pch.h"
 	"hexGUI_wxFB.h"
 
@@ -3812,19 +3812,101 @@
 
 1309439518 c:\me\cpp\wxwidgets2.8\include\wx\msw\rcdefs.h
 
-1354752959 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.cpp
+1355491030 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_db.cpp
 	"hexGUI_db.hpp"
 
-1354837681 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dblist.cpp
+1355088097 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dblist.cpp
 	"hexGUI_G.hpp"
 
 1309439576 c:\me\cpp\wxwidgets2.8\include\wx\dir.h
 	"wx/longlong.h"
 	"wx/string.h"
 
-1354836851 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbcheck.cpp
+1355406363 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbcheck.cpp
 	"hexGUI_G.hpp"
 
-1354704922 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbfind.cpp
+1354925646 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_dbfind.cpp
+	"hexGUI_G.hpp"
+
+1355488077 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g_loaddata.cpp
+	"hexGUI_G.hpp"
+
+1355506112 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g_loadorg.cpp
+	"hexGUI_G.hpp"
+
+1355506110 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g_loadpfl.cpp
+	"hexGUI_G.hpp"
+
+1355506112 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g_loadpfm.cpp
+	"hexGUI_G.hpp"
+
+1309439574 c:\me\cpp\wxwidgets2.8\include\wx\clipbrd.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/wxchar.h"
+	"wx/msw/clipbrd.h"
+	"wx/motif/clipbrd.h"
+	"wx/gtk/clipbrd.h"
+	"wx/gtk1/clipbrd.h"
+	"wx/x11/clipbrd.h"
+	"wx/mgl/clipbrd.h"
+	"wx/mac/clipbrd.h"
+	"wx/cocoa/clipbrd.h"
+	"wx/os2/clipbrd.h"
+
+1309439518 c:\me\cpp\wxwidgets2.8\include\wx\msw\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
+
+1309439466 c:\me\cpp\wxwidgets2.8\include\wx\motif\clipbrd.h
+	"wx/list.h"
+
+1309439548 c:\me\cpp\wxwidgets2.8\include\wx\gtk\clipbrd.h
+
+1309439472 c:\me\cpp\wxwidgets2.8\include\wx\gtk1\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1309439520 c:\me\cpp\wxwidgets2.8\include\wx\x11\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1309439540 c:\me\cpp\wxwidgets2.8\include\wx\mgl\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1309439490 c:\me\cpp\wxwidgets2.8\include\wx\mac\clipbrd.h
+	"wx/mac/classic/clipbrd.h"
+	"wx/mac/carbon/clipbrd.h"
+
+1309439482 c:\me\cpp\wxwidgets2.8\include\wx\mac\classic\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
+
+1309439490 c:\me\cpp\wxwidgets2.8\include\wx\mac\carbon\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
+
+1309439570 c:\me\cpp\wxwidgets2.8\include\wx\cocoa\clipbrd.h
+	"wx/dataobj.h"
+
+1309439532 c:\me\cpp\wxwidgets2.8\include\wx\os2\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
+
+1355505981 source:c:\me\prjs\cpp\hackerex\hackerex2\hexgui_g_loadbin.cpp
 	"hexGUI_G.hpp"
 
