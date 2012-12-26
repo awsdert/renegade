@@ -77,22 +77,22 @@ void G::LoadData( hexDB& db, wxListBox* lbox, int doAct, Text name )
 			data[ HEX_LIST_ORG		] = _("Organisation");
 			data[ HEX_LIST_PFM		] = _("Platform");
 			data[ HEX_LIST_BIN		] = _("Binary (Application / File)");
-			data[ HEX_LIST_APP		] = _("Applications (Any)");
-			data[ HEX_LIST_WIN		] = _("Applications (Visible)");
-			data[ HEX_LIST_RAM		] = _("Byte Sections of Binary");
+			data[ HEX_LIST_APP		] = _("Application (Any)");
+			data[ HEX_LIST_WIN		] = _("Application (Visible)");
+			data[ HEX_LIST_RAM		] = _("Parts of Binary Memory");
 			data[ HEX_LIST_PFL		] = _("Profile");
 			data[ HEX_LIST_FORMAT	] = _("Format of Hacks");
 			data[ HEX_LIST_HACK		] = _("Hacks");
 			data[ HEX_LIST_CODE		] = _("Codes");
-			data[ HEX_LIST_FIND		] = _("Search Bytes");
+			data[ HEX_LIST_FIND		] = _("Search Memory");
 			data[ HEX_LIST_OUT		] = _("Search Results");
-			data[ HEX_LIST_EDIT		] = _("Byte Editor");
+			data[ HEX_LIST_EDIT		] = _("Memory Editor");
 		}
 		else
 		{
 			data.Sort();
 			if ( doRename )
-				{ wxRenameFile( tmpP, nowP, true ); }
+				wxRenameFile( tmpP, nowP, true );
 		}
 		lbox->Clear();
 		lbox->Append( data );
@@ -101,7 +101,7 @@ void G::LoadData( hexDB& db, wxListBox* lbox, int doAct, Text name )
 bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp, bool isTempTmp )
 {
 	int  mode = 0, inMode = db.tmpMode, atMode = db.mode[ inMode ];
-	bool b = true, addObj = ( db.nowP[ atMode ] == db.oldP[ atMode ] );
+	bool b = true, addObj = ( db.nowP[ atMode ] == db.oldP[ atMode ] && db.getNowN( inMode ) != getGlobalName() );
 	switch ( inMode )
 	{
 	case HEX_LIST_SESSION:
@@ -169,7 +169,7 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 				break;
 			case HEX_LIST_FORMAT:
 				db.format = LoadFormats(	db.format,	file, temp, data, name, addObj, isFileTmp, isTempTmp );
-				name = getFormatName( db.format.format );
+				name = db.format.name;
 		}
 		b = temp.Write( wxTextFileType_Dos );
 		temp.Close();

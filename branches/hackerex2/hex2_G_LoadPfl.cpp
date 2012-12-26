@@ -79,13 +79,13 @@ void G::SavePflD( Pfl& obj, TxtF& file, bool isTmpFile )
 	txt = cBrS + obj.nameOld + wxT(']');
 	file.AddLine( txt, wxTextFileType_Dos );
 	// Data
-	txt = obj.fileOld;
-	txt += cBS + CheckRegion( obj.region );
-	txt += cBS + obj.serial;
-	val.Printf( wxT("%u"), obj.profile );
-	txt += cBS + val;
+	txt = cSemC + obj.fileOld;
+	txt += cSemC + CheckRegion( obj.region );
+	txt += cSemC + obj.serial;
+	val.Printf( wxT("%01u"), obj.profile );
+	txt += cSemC + val;
 	if ( isTmpFile )
-		txt += cBS + obj.nameNow + cBS + obj.fileNow;
+		txt += cSemC + obj.nameNow + cSemC + obj.fileNow;
 	file.AddLine( txt, wxTextFileType_Dos );
 	// Notes
 	val = HexNotes_TA->GetValue();
