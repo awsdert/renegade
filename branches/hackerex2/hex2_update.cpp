@@ -43,7 +43,7 @@ void G::UpdatePanels( void )
 	HexBody_SW->FitInside();
 	m_db.tmpCfg		= m_bListCfg;
 	m_db.tmpMode	= inMode;
-	UpdateList( m_db, HexList_LB );
+	UpdateList( m_db, HexList_LB, getGlobalName() );
 	m_db.oldP[ atMode ] = m_db.nowP[ atMode ];
 	bool doRam = false;
 	switch ( inMode )

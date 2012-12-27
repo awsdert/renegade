@@ -86,13 +86,15 @@ public:
 class	xsDLL Hacks : public Vect< Hack >
 {
 public:
-	int find( Text name );
+	Hacks();
+	int find( Text name, ui16 parent = 0u );
+	int hackOld;
+	int hackNow;
 };
 class	xsDLL Codes : public Vect< Code > {};
 int		xsDLL getFormat( Text	name );
 Text	xsDLL getFormatName( int	format );
-Format	xsDLL LoadFormats( Format& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp = false, bool isTempTmp = true );
-Codes	xsDLL LoadHacks( Codes& obj, TxtF& file, TxtF& temp, Hacks& data, int hackNo = 0, int format = HL_HEX1 );
+Format	xsDLL LoadFormats( Format& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 void	xsDLL ListHacks( TrCO* tree, Hacks& hacks );
 void	xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& codes, int format, int listCode = 0 );
 

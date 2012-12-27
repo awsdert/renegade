@@ -18,6 +18,7 @@ void G::LoadStateD( State& obj )
 	{
 		j = mode[ i ];
 		m_db.tmpMode = j;
+		m_db.tmpLB	 = HexList_LB;
 		LoadData( m_db,  HexList_LB, HEX_LOAD_SAVE2TEMP, name[ i ] );
 		oldP = m_db.oldP[ j ] + cTild;
 		nowP = m_db.nowP[ j ] + cTild;

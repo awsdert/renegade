@@ -12,6 +12,12 @@ hexDB::hexDB()
 	mode[ HEX_LIST_WIN ]		= HEX_LIST_BIN;
 	mode[ HEX_LIST_RAM ]		= HEX_LIST_BIN;
 	mode[ HEX_LIST_PFL ]		= HEX_LIST_PFL;
+	mode[ HEX_LIST_FORMAT ]		= HEX_LIST_FORMAT;
+	mode[ HEX_LIST_HACK ]		= HEX_LIST_HACK;
+	mode[ HEX_LIST_CODE ]		= HEX_LIST_HACK;
+	mode[ HEX_LIST_FIND ]		= HEX_LIST_BIN;
+	mode[ HEX_LIST_OUT ]		= HEX_LIST_BIN;
+	mode[ HEX_LIST_EDIT ]		= HEX_LIST_BIN;
 }
 Text hexDB::getNowN( int inMode )
 {
@@ -44,32 +50,10 @@ Text hexDB::getNowN( int inMode )
 		name = format.name;
 		break;
 	case HEX_LIST_HACK:
-		name = hacks[ hackNo ].name;
+		name = hacks[ hacks.hackNow ].name;
 		break;
 	default:
 		name = getGlobalName();
 	}
 	return name;
 }
-
-#ifdef xsMSW
-BOOL CALLBACK mswEnumWin( HWND hWin, LPARAM ptr2hexdb )
-{
-	hexDB* db = (hexDB*)ptr2hexdb;
-	bool show = ( db->tmpMode == HEX_LIST_APP ) ? true : IsWindowVisible( hWin );
-	if ( show )
-	{
-		LBox* lb = db->appsLB;
-		DWORD pid;
-		GetWindowThreadProcessId( hWin, &pid );
-        TCHAR title[ MAXCHAR ];
-		SendMessage( hWin, WM_GETTEXT, MAXBYTE, (LPARAM)(void*)title );
-		Text txt, exe = GetAppExe( pid );
-		txt.Printf( wxT(" (%s) %04X"), title, pid );
-		exe.Left( exe.Length() - 5 );
-		lb->Append( exe + txt );
-		lb->SetSelection( -1 );
-	}
-	return TRUE;
-}
-#endif // xsMSW

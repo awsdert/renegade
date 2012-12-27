@@ -80,6 +80,7 @@
 		<Unit filename="bin/hex.ini" />
 		<Unit filename="bin/org/sony.hexp" />
 		<Unit filename="bin/org/sony/ps2.hexb" />
+		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12.hexf" />
 		<Unit filename="hex2_G.cpp" />
 		<Unit filename="hex2_G.h" />
 		<Unit filename="hex2_G_LoadApps.cpp">

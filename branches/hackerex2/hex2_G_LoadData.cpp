@@ -1,5 +1,5 @@
 #include "hex2_G.h"
-void G::LoadData( hexDB& db, wxListBox* lbox, int doAct, Text name )
+void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 {
 	/**
 		@param doAct
@@ -13,17 +13,21 @@ void G::LoadData( hexDB& db, wxListBox* lbox, int doAct, Text name )
 	int		inMode	= db.tmpMode, atMode = db.mode[ inMode ];
 	if ( inMode < 0 || inMode > HEX_LIST_COUNT )
 		return;
-	bool isFileTmp = false, isTempTmp = false, doRename = false;
 	Text path, leaf, subP, ext;
 	if ( !inCfg && !CheckFilesT( db, path, leaf, ext, subP ) )
 		return;
 	TxtA data;
-	Text useP	= path + xsDirSep + leaf + ext;
+	bool useS	= ( atMode == HEX_LIST_HACK );
+	Text useP	= useS ? subP : path;
+	Text useE	= useS ? cDot + db.format.fileOld.Lower() : ext;
+	useP += xsDirSep + leaf + useE;
 	Text nowP	= useP;
 	Text tmpP	= nowP + cTild;
 	Text tmp;
+	bool doRename = false;
 	if ( !inCfg )
 	{
+		bool isFileTmp = false, isTempTmp = false;
 		if ( nowP != db.oldP[ atMode ] )
 		{
 			tmp = db.oldP[ atMode ] + cTild;
@@ -87,15 +91,27 @@ void G::LoadData( hexDB& db, wxListBox* lbox, int doAct, Text name )
 			data[ HEX_LIST_FIND		] = _("Search Memory");
 			data[ HEX_LIST_OUT		] = _("Search Results");
 			data[ HEX_LIST_EDIT		] = _("Memory Editor");
+			lbox->Clear();
+			lbox->Append( data );
 		}
 		else
 		{
-			data.Sort();
-			if ( doRename )
-				wxRenameFile( tmpP, nowP, true );
+			switch ( inMode )
+			{
+			case HEX_LIST_APP:
+			case HEX_LIST_WIN:
+				break;
+			case HEX_LIST_HACK:
+				ListHacks( db.hacksTree, db.hacks );
+				break;
+			default:
+				data.Sort();
+				if ( doRename )
+					wxRenameFile( tmpP, nowP, true );
+				lbox->Clear();
+				lbox->Append( data );
+			}
 		}
-		lbox->Clear();
-		lbox->Append( data );
 	}
 }
 bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp, bool isTempTmp )
@@ -168,8 +184,13 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 				name = db.pfl.nameNow;
 				break;
 			case HEX_LIST_FORMAT:
-				db.format = LoadFormats(	db.format,	file, temp, data, name, addObj, isFileTmp, isTempTmp );
+				db.format	= LoadFormats(	db.format,	file, temp, data, name, addObj, isFileTmp, isTempTmp );
 				name = db.format.name;
+				break;
+			case HEX_LIST_HACK:
+				db.codes	= LoadHacks(	db.codes,	file, temp, db.hacks, db.pfl.profile, db.format.format );
+				name = db.hacks[ db.hacks.hackNow ].name;
+				break;
 		}
 		b = temp.Write( wxTextFileType_Dos );
 		temp.Close();
@@ -181,7 +202,8 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 		{
 			case HEX_LIST_APP:
 			case HEX_LIST_WIN:
-				LoadApps( data, inMode == HEX_LIST_WIN );
+				db.appsLB->Clear();
+				LoadApps( db );
 				break;
 			case HEX_LIST_RAM:
 			{

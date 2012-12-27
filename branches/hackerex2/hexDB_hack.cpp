@@ -5,6 +5,8 @@ void xsDLL Format::clear( int theFormat )
 {
 	format	= theFormat;
 	name	= getFormatName( format );
+	fileOld = name;
+	fileNow = name;
 }
 xsDLL Hack::Hack(  void ) { clear(); }
 void xsDLL Hack::clear( void )
@@ -14,12 +16,19 @@ void xsDLL Hack::clear( void )
 	info	= 0u;
 	line	= 0;
 }
-int xsDLL Hacks::find( Text name )
+xsDLL Hacks::Hacks()
 {
+	hackNow = 0;
+	hackOld = 0;
+}
+int xsDLL Hacks::find( Text name, ui16 parent )
+{
+	Hack obj;
 	int iEnd = size();
 	for ( int i = 0; i < iEnd; ++i )
 	{
-		if ( name == at( i ).name )
+		obj = at( i );
+		if ( parent == obj.parent && name == obj.name )
 			return i;
 	}
 	return -1;

@@ -21,7 +21,6 @@ public:
 	Pfm		pfm;
 	Bin		bin;
 	si08	ramNo;
-	si32	hackNo;
 	si16	codeNo;
 	Pfl		pfl;
 	Format	format;
@@ -32,6 +31,7 @@ public:
 	TxtA	nowP;
 	TxtA	oldP;
 	bool	nowM[ HEX_LIST_COUNT ];
+	LBox*	tmpLB;
 	bool	tmpCfg;
 	int		tmpMode;
 };

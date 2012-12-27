@@ -77,8 +77,10 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
-		<Unit filename="hexDB_HLType.cpp" />
+		<Unit filename="hexDB_List.cpp" />
 		<Unit filename="hexDB_LoadFormat.cpp" />
+		<Unit filename="hexDB_LoadHack_Hex.cpp" />
+		<Unit filename="hexDB_MakeHack_Hex.cpp" />
 		<Unit filename="hexDB_app.cpp" />
 		<Unit filename="hexDB_app.h" />
 		<Unit filename="hexDB_code.cpp" />
@@ -87,10 +89,8 @@
 		<Unit filename="hexDB_hack.h" />
 		<Unit filename="hexDB_hexIO.cpp" />
 		<Unit filename="hexDB_hexIO.h" />
-		<Unit filename="hexDB_loadHack_hex.cpp" />
 		<Unit filename="hexDB_main.cpp" />
 		<Unit filename="hexDB_main.h" />
-		<Unit filename="hexDB_makeHack_hex.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

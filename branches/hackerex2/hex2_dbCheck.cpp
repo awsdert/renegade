@@ -5,7 +5,7 @@ bool G::CheckDirs( hexDB& db, Text& path, Text& leaf )
 	const Text orgFN = wxT("org");
 	const Text pfmFN = db.org.fileOld;
 	const Text binFN = db.pfm.fileOld;
-	const Text hckFN = db.bin.fileOld;
+	const Text hckFN = db.pfl.fileOld;
 	switch ( db.tmpMode )
 	{
 		case HEX_LIST_SESSION:
@@ -77,13 +77,15 @@ bool G::CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP )
 		case HEX_LIST_CODE:
 		{
 			ext  = wxT( ".hexf" );
-			subP = path + xsDirSep + db.pfl.fileOld;
+			subP = path + xsDirSep + db.bin.fileOld;
 			Text oldE = wxT( ".hexcl" );
 			Text oldP = path + xsDirSep + leaf + oldE;
 			Text hckP = subP + xsDirSep + leaf;
 			Text nowP = hckP + xsDirSep + leaf + oldE;
 			if ( !wxDirExists( subP ) )
 				wxMkdir( subP );
+			path = subP;
+			subP = hckP;
 			if ( !wxDirExists( hckP ) )
 				wxMkdir( hckP );
 			if ( wxFileExists( oldP ) )
@@ -100,8 +102,10 @@ bool G::CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP )
 				temp.Write( wxTextFileType_Dos );
 				temp.Close();
 			}
-			path = subP;
-			subP = hckP;
+			db.format.name		= getFormatName( HL_HEX1 );
+			db.format.format	= HL_HEX1;
+			db.format.fileOld	= wxT("hexcl");
+			db.format.fileNow	= wxT("hexcl");
 			break;
 		}
 	}

@@ -74,7 +74,7 @@ class G : public HexGUI
 		void	SaveBinD( Bin& obj, TxtF& file, bool isTmpFile = true );
 		void	ShowBinD( Bin& obj );
 		void	ShowRamD( Ram& obj );
-		void	LoadApps( TxtA& data, bool windowsOnly = true );
+		void	LoadApps( hexDB& db );
 		/** Profiles ( Hacklists ) */
 		ui32	CheckRegion( Text region );
 		Text	CheckRegion( ui32 region );

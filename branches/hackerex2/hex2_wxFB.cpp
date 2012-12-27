@@ -635,7 +635,7 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* HexTree_LH;
 	HexTree_LH = new wxBoxSizer( wxHORIZONTAL );
 	
-	HexHack_TC = new wxTreeCtrl( HexTree_P, HexHack_TC_ID, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxNO_BORDER );
+	HexHack_TC = new wxTreeCtrl( HexTree_P, HexHack_TC_ID, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_SINGLE|wxNO_BORDER );
 	HexTree_LH->Add( HexHack_TC, 1, wxEXPAND, 5 );
 	
 	HexTree_SL = new wxStaticLine( HexTree_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
