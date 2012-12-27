@@ -1,28 +1,4 @@
 #include "hexDB_main.h"
-void L_MO_HEX_GETPARTS( TxtA& block, TxtT& tzr, Text& txt, Text& line, Text& prt1, Text& prt2, ui64& hex, ui32& pt1, ui32& pt2, int& l, int& lEnd )
-{
-	if ( l >= lEnd )
-		return;
-	txt		= block[ l ];
-	tzr.SetString( txt, cSemC );
-	line	= tzr.GetNextToken();
-	prt1	= line.Left( 8 );
-	prt2	= line.Right( 8 );
-	GetHex( &pt1, prt1, 4u );
-	GetHex( &pt2, prt2, 4u );
-	hex	= pt1;
-	hex <<= 32u;
-	hex += pt2;
-	++l;
-}
-void FillData( void* data, void* fillWith, ui08 dataSize, ui08 fillSize )
-{
-	ui08* dat = reinterpret_cast< ui08* >( data );
-	ui08* val = reinterpret_cast< ui08* >( fillWith );
-	ui08 b = 0u, f = ( dataSize > fillSize ) ? 0u : fillSize - dataSize;
-	for ( ; ( b < dataSize ); ++b, ++f )
-		dat[ b ] = ( f < fillSize ) ? val[ f ] : 0u;
-}
 void xsDLL MakeTxt_Hex1( Codes& data, TxtA& block )
 {
 	Text txt;
@@ -139,7 +115,20 @@ void xsDLL MakeTxt_Hex1( Codes& data, TxtA& block )
 		}
 	}
 }
-void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd )
+#define L_MO_HEX_GETPARTS \
+	if ( l >= lEnd ) \
+		return; \
+	txt		= block[ l ]; \
+	tzr.SetString( txt, cSemC ); \
+	line	= tzr.GetNextToken(); \
+	prt1	= line.Left( 8 ); \
+	prt2	= line.Right( 8 ); \
+	line	= prt1 + prt2; \
+	GetHex( &hex, line, 8u ); \
+	pt1 = ( hex >> 32u ); \
+	pt2 = ( hex & xsF8LL ); \
+	++l
+void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd )
 {
 	Text txt, line, prt1, prt2;
 	TxtT tzr;
@@ -147,15 +136,15 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd )
 	ui32 pt1, pt2;
 	ui08 dataSize, addrSize = 4u;
 	Code obj;
-	L_MO_HEX_GETPARTS( block, tzr, txt, line, prt1, prt2, hex, pt1, pt2, l, lEnd );
+	L_MO_HEX_GETPARTS;
 	obj.type	= (( 0xF0000000 & pt1 ) >> 28u );
 	dataSize	= (( 0x0F000000 & pt1 ) >> 24u );
-	obj.ram	= (( 0x00F00000 & pt1 ) >> 20u );
+	obj.ram		= (( 0x00F00000 & pt1 ) >> 20u );
 	obj.depth	= (( 0x000F0000 & pt1 ) >> 16u );
 	obj.info	= (( 0x0000FF00 & pt1 ) >>  8u );
 	obj.loop	=  ( 0x000000FF & pt1 );
 	obj.addr[ 1u ] = pt2;
-	L_MO_HEX_GETPARTS( block, tzr, txt, line, prt1, prt2, hex, pt1, pt2, l, lEnd );
+	L_MO_HEX_GETPARTS;
 	bool addrBig = false;
 	bool dataBig = false;
 	bool isList = ( obj.type == HEX_CT_LIST );
@@ -189,7 +178,7 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd )
 	dataBig = ( dataSize > 4u );
 	if ( addrBig || dataBig )
 	{
-		L_MO_HEX_GETPARTS( block, tzr, txt, line, prt1, prt2, hex, pt1, pt2, l, lEnd );
+		L_MO_HEX_GETPARTS;
 		val = dataBig ? hex : pt1;
 	}
 	else
@@ -198,11 +187,28 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd )
 	{
 		if ( dataBig || !addrBig )
 		{
-			L_MO_HEX_GETPARTS( block, tzr, txt, line, prt1, prt2, hex, pt1, pt2, l, lEnd );
+			L_MO_HEX_GETPARTS;
 			inc = dataBig ? hex : pt2;
 		}
 		else
 			inc = pt2;
+		switch ( obj.bytes )
+		{
+			case 4u:
+				val <<= 32u;
+				inc <<= 32u;
+				break;
+			case 2u:
+				val <<= 48u;
+				inc <<= 48u;
+				break;
+			case 1u:
+				val <<= 56u;
+				inc <<= 56u;
+				break;
+		}
+		*( reinterpret_cast< ui64* >( &( obj[0] ) ) ) = val;
+		*( reinterpret_cast< ui64* >( &( obj[1] ) ) ) = inc;
 	}
 	else if ( isList )
 	{
@@ -217,13 +223,20 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd )
 		obj.bytes = 8u;
 		for ( ; ( v < vEnd && l < lEnd ); ++v )
 		{
-			L_MO_HEX_GETPARTS( block, tzr, txt, line, prt1, prt2, hex, pt1, pt2, l, lEnd );
+			L_MO_HEX_GETPARTS;
 			*( reinterpret_cast< ui64* >( &(obj[v] ) ) ) = hex;
 		}
 		obj.bytes = dataSize;
 	}
-	data.push_back( obj );
-	MakeObj_Hex1( data, block, l, lEnd );
+	else
+	{
+
+	}
+	if ( c < cEnd )
+		data[ c ] = obj;
+	else
+		data.push_back( obj );
+	MakeObj_Hex1( data, block, l, lEnd, ++c, cEnd );
 }
 
 bool xsDLL MakeHack_Hex_2( Hack& hack, TxtA& block, int& c, ui32& l, ui08& cCount )

@@ -16,7 +16,7 @@ Pfm  G::LoadPfms( Pfm& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool 
 		if ( txt.IsEmpty() )
 			continue;
 		LoadPfmD( tmp, file, isFileTmp );
-		if ( !dObj && tmp.nameOld == obj.nameOld )
+		if ( !dObj && tmp.nameOld == obj.nameOld && addObj )
 		{
 			tmp  = obj;
 			dObj = true;

@@ -81,6 +81,8 @@
 		<Unit filename="bin/org/sony.hexp" />
 		<Unit filename="bin/org/sony/ps2.hexb" />
 		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12.hexf" />
+		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12/Final-Fantasy-12.hexcl" />
+		<Unit filename="bin/org/sony/ps2/default/Star-Ocean-3-TTEOT/Star-Ocean-3-TTEOT.hexcl" />
 		<Unit filename="hex2_G.cpp" />
 		<Unit filename="hex2_G.h" />
 		<Unit filename="hex2_G_LoadApps.cpp">

@@ -30,15 +30,15 @@ void G::LoadStateD( State& obj )
 		}
 	}
 }
-State G::LoadStates( State& obj, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
+State G::LoadStates( State& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
 {
 	Text key, val, txt, noname;
-	bool dObj = false, dState = false;
+	bool dOld = false, dNow = false;
 	TxtA head;
 	head.SetCount( 6 );
 	long i, total = 0;
 	head[0] = wxT("/Sessions");
-	State tmp, state;
+	State tmp, now;
 	temp.SetPath( head[ 0 ] );
 	for ( i = 1; i < 6; ++i )
 	{
@@ -66,25 +66,25 @@ State G::LoadStates( State& obj, CfgF& file, CfgF& temp, TxtA& data, Text name, 
 		}
 		file.Read( key, &val );
 		LoadStateD( tmp, key, val, isFileTmp );
-		if ( !dObj && key == obj.nameOld )
+		if ( !dOld && key == old.nameOld )
 		{
-			tmp  = obj;
-			dObj = true;
+			tmp  = old;
+			dOld = true;
 		}
 		data.Add( tmp.nameNow );
-		if ( !dState && tmp.nameNow == name )
+		if ( !dNow && tmp.nameNow == name )
 		{
-			state  = tmp;
-			dState = true;
+			now  = tmp;
+			dNow = true;
 		}
 		SaveStateD( tmp, temp, isTempTmp );
 	}
-	if ( !dObj && obj.nameOld != getGlobalName() && total < 11 )
+	if ( !dOld&& old.nameOld != getGlobalName() && total < 11 )
 	{
-		data.Add( obj.nameNow );
-		SaveStateD( obj, temp, isTempTmp );
+		data.Add( old.nameNow );
+		SaveStateD( old, temp, isTempTmp );
 	}
-	return state;
+	return now;
 }
 void G::LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile )
 {

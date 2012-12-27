@@ -11,12 +11,12 @@
 
 xsC_START
 
-Codes	xsDLL LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, int format );
-Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, int version );
+Codes	xsDLL LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, bool addObj, int format );
+Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool addObj, int version );
 void	xsDLL LoadCodes_Hex1( Codes& data, TxtF& file );
 void	xsDLL SaveCodes_Hex1( Codes& data, TxtF& file );
 void	xsDLL MakeTxt_Hex1( Codes& data, TxtA& block );
-void	xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd );
+void	xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd );
 
 xsC_END
 
