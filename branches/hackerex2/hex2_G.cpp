@@ -100,10 +100,18 @@ void G::HexHack_TC_OnSelect( wxTreeEvent& event )
 {
 	TrID* data		= (TrID*)HexHack_TC->GetItemData( event.GetItem() );
 	m_db.hacks.hackNow = data->index;
-	m_db.tmpCfg		= false;
-	m_db.tmpMode	= HEX_LIST_HACK;
-	m_db.tmpRelist	= false;
-	LoadData( m_db, m_db.tmpLB, HEX_LOAD_LIST, m_db.hacks[ data->index ].name );
+	Text nowP = m_db.nowP[ HEX_LIST_HACK ] + cTild, tmpP = nowP + cTild;
+	TxtF file, temp;
+	if ( !wxFileExists( tmpP ) )
+		temp.Create( tmpP );
+	file.Open( nowP );
+	temp.Open( tmpP );
+	m_db.codes = LoadHacks( m_db.codes, file, temp, m_db.hacks, m_db.pfl.profile, true, m_db.format.format );
+	temp.Write( wxTextFileType_Dos );
+	temp.Close();
+	file.Close();
+	ListCodes( HexCode_TC, m_db.codesLB, m_db.codes, m_db.format.format, 0, true );
+	m_db.hacks.hackOld = data->index;
 }
 void G::HexCode_TC_OnSelect( wxTreeEvent& event )
 {
@@ -114,7 +122,7 @@ void G::HexCode_TC_OnSelect( wxTreeEvent& event )
 	m_db.tmpCfg		= false;
 	m_db.tmpMode	= HEX_LIST_CODE;
 	m_db.tmpRelist	= false;
-	LoadData( m_db, m_db.tmpLB, HEX_LOAD_LIST, getGlobalName() );
+	ListCodes( HexCode_TC, m_db.codesLB, m_db.codes, m_db.format.format, data->index, false );
 }
 void G::HexState_B_OnClick( wxCommandEvent& event )
 {
