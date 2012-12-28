@@ -24,11 +24,12 @@ void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 	Text nowP	= useP;
 	Text tmpP	= nowP + cTild;
 	Text tmp;
-	bool doRename = false;
+	bool doRename = false, isSame = true;
 	if ( !inCfg )
 	{
 		bool isFileTmp = false, isTempTmp = false;
-		if ( nowP != db.oldP[ atMode ] )
+		isSame = ( nowP == db.oldP[ atMode ] );
+		if ( !isSame )
 		{
 			tmp = db.oldP[ atMode ] + cTild;
 			if ( wxFileExists( tmp ) )
@@ -99,17 +100,26 @@ void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 			lbox->Clear();
 			switch ( inMode )
 			{
-			case HEX_LIST_APP:
-			case HEX_LIST_WIN:
-				break;
-			case HEX_LIST_HACK:
-				ListHacks( db.hacksTree, db.hacks );
-				break;
-			default:
-				data.Sort();
-				if ( doRename )
-					wxRenameFile( tmpP, nowP, true );
-				lbox->Append( data );
+				case HEX_LIST_APP:
+				case HEX_LIST_WIN:
+					ListApps( db );
+					break;
+				case HEX_LIST_HACK:
+				{
+					if ( doRename )
+						{ wxRenameFile( tmpP, nowP, true ); }
+					if ( !isSame || db.tmpRelist )
+						{ ListHacks( db.hacksTree, db.hacks ); }
+					db.tmpRelist = true;
+				}
+				case HEX_LIST_CODE:
+					ListCodes( db.codesTree, db.codesLB, db.codes, db.format.format, db.codeNo, ( !isSame || db.tmpRelist ) );
+					break;
+				default:
+					data.Sort();
+					if ( doRename )
+						wxRenameFile( tmpP, nowP, true );
+					lbox->Append( data );
 			}
 		}
 	}
@@ -117,7 +127,7 @@ void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp, bool isTempTmp )
 {
 	int  mode = 0, inMode = db.tmpMode, atMode = db.mode[ inMode ];
-	bool b = true, samePath = ( db.nowP[ atMode ] == db.oldP[ atMode ] ), addObj = ( samePath && db.getNowN( inMode ) != getGlobalName() );
+	bool b = true, isSame = ( db.nowP[ atMode ] == db.oldP[ atMode ] ), addObj = ( isSame && db.getNowN( inMode ) != getGlobalName() );
 	switch ( inMode )
 	{
 	case HEX_LIST_SESSION:
@@ -129,7 +139,6 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 	case HEX_LIST_PFL:
 	case HEX_LIST_FORMAT:
 	case HEX_LIST_HACK:
-	case HEX_LIST_CODE:
 		mode = 2;
 		break;
 	}
@@ -188,8 +197,13 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 				name = db.format.name;
 				break;
 			case HEX_LIST_HACK:
-				if ( !samePath )
+				if ( !isSame )
+				{
 					db.hacks.clear();
+					db.hacks.hackNow = 0;
+					db.hacks.hackOld = 0;
+					db.codeNo = 0;
+				}
 				db.codes	= LoadHacks(	db.codes,	file, temp, db.hacks, db.pfl.profile, addObj, db.format.format );
 				name = db.hacks[ db.hacks.hackNow ].name;
 				break;
@@ -205,7 +219,7 @@ bool G::LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, boo
 			case HEX_LIST_APP:
 			case HEX_LIST_WIN:
 				db.appsLB->Clear();
-				LoadApps( db );
+				name = db.bin.name;
 				break;
 			case HEX_LIST_RAM:
 			{

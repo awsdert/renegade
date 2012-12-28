@@ -1,7 +1,7 @@
 #include "hex2_db.h"
-Text getGlobalName( void ) { return _("(Default)"); }
-State::State() { clear(); }
-void State::clear()
+Text xsDLL getGlobalName( void ) { return _("(Default)"); }
+xsDLL State::State() { clear(); }
+void xsDLL State::clear()
 {
 	Text tmp	= getGlobalName();
 	nameNow		= tmp;
@@ -13,7 +13,7 @@ void State::clear()
 	hckFormat	= wxT("HEX1");
 }
 //*/
-Org::Org( void )
+xsDLL Org::Org( void )
 {
 	Text tmp1	= getGlobalName();
 	Text tmp2	= wxT("default");
@@ -22,22 +22,22 @@ Org::Org( void )
 	nameNow		= tmp1;
 	nameOld		= tmp1;
 }
-Pfm::Pfm( void ) : Org() {};
-Ram::Ram( void ) { clear(); };
-void Ram::clear( void )
+xsDLL Pfm::Pfm( void ) : Org() {};
+xsDLL Ram::Ram( void ) { clear(); };
+void xsDLL Ram::clear( void )
 {
 	name	= _("All Memory");
 	depth	= 0u;
 	addr	= 0uLL;
 	bytes	= 0uLL;
 }
-Bin::Bin( void ) : Org()
+xsDLL Bin::Bin( void ) : Org()
 {
 	m_count = 1u;
 };
-Ram& Bin::at( ui08 i ) { return ram[ i ]; }
-ui16 Bin::size( void ) { return m_count; }
-ui16 Bin::resize( ui16 count, bool clearAll )
+Ram& xsDLL Bin::at( ui08 i ) { return ram[ i ]; }
+ui16 xsDLL Bin::size( void ) { return m_count; }
+ui16 xsDLL Bin::resize( ui16 count, bool clearAll )
 {
 	ui16 i = clearAll ? 0u : count;
 	ui16 c = 16u;
@@ -52,4 +52,4 @@ ui16 Bin::resize( ui16 count, bool clearAll )
 	m_count = count;
 	return count;
 }
-Ram& Bin::operator[]( ui08 i ) { return ram[ i ]; }
+Ram& xsDLL Bin::operator[]( ui08 i ) { return ram[ i ]; }

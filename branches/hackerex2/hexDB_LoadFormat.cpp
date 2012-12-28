@@ -40,9 +40,10 @@ void LoadFormatD( Format& obj, Text& txt, bool isTmpFile )
 	obj.format	= getFormat( obj.name );
 	val = tzr.GetNextToken();
 	tzr.SetString( val, cSemC );
-	obj.fileOld = tzr.GetNextToken().Lower();
+	if ( tzr.HasMoreTokens() )
+		obj.fileOld = tzr.GetNextToken().Lower();
 	if ( obj.fileOld.IsEmpty() )
-		obj.fileOld = val;
+		obj.fileOld = obj.name.Lower();
 	if ( isTmpFile && tzr.HasMoreTokens() )
 		obj.fileNow = tzr.GetNextToken().Lower();
 	else

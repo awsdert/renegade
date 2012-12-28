@@ -28,4 +28,5 @@ ui16 xsDLL Code::resize( ui16 count )
 	m_count = count;
 	return count;
 }
-ui08& Code::operator[] ( ui08 i ) { return data[ i *  bytes ]; }
+ui08& xsDLL Code::operator[] ( ui08 i ) { return data[ i *  bytes ]; }
+xsDLL Codes::Codes() { clear(); }

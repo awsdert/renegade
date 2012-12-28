@@ -96,6 +96,26 @@ void G::HexList_LB_OnSelect( wxCommandEvent& event )
 		ShowData( m_db );
 	}
 }
+void G::HexHack_TC_OnSelect( wxTreeEvent& event )
+{
+	TrID* data		= (TrID*)HexHack_TC->GetItemData( event.GetItem() );
+	m_db.hacks.hackNow = data->index;
+	m_db.tmpCfg		= false;
+	m_db.tmpMode	= HEX_LIST_HACK;
+	m_db.tmpRelist	= false;
+	LoadData( m_db, m_db.tmpLB, HEX_LOAD_LIST, m_db.hacks[ data->index ].name );
+}
+void G::HexCode_TC_OnSelect( wxTreeEvent& event )
+{
+	TrID* data		= (TrID*)HexCode_TC->GetItemData( event.GetItem() );
+	if ( data->index < 0 )
+		return;
+	m_db.codeNo		= data->index;
+	m_db.tmpCfg		= false;
+	m_db.tmpMode	= HEX_LIST_CODE;
+	m_db.tmpRelist	= false;
+	LoadData( m_db, m_db.tmpLB, HEX_LOAD_LIST, getGlobalName() );
+}
 void G::HexState_B_OnClick( wxCommandEvent& event )
 {
 	LoadStateD( m_db.state );

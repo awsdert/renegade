@@ -1,6 +1,6 @@
 #include "hexG_db.h"
 
-hexDB::hexDB()
+xsDLL hexDB::hexDB()
 {
 	nowP.SetCount( HEX_LIST_COUNT );
 	oldP.SetCount( HEX_LIST_COUNT );
@@ -19,9 +19,9 @@ hexDB::hexDB()
 	mode[ HEX_LIST_OUT ]		= HEX_LIST_BIN;
 	mode[ HEX_LIST_EDIT ]		= HEX_LIST_BIN;
 }
-Text hexDB::getNowN( int inMode )
+Text xsDLL hexDB::getNowN( int inMode )
 {
-	Text name;
+	Text name = getGlobalName();
 	switch ( inMode )
 	{
 	case HEX_LIST_SESSION:
@@ -51,9 +51,6 @@ Text hexDB::getNowN( int inMode )
 		break;
 	case HEX_LIST_HACK:
 		name = hacks[ hacks.hackNow ].name;
-		break;
-	default:
-		name = getGlobalName();
 	}
 	return name;
 }

@@ -13,6 +13,8 @@ Text xsDLL getFormatName( int	format )
 {
 	if ( !l_setFormats )
 		setFormats();
+	if ( format < 0 || format >= HL_COUNT )
+		format = HL_HEX1;
 	return l_formats[ format ];
 }
 int  xsDLL getFormat( Text	name )

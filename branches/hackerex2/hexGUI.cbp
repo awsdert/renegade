@@ -85,9 +85,6 @@
 		<Unit filename="bin/org/sony/ps2/default/Star-Ocean-3-TTEOT/Star-Ocean-3-TTEOT.hexcl" />
 		<Unit filename="hex2_G.cpp" />
 		<Unit filename="hex2_G.h" />
-		<Unit filename="hex2_G_LoadApps.cpp">
-			<Option virtualFolder="Load/" />
-		</Unit>
 		<Unit filename="hex2_G_LoadBin.cpp">
 			<Option virtualFolder="Load/" />
 		</Unit>
@@ -107,8 +104,6 @@
 			<Option virtualFolder="Load/" />
 		</Unit>
 		<Unit filename="hex2_app.h" />
-		<Unit filename="hex2_db.cpp" />
-		<Unit filename="hex2_db.h" />
 		<Unit filename="hex2_dbCheck.cpp" />
 		<Unit filename="hex2_dbShow.cpp" />
 		<Unit filename="hex2_global.h" />
@@ -118,8 +113,6 @@
 		<Unit filename="hex2_wxFB.cpp" />
 		<Unit filename="hex2_wxFB.h" />
 		<Unit filename="hex2_wxFBv3.2.fbp" />
-		<Unit filename="hexG_db.cpp" />
-		<Unit filename="hexG_db.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

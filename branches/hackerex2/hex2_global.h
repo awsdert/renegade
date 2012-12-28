@@ -5,6 +5,9 @@
 #include "hexDLL_global.hpp"
 #include "wx_pch.h"
 
+// Global defines
+#define wxOK_CANCEL wxOK | wxCANCEL
+
 // Types
 
 typedef wxString			Text;

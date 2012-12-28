@@ -9180,7 +9180,7 @@
                                                         <event name="OnTreeItemMiddleClick"></event>
                                                         <event name="OnTreeItemRightClick"></event>
                                                         <event name="OnTreeKeyDown"></event>
-                                                        <event name="OnTreeSelChanged"></event>
+                                                        <event name="OnTreeSelChanged">HexHack_TC_OnSelect</event>
                                                         <event name="OnTreeSelChanging"></event>
                                                         <event name="OnTreeSetInfo"></event>
                                                         <event name="OnTreeStateImageClick"></event>
@@ -9371,7 +9371,7 @@
                                                         <event name="OnTreeItemMiddleClick"></event>
                                                         <event name="OnTreeItemRightClick"></event>
                                                         <event name="OnTreeKeyDown"></event>
-                                                        <event name="OnTreeSelChanged"></event>
+                                                        <event name="OnTreeSelChanged">HexCode_TC_OnSelect</event>
                                                         <event name="OnTreeSelChanging"></event>
                                                         <event name="OnTreeSetInfo"></event>
                                                         <event name="OnTreeStateImageClick"></event>

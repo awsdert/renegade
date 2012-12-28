@@ -29,6 +29,8 @@ class G : public HexGUI
 		void HexGUI_TB_OnToolExec( wxCommandEvent& event );
 		void HexList_LB_OnSelect( wxCommandEvent& event );
 		void HexState_B_OnClick( wxCommandEvent& event );
+		void HexHack_TC_OnSelect( wxTreeEvent& event );
+		void HexCode_TC_OnSelect( wxTreeEvent& event );
 	public:
 		G( wxWindow* parent ); ~G();
 		/** Internal Stuff */
@@ -74,7 +76,6 @@ class G : public HexGUI
 		void	SaveBinD( Bin& obj, TxtF& file, bool isTmpFile = true );
 		void	ShowBinD( Bin& obj );
 		void	ShowRamD( Ram& obj );
-		void	LoadApps( hexDB& db );
 		/** Profiles ( Hacklists ) */
 		ui32	CheckRegion( Text region );
 		Text	CheckRegion( ui32 region );

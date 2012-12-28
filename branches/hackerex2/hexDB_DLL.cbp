@@ -77,13 +77,19 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="hex2_db.cpp" />
+		<Unit filename="hex2_db.h" />
+		<Unit filename="hexDB_EnumWin.cpp" />
 		<Unit filename="hexDB_List.cpp" />
+		<Unit filename="hexDB_ListApps.cpp" />
 		<Unit filename="hexDB_LoadFormat.cpp" />
 		<Unit filename="hexDB_LoadHack_Hex.cpp" />
-		<Unit filename="hexDB_MakeHack_Hex.cpp" />
+		<Unit filename="hexDB_MakeObj_Hex.cpp" />
+		<Unit filename="hexDB_MakeTxt_Hex.cpp" />
 		<Unit filename="hexDB_app.cpp" />
 		<Unit filename="hexDB_app.h" />
 		<Unit filename="hexDB_code.cpp" />
+		<Unit filename="hexDB_enum.h" />
 		<Unit filename="hexDB_getFormat.cpp" />
 		<Unit filename="hexDB_hack.cpp" />
 		<Unit filename="hexDB_hack.h" />
@@ -91,6 +97,8 @@
 		<Unit filename="hexDB_hexIO.h" />
 		<Unit filename="hexDB_main.cpp" />
 		<Unit filename="hexDB_main.h" />
+		<Unit filename="hexG_db.cpp" />
+		<Unit filename="hexG_db.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

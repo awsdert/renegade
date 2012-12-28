@@ -7,12 +7,13 @@ void G::LoadStateD( State& obj )
 {
 	Text oldP, nowP;
 	TxtA name;
-	int i, j, iEnd = 4, mode[ iEnd ];
+	int i, j, iEnd = 5, mode[ iEnd ];
 	name.SetCount( iEnd );
-	mode[0] = HEX_LIST_ORG;	name[0] = obj.orgName;
-	mode[1] = HEX_LIST_PFM; name[1] = obj.pfmName;
-	mode[2] = HEX_LIST_BIN; name[2] = obj.binName;
-	mode[3] = HEX_LIST_PFL; name[3] = obj.pflName;
+	mode[0] = HEX_LIST_ORG;		name[0] = obj.orgName;
+	mode[1] = HEX_LIST_PFM;		name[1] = obj.pfmName;
+	mode[2] = HEX_LIST_BIN;		name[2] = obj.binName;
+	mode[3] = HEX_LIST_PFL;		name[3] = obj.pflName;
+	mode[4] = HEX_LIST_FORMAT;	name[4] = obj.hckFormat;
 	m_db.tmpCfg = false;
 	for ( i = 0; i < iEnd; ++i )
 	{
@@ -95,6 +96,10 @@ void G::LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile )
 	obj.pfmName = tzr.GetNextToken();
 	obj.binName = tzr.GetNextToken();
 	obj.pflName = tzr.GetNextToken();
+	if ( tzr.HasMoreTokens() )
+		obj.hckFormat = tzr.GetNextToken().Upper();
+	else
+		obj.hckFormat = getFormatName( HL_HEX1 );
 	if ( isTmpFile && tzr.HasMoreTokens() )
 		now = tzr.GetNextToken();
 	else
@@ -116,6 +121,7 @@ void G::SaveStateD( State& obj, CfgF& file, bool isTmpFile )
 	txt += cSemC + obj.pfmName;
 	txt += cSemC + obj.binName;
 	txt += cSemC + obj.pflName;
+	txt += cSemC + obj.hckFormat;
 	if ( isTmpFile )
 		txt += cSemC + obj.nameNow;
 	file.Write( obj.nameOld, txt );

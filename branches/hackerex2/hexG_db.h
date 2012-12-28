@@ -7,7 +7,7 @@
 BOOL CALLBACK mswEnumWin( HWND hWin, LPARAM bShowAll );
 #endif // xsMSW
 
-class hexDB
+class xsDLL hexDB
 {
 public:
 	hexDB();
@@ -34,6 +34,7 @@ public:
 	LBox*	tmpLB;
 	bool	tmpCfg;
 	int		tmpMode;
+	bool	tmpRelist;
 };
 
 #endif // HACKEREX_GLOBAL_DB

@@ -22,8 +22,8 @@ enum
 	HEX_LIST_EDIT,
 	HEX_LIST_COUNT
 };
-Text getGlobalName( void );
-class State
+Text xsDLL getGlobalName( void );
+class xsDLL State
 {
 public:
 	State();
@@ -37,7 +37,7 @@ public:
 	Text hckFormat;
 };
 //*/
-class Org
+class xsDLL Org
 {
 public:
 	Org( void );
@@ -47,14 +47,14 @@ public:
 	Text nameOld;
 };
 
-class Pfm : public Org
+class xsDLL Pfm : public Org
 {
 public:
 	Pfm( void );
 	ui08 endian;
 };
 
-class Ram
+class xsDLL Ram
 {
 public:
 	Ram( void );
@@ -65,7 +65,7 @@ public:
 	Text name;
 };
 
-class Bin : public Org
+class xsDLL Bin : public Org
 {
 private:
 	ui16 m_count;
@@ -88,7 +88,7 @@ public:
 #define REGION_JP	0x100
 #define REGION_AUS	0x8
 
-class Pfl : public Org
+class xsDLL Pfl : public Org
 {
 public:
 	ui32 region;

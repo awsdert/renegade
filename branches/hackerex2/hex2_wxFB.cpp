@@ -674,6 +674,8 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Connect( HexGet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	HexState_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
 	HexList_LB->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( HexGUI::HexList_LB_OnSelect ), NULL, this );
+	HexHack_TC->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexHack_TC_OnSelect ), NULL, this );
+	HexCode_TC->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexCode_TC_OnSelect ), NULL, this );
 }
 
 HexGUI::~HexGUI()
@@ -688,5 +690,7 @@ HexGUI::~HexGUI()
 	this->Disconnect( HexGet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	HexState_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
 	HexList_LB->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( HexGUI::HexList_LB_OnSelect ), NULL, this );
+	HexHack_TC->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexHack_TC_OnSelect ), NULL, this );
+	HexCode_TC->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexCode_TC_OnSelect ), NULL, this );
 	
 }

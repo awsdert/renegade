@@ -16,8 +16,8 @@ enum
 	HEX_CT_COPY,
 	HEX_CT_INC,
 	HEX_CT_DEC,
-	HEX_CT_LIST,
-	HEX_CT_TEST
+	HEX_CT_TEST,
+	HEX_CT_LIST
 };
 enum
 {
@@ -31,6 +31,7 @@ class xsDLL Code
 	ui16 m_count;
 public:
 	Code( void );
+	TrId item;
 	ui16 size(	void );
 	void clear(	void );
 	ui16 resize( ui16 count );
@@ -82,7 +83,12 @@ public:
 	Text 	fileNow;
 	Text	fileOld;
 };
-
+class xsDLL TrID : public wxTreeItemData
+{
+public:
+	TrID( int i );
+	int index;
+};
 class	xsDLL Hacks : public Vect< Hack >
 {
 public:
@@ -91,12 +97,16 @@ public:
 	int hackOld;
 	int hackNow;
 };
-class	xsDLL Codes : public Vect< Code > {};
+class	xsDLL Codes : public Vect< Code >
+{
+public:
+	Codes();
+};
 int		xsDLL getFormat( Text	name );
 Text	xsDLL getFormatName( int	format );
 Format	xsDLL LoadFormats( Format& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 void	xsDLL ListHacks( TrCO* tree, Hacks& hacks );
-void	xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& codes, int format, int listCode = 0 );
+void	xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& codes, int format, int listCode, bool relist );
 
 xsC_END
 #endif // HEXDB_HACK_H

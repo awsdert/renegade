@@ -3943,25 +3943,25 @@
 1356299894 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_db.cpp
 	"hex2_db.h"
 
-1356347211 c:\me\prjs\cpp\hackerex\hackerex2\hex2_db.h
+1356703395 c:\me\prjs\cpp\hackerex\hackerex2\hex2_db.h
 	"hex2_global.h"
 	"hexDB_hack.h"
 
-1356636339 c:\me\prjs\cpp\hackerex\hackerex2\hex2_global.h
+1356729506 c:\me\prjs\cpp\hackerex\hackerex2\hex2_global.h
 	"hexDLL_global.hpp"
 	"wx_pch.h"
 
 1356569084 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_dbcheck.cpp
 	"hex2_G.h"
 
-1356540222 c:\me\prjs\cpp\hackerex\hackerex2\hex2_g.h
+1356705440 c:\me\prjs\cpp\hackerex\hackerex2\hex2_g.h
 	"hex2_wxFB.h"
 	"hex2_global.h"
 	"hex2_db.h"
 	"hexG_db.h"
 	"hexDB_main.h"
 
-1356102604 c:\me\prjs\cpp\hackerex\hackerex2\hex2_wxfb.h
+1356704575 c:\me\prjs\cpp\hackerex\hackerex2\hex2_wxfb.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/intl.h>
@@ -3994,10 +3994,10 @@
 	<wx/statusbr.h>
 	<wx/frame.h>
 
-1356482761 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_dbshow.cpp
+1356705440 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_dbshow.cpp
 	"hex2_G.h"
 
-1356530673 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g.cpp
+1356728744 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g.cpp
 	"hex2_G.h"
 
 1355823413 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_listapps.cpp
@@ -4006,7 +4006,7 @@
 1356529470 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loadbin.cpp
 	"hex2_G.h"
 
-1356647343 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loaddata.cpp
+1356729414 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loaddata.cpp
 	"hex2_G.h"
 
 1356523759 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loadorg.cpp
@@ -4035,33 +4035,34 @@
 1355824125 c:\me\prjs\cpp\hackerex\hackerex2\hex2_app.h
 	"hex2_global.h"
 
-1356547911 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_update.cpp
+1356728492 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_update.cpp
 	"hex2_G.h"
 
-1356542446 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_wxfb.cpp
+1356704575 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_wxfb.cpp
 	"wx_pch.h"
 	"hex2_wxFB.h"
 
-1356648111 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loadstate.cpp
+1356711371 source:c:\me\prjs\cpp\hackerex\hackerex2\hex2_g_loadstate.cpp
 	"hex2_G.h"
 	"hex1_G.h"
 
-1356541663 c:\me\prjs\cpp\hackerex\hackerex2\hexg_db.h
+1356728286 c:\me\prjs\cpp\hackerex\hackerex2\hexg_db.h
 	"hexDB_main.h"
 	"hex2_db.h"
 
 1356549522 source:c:\me\prjs\cpp\hackerex\hackerex2\hexg_db.cpp
 	"hexG_db.h"
 
-1356545210 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hack.h
+1356729629 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_hack.h
 	"hex2_global.h"
 
-1356645535 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_main.h
+1356703067 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_main.h
 	"hex2_global.h"
 	"hexDLL_global.hpp"
 	"hexDB_app.h"
 	"hexDB_hack.h"
 	"hexDB_hexIO.h"
+	"hexG_db.h"
 
 1356347180 c:\me\prjs\cpp\hackerex\hackerex2\hexdb_app.h
 	"hex2_global.h"

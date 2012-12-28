@@ -207,6 +207,8 @@ class HexGUI : public wxFrame
 		virtual void HexGUI_TB_OnToolExec( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexState_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexList_LB_OnSelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexHack_TC_OnSelect( wxTreeEvent& event ) { event.Skip(); }
+		virtual void HexCode_TC_OnSelect( wxTreeEvent& event ) { event.Skip(); }
 		
 	
 	public:

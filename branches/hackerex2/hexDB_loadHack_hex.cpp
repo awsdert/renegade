@@ -20,6 +20,7 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 	Codes tmp, now;
 	bool dOld = false, dNow = false;
 	data.resize( 0xFFFF );
+	now.resize( 0 );
 	for ( txt = file.GetFirstLine(); !file.Eof(); txt = file.GetNextLine() )
 	{
 		if ( txt[ 0u ] == cQuot )
@@ -42,7 +43,7 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 			hack.info	= ( ( v1 & 0x30000000 ) >> 28u );
 			hack.name	= name;
 			hack.parent	= ( v2 & 0xFFFF );
-			cc			= ( ( v1 & 0xFFFF0000 ) >> 16u );
+			cc			= ( ( v2 & 0xFFFF0000 ) >> 16u );
 			// Code load
 			if ( hi >= hc )
 				hc = hi + 1u;
@@ -63,7 +64,7 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 				tmp.resize( cc );
 				switch ( version )
 				{
-					case HL_HEX1: LoadCodes_Hex1( tmp, file ); break;
+					case 1: LoadCodes_Hex1( tmp, file ); break;
 				}
 				if ( !dOld && ho == hi && addObj )
 				{
@@ -77,7 +78,7 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 				}
 				switch ( version )
 				{
-					case HL_HEX1: SaveCodes_Hex1( tmp, temp ); break;
+					case 1: SaveCodes_Hex1( tmp, temp ); break;
 				}
 			}
 			else
@@ -104,6 +105,8 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 		txt.Printf( wxT("%01X000%04X %04X%04X"), hack.info, ho, oc, hack.parent );
 		temp.AddLine( txt, wxTextFileType_Dos );
 		SaveCodes_Hex1( old, temp );
+		if ( ho == hn )
+			now = old;
 	}
 	data.resize( hc );
 	return now;
@@ -111,11 +114,17 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 void	xsDLL LoadCodes_Hex1( Codes& data, TxtF& file )
 {
 	Text txt;
+	TxtT tzr;
 	TxtA block;
-	for ( txt = file.GetLine( file.GetCurrentLine() ); !file.Eof(); txt = file.GetNextLine() )
+	for ( txt = file.GetNextLine(); !file.Eof(); txt = file.GetNextLine() )
 	{
 		if ( txt.IsEmpty() || txt[0] == cQuot )
 			break;
+		if ( txt.Contains( cSemC ) )
+		{
+			tzr.SetString( txt, cSemC );
+			txt = tzr.GetNextToken();
+		}
 		block.Add( txt );
 	}
 	file.GetPrevLine();

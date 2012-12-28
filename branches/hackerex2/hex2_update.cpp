@@ -14,6 +14,7 @@ void G::UpdatePanels( void )
 			HexState_P->Show();
 			break;
 		case HEX_LIST_ORG:
+		case HEX_LIST_FORMAT:
 			HexName_P->Show();
 			HexFile_P->Show();
 			break;
@@ -43,7 +44,8 @@ void G::UpdatePanels( void )
 	HexBody_SW->FitInside();
 	m_db.tmpCfg		= m_bListCfg;
 	m_db.tmpMode	= inMode;
-	UpdateList( m_db, HexList_LB, getGlobalName() );
+	m_db.tmpRelist	= false;
+	UpdateList( m_db, HexList_LB, m_db.getNowN( inMode ) );
 	m_db.oldP[ atMode ] = m_db.nowP[ atMode ];
 	bool doRam = false;
 	switch ( inMode )
