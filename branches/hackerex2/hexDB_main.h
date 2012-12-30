@@ -15,10 +15,11 @@ xsC_START
 void	xsDLL ListApps( hexDB& db );
 Codes	xsDLL LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, bool addObj, int format );
 Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool addObj, int version );
-void	xsDLL LoadCodes_Hex1( Codes& data, TxtF& file );
-void	xsDLL SaveCodes_Hex1( Codes& data, TxtF& file );
+void	xsDLL LoadHack_Hex( TxtF& file, Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
+void	xsDLL SaveHack_Hex( TxtF& file, Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
 void	xsDLL MakeTxt_Hex1( Codes& data, TxtA& block );
-void	xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd );
+void	xsDLL Maketxt_Hex1( Code& obj,	 TxtA& block );
+void	xsDLL MakeObj_Hex1( Codes& data, TxtA& block );
 
 xsC_END
 

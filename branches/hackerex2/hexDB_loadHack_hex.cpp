@@ -13,37 +13,19 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 	if ( version < 1 || version > 1 )
 		return Codes();
 	Text txt, name, line, tt;
-	ui16 hi, hn = data.hackNow, ho = data.hackOld, cc, hc = 1u, oc;
-	ui64 val;
-	ui32 v1, v2;
+	ui32 hi, hn = data.hackNow, ho = data.hackOld, hc = 1u;
+	ui16 cc, oc;
 	Hack hack;
 	Codes tmp, now;
 	bool dOld = false, dNow = false;
 	data.resize( 0xFFFF );
 	now.resize( 0 );
+	TxtA block;
 	for ( txt = file.GetFirstLine(); !file.Eof(); txt = file.GetNextLine() )
 	{
 		if ( txt[ 0u ] == cQuot )
 		{
-			name = txt.SubString( 1, txt.Length() - 2 );
-			hack.line = file.GetCurrentLine() + 1;
-			txt = file.GetNextLine();
-			tt = txt;
-			line = txt.Left( 8 ) + txt.Right( 8 );
-			/*
-			tt.Printf( wxT("%i"), line.Length() );
-			wxMessageBox( line, tt );//*/
-			GetHex( &val, line, 8u );
-			v2 = ( val & xsF8LL );
-			v1 = GETHEX( val, xsF8LL, 32u );
-			line.Printf( wxT("%08X %08X"), v1, v2 );
-			hi = ( v1 & 0xFFFF );
-			if ( hi == 0u )
-				name	= wxT("(m)");
-			hack.info	= ( ( v1 & 0x30000000 ) >> 28u );
-			hack.name	= name;
-			hack.parent	= ( v2 & 0xFFFF );
-			cc			= ( ( v2 & 0xFFFF0000 ) >> 16u );
+			LoadHack_Hex( file, hack, hi, cc, block );
 			// Code load
 			if ( hi >= hc )
 				hc = hi + 1u;
@@ -53,18 +35,14 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 				hack = data[ hi ];
 			}
 			else
-				oc = cc;
+				oc	 = cc;
 			data[ hi ] = hack;
-			temp.AddLine( cQuot + hack.name + cQuot, wxTextFileType_Dos );
-			txt.Printf( wxT("%01X000%04X %04X%04X"), hack.info, hi, oc, hack.parent );
-			temp.AddLine( txt, wxTextFileType_Dos );
 			if ( hi == ho || hi == hn )
 			{
-				tmp.clear();
 				tmp.resize( cc );
 				switch ( version )
 				{
-					case 1: LoadCodes_Hex1( tmp, file ); break;
+					case 1: MakeObj_Hex1( tmp, block ); break;
 				}
 				if ( !dOld && ho == hi && addObj )
 				{
@@ -76,49 +54,59 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 					now  = tmp;
 					dNow = true;
 				}
+				block.Clear();
 				switch ( version )
 				{
-					case 1: SaveCodes_Hex1( tmp, temp ); break;
+					case 1: MakeTxt_Hex1( tmp, block ); break;
 				}
+				tmp.clear();
 			}
-			else
-			{
-				for ( txt = file.GetNextLine(); !file.Eof(); txt = file.GetNextLine() )
-				{
-					if ( txt.IsEmpty() || txt[0] == cQuot )
-						break;
-					temp.AddLine( txt, wxTextFileType_Dos );
-				}
-				file.GetPrevLine();
-			}
+			SaveHack_Hex( temp, data[ hi ], hi, oc, block );
+			block.Clear();
 		}
 		else
 			temp.AddLine( txt, wxTextFileType_Dos );
 	}
+	if ( !dOld && addObj && ho >= hc )
+		hc = ho + 1;
+	data.resize( hc );
 	if ( !dOld && addObj )
 	{
-		++hc;
 		hack = data[ ho ];
-		txt = cQuot + hack.name + cQuot;
-		temp.AddLine( txt, wxTextFileType_Dos );
 		oc = old.size();
-		txt.Printf( wxT("%01X000%04X %04X%04X"), hack.info, ho, oc, hack.parent );
-		temp.AddLine( txt, wxTextFileType_Dos );
-		SaveCodes_Hex1( old, temp );
+		switch ( version )
+		{
+			case 1: MakeTxt_Hex1( old, block ); break;
+		}
+		SaveHack_Hex( temp, data[ ho ], ho, oc, block );
+		block.Clear();
 		if ( ho == hn )
 			now = old;
 	}
-	data.resize( hc );
 	return now;
 }
-void	xsDLL LoadCodes_Hex1( Codes& data, TxtF& file )
+void	xsDLL LoadHack_Hex( TxtF& file, Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block )
 {
-	Text txt;
+	Text txt, name;
 	TxtT tzr;
-	TxtA block;
+	ui64 v64 = 0u;
+	ui32 v1, v2;
+	txt = file.GetLine( file.GetCurrentLine() );
+	name = txt.SubString( 1, txt.Length() - 2 );
+	txt	 = file.GetNextLine();
+	GetHex( &v64, txt.Left( 8 ) + txt.Right( 8 ), 8u );
+	v2 = ( v64 & xsF8LL );
+	v1 = GETHEX( v64, xsF8LL, 32u );
+	hackIndex = ( v1 & 0xFFFF );
+	if ( hackIndex == 0u )
+		name	= wxT("(m)");
+	hack.info	= ( ( v1 & 0x30000000 ) >> 28u );
+	hack.name	= name;
+	hack.parent	= ( v2 & 0xFFFF );
+	codeCount	= ( ( v2 & 0xFFFF0000 ) >> 16u );
 	for ( txt = file.GetNextLine(); !file.Eof(); txt = file.GetNextLine() )
 	{
-		if ( txt.IsEmpty() || txt[0] == cQuot )
+		if ( txt.IsEmpty() || txt[ 0 ] == cQuot )
 			break;
 		if ( txt.Contains( cSemC ) )
 		{
@@ -128,14 +116,14 @@ void	xsDLL LoadCodes_Hex1( Codes& data, TxtF& file )
 		block.Add( txt );
 	}
 	file.GetPrevLine();
-	int i = 0, iEnd = block.GetCount(), c = 0, cEnd = data.size();
-	MakeObj_Hex1( data, block, i, iEnd, c, cEnd );
 }
-void	xsDLL SaveCodes_Hex1( Codes& data, TxtF& file )
+void	xsDLL SaveHack_Hex( TxtF& file, Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block )
 {
-	TxtA block;
-	MakeTxt_Hex1( data, block );
+	Text txt;
 	int i = 0, iEnd = block.GetCount();
+	file.AddLine( cQuot + hack.name + cQuot );
+	txt.Printf( wxT("%01X000%04X %04X%04X"), hack.info, hackIndex, codeCount, hack.parent );
+	file.AddLine( txt );
 	for ( ; i < iEnd; ++i )
 		file.AddLine( block[i], wxTextFileType_Dos );
 }

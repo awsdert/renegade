@@ -10,7 +10,7 @@
 	pt1 = ( hex >> 32u ); \
 	pt2 = ( hex & xsF8LL ); \
 	++l
-void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd )
+void Makeobj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd )
 {
 	Text txt, line, prt1, prt2;
 	ui64 hex, val, inc;
@@ -31,7 +31,7 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, in
 	bool isList = ( obj.type == HEX_CT_LIST );
 	bool isCopy = ( obj.type == HEX_CT_COPY );
 	bool isTest = ( obj.type == HEX_CT_TEST );
-	bool isInc = ( !isList && !isTest && !isCopy );
+	bool isInc = ( !isList && !isTest && !isCopy && obj.loop > 0u );
 	if ( dataSize & 0x8 )
 	{
 		dataSize -= 0x8;
@@ -93,23 +93,25 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, in
 	}
 	else if ( isList )
 	{
-		int v = 0, vEnd = obj.info;
+		int v = 0, vEnd = obj.info, vAdd = 1, b = 0, j;
 		switch ( dataSize )
 		{
-			case 1u: vEnd /= 8; break;
-			case 2u: vEnd /= 4; break;
-			case 4u: vEnd /= 2; break;
+			case 4u: vAdd = 2; break;
+			case 2u: vAdd = 4; break;
+			case 1u: vAdd = 8; break;
 		}
 		obj.resize( obj.info );
-		obj.bytes = 8u;
-		for ( ; ( v < vEnd && l < lEnd ); ++v )
+		do
 		{
 			L_MO_HEX_GETPARTS;
-			*( reinterpret_cast< ui64* >( &(obj[v] ) ) ) = hex;
+			*( reinterpret_cast< ui32* >( &( obj.data[ b ] ) ) ) = pt1;
+			*( reinterpret_cast< ui32* >( &( obj.data[ b + 4 ] ) ) ) = pt2;
+			v += vAdd;
+			b += 8;
 		}
-		obj.bytes = dataSize;
+		while ( v < vEnd );
 	}
-	else
+	else if ( isTest )
 	{
 
 	}
@@ -119,9 +121,13 @@ void xsDLL MakeObj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, in
 		data.push_back( obj );
 	if ( l >= lEnd )
 		return;
-	MakeObj_Hex1( data, block, l, lEnd, ++c, cEnd );
+	Makeobj_Hex1( data, block, l, lEnd, ++c, cEnd );
 }
-
+void xsDLL MakeObj_Hex1( Codes& data, TxtA& block )
+{
+	int l = 0, lEnd = block.GetCount(), c = 0, cEnd = data.size();
+	Makeobj_Hex1( data, block, l, lEnd, c, cEnd );
+}
 bool xsDLL MakeHack_Hex_2( Hack& hack, TxtA& block, int& c, ui32& l, ui08& cCount )
 {
 // TODO(awsdert) Implement MakeHack_Hex_2()

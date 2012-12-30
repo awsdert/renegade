@@ -14,6 +14,7 @@ typedef wxString			Text;
 typedef wxStringTokenizer	TxtT;
 typedef wxArrayString		TxtA;
 typedef wxTextFile			TxtF;
+typedef wxFile				BinF;
 typedef wxFileConfig		CfgF;
 typedef wxTreeCtrl			TrCO;
 typedef wxTreeItemId		TrId;

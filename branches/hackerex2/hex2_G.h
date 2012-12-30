@@ -44,13 +44,13 @@ class G : public HexGUI
 		void	UpdatePanels();
 		void	UpdateList( hexDB& db, LBox* lb, Text name = getGlobalName() );
 		void	UpdateTheme( Text name = wxT(""), si32 size = 22 );
-		bool	Find( HANDLE& hApp, wxFile& hBin );
-		bool	Read( HANDLE& hApp, wxFile& hBin );
-		bool	Read( HANDLE& hApp, wxFile& hBin, wxTextCtrl* oText );
+		bool	Find( HANDLE& hApp, BinF& hBin );
+		bool	Read( HANDLE& hApp, BinF& hBin );
+		bool	Read( HANDLE& hApp, BinF& hBin, wxTextCtrl* oText );
 		// Shared DB Functions
 		bool	CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP );
 		bool	CheckDirs( hexDB& db, Text& path, Text& leaf );
-		bool	LoadData( hexDB& db, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp = false, bool isTempTmp = true );
+		bool	LoadData( hexDB& db, int doAct, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp = false, bool isTempTmp = true );
 		void	LoadData( hexDB& db, LBox* lbox, int doAct = HEX_LOAD_SAVE2TEMP, Text name = getGlobalName() );
 		void	ShowData( hexDB& db );
 		/** Sessions **/

@@ -9,11 +9,19 @@ BOOL CALLBACK mswEnumWin( HWND hWin, LPARAM bShowAll );
 
 class xsDLL hexDB
 {
+	Text	getDir( void );
+	Text	getPath( ui32 c );
+	void	setCode( Code& obj, ui08* data );
+	void	setCodes( void );
+	void	getCode( Code& obj, ui08* data );
+	void	saveCodesIntern( ui08* data, Text& path, TxtA& block, TxtF& file, ui32& hEnd, ui32 p );
 public:
 	hexDB();
+	void	loadCodes( void );
+	void	saveCodes( bool addObj = false );
+	void	getCodes( ui32 c );
 	int		mode[ HEX_LIST_COUNT ];
 	LBox*	appsLB;
-	LBox*	codesLB;
 	TrCO*	hacksTree;
 	TrCO*	codesTree;
 	State	state;

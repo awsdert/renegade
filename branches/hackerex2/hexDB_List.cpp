@@ -1,4 +1,4 @@
-#include "hexDB_hack.h"
+#include "hexDB_main.h"
 void Listhacks( TrCO* tree, Hacks& data, int i )
 {
 	Hack hObj = data[ i ], pObj = data[ hObj.parent ];
@@ -26,8 +26,7 @@ void xsDLL ListHacks( TrCO* tree, Hacks& data )
 void Listcodes( TrCO* tree, Codes& data, Code& obj, int& i, int iEnd )
 {
 	Code now;
-	Text txt, dbg;
-	dbg.Printf( wxT("; iEnd = %i"), iEnd );
+	Text txt;
 	for ( ++i; i < iEnd; ++i )
 	{
 		now = data[ i ];
@@ -41,7 +40,7 @@ void Listcodes( TrCO* tree, Codes& data, Code& obj, int& i, int iEnd )
 		case HEX_CT_TEST:	txt = _("Test");	break;
 		default:			txt = _("Unknown");
 		}
-		now.item = tree->AppendItem( obj.item, txt + dbg );
+		now.item = tree->AppendItem( obj.item, txt );
 		tree->SetItemData( now.item, new TrID( i ) );
 		data[ i ] = now;
 		if ( now.type == HEX_CT_TEST )
@@ -61,5 +60,16 @@ void xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& data, int format, int listC
 		obj.item = rItem;
 		Listcodes( tree, data, obj, i, data.size() );
 		tree->Expand( rItem );
+	}
+	lbox->Clear();
+	int cEnd = data.size();
+	if ( listCode >= 0 && listCode < cEnd )
+	{
+		TxtA block;
+		switch ( format )
+		{
+			case HL_HEX1: Maketxt_Hex1( data[ listCode ], block ); break;
+		}
+		lbox->Append( block );
 	}
 }
