@@ -1,52 +1,23 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 void G::UpdatePanels( void )
 {
-// TODO(awsdert) 0: Refine G::UpdatePanels()
-	int i, iEnd = g_iPanelCount, inMode = m_siListNow, atMode = m_db.mode[ inMode ];
-	for ( i = 0; i < iEnd; ++i )
-		m_aPanels[ i ]->Hide();
-	if ( !m_bListCfg )
-	{
-		switch ( inMode )
-		{
-		case HEX_LIST_SESSION:
-			HexName_P->Show();
-			HexState_P->Show();
-			break;
-		case HEX_LIST_ORG:
-		case HEX_LIST_FORMAT:
-			HexName_P->Show();
-			HexFile_P->Show();
-			break;
-		case HEX_LIST_PFM:
-			HexName_P->Show();
-			HexFile_P->Show();
-			HexEndian_P->Show();
-			break;
-		case HEX_LIST_BIN:
-			HexName_P->Show();
-			HexFile_P->Show();
-			HexBin_P->Show();
-			break;
-		case HEX_LIST_RAM:
-			HexName_P->Show();
-			HexRam_P->Show();
-			HexRamData_P->Show();
-			HexAddr_P->Show();
-			break;
-		case HEX_LIST_PFL:
-			HexName_P->Show();
-			HexFile_P->Show();
-			HexPfl_P->Show();
-			break;
-		}
-	}
-	HexBody_SW->FitInside();
+// TODO(awsdert) Search, Results and Editor still needed
+	int inMode = m_siListNow, atMode = m_db.mode[ inMode ];
+	bool act = false;
+	if ( !m_bListCfg && inMode != m_siListOld )
+		act = true;
+	else if ( m_bListCfg )
+		act = true;
+	if ( !act )
+		return;
 	m_db.tmpCfg		= m_bListCfg;
+	m_db.tmpLB		= HexList_LB;
+	m_db.showAllApps= ( inMode == HEX_LIST_APP );
 	m_db.tmpMode	= inMode;
-	m_db.tmpRelist	= false;
 	UpdateList( m_db, HexList_LB, m_db.getNowN( inMode ) );
-	m_db.oldP[ atMode ] = m_db.nowP[ atMode ];
+	if ( !m_bListCfg )
+		m_db.oldP[ atMode ] = m_db.nowP[ atMode ];
 	bool doRam = false;
 	switch ( inMode )
 	{
@@ -76,12 +47,21 @@ void G::UpdateList( hexDB& db, LBox* lb, Text name )
 		Ignored if isCfg is true
 	**/
 	int i = 0;
+	bool listSel = false;
 	LoadData( db, lb, HEX_LOAD_LIST, name );
 	if ( db.tmpCfg )
+	{
+		listSel = true;
 		i = db.tmpMode;
+	}
 	else
-		i = lb->FindString( name );
-	lb->SetSelection( ( i < 0 ) ? 0 : i );
+	{
+		listSel = ( db.tmpMode < HEX_LIST_HACK );
+		if ( listSel )
+			i = lb->FindString( name );
+	}
+	if ( listSel )
+		lb->SetSelection( ( i < 0 ) ? 0 : i );
 }
 void G::UpdateTheme( Text name, int size )
 {
@@ -89,7 +69,8 @@ void G::UpdateTheme( Text name, int size )
 		return;
 	if ( size < 0 || size > 48 )
 		size = 22;
-	int i, iCount = 7;
+	int i;
+	const int iCount = 7;
 	Text ico, theme = ( wxGetCwd() + xsDirUp + xsDirSep + wxT("themes") + xsDirSep + name + xsDirSep );
 	wxImage img;
 	//img.AddHandler( new wxICOHandler );

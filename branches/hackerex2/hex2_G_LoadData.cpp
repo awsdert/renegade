@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 {
@@ -79,15 +80,16 @@ void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 		{
 			data.Clear();
 			data.SetCount( HEX_LIST_COUNT );
-			data[ HEX_LIST_SESSION	] = _("Session");
-			data[ HEX_LIST_ORG		] = _("Organisation");
-			data[ HEX_LIST_PFM		] = _("Platform");
-			data[ HEX_LIST_BIN		] = _("Binary (Application / File)");
-			data[ HEX_LIST_APP		] = _("Application (Any)");
-			data[ HEX_LIST_WIN		] = _("Application (Visible)");
+			data[ HEX_LIST_THEME	] = _("Themes");
+			data[ HEX_LIST_SESSION	] = _("Sessions");
+			data[ HEX_LIST_ORG		] = _("Organisations");
+			data[ HEX_LIST_PFM		] = _("Platforms");
+			data[ HEX_LIST_BIN		] = _("Binaries (Application / File)");
+			data[ HEX_LIST_APP		] = _("Applications (Any)");
+			data[ HEX_LIST_WIN		] = _("Applications (Visible)");
 			data[ HEX_LIST_RAM		] = _("Parts of Binary Memory");
-			data[ HEX_LIST_PFL		] = _("Profile");
-			data[ HEX_LIST_FORMAT	] = _("Format of Hacks");
+			data[ HEX_LIST_PFL		] = _("Profiles");
+			data[ HEX_LIST_FORMAT	] = _("Hack Formats");
 			data[ HEX_LIST_HACK		] = _("Hacks");
 			data[ HEX_LIST_CODE		] = _("Codes");
 			data[ HEX_LIST_FIND		] = _("Search Memory");
@@ -106,15 +108,10 @@ void G::LoadData( hexDB& db, LBox* lbox, int doAct, Text name )
 					ListApps( db );
 					break;
 				case HEX_LIST_HACK:
-				{
-					if ( doRename )
-						{ wxRenameFile( tmpP, nowP, true ); }
-					if ( !isSame || db.tmpRelist )
-						{ ListHacks( db.hacksTree, db.hacks ); }
-					db.tmpRelist = true;
-				}
 				case HEX_LIST_CODE:
-					ListCodes( db.codesTree, db.appsLB, db.codes, db.format.format, db.codeNo, ( !isSame || db.tmpRelist ) );
+					if ( !isSame )
+						ListHacks( db.hacksTree, db.hacks );
+					ListCodes( db.codesTree, db.appsLB, db.codes, db.format.format, db.codeNo, ( !isSame || db.hacks.hackNow != db.hacks.hackOld ) );
 					break;
 				default:
 					data.Sort();
@@ -131,6 +128,7 @@ bool G::LoadData( hexDB& db, int doAct, TxtA& data, Text& nowP, Text& tmpP, Text
 	bool b = true, isSame = ( db.nowP[ atMode ] == db.oldP[ atMode ] ), addObj = ( isSame && db.getNowN( inMode ) != getGlobalName() );
 	switch ( inMode )
 	{
+	case HEX_LIST_THEME:
 	case HEX_LIST_SESSION:
 	case HEX_LIST_ORG:
 		mode = 1;
@@ -207,7 +205,6 @@ bool G::LoadData( hexDB& db, int doAct, TxtA& data, Text& nowP, Text& tmpP, Text
 		{
 			case HEX_LIST_APP:
 			case HEX_LIST_WIN:
-				db.appsLB->Clear();
 				name = db.bin.name;
 				break;
 			case HEX_LIST_RAM:
@@ -223,6 +220,7 @@ bool G::LoadData( hexDB& db, int doAct, TxtA& data, Text& nowP, Text& tmpP, Text
 				break;
 			}
 			case HEX_LIST_HACK:
+			case HEX_LIST_CODE:
 				if ( doAct == HEX_LOAD_SAVE2FILE )
 					db.saveCodes( isSame );
 				if ( !isSame )

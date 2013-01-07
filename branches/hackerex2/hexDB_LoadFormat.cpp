@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_hack.h"
 void LoadFormatD( Format& obj, Text& txt, bool isTmpFile );
 void SaveFormatD( Format& obj, TxtF& file, bool isTmpFile );

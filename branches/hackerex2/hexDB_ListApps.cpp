@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_main.h"
 #include "hexDB_enum.h"
 
@@ -9,7 +10,8 @@ void xsDLL ListApps( hexDB& db )
 		Format Example:
 		example "Hello World" - 0000
 		*/
-#ifdef xsWIN
-	EnumWindows( mswEnumWin, (void*)&db );
-#endif // xsWIN
+	wxMessageBox( db.nowP[0] );
+#ifdef xsMSW
+	EnumWindows( mswEnumWin, reinterpret_cast< LPARAM >( &db ) );
+#endif // xsMSW
 }

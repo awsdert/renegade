@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 bool G::CheckDirs( hexDB& db, Text& path, Text& leaf )
 {
@@ -51,7 +52,6 @@ bool G::CheckDirs( hexDB& db, Text& path, Text& leaf )
 }
 bool G::CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP )
 {
-// TODO(awsdert) Refine G::CheckPaths();
 	path = m_bCwd ? wxGetCwd() + xsDirUp : wxGetDataDir();
 	if ( !CheckDirs( db, path, leaf ) )
 		return false;
@@ -111,55 +111,83 @@ bool G::CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP )
 	}
 	return true;
 }
-ui32 G::CheckRegion( Text region )
+const int  l_regionCount = 5;
+TxtA l_regionData;
+ui32 l_regions[ l_regionCount ];
+bool l_regionsSet = false;
+void l_setRegions( void )
 {
-	region.UpperCase();
-	ui32 r = 0u;
-	Text comma = wxT(',');
-	TxtT txtT;
-	txtT.SetString( region, comma );
-	if ( !txtT.HasMoreTokens() )
-		return 0u;
-	Text val;
-	int i, iEnd = 5;
-	Text txt[ iEnd ];
-	ui32 bit[ iEnd ];
+	TxtA txt;
+	txt.SetCount( l_regionCount );
+	ui32 bit[ l_regionCount ];
 	txt[0] = wxT("UK");  bit[0] = REGION_UK;
 	txt[1] = wxT("US");  bit[1] = REGION_US;
 	txt[2] = wxT("AUS"); bit[2] = REGION_AUS;
 	txt[3] = wxT("DE");  bit[3] = REGION_DE;
 	txt[4] = wxT("JP");  bit[4] = REGION_JP;
-	for
-	(
-		val = txtT.GetNextToken();
-		txtT.HasMoreTokens();
-		val = txtT.GetNextToken()
-	)
+	l_regionData = txt;
+	for ( int i = 0; i < l_regionCount; ++i )
+		l_regions[ i ] = bit[ i ];
+	l_regionsSet = true;
+}
+int  G::getRegionCount( void ) { return l_regionCount; }
+void G::getRegions( ui32* data )
+{
+	if ( !l_regionsSet )
+		l_setRegions();
+	for ( int i = 0; i < l_regionCount; ++i )
+		data[ i ] = l_regions[ i ];
+}
+void G::getRegionData( TxtA& data ) {
+	if ( !l_regionsSet )
+		l_setRegions();
+	data = l_regionData;
+}
+ui32 G::CheckRegion( Text region )
+{
+	if ( !l_regionsSet )
+		l_setRegions();
+	int i;
+	region.UpperCase();
+	ui32 r = 0u;
+	Text comma = wxT(',');
+	Text txt;
+	if ( region.Contains( comma ) )
 	{
-		for ( i = 0; i < iEnd; ++i )
+		TxtT tzr;
+		tzr.SetString( region, comma );
+		do
 		{
-			if ( val == txt[i] )
-				r |= bit[i];
+			txt = tzr.GetNextToken();
+			for ( i = 0; i < l_regionCount; ++i )
+			{
+				if ( txt == l_regionData[i] )
+					r |= l_regions[i];
+			}
+		}
+		while ( tzr.HasMoreTokens() );
+	}
+	else
+	{
+		txt = region;
+		for ( i = 0; i < l_regionCount; ++i )
+		{
+			if ( txt == l_regionData[i] )
+				r |= l_regions[i];
 		}
 	}
 	return r;
 }
 Text G::CheckRegion( ui32 region )
 {
-	Text text;
-	int i, iEnd = 5;
-	Text txt[ iEnd ];
-	ui32 bit[ iEnd ];
+	if ( !l_regionsSet )
+		l_setRegions();
+	Text txt;
 	const wxChar comma = wxT(',');
-	txt[0] = wxT("UK");  bit[0] = REGION_UK;
-	txt[1] = wxT("US");  bit[1] = REGION_US;
-	txt[2] = wxT("AUS"); bit[2] = REGION_AUS;
-	txt[3] = wxT("DE");  bit[3] = REGION_DE;
-	txt[4] = wxT("JP");  bit[4] = REGION_JP;
-	for ( i = 0; i < iEnd; ++i )
+	for ( int i = 0; i < l_regionCount; ++i )
 	{
-		if ( region & bit[i] )
-			text += comma + txt[i];
+		if ( region & l_regions[i] )
+			txt += comma + l_regionData[i];
 	}
-	return text.Right( text.Length() - 2 );
+	return txt.Right( txt.Length() - 2 );
 }

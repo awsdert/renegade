@@ -3,7 +3,6 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="hex2" />
-		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option virtualFolders="Load\;" />
 		<Build>
@@ -25,8 +24,8 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="libwxmsw28u.a" />
-					<Add library="bin\app\libmswHackerEX.a" />
-					<Add library="bin\app\libhexDB.a" />
+					<Add library="bin\app\libmswHackerEX_gcc.a" />
+					<Add library="bin\app\libmswHackerEXDB_gcc.a" />
 					<Add directory="$(#wx)/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -34,7 +33,7 @@
 				<Option platforms="Windows;" />
 				<Option output="bin/dbg/mswHackerEX2" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
-				<Option object_output="obj/dbg" />
+				<Option object_output="obj/gcc/dbg" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -49,8 +48,8 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add library="libwxmsw28ud.a" />
-					<Add library="bin\dbg\libmswHackerEX.a" />
-					<Add library="bin\dbg\libhexDB.a" />
+					<Add library="bin\dbg\libmswHackerEX_gcc.a" />
+					<Add library="bin\dbg\libmswHackerEXDB_gcc.a" />
 					<Add directory="$(#wx)/lib/gcc_dll" />
 				</Linker>
 			</Target>
@@ -80,9 +79,11 @@
 		<Unit filename="bin/hex.ini" />
 		<Unit filename="bin/org/sony.hexp" />
 		<Unit filename="bin/org/sony/ps2.hexb" />
+		<Unit filename="bin/org/sony/ps2/default.hexdb" />
 		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12.hexf" />
 		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12/Final-Fantasy-12.hexcl" />
 		<Unit filename="bin/org/sony/ps2/default/Star-Ocean-3-TTEOT/Star-Ocean-3-TTEOT.hexcl" />
+		<Unit filename="hex2_Edit.cpp" />
 		<Unit filename="hex2_G.cpp" />
 		<Unit filename="hex2_G.h" />
 		<Unit filename="hex2_G_LoadBin.cpp">
@@ -107,12 +108,12 @@
 		<Unit filename="hex2_dbCheck.cpp" />
 		<Unit filename="hex2_dbShow.cpp" />
 		<Unit filename="hex2_global.h" />
-		<Unit filename="hex2_hack.cpp" />
 		<Unit filename="hex2_main.cpp" />
 		<Unit filename="hex2_update.cpp" />
 		<Unit filename="hex2_wxFB.cpp" />
 		<Unit filename="hex2_wxFB.h" />
 		<Unit filename="hex2_wxFBv3.2.fbp" />
+		<Unit filename="hexDLL_global.hpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

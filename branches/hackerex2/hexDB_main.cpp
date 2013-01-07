@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_main.h"
 
 #ifdef xsMSW

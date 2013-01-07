@@ -3,14 +3,14 @@
 #include "hex2_global.h"
 // Hex Grabbing
 // Hex Types, DO NOT MODIFY ORDER
-
 enum
 {
 	HEX_TYPE_HEX = 0,
-	HEX_TYPE_TEXT,
 	HEX_TYPE_UI,
 	HEX_TYPE_SI,
 	HEX_TYPE_SF_IEEE754,
+	HEX_TYPE_TEXT,
+	HEX_TYPE_WTEXT,
 	HEX_TYPE_COUNT
 };
 

@@ -1,9 +1,10 @@
+#include <stdint.h>
+#include <vector>
+
 #ifndef HEXDLL_GLOBAL_H
 #define HEXDLL_GLOBAL_H
 
 // Global Includes
-#include <stdint.h>
-#include <vector>
 
 // Types
 #define Vect std::vector
@@ -21,12 +22,12 @@ typedef int32_t		si32;
 typedef int64_t		si64;
 
 // - ?
-typedef size_t unsigned		Size;
-typedef size_t unsigned		Addr;
+#define SSize signed size_t
+#define SAddr signed size_t
+#define USize unsigned size_t
+#define UAddr unsigned size_t
 
 // Defines
-
-const ui32 G_HEX_H_AWSDERT = 0u;
 
 #if ( defined( _MSC_VER ) )
 	#define xsPRINTF_USIZE_T	"%Iu"
@@ -43,27 +44,35 @@ const ui32 G_HEX_H_AWSDERT = 0u;
 #endif
 
 #ifdef __cplusplus
-	#define xsC_START extern "C" {
-	#define xsC_END }
+	#define xsC_EXT		extern "C"
+	#define xsC_START	extern "C" {
+	#define xsC_END		}
 #else
+	#define xsC_EXT
 	#define xsC_START
 	#define xsC_END
 #endif
 
 #if ( defined( __LP64__ ) || defined( __LLP64__ ) || defined( WIN64 ) )
-	#define G_OS64
+	#define xsOS64
 #else
-	#define G_OS32
+	#define xsOS32
 #endif
 
 #if defined( __WXUNIX__ ) || defined( __unix__ )
 	#define xsUNIX
+	#define xsDLL_EXP
+	#define xsDLL_IMP
 	#include <unistd.h>
 #elif defined( __WXMSW__ ) || defined( _WIN32 )
 	#define xsMSW
+	#define xsDLL_EXP __declspec(dllexport)
+	#define xsDLL_IMP __declspec(dllimport)
 	#include <windows.h>
-#elif defined( __WXMSW__ ) || defined( __APPLE__ )
+#elif defined( __WXOSX__ ) || defined( __APPLE__ )
 	#define xsOSX
+	#define xsDLL_EXP
+	#define xsDLL_IMP
 	#include <TargetConditionals.h>
 	#ifdef TARGET_OS_IPHONE
 		#define xsOSX_IP
@@ -76,20 +85,14 @@ const ui32 G_HEX_H_AWSDERT = 0u;
 	#endif
 #else
 	#define xsUNIV
+	#define xsDLL_EXP
+	#define xsDLL_IMP
 #endif
 
 #ifdef xsDLL_BUILD
-	#ifdef xsMSW
-		#define xsDLL __declspec(dllexport)
-	#else
-		#define xsDLL
-	#endif
+	#define xsDLL xsDLL_EXP
 #else
-	#ifdef xsMSW
-		#define xsDLL __declspec(dllimport)
-	#else
-		#define xsDLL
-	#endif
+	#define xsDLL xsDLL_IMP
 #endif
 
 bool xsDLL LibGetX( ui64 address, void* value, ui32 bytes );

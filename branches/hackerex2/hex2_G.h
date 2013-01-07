@@ -19,9 +19,7 @@ enum
 	HEX_LOAD_LIST,
 	HEX_LOAD_COUNT
 };
-const si08 g_iPanelCount = 13;
-const Text g_tIniCfg	 = wxT("[Settings]");
-const Text g_tIniThemes	 = wxT("[Themes]");
+const si08 g_iPanelCount = 16;
 class G : public HexGUI
 {
 	protected:
@@ -38,9 +36,11 @@ class G : public HexGUI
 		// List
 		bool	m_bListCfg;
 		si32	m_siListNow;
+		si32	m_siListOld;
 		hexDB	m_db;
 		// GUI
 		wxPanel* m_aPanels[ g_iPanelCount ];
+		void	ShowPanels();
 		void	UpdatePanels();
 		void	UpdateList( hexDB& db, LBox* lb, Text name = getGlobalName() );
 		void	UpdateTheme( Text name = wxT(""), si32 size = 22 );
@@ -53,6 +53,8 @@ class G : public HexGUI
 		bool	LoadData( hexDB& db, int doAct, TxtA& data, Text& nowP, Text& tmpP, Text& name, bool isFileTmp = false, bool isTempTmp = true );
 		void	LoadData( hexDB& db, LBox* lbox, int doAct = HEX_LOAD_SAVE2TEMP, Text name = getGlobalName() );
 		void	ShowData( hexDB& db );
+		bool	EditHasInvalidName( Text& name );
+		void	EditData( hexDB& db );
 		/** Sessions **/
 		State	LoadStates( State& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp );
 		void	LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile = false );
@@ -65,28 +67,42 @@ class G : public HexGUI
 		void	LoadOrgD( Org& obj, Text& key, Text& val, bool isTmpFile = true );
 		void	SaveOrgD( Org& obj, CfgF& file, bool isTmpFile = true );
 		void	ShowOrgD( Org* obj );
+		bool	EditOrgD( Org* obj );
 		/** Platforms */
 		Pfm		LoadPfms( Pfm& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 		void	LoadPfmD( Pfm& obj, TxtF& file, bool isTmpFile = true );
 		void	SavePfmD( Pfm& obj, TxtF& file, bool isTmpFile = true );
 		void	ShowPfmD( Pfm& obj );
+		bool	EditPfmD( Pfm& obj );
 		/** Binaries ( Applications / Files ) */
 		Bin		LoadBins( Bin& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 		void	LoadBinD( Bin& obj, TxtF& file, bool isTmpFile = true );
 		void	SaveBinD( Bin& obj, TxtF& file, bool isTmpFile = true );
 		void	ShowBinD( Bin& obj );
+		bool	EditBinD( Bin& obj );
 		void	ShowRamD( Ram& obj );
+		void	EditRamD( Ram& obj );
 		/** Profiles ( Hacklists ) */
+		int		getRegionCount( void );
+		void	getRegionData( TxtA& data );
+		void	getRegions( ui32* data );
 		ui32	CheckRegion( Text region );
 		Text	CheckRegion( ui32 region );
 		Pfl		LoadPfls( Pfl& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 		void	LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile = true );
 		void	SavePflD( Pfl& obj, TxtF& file, bool isTmpFile = true );
 		void	ShowPflD( Pfl& obj );
+		bool	EditPflD( Pfl& obj );
+		void	ShowRegion( ui32 region );
+		ui32	EditRegion( void );
 		/** Hacklist */
-		void	ListHcks( Hacks& dat );
-		void	ShowHack( Hack& obj );
+		void	ListHcks( Hacks& data );
+		void	ShowHack( Hacks& data, int hackNo = 0 );
+		bool	EditHack( Hacks& data, int hackNo = 0 );
 		void	ShowCode( Code& obj );
+		bool	EditCode( Code& obj );
+		void	ShowCodeValue( wxTextCtrl* tbox, Code& obj, int v );
+		void	EditCodeValue( wxTextCtrl* tbox, Code& obj, int v );
 };
 
 #endif

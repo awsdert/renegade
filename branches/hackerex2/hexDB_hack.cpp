@@ -1,29 +1,30 @@
+#include "wx_pch.h"
 #include "hexDB_hack.h"
 #include "hex2_global.h"
-xsDLL TrID::TrID( int i ) : wxTreeItemData() { index = i; }
-xsDLL Format::Format( int f ) { clear( f ); }
-void xsDLL Format::clear( int theFormat )
+TrID::TrID( int i ) : wxTreeItemData() { index = i; }
+Format::Format( int f ) { clear( f ); }
+void Format::clear( int theFormat )
 {
 	format	= theFormat;
 	name	= getFormatName( format );
 	fileOld = name;
 	fileNow = name;
 }
-xsDLL Hack::Hack(  void ) { clear(); }
-void xsDLL Hack::clear( void )
+Hack::Hack(  void ) { clear(); }
+void Hack::clear( void )
 {
 	name	= _( "Hack" );
 	parent	= 0u;
 	info	= 0u;
 	line	= 0;
 }
-xsDLL Hacks::Hacks()
+Hacks::Hacks()
 {
 	hackNow = 0;
 	hackOld = 0;
 	resize(1);
 }
-int xsDLL Hacks::find( Text name, ui16 parent )
+int Hacks::find( Text name, ui16 parent )
 {
 	Hack obj;
 	int iEnd = size();

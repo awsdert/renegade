@@ -10,10 +10,16 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hexDLL_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hexDLL_global.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{09326341-485D-4CA8-8B3D-4586E41E47A2}</ProjectGuid>
     <RootNamespace>HackerEXLIB</RootNamespace>
-    <ProjectName>HackerEX_LIB</ProjectName>
+    <ProjectName>hexDLL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,25 +45,35 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>$(WXWIN)\include;$(IncludePath)</IncludePath>
-    <ReferencePath>$(WXWIN)\lib;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(WXWIN)\lib;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(WXWIN)\include;$(SourcePath)</SourcePath>
+    <IncludePath>$(MINGW)\include;$(WXWIN)\include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(MINGW)\lib;$(WXWIN)\lib</ReferencePath>
+    <LibraryPath>$(MINGW)\lib;$(WXWIN)\lib</LibraryPath>
+    <SourcePath>$(WXWIN)\src;$(SourcePath)</SourcePath>
+    <OutDir>bin\dbg</OutDir>
+    <IntDir>obj\vc\dbg</IntDir>
+    <TargetName>mswHackerEXDLL_vc</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>$(WXWIN)\include;$(IncludePath)</IncludePath>
-    <ReferencePath>$(WXWIN)\lib;$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(WXWIN)\lib;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(WXWIN)\include;$(SourcePath)</SourcePath>
+    <IncludePath>$(MINGW)\include;$(WXWIN)\include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(MINGW)\lib;$(WXWIN)\lib</ReferencePath>
+    <LibraryPath>$(MINGW)\lib;$(WXWIN)\lib</LibraryPath>
+    <SourcePath>$(WXWIN)\src;$(SourcePath)</SourcePath>
+    <OutDir>bin\app</OutDir>
+    <IntDir>obj\vc\app</IntDir>
+    <TargetName>mswHackerEXDLL_vc</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PreprocessorDefinitions>xsDLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>bin\dbg\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,21 +82,16 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PreprocessorDefinitions>xsDLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>bin\app\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="global.hpp" />
-    <ClInclude Include="hexutils.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="hexLibMain.cpp" />
-    <ClCompile Include="hexutils.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_main.h"
 #define L_MO_HEX_GETPARTS \
 	if ( l >= lEnd ) \
@@ -93,7 +94,7 @@ void Makeobj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEn
 	}
 	else if ( isList )
 	{
-		int v = 0, vEnd = obj.info, vAdd = 1, b = 0, j;
+		int v = 0, vEnd = obj.info, vAdd = 1, b = 0;
 		switch ( dataSize )
 		{
 			case 4u: vAdd = 2; break;

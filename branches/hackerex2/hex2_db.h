@@ -1,12 +1,13 @@
-#ifndef HEXGUI_DB_H
-#define HEXGUI_DB_H
-
 #include "hex2_global.h"
 #include "hexDB_hack.h"
 
+#ifndef HEXGUI_DB_H
+#define HEXGUI_DB_H
+
 enum
 {
-	HEX_LIST_SESSION = 0,
+	HEX_LIST_THEME = 0,
+	HEX_LIST_SESSION,
 	HEX_LIST_ORG,
 	HEX_LIST_PFM,
 	HEX_LIST_BIN,
@@ -22,7 +23,9 @@ enum
 	HEX_LIST_EDIT,
 	HEX_LIST_COUNT
 };
-Text xsDLL getGlobalName( void );
+
+xsDLL Text getGlobalName( void );
+
 class xsDLL State
 {
 public:
@@ -91,8 +94,8 @@ public:
 class xsDLL Pfl : public Org
 {
 public:
+	Pfl( void );
 	ui32 region;
-	ui32 format; // The current format in use, default = 0u
 	ui16 profile;
 	Text serial;
 	Text notes;

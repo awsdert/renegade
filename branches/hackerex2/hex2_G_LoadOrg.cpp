@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 Org  G::LoadOrgs( Org& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
 {

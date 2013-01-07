@@ -1,9 +1,8 @@
+#include "wx_pch.h"
+#include "hexDLL_global.hpp"
+
 #ifndef HEXGUI_GLOBAL_H
 #define HEXGUI_GLOBAL_H
-
-// Global Includes
-#include "hexDLL_global.hpp"
-#include "wx_pch.h"
 
 // Global defines
 #define wxOK_CANCEL wxOK | wxCANCEL

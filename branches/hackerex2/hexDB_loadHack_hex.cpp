@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_main.h"
 Codes	xsDLL LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, bool addObj, int format )
 {
@@ -122,7 +123,7 @@ void	xsDLL SaveHack_Hex( TxtF& file, Hack& hack, ui32& hackIndex, ui16& codeCoun
 	Text txt;
 	int i = 0, iEnd = block.GetCount();
 	file.AddLine( cQuot + hack.name + cQuot );
-	txt.Printf( wxT("%01X000%04X %04X%04X"), hack.info, hackIndex, codeCount, hack.parent );
+	txt.Printf( wxT("%01X000%04X %04X%04X"), ( hack.info & 0xF ), hackIndex, codeCount, hack.parent );
 	file.AddLine( txt );
 	for ( ; i < iEnd; ++i )
 		file.AddLine( block[i], wxTextFileType_Dos );

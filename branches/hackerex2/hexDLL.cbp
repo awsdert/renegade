@@ -3,20 +3,21 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="hexDLL" />
-		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="r_MSW">
 				<Option platforms="Windows;" />
-				<Option output="bin/app/mswHackerEX" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/app/mswHackerEX_gcc" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
-				<Option object_output="obj/app/" />
+				<Option object_output="obj/gcc/app/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
 					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -30,15 +31,17 @@
 			</Target>
 			<Target title="d_MSW">
 				<Option platforms="Windows;" />
-				<Option output="bin/dbg/mswHackerEX" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/dbg/mswHackerEX_gcc" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
-				<Option object_output="obj/dbg/" />
+				<Option object_output="obj/gcc/dbg" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
 					<Add option="-D__WXDEBUG__" />
 					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
 				</Compiler>
@@ -60,8 +63,6 @@
 			<Add option="-Winvalid-pch" />
 			<Add option="-include wx_pch.h" />
 			<Add option="-DxsDLL_BUILD" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DWX_PRECOMP" />

@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hexDB_hack.h"
 TxtA l_formats;
 bool l_setFormats = false;

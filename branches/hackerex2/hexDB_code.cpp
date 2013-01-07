@@ -1,6 +1,7 @@
+#include "wx_pch.h"
 #include "hexDB_hack.h"
-xsDLL Code::Code( void ) { clear(); }
-void xsDLL Code::clear( void )
+Code::Code( void ) { clear(); }
+void Code::clear( void )
 {
 	addr[ 0u ] = 0u;
 	addr[ 1u ] = 0u;
@@ -15,8 +16,8 @@ void xsDLL Code::clear( void )
 	for ( int i = 0; i < 2040; ++i )
 		data[ i ] = 0u;
 }
-ui16 xsDLL Code::size( void ) { return m_count; }
-ui16 xsDLL Code::resize( ui16 count )
+ui16 Code::size( void ) { return m_count; }
+ui16 Code::resize( ui16 count )
 {
 	if ( count > 256u )
 		count = 256u;
@@ -28,5 +29,5 @@ ui16 xsDLL Code::resize( ui16 count )
 	m_count = count;
 	return count;
 }
-ui08& xsDLL Code::operator[] ( ui08 i ) { return data[ i *  bytes ]; }
-xsDLL Codes::Codes() { clear(); }
+ui08& Code::operator[] ( ui08 i ) { return data[ i *  bytes ]; }
+Codes::Codes() { clear(); }

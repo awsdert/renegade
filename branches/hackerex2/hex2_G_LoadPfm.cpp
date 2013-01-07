@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 Pfm  G::LoadPfms( Pfm& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
 {

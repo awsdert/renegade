@@ -1,6 +1,3 @@
-#ifndef BUILD_DLL
-#define BUILD_DLL
-#endif
 #include "hexDLL_global.hpp"
 
 #ifdef xsMSW
@@ -18,7 +15,7 @@ int DllMain( HANDLE hMod, DWORD reason, LPVOID ignore )
 }
 #else
 // TODO: Implement OSX and UNIX handling of HackerEX Library
-int main( void* hMod = &NULL, void* reason = &NULL, void* ignore = &NULL )
+int main( void* hMod, void* reason, void* ignore )
 {
 	return 0;
 }

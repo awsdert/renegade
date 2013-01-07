@@ -1,8 +1,9 @@
+#include "wx_pch.h"
 #include "hexDB_main.h"
 void xsDLL Maketxt_Hex1( Code& obj, TxtA& block )
 {
 	TxtA vLines;
-	ui64 v64 = 0u, v;
+	ui64 v64 = 0u;
 	int i, iEnd, j, jEnd, iAdd, b = 0;
 	bool big, isTest, isList;
 	Text hLine, aLine, vLine, iLine, txt;
@@ -49,11 +50,12 @@ void xsDLL Maketxt_Hex1( Code& obj, TxtA& block )
 	i	= 0;
 	vLines.Clear();
 	iEnd	= obj.info;
-	const Size pos = 8;
 	isList	= ( obj.type == HEX_CT_LIST );
 	do
 	{
-		txt.Printf( wxT("%08X %08X"), *( reinterpret_cast< ui32* >( &( obj.data[ b ] ) ) ), *( reinterpret_cast< ui32* >( &( obj.data[ b + 4 ] ) ) ) );
+		txt.Printf( wxT("%08X %08X"),
+					*( reinterpret_cast< ui32* >( &( obj.data[ b ] ) ) ),
+					*( reinterpret_cast< ui32* >( &( obj.data[ b + 4 ] ) ) ) );
 		vLines.Add( txt );
 		if ( i == 0 )
 		{

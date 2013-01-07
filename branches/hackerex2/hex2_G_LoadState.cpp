@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #ifdef HACKEREX2
 	#include "hex2_G.h"
 #else
@@ -7,7 +8,8 @@ void G::LoadStateD( State& obj )
 {
 	Text oldP, nowP;
 	TxtA name;
-	int i, j, iEnd = 5, mode[ iEnd ];
+	const int iEnd = 5;
+	int i, j, mode[ iEnd ];
 	name.SetCount( iEnd );
 	mode[0] = HEX_LIST_ORG;		name[0] = obj.orgName;
 	mode[1] = HEX_LIST_PFM;		name[1] = obj.pfmName;

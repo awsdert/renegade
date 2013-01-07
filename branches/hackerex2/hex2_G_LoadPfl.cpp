@@ -1,3 +1,4 @@
+#include "wx_pch.h"
 #include "hex2_G.h"
 Pfl  G::LoadPfls( Pfl& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
 {
@@ -47,6 +48,7 @@ void G::LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile )
 	obj.serial	= tzr.GetNextToken();
 	GetHex( &pid, tzr.GetNextToken(), 2u );
 	obj.profile	= pid;
+	const wxChar cNL = wxT('\n');
 	if ( isTmpFile )
 	{
 		nowN = tzr.GetNextToken();
@@ -63,8 +65,9 @@ void G::LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile )
 			break;
 		if ( txt[ 0 ] == cBS )
 			txt = txt.Right( txt.Length() - 2 );
-		obj.notes += txt;
+		obj.notes += cNL + txt;
 	}
+	obj.notes = obj.notes.Right( txt.Length() - 3 );
 	obj.fileNow = nowF;
 	obj.fileOld = oldF;
 	obj.nameNow = nowN;
