@@ -52,7 +52,8 @@ bool G::CheckDirs( hexDB& db, Text& path, Text& leaf )
 }
 bool G::CheckFilesT( hexDB& db, Text& path, Text& leaf, Text& ext, Text& subP )
 {
-	path = m_bCwd ? wxGetCwd() + xsDirUp : wxGetDataDir();
+	wxStandardPaths stdPaths;
+	path = m_bCwd ? wxGetCwd() : stdPaths.GetUserDataDir();
 	if ( !CheckDirs( db, path, leaf ) )
 		return false;
 	Text txt;

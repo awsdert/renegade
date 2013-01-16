@@ -20,7 +20,7 @@ void hexDB::m_saveCodes( ui08* data, Text& path, TxtA& block, TxtF& file, ui32& 
 			for ( c = 0u; c < cEnd; ++c )
 			{
 				temp.Read( data, 2100 );
-				getCode( codes[ c ], data );
+				m_getCode( codes[ c ], data );
 			}
 			temp.Close();
 			switch ( format.format )
@@ -29,7 +29,7 @@ void hexDB::m_saveCodes( ui08* data, Text& path, TxtA& block, TxtF& file, ui32& 
 					MakeTxt_Hex1( codes, block );
 					SaveHack_Hex( file, hack, h, cEnd, block );
 			}
-			codes.clear();
+			codes.resize( 0 );
 			block.Clear();
 			m_saveCodes( data, path, block, file, hEnd, h );
 		}
@@ -37,14 +37,14 @@ void hexDB::m_saveCodes( ui08* data, Text& path, TxtA& block, TxtF& file, ui32& 
 }
 void hexDB::saveCodes( bool addObj )
 {
-	Text path = getDir(), txt = oldP[ HEX_LIST_HACK ];
+	Text path = m_getDir(), txt = oldP[ HEX_LIST_HACK ];
 	TxtF file;
 	if ( wxFileExists( txt ) )
 		wxRemoveFile( txt );
 	file.Create( txt );
 	file.Open( txt );
 	if ( addObj )
-		setCodes();
+		m_setCodes();
 	ui32 hEnd = hacks.size();
 	ui08* data = new ui08[ 2100 ];
 	TxtA block;

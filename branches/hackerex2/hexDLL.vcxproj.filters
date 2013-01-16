@@ -23,5 +23,11 @@
     <ClInclude Include="hexDLL_global.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hexDLL_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexDLL_zxStuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

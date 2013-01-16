@@ -11,13 +11,12 @@
 	pt1 = ( hex >> 32u ); \
 	pt2 = ( hex & xsF8LL ); \
 	++l
-void Makeobj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEnd )
+void Makeobj_Hex1( Code& obj, TxtA& block, int& l, int& lEnd )
 {
 	Text txt, line, prt1, prt2;
-	ui64 hex, val, inc;
+	ui64 hex;
 	ui32 pt1, pt2;
-	ui08 dataSize, addrSize = 4u;
-	Code obj;
+	ui08 dataSize;
 	L_MO_HEX_GETPARTS;
 	obj.type	= (( 0xF0000000 & pt1 ) >> 28u );
 	dataSize	= (( 0x0F000000 & pt1 ) >> 24u );
@@ -26,28 +25,20 @@ void Makeobj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEn
 	obj.info	= (( 0x0000FF00 & pt1 ) >>  8u );
 	obj.loop	=  ( 0x000000FF & pt1 );
 	obj.addr[ 1u ] = pt2;
-	L_MO_HEX_GETPARTS;
-	bool addrBig = false;
-	bool dataBig = false;
 	bool isList = ( obj.type == HEX_CT_LIST );
 	bool isCopy = ( obj.type == HEX_CT_COPY );
 	bool isTest = ( obj.type == HEX_CT_TEST );
 	bool isInc = ( !isList && !isTest && !isCopy && obj.loop > 0u );
-	if ( dataSize & 0x8 )
+	bool dataBig = ( ( dataSize & 0x3 ) == 0x3 );
+	bool addrBig = ( isList || ( dataSize & 0x8 ) == 0x8 || dataBig );
+	if ( isCopy )
 	{
-		dataSize -= 0x8;
-		obj.addr[ 0u ] = hex;
-		addrSize = 8u;
-		addrBig = true;
+		dataSize = addrBig ? 8u : 4u;
+		dataBig = addrBig;
 	}
 	else
-		obj.addr[ 0u ] = pt2;
-	if ( dataSize & 0x4 )
-		dataSize -= 0x4;
-	if ( isCopy )
-		dataSize = addrSize;
-	else
 	{
+		dataSize &= 0x3;
 		switch ( dataSize )
 		{
 			case 3u: dataSize = 8u; break;
@@ -57,77 +48,63 @@ void Makeobj_Hex1( Codes& data, TxtA& block, int& l, int& lEnd, int& c, int& cEn
 		}
 	}
 	obj.bytes = dataSize;
-	dataBig = ( dataSize > 4u );
-	if ( addrBig || dataBig )
+	L_MO_HEX_GETPARTS;
+	if ( isList )
 	{
-		L_MO_HEX_GETPARTS;
-		val = dataBig ? hex : pt1;
-	}
-	else
-		val = pt1;
-	if ( isInc )
-	{
-		if ( dataBig || !addrBig )
+		obj.addr[ 0 ] = hex;
+		int v = 0, vEnd = obj.info, vAdd = (8u / dataSize), b = 0;
+		while ( v < vEnd )
 		{
 			L_MO_HEX_GETPARTS;
-			inc = dataBig ? hex : pt2;
+			obj[b] = hex;
+			v += vAdd;
+			++b;
+		}
+	}
+	else if ( dataBig )
+	{
+		obj.addr[ 0 ] = hex;
+		L_MO_HEX_GETPARTS;
+		obj[ 0 ] = hex;
+		if ( !isInc )
+		{
+			L_MO_HEX_GETPARTS;
+			obj[1] = hex;
 		}
 		else
-			inc = pt2;
-		switch ( obj.bytes )
-		{
-			case 4u:
-				val <<= 32u;
-				inc <<= 32u;
-				break;
-			case 2u:
-				val <<= 48u;
-				inc <<= 48u;
-				break;
-			case 1u:
-				val <<= 56u;
-				inc <<= 56u;
-				break;
-		}
-		*( reinterpret_cast< ui64* >( &( obj[0] ) ) ) = val;
-		*( reinterpret_cast< ui64* >( &( obj[1] ) ) ) = inc;
+			obj[1] = 0u;
 	}
-	else if ( isList )
+	else if ( addrBig )
 	{
-		int v = 0, vEnd = obj.info, vAdd = 1, b = 0;
-		switch ( dataSize )
-		{
-			case 4u: vAdd = 2; break;
-			case 2u: vAdd = 4; break;
-			case 1u: vAdd = 8; break;
-		}
-		obj.resize( obj.info );
-		do
+		obj.addr[ 0 ] = hex;
+		L_MO_HEX_GETPARTS;
+		obj[0] = pt1;
+		obj[1] = pt2;
+	}
+	else
+	{
+		obj.addr[ 0 ] = pt2;
+		obj[0] = pt1;
+		if ( isInc )
 		{
 			L_MO_HEX_GETPARTS;
-			*( reinterpret_cast< ui32* >( &( obj.data[ b ] ) ) ) = pt1;
-			*( reinterpret_cast< ui32* >( &( obj.data[ b + 4 ] ) ) ) = pt2;
-			v += vAdd;
-			b += 8;
+			obj[1] = pt2;
 		}
-		while ( v < vEnd );
 	}
-	else if ( isTest )
-	{
-
-	}
-	if ( c < cEnd )
-		data[ c ] = obj;
-	else
-		data.push_back( obj );
-	if ( l >= lEnd )
-		return;
-	Makeobj_Hex1( data, block, l, lEnd, ++c, cEnd );
 }
 void xsDLL MakeObj_Hex1( Codes& data, TxtA& block )
 {
 	int l = 0, lEnd = block.GetCount(), c = 0, cEnd = data.size();
-	Makeobj_Hex1( data, block, l, lEnd, c, cEnd );
+	Text txt; TxtA ta;
+	for ( ; l < lEnd; ++c )
+	{
+		if ( c == cEnd )
+		{
+			++cEnd;
+			data.resize( cEnd );
+		}
+		Makeobj_Hex1( data[ c ], block, l, lEnd );
+	}
 }
 bool xsDLL MakeHack_Hex_2( Hack& hack, TxtA& block, int& c, ui32& l, ui08& cCount )
 {

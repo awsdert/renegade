@@ -14,14 +14,14 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 	if ( version < 1 || version > 1 )
 		return Codes();
 	Text txt, name, line, tt;
-	ui32 hi, hn = data.hackNow, ho = data.hackOld, hc = 1u;
+	ui32 hi, hn = data.hackNow, ho = data.hackOld, hc = 1u, ht, hp;
 	ui16 cc, oc;
 	Hack hack;
 	Codes tmp, now;
 	bool dOld = false, dNow = false;
-	data.resize( 0xFFFF );
-	now.resize( 0 );
 	TxtA block;
+	data.clear();
+	data.resize( 0xFFFF );
 	for ( txt = file.GetFirstLine(); !file.Eof(); txt = file.GetNextLine() )
 	{
 		if ( txt[ 0u ] == cQuot )
@@ -60,13 +60,26 @@ Codes	xsDLL LoadHacks_Hex( Codes& old, TxtF& file, TxtF& temp, Hacks& data, bool
 				{
 					case 1: MakeTxt_Hex1( tmp, block ); break;
 				}
-				tmp.clear();
+				tmp.resize( 0 );
 			}
 			SaveHack_Hex( temp, data[ hi ], hi, oc, block );
 			block.Clear();
 		}
 		else
 			temp.AddLine( txt, wxTextFileType_Dos );
+	}
+	for ( hi = 1u; hi < hc; ++hi )
+	{
+		hp = data[ hi ].parent;
+		ht = data[ hp ].first;
+		if ( ht == 0xFFFFF )
+			data[ hp ].first = hi;
+		else
+		{
+			while ( data[ ht ].next != 0xFFFFF )
+				ht = data[ ht ].next;
+			data[ ht ].next = hi;
+		}
 	}
 	if ( !dOld && addObj && ho >= hc )
 		hc = ho + 1;

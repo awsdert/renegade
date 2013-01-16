@@ -5,8 +5,7 @@
 xsDLL BOOL CALLBACK mswEnumWin( HWND hWin, LPARAM ptr2hexdb )
 {
 	hexDB* db = reinterpret_cast< hexDB* >( ptr2hexdb );
-	bool show = db->showAllApps ? true : IsWindowVisible( hWin );
-	if ( !show )
+	if ( db->showAllApps || IsWindowVisible( hWin ) )
 		return TRUE;
 	LBox* lb = db->appsLB;
 	DWORD pid = 0u;

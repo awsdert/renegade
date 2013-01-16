@@ -1,7 +1,7 @@
 #include "hexDLL_global.hpp"
 
 #ifdef xsMSW
-int DllMain( HANDLE hMod, DWORD reason, LPVOID ignore )
+int WINAPI DllMain( HANDLE hMod, DWORD reason, LPVOID ignore )
 {
 	switch ( reason )
 	{
@@ -29,7 +29,11 @@ xsDLL bool LibGetX( size_t address, void* value, ui32 bytes )
 		for ( ui32 i = 0u; i < bytes; ++i )
 			{ v[ i ] = a[ i ]; }
 	}
-	catch ( void* any_error ) { return false; }
+	catch ( void* anyError )
+	{
+		anyError = NULL;
+		return false;
+	}
 	return true;
 }
 xsDLL bool LibSetX( size_t address, void* value, ui32 bytes )
@@ -41,7 +45,11 @@ xsDLL bool LibSetX( size_t address, void* value, ui32 bytes )
 		for ( ui32 i = 0u; i < bytes; ++i )
 			{ a[ i ] = v[ i ]; }
 	}
-	catch ( void* any_error ) { return false; }
+	catch ( void* anyError )
+	{
+		anyError = NULL;
+		return false;
+	}
 	return true;
 }
 xsDLL bool LibGetPtr( size_t address, size_t* ptr )

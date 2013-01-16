@@ -68,20 +68,14 @@ public:
 	Text name;
 };
 
-class xsDLL Bin : public Org
+class xsDLL Bin : public Org, public xsArray< Ram, 0x10 >
 {
-private:
-	ui16 m_count;
 public:
 	Bin( void );
 	Text name;
 	Text path;
 	ui08 type;
-	Ram  ram[ 16u ];
-	Ram& at( ui08 i );
-	ui16 size( void );
-	ui16 resize( ui16 count, bool clearAll = false );
-	Ram& operator[] ( ui08 i );
+	ui08 ramNo;
 };
 
 #define REGION_ALL	0xFFFFFFFF

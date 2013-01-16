@@ -67,11 +67,11 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DWX_PRECOMP" />
 			<Add option="-DHACKEREX2" />
-			<Add directory="$(#wx)/include" />
+			<Add directory="$(CPP_INC)" />
 			<Add directory="$(#wx)/contrib/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="$(#wx)/include" />
+			<Add directory="$(CPP_INC)" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-mthreads" />

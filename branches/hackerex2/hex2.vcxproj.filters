@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="hex2_wxFBv3.2.fbp" />
+    <None Include="bin\org\sony\ps2\default\Final-Fantasy-12\Final-Fantasy-12.hexcl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hex2_app.h">
@@ -28,6 +29,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hex2_wxFB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexDB_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

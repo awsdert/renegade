@@ -34,26 +34,10 @@ void Ram::clear( void )
 }
 Bin::Bin( void ) : Org()
 {
-	m_count = 1u;
+	ramNo = 0u;
+	type  = 0u;
+	resize( 1u );
 };
-Ram& Bin::at( ui08 i ) { return ram[ i ]; }
-ui16 Bin::size( void ) { return m_count; }
-ui16 Bin::resize( ui16 count, bool clearAll )
-{
-	ui16 i = clearAll ? 0u : count;
-	ui16 c = 16u;
-	if ( count == 0u )
-		count = 1u;
-	else if ( count > 16u )
-		count = 16u;
-	if ( !clearAll && count >= m_count )
-		c = 0u;
-	for ( ; i < c; ++i )
-		ram[ i ].clear();
-	m_count = count;
-	return count;
-}
-Ram& Bin::operator[]( ui08 i ) { return ram[ i ]; }
 Pfl::Pfl( void ) : Org()
 {
 	profile = 0u;

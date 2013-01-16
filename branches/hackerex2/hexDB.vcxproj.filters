@@ -60,9 +60,6 @@
     <ClCompile Include="hexG_hexDB_loadCodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hexIO_GetHexFromUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hexIO_GetHex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +70,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hex2_db.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexIO_GetHexFromUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexDB_useCodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -99,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hex2_db.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xsVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xsArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

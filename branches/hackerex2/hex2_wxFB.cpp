@@ -14,12 +14,14 @@
 HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxSize( -1,300 ), wxDefaultSize );
+	this->SetFont( wxFont( 8, 70, 90, 90, false, wxEmptyString ) );
 	
 	wxBoxSizer* HexGUI_LV;
 	HexGUI_LV = new wxBoxSizer( wxVERTICAL );
 	
 	HexGUI_TB = new wxToolBar( this, HexGUI_TB_ID, wxDefaultPosition, wxDefaultSize, wxTB_FLAT|wxTB_HORIZONTAL|wxTB_HORZ_TEXT|wxTB_TEXT );
 	HexGUI_TB->SetToolSeparation( 1 );
+	HexGUI_TB->SetFont( wxFont( 8, 70, 90, 90, false, wxEmptyString ) );
 	HexGUI_TB->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_MENU ) );
 	
 	HexGUI_TB->AddTool( HexMain_TT_ID, _("&Main"), wxNullBitmap, wxNullBitmap, wxITEM_RADIO, wxEmptyString, _("Display main list"), NULL ); 
@@ -38,14 +40,23 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	HexGUI_TB->AddTool( HexGet_TT_ID, _("&Restore"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, _("Restore to item in memory"), NULL ); 
 	
+	HexGUI_TB->AddTool( HexFont_TT_ID, _("&Text"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, _("Change Text Size"), _("Change Text Size"), NULL ); 
+	
+	HexFont_SPC = new wxSpinCtrl( HexGUI_TB, HexFont_SPC_ID, wxT("8"), wxDefaultPosition, wxSize( 40,-1 ), wxSP_ARROW_KEYS, 8, 16, 8 );
+	HexFont_SPC->SetMinSize( wxSize( 40,-1 ) );
+	
+	HexGUI_TB->AddControl( HexFont_SPC );
 	HexGUI_TB->Realize(); 
 	
 	HexGUI_LV->Add( HexGUI_TB, 0, wxEXPAND, 0 );
 	
 	HexQ_TB = new wxToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_FLAT|wxTB_HORIZONTAL|wxTB_NODIVIDER|wxTB_NOICONS|wxTB_TEXT ); 
+	HexQ_TB->SetFont( wxFont( 8, 70, 90, 90, false, wxEmptyString ) );
 	HexQ_TB->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_MENU ) );
 	HexQ_TB->Enable( false );
 	
+	HexProgress_PB = new wxGauge( HexQ_TB, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	HexQ_TB->AddControl( HexProgress_PB );
 	HexQ_TB->AddTool( HexQDump_TT_ID, _("D"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, _("Dump"), NULL ); 
 	
 	HexQ_TB->AddTool( HexQFind_TT_ID, _("S"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, _("Search"), NULL ); 
@@ -165,6 +176,25 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexEndian_LFH->Fit( HexEndian_P );
 	HexBody_LV->Add( HexEndian_P, 0, wxEXPAND | wxALL, 5 );
 	
+	HexHook_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexHook_P->Hide();
+	
+	wxStaticBoxSizer* HexHook_LFV;
+	HexHook_LFV = new wxStaticBoxSizer( new wxStaticBox( HexHook_P, wxID_ANY, _("Do") ), wxVERTICAL );
+	
+	wxString HexHook_DDChoices[] = { _("Once"), _("Every 500 Milliseconds"), _("Every Second"), _("Every 5 Seconds"), _("Every 30 Seconds"), _("Every Minute"), _("Every 5 Minutes"), _("Every 30 Minutes"), _("Every Hour") };
+	int HexHook_DDNChoices = sizeof( HexHook_DDChoices ) / sizeof( wxString );
+	HexHook_DD = new wxChoice( HexHook_P, HexHook_DD_ID, wxDefaultPosition, wxSize( -1,-1 ), HexHook_DDNChoices, HexHook_DDChoices, 0 );
+	HexHook_DD->SetSelection( 0 );
+	HexHook_DD->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexHook_LFV->Add( HexHook_DD, 0, wxALIGN_CENTER|wxALL|wxEXPAND, 5 );
+	
+	HexHook_P->SetSizer( HexHook_LFV );
+	HexHook_P->Layout();
+	HexHook_LFV->Fit( HexHook_P );
+	HexBody_LV->Add( HexHook_P, 0, wxEXPAND | wxALL, 5 );
+	
 	HexBin_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	HexBin_P->Hide();
 	HexBin_P->SetMinSize( wxSize( 100,-1 ) );
@@ -206,15 +236,15 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxGridSizer* HexBin_LG;
 	HexBin_LG = new wxGridSizer( 0, 2, 0, 0 );
 	
-	HexBinExec_B = new wxButton( HexBin_P, HexBinExec_B_ID, _("Launch"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexBinExec_B = new wxButton( HexBin_P, HexBinExec_B_ID, _("Launch"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
 	HexBinExec_B->SetMinSize( wxSize( 70,-1 ) );
 	
 	HexBin_LG->Add( HexBinExec_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	HexBinHack_B = new wxButton( HexBin_P, HexBinHack_B_ID, _("Hack"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexBinHack_B->SetMinSize( wxSize( 70,-1 ) );
+	HexBinKill_B = new wxButton( HexBin_P, HexBinKill_B_ID, _("Close"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	HexBinKill_B->SetMinSize( wxSize( 70,-1 ) );
 	
-	HexBin_LG->Add( HexBinHack_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	HexBin_LG->Add( HexBinKill_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	HexBin_LFV->Add( HexBin_LG, 0, wxEXPAND, 5 );
 	
@@ -378,6 +408,11 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	HexHck_LFV->Add( fgSizer8, 0, wxEXPAND, 5 );
 	
+	HexBinHack_B = new wxButton( HexHck_P, HexBinHack_B_ID, _("Hack"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	HexBinHack_B->SetMinSize( wxSize( 70,-1 ) );
+	
+	HexHck_LFV->Add( HexBinHack_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	
 	HexHck_P->SetSizer( HexHck_LFV );
 	HexHck_P->Layout();
 	HexHck_LFV->Fit( HexHck_P );
@@ -452,6 +487,7 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexBody_LV->Add( HexAddr_P, 0, wxEXPAND | wxALL, 5 );
 	
 	HexVal_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexVal_P->Hide();
 	HexVal_P->SetMinSize( wxSize( 100,-1 ) );
 	
 	wxStaticBoxSizer* HexVal_LFV;
@@ -750,6 +786,7 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( wxEVT_IDLE, wxIdleEventHandler( HexGUI::G_OnIdle ) );
 	this->Connect( HexMain_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Connect( HexList_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Connect( HexSave_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
@@ -757,7 +794,13 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Connect( HexDel_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Connect( HexSet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Connect( HexGet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
+	this->Connect( HexFont_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
+	HexFont_SPC->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HexGUI::HexFont_SPC_OnSpin ), NULL, this );
+	HexFont_SPC->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexFont_SPC_OnChange ), NULL, this );
 	HexState_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
+	HexBinExec_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinExec_B_OnClick ), NULL, this );
+	HexBinKill_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinKill_B_OnClick ), NULL, this );
+	HexBinHack_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
 	HexLoop_SPB->Connect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexLoop_SBC ), NULL, this );
 	HexVal_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_SPB->Connect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexVal_OnSpin ), NULL, this );
@@ -771,6 +814,7 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 HexGUI::~HexGUI()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( HexGUI::G_OnIdle ) );
 	this->Disconnect( HexMain_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Disconnect( HexList_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Disconnect( HexSave_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
@@ -778,7 +822,13 @@ HexGUI::~HexGUI()
 	this->Disconnect( HexDel_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Disconnect( HexSet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
 	this->Disconnect( HexGet_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
+	this->Disconnect( HexFont_TT_ID, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( HexGUI::HexGUI_TB_OnToolExec ) );
+	HexFont_SPC->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( HexGUI::HexFont_SPC_OnSpin ), NULL, this );
+	HexFont_SPC->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexFont_SPC_OnChange ), NULL, this );
 	HexState_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
+	HexBinExec_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinExec_B_OnClick ), NULL, this );
+	HexBinKill_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinKill_B_OnClick ), NULL, this );
+	HexBinHack_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
 	HexLoop_SPB->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexLoop_SBC ), NULL, this );
 	HexVal_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_SPB->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexVal_OnSpin ), NULL, this );

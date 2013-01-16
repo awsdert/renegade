@@ -1,6 +1,6 @@
-#ifndef HEXDB_HEXIO_H
-#define HEXDB_HEXIO_H
 #include "hex2_global.h"
+#ifndef HEXIO_H
+#define HEXIO_H
 // Hex Grabbing
 // Hex Types, DO NOT MODIFY ORDER
 enum

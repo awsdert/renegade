@@ -49,6 +49,7 @@ void G::ShowPanels()
 			HexPfl_P->Show();
 			break;
 		case HEX_LIST_HACK:
+			HexHook_P->Show();
 			HexHck_P->Show();
 			break;
 		case HEX_LIST_CODE:
@@ -98,6 +99,9 @@ void G::ShowData( hexDB& db )
 		case HEX_LIST_APP:
 		case HEX_LIST_WIN:
 			ShowBinD( db.bin );
+			break;
+		case HEX_LIST_RAM:
+			ShowRamD( db.bin[ db.bin.ramNo ] );
 			break;
 		case HEX_LIST_PFL:
 			ShowPflD( db.pfl );
@@ -264,13 +268,43 @@ void G::ShowCodeValue( wxTextCtrl* tbox, Code& obj, int v )
 {
 	Text txt;
 	ui64 v64 = 0u;
-	switch ( obj.bytes )
+	if ( obj.type == HEX_CT_LIST )
 	{
-		case 8u: v64 = *( reinterpret_cast< ui64* >( &( obj[ v ] ) ) ); break;
-		case 4u: v64 = *( reinterpret_cast< ui32* >( &( obj[ v ] ) ) ); break;
-		case 2u: v64 = *( reinterpret_cast< ui16* >( &( obj[ v ] ) ) ); break;
-		default: v64 = obj[ v ];
+		int j = 0, b = 0, k = (obj.bytes * 8), move = 0;
+		for ( int i = 0; i < 256; ++j )
+		{
+			if ( obj.bytes < 8u )
+			{
+				for ( b = 0; b < 8; ++i, b += obj.bytes )
+				{
+					if ( i == v )
+					{
+						v64 = obj[ j ];
+						break;
+					}
+				}
+			}
+			if ( i == v )
+				break;
+			else if ( obj.bytes == 8u )
+				++i;
+		}
+		if ( obj.bytes < 8u )
+		{
+			ui64 tmp = 0u;
+			switch ( obj.bytes )
+			{
+			case 4u: move = 32; tmp = 0xFFFFFFFFLL; break;
+			case 2u: move = 48; tmp = 0xFFFFLL; break;
+			case 1u: move = 56; tmp = 0xFFLL; break;
+			}
+			for ( j = 0; j < b; ++j )
+				move -= k;
+			v64 = GETHEX( v64, tmp, move );
+		}
 	}
+	else
+		v64 = obj[ v ];
 	switch ( obj.hex )
 	{
 	case HEX_TYPE_HEX:	txt.Printf( wxT("%01llX"), v64 ); break;

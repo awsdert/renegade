@@ -15,24 +15,24 @@ void Hack::clear( void )
 {
 	name	= _( "Hack" );
 	parent	= 0u;
+	first	= 0xFFFFF;
+	next	= 0xFFFFF;
 	info	= 0u;
 	line	= 0;
 }
 Hacks::Hacks()
 {
-	hackNow = 0;
-	hackOld = 0;
-	resize(1);
+	m_count = 0u;
+	clear();
 }
-int Hacks::find( Text name, ui16 parent )
+ui32 Hacks::find( Text name, ui32 parent )
 {
 	Hack obj;
-	int iEnd = size();
-	for ( int i = 0; i < iEnd; ++i )
+	for ( ui32 i = 0; i < m_count; ++i )
 	{
-		obj = at( i );
+		obj = m_data[ i ];
 		if ( parent == obj.parent && name == obj.name )
 			return i;
 	}
-	return -1;
+	return 0xFFFFFF;
 }

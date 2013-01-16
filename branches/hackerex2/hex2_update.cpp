@@ -69,32 +69,26 @@ void G::UpdateTheme( Text name, int size )
 		return;
 	if ( size < 0 || size > 48 )
 		size = 22;
-	int i;
+	int i = 0;
 	const int iCount = 7;
-	Text ico, theme = ( wxGetCwd() + xsDirUp + xsDirSep + wxT("themes") + xsDirSep + name + xsDirSep );
+	Text ico, theme = ( wxGetCwd() + xsDirSep + wxT("themes") + xsDirSep + name + xsDirSep );
 	wxImage img;
-	//img.AddHandler( new wxICOHandler );
 	img.AddHandler( new wxXPMHandler );
 	Text tha[ iCount ], ext = wxT(".xpm");
 	int  tia[ iCount ];
-	tha[  0 ] = wxT("manager");	tia[  0 ] = HexMain_TT_ID;
-	tha[  1 ] = wxT("db");		tia[  1 ] = HexList_TT_ID;
-	tha[  2 ] = wxT("save");	tia[  2 ] = HexSave_TT_ID;
-	/*/
-	tha[  4 ] = wxT("2uarrow");	tia[  4 ] = HexFirst_TT_ID;
-	tha[  5 ] = wxT("1darrow");	tia[  5 ] = HexNext_TT_ID;
-	tha[  6 ] = wxT("1uarrow");	tia[  6 ] = HexPrev_TT_ID;
-	tha[  7 ] = wxT("2darrow");	tia[  7 ] = HexLast_TT_ID;
-	tha[  8 ] = wxT("db_add");	tia[  8 ] = HexNew_TT_ID;
-	tha[  9 ] = wxT("db_del");	tia[  9 ] = HexDel_TT_ID;
-	tha[ 10 ] = wxT("db_get");	tia[ 10 ] = HexGet_TT_ID;
-	tha[ 11 ] = wxT("db_set");	tia[ 11 ] = HexSet_TT_ID;
-	* */
-	tha[  3 ] = wxT("db_add");	tia[  3 ] = HexNew_TT_ID;
-	tha[  4 ] = wxT("db_del");	tia[  4 ] = HexDel_TT_ID;
-	tha[  5 ] = wxT("db_get");	tia[  5 ] = HexGet_TT_ID;
-	tha[  6 ] = wxT("db_set");	tia[  6 ] = HexSet_TT_ID;
+	tia[   i ] = HexMain_TT_ID;	tha[ i ] = wxT("manager");
+	tia[ ++i ] = HexList_TT_ID;	tha[ i ] = wxT("db");
+	tia[ ++i ] = HexSave_TT_ID;	tha[ i ] = wxT("save");
+	/*
+	tia[ ++i ] = HexFirst_TT_ID;tha[ i ] = wxT("2uarrow");
+	tia[ ++i ] = HexNext_TT_ID;	tha[ i ] = wxT("1darrow");
+	tia[ ++i ] = HexPrev_TT_ID;	tha[ i ] = wxT("1uarrow");
+	tia[ ++i ] = HexLast_TT_ID;	tha[ i ] = wxT("2darrow");
 	//*/
+	tia[ ++i ] = HexNew_TT_ID;	tha[ i ] = wxT("db_add");
+	tia[ ++i ] = HexDel_TT_ID;	tha[ i ] = wxT("db_del");
+	tia[ ++i ] = HexGet_TT_ID;	tha[ i ] = wxT("db_get");
+	tia[ ++i ] = HexSet_TT_ID;	tha[ i ] = wxT("db_set");
 	for ( i = 0; i < iCount; ++i )
 	{
 		ico = theme + tha[ i ] + ext;

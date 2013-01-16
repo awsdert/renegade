@@ -2,9 +2,19 @@
 #include "hexG_db.h"
 hexDB::hexDB()
 {
+	ini = NULL;
+	killThreads = false;
 	showHacks	= true;
 	showAllApps	= true;
 	tmpCfg		= false;
+	m_hooked	= false;
+	m_addrSize	= sizeof( size_t );
+	switch ( m_addrSize )
+	{
+	case 8: m_moveAddr = 0; break;
+	case 4: m_moveAddr = 32u; break;
+	default: m_moveAddr = 64u; break;
+	}
 	tmpMode		= -1;
 	codeNo		= -1;
 	hacks.hackNow = -1;
@@ -69,27 +79,27 @@ Text hexDB::getNowN( int inMode )
 	}
 	return getDefN( inMode, true );
 }
-Text hexDB::getDir( void )
+Text hexDB::m_getDir( void )
 {
 	Text path = nowP[ HEX_LIST_HACK ] + wxT("_files");
 	if ( !path.IsEmpty() && !wxDirExists( path ) )
 		wxMkdir( path );
 	return path;
 }
-Text hexDB::getPath( ui32 c )
+Text hexDB::m_getPath( ui32 h )
 {
-	Text path = getDir(), name;
-	if ( c < 256u )
-		name.Printf( wxT("%04X.bin"), c );
+	Text path = m_getDir(), name;
+	if ( h <= 0xFFFF )
+		name.Printf( wxT("%04X.bin"), h );
 	else
 		name = wxT("temp.bin");
 	path += xsDirSep + name;
 	return path;
 }
 
-void hexDB::setCodes( void )
+void hexDB::m_setCodes( void )
 {
-	Text path = getPath( hacks.hackOld );
+	Text path = m_getPath( hacks.hackOld );
 	BinF file;
 	ui32 i = 0u, iEnd = codes.size();
 	size_t bytes = 2100;
@@ -98,44 +108,47 @@ void hexDB::setCodes( void )
 	file.Open( path, file.write_append );
 	for ( ; i < iEnd; ++i )
 	{
-		setCode( codes[ i ], data );
+		m_setCode( codes[ i ], data );
 		file.Write( data, bytes );
 	}
 	file.Close();
 	delete [] data;
 }
-void hexDB::getCodes( ui32 c, bool internBool )
+void hexDB::m_getCodes( Codes& obj, ui32 h, bool insideCall )
 {
-	setCodes();
-	Text path = getPath( c );
+	Text path = m_getPath( h );
 	BinF file;
-	if ( !file.Exists( path ) && !internBool )
+	if ( !file.Exists( path ) && h != 0xFFFFF && !insideCall )
 		loadCodes();
-	codes.clear();
 	if ( !file.Exists( path ) )
 		return;
 	file.Open( path );
 	size_t bytes = 2100;
 	ui32 i = 0u, iEnd = file.Length() / bytes;
-	codes.resize( iEnd );
+	obj.resize( iEnd );
 	ui08* data = new ui08[ bytes ];
 	for ( ; i < iEnd; ++i )
 	{
 		file.Read( data, bytes );
-		getCode( codes[ i ], data );
+		m_getCode( obj[ i ], data );
 	}
-	hacks.hackNow = c;
 	delete data;
 }
-void hexDB::setCode( Code& obj, ui08* data )
+void hexDB::getCodes( ui32 hackIndex )
 {
-	int i = 0, j;
-	for ( ; i < 2040; ++i )
-		data[ i ] = obj.data[ i ];
-	for ( j = 0; j < 2; ++j, i += 8 )
+	m_setCodes();
+	m_getCodes( codes, hackIndex, false );
+	hacks.hackNow = hackIndex;
+}
+void hexDB::m_setCode( Code& obj, ui08* data )
+{
+	int i = 0, j = 0;
+	for ( ; j < 256; i += 8, ++j )
+		*( reinterpret_cast< ui64* >( &( data[ i ] ) ) ) = obj[ j ];
+	for ( j = 0; j < 2; i += 8, ++j )
 		*( reinterpret_cast< ui64* >( &( data[ i ] ) ) ) = obj.addr[ j ];
-	ui16 v16[ 3 ] = { obj.info, obj.loop, obj.size() };
-	for ( j = 0; j < 3; ++j, i += 2 )
+	ui16 v16[ 2 ] = { obj.info, obj.loop };
+	for ( j = 0; j < 2; i += 2, ++j )
 		*( reinterpret_cast< ui16* >( &( data[ i ] ) ) ) = v16[ j ];
 	data[ i ]	= obj.type;
 	data[ ++i ]	= obj.bytes;
@@ -144,13 +157,15 @@ void hexDB::setCode( Code& obj, ui08* data )
 	data[ ++i ]	= obj.mode;
 	data[ ++i ]	= obj.hex;
 }
-void hexDB::getCode( Code& obj, ui08* data )
+void hexDB::m_getCode( Code& obj, ui08* data )
 {
-	int i = 2040, j;
-	for ( j = 0; j < 2; ++j, i += 8 )
+	int i = 0, j = 0;
+	for ( ; j < 256; i += 8, ++j )
+		obj[ j ] = *( reinterpret_cast< ui64* >( &( data[ i ] ) ) );
+	for ( j = 0; j < 2; i += 8, ++j )
 		obj.addr[ j ] = *( reinterpret_cast< ui64* >( &( data[ i ] ) ) );
-	ui16 v16[ 3 ];
-	for ( j = 0; j < 3; ++j, i += 2 )
+	ui16 v16[ 2 ];
+	for ( j = 0; j < 2; i += 2, ++j )
 		v16[ j ]	  = *( reinterpret_cast< ui16* >( &( data[ i ] ) ) );
 	obj.type	= data[ i ];
 	obj.bytes	= data[ ++i ];
@@ -160,7 +175,4 @@ void hexDB::getCode( Code& obj, ui08* data )
 	obj.hex		= data[ ++i ];
 	obj.info	= v16[ 0 ];
 	obj.loop	= v16[ 1 ];
-	obj.resize( v16[ 2 ] );
-	for ( i = 0; i < 2040; ++i )
-		obj.data[ i ] = data[ i ];
 }

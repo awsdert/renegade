@@ -46,7 +46,8 @@ void G::LoadBinD( Bin& obj, TxtF& file, bool isTmpFile )
 	const Text Data		= wxT("data");
 	const Text app		= wxT("app");
 	const Text win		= wxT("win");
-	obj.resize( 1u, true );
+	obj.resize( 0u );
+	obj.resize( 1u );
 	txt		= file.GetLine( file.GetCurrentLine() );
 	oldN	= txt.SubString( 1, txt.Length() - 2 );
 	for ( txt = file.GetNextLine(); !file.Eof(); txt = file.GetNextLine() )
@@ -102,6 +103,9 @@ void G::LoadBinD( Bin& obj, TxtF& file, bool isTmpFile )
 			}
 		}
 	}
+	txt = obj.name;
+	if ( !osDotExe.IsEmpty() && txt.EndsWith( osDotExe ) )
+		obj.name = txt.Left( txt.Length() - osDotExe.Length() );
 	obj.nameNow = nowN;
 	obj.nameOld = oldN;
 	obj.fileNow = nowF;

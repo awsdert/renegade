@@ -15,11 +15,13 @@
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
+#include <wx/spinctrl.h>
 #include <wx/gdicmn.h>
-#include <wx/toolbar.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/toolbar.h>
+#include <wx/gauge.h>
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
@@ -34,7 +36,6 @@
 #include <wx/spinbutt.h>
 #include <wx/gbsizer.h>
 #include <wx/slider.h>
-#include <wx/spinctrl.h>
 #include <wx/scrolwin.h>
 #include <wx/treectrl.h>
 #include <wx/statline.h>
@@ -63,6 +64,8 @@ class HexGUI : public wxFrame
 			HexDel_TT_ID,
 			HexSet_TT_ID,
 			HexGet_TT_ID,
+			HexFont_TT_ID,
+			HexFont_SPC_ID,
 			HexQDump_TT_ID,
 			HexQFind_TT_ID,
 			HexQUndo_TT_ID,
@@ -78,10 +81,11 @@ class HexGUI : public wxFrame
 			HexName_TXT_ID,
 			HexState_B_ID,
 			HexFile_TXT_ID,
+			HexHook_DD_ID,
 			HexBinBind_TXT_ID,
 			HexBinPath_TXT_ID,
 			HexBinExec_B_ID,
-			HexBinHack_B_ID,
+			HexBinKill_B_ID,
 			HexRam_LB_ID,
 			HexRamSize_TXT_ID,
 			HexPID_TXT_ID,
@@ -94,6 +98,7 @@ class HexGUI : public wxFrame
 			HexUse_RB_ID,
 			HexUse_CB_ID,
 			HexHackKids_DD_ID,
+			HexBinHack_B_ID,
 			HexCType_DD_ID,
 			HexLoop_TXT_ID,
 			HexAddr_TXT_ID,
@@ -110,7 +115,9 @@ class HexGUI : public wxFrame
 		};
 		
 		wxToolBar* HexGUI_TB;
+		wxSpinCtrl* HexFont_SPC;
 		wxToolBar* HexQ_TB;
+		wxGauge* HexProgress_PB;
 		wxSplitterWindow* HexGUI_SP;
 		wxScrolledWindow* HexBody_SW;
 		wxPanel* HexName_P;
@@ -126,6 +133,8 @@ class HexGUI : public wxFrame
 		wxTextCtrl* HexFile_TXT;
 		wxPanel* HexEndian_P;
 		wxChoice* HexEndian_DD;
+		wxPanel* HexHook_P;
+		wxChoice* HexHook_DD;
 		wxPanel* HexBin_P;
 		wxStaticText* HexBinBind_S;
 		wxTextCtrl* HexBinBind_TXT;
@@ -135,7 +144,7 @@ class HexGUI : public wxFrame
 		wxRadioButton* HexBinWin_RB;
 		wxRadioButton* HexBinFSO_RB;
 		wxButton* HexBinExec_B;
-		wxButton* HexBinHack_B;
+		wxButton* HexBinKill_B;
 		wxPanel* HexRam_P;
 		wxListBox* HexRam_LB;
 		wxPanel* HexRamData_P;
@@ -158,6 +167,7 @@ class HexGUI : public wxFrame
 		wxCheckBox* HexUse_CB;
 		wxStaticText* HexHackKids_S;
 		wxChoice* HexHackKids_DD;
+		wxButton* HexBinHack_B;
 		wxPanel* HexCode_P;
 		wxStaticText* HexCType_S;
 		wxChoice* HexCType_DD;
@@ -218,8 +228,14 @@ class HexGUI : public wxFrame
 		wxStatusBar* HexGUI_ST;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void G_OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void HexGUI_TB_OnToolExec( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexFont_SPC_OnSpin( wxSpinEvent& event ) { event.Skip(); }
+		virtual void HexFont_SPC_OnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexState_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexBinExec_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexBinKill_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexBinHack_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexLoop_SBC( wxSpinEvent& event ) { event.Skip(); }
 		virtual void HexVal_OnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexVal_OnSpin( wxSpinEvent& event ) { event.Skip(); }
@@ -230,7 +246,7 @@ class HexGUI : public wxFrame
 	
 	public:
 		
-		HexGUI( wxWindow* parent, wxWindowID id = HexGUI_ID, const wxString& title = _("HackerEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 678,613 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		HexGUI( wxWindow* parent, wxWindowID id = HexGUI_ID, const wxString& title = _("HackerEX"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 740,613 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~HexGUI();
 		

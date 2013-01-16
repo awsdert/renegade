@@ -1,34 +1,31 @@
 #include "wx_pch.h"
 #include "hexDB_main.h"
-void Listhacks( TrCO* tree, Hacks& data, int i )
+void Listhacks( TrCO* tree, Hacks& data, ui32 i, ui32& iEnd )
 {
 	Hack hObj = data[ i ], pObj = data[ hObj.parent ];
-	if ( !pObj.item.IsOk() )
-		Listhacks( tree, data, hObj.parent );
 	pObj = data[ hObj.parent ];
 	hObj.item	= tree->AppendItem( pObj.item, hObj.name );
 	tree->SetItemData( hObj.item, new TrID( i ) );
 	data[ i ]	= hObj;
+	for ( i = hObj.first; i < iEnd; i = data[ i ].next )
+		Listhacks( tree, data, i, iEnd );
 }
 void xsDLL ListHacks( TrCO* tree, Hacks& data )
 {
-	tree->DeleteAllItems();
-	TrId rItem = tree->AppendItem( tree->GetRootItem(), wxT("(m)") );
-	data[ 0 ].item = rItem;
-	tree->SetItemData( rItem, new TrID( 0 ) );
-	int iEnd = data.size();
-	for ( int i = 1; i < iEnd; ++i )
-	{
-		if ( !data[i].item.IsOk() )
-			Listhacks( tree, data, i );
-	}
-	tree->Expand( rItem );
+	ui32 i = 0u, iEnd = data.size();
+	tree->DeleteAllItems(); Hack pObj = data[ i ];
+	pObj.item = tree->AppendItem( tree->GetRootItem(), wxT("(m)") );
+	data[ i ] = pObj;
+	tree->SetItemData( pObj.item, new TrID( 0 ) );
+	for ( ui32 i = pObj.first; i < iEnd; i = data[ i ].next )
+		Listhacks( tree, data, i, iEnd );
+	tree->Expand( pObj.item );
 }
-void Listcodes( TrCO* tree, Codes& data, Code& obj, int& i, int iEnd )
+void Listcodes( TrCO* tree, Codes& data, Code& obj, int i, int iEnd )
 {
 	Code now;
 	Text txt;
-	for ( ++i; i < iEnd; ++i )
+	for ( ; i < iEnd; ++i )
 	{
 		now = data[ i ];
 		switch ( now.type )
@@ -45,25 +42,27 @@ void Listcodes( TrCO* tree, Codes& data, Code& obj, int& i, int iEnd )
 		tree->SetItemData( now.item, new TrID( i ) );
 		data[ i ] = now;
 		if ( now.type == HEX_CT_TEST )
-			Listcodes( tree, data, now, i, i + now.loop );
+		{
+			Listcodes( tree, data, now, i + 1, ( ( i + now.loop ) < iEnd ) ? ( i + now.loop ) : iEnd );
+			i += now.loop;
+		}
 	}
-	--i;
 }
 void xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& data, int format, int listCode, bool relist )
 {
 	int i = -1;
 	Code obj;
+	int cEnd = data.size();
 	if ( relist )
 	{
 		tree->DeleteAllItems();
 		TrId rItem = tree->AppendItem( tree->GetRootItem(), _("(Codes)") );
 		tree->SetItemData( rItem, new TrID( i ) );
 		obj.item = rItem;
-		Listcodes( tree, data, obj, i, data.size() );
+		Listcodes( tree, data, obj, 0, cEnd );
 		tree->Expand( rItem );
 	}
 	lbox->Clear();
-	int cEnd = data.size();
 	if ( listCode >= 0 && listCode < cEnd )
 	{
 		TxtA block;
