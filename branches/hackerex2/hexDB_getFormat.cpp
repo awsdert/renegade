@@ -10,7 +10,7 @@ void setFormats( void )
 	l_formats[ HL_SONY_PS2_ARMAX_RAW ] = wxT("SONY_PS2_ARMAX_RAW");
 	l_setFormats = true;
 }
-Text xsDLL getFormatName( int	format )
+xsDLL Text	getFormatName( int	format )
 {
 	if ( !l_setFormats )
 		setFormats();
@@ -18,7 +18,7 @@ Text xsDLL getFormatName( int	format )
 		format = HL_HEX1;
 	return l_formats[ format ];
 }
-int  xsDLL getFormat( Text	name )
+xsDLL int	getFormat( Text	name )
 {
 	if ( !l_setFormats )
 		setFormats();
@@ -28,4 +28,10 @@ int  xsDLL getFormat( Text	name )
 			return i;
 	}
 	return -1;
+}
+xsDLL TxtA	getFormats( void )
+{
+	if ( !l_setFormats )
+		setFormats();
+	return l_formats;
 }

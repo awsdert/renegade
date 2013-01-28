@@ -1,25 +1,25 @@
 #include "wx_pch.h"
 #include "hexG_db.h"
-void hexDB::loadCodes( void )
+void hexDB::loadCodes( Text path, Hacks& hData, Codes& cData )
 {
-	Text path = m_getDir(), name, txt;
-	wxRmDir( path );
-	wxMkDir( path );
+	Text name, txt, text;
 	TxtF tFile;
 	TxtA block;
-	tFile.Open( nowP[ HEX_LIST_HACK ] );
+	tFile.Open( path );
+	path += wxT("_file~");
+	wxRmDir( path );
+	wxMkDir( path );
 	BinF bFile;
 	ui32 hi, hc = 0u, hp, ht;
 	ui16 cc, ci;
 	bool gotHack = false;
 	Hack hack;
-	size_t bytes = 2100;
-	ui08* data = new ui08[ bytes ], pc, pcNext = 20;
-	hacks.clear();
-	hacks.resize( 0xFFFF );
-	codes.clear();
-	hacks.hackNow = 0;
-	hacks.hackOld = 0;
+	ui08* data = new ui08[ m_codeBytes ], pc, pcNext = 20;
+	hData.resize( 0, Hack() );
+	hData.resize( 0xFFFF );
+	cData.resize( 0, Code() );
+	hData.hackNow = 0;
+	hData.hackOld = 0;
 	codeNo = 0;
 	pb->SetValue( 0 );
 	bool isQuot = false;
@@ -34,7 +34,11 @@ void hexDB::loadCodes( void )
 			{
 				gotHack = isQuot;
 				if ( gotHack )
+				{
 					LoadHack_Hex( tFile, hack, hi, cc, block );
+					cData.resize( cc );
+					MakeObj_Hex1( cData, block );
+				}
 				break;
 			}
 			default: gotHack = false;
@@ -50,42 +54,41 @@ void hexDB::loadCodes( void )
 		{
 			if ( hi >= hc )
 				hc = hi + 1u;
-			hacks[ hi ] = hack;
+			hack.used = true;
+			hData[ hi ] = hack;
 			name.Printf( wxT("%04X.bin"), hi );
-			codes.resize( cc );
-			switch ( format.format )
-			{
-			case HL_HEX1: MakeObj_Hex1( codes, block ); break;
-			}
+			block.Clear();
 			txt = path + xsDirSep + name;
 			bFile.Create( txt, true );
-			bFile.Open( txt, bFile.write_append );
-			cc = codes.size();
+			bFile.Open( txt, bFile.read_write );
+			cc = cData.size();
 			for ( ci = 0u; ci < cc; ++ci )
 			{
-				m_setCode( codes[ ci ], data );
-				bFile.Write( data, bytes );
+				m_setCode( cData[ ci ], data );
+				bFile.Write( data, m_codeBytes );
 			}
-			if ( !bFile.Close() )
-				break;
-			block.Clear();
+			hack.used = false;
+			bFile.Close();
+			cData.resize( 0 );
 		}
 	}
+	delete [] data;
 	for ( hi = 1u; hi < hc; ++hi )
 	{
-		hp = hacks[ hi ].parent;
-		ht = hacks[ hp ].first;
+		hp = hData[ hi ].parent;
+		ht = hData[ hp ].first;
 		if ( ht == 0xFFFFF )
-			hacks[ hp ].first = hi;
+			hData[ hp ].first = hi;
 		else
 		{
-			while ( hacks[ ht ].next != 0xFFFFF )
-				ht = hacks[ ht ].next;
-			hacks[ ht ].next = hi;
+			while ( hData[ ht ].next != 0xFFFFF )
+				ht = hData[ ht ].next;
+			hData[ ht ].next = hi;
 		}
 	}
 	pb->SetValue( 100 );
-	hacks.resize( hc );
-	m_getCodes( codes, 0u, true);
-	delete [] data;
+	hData.resize( hc );
+	hData.hackNow = 0;
+	hData.hackOld = 0;
+	m_getCodes( cData, 0u, true );
 }

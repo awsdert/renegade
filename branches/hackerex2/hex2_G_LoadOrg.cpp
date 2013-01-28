@@ -1,6 +1,8 @@
 #include "wx_pch.h"
-#include "hex2_G.h"
-Org  G::LoadOrgs( Org& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
+#include "hex2_db.h"
+void LoadOrgD( Org& obj, Text& key, Text& val, bool isTmpFile );
+void SaveOrgD( Org& obj, CfgF& file, bool isTmpFile );
+xsDLL Org	LoadOrgs( Org& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
 {
 	Text key, val;
 	const Text Def	= getGlobalName();
@@ -36,7 +38,7 @@ Org  G::LoadOrgs( Org& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool 
 	}
 	return now;
 }
-void G::LoadOrgD( Org& obj, Text& key, Text& val, bool isTmpFile )
+void LoadOrgD( Org& obj, Text& key, Text& val, bool isTmpFile )
 {
 	TxtT tzr;
 	Text oldN = key, oldF, nowN, nowF;
@@ -57,7 +59,7 @@ void G::LoadOrgD( Org& obj, Text& key, Text& val, bool isTmpFile )
 	obj.nameNow = nowN;
 	obj.fileNow = nowF;
 }
-void G::SaveOrgD( Org& obj, CfgF& file, bool isTmpFile )
+void SaveOrgD( Org& obj, CfgF& file, bool isTmpFile )
 {
 	Text txt = obj.fileOld;
 	if ( isTmpFile )

@@ -4,16 +4,13 @@
 	if ( l >= lEnd ) \
 		return; \
 	txt		= block[ l ]; \
-	prt1	= txt.Left( 8 ); \
-	prt2	= txt.Right( 8 ); \
-	line	= prt1 + prt2; \
-	GetHex( &hex, line, 8u ); \
+	GetHex( &hex, txt.Left( 8 ) + txt.Right( 8 ), 8u ); \
 	pt1 = ( hex >> 32u ); \
 	pt2 = ( hex & xsF8LL ); \
 	++l
 void Makeobj_Hex1( Code& obj, TxtA& block, int& l, int& lEnd )
 {
-	Text txt, line, prt1, prt2;
+	Text txt;
 	ui64 hex;
 	ui32 pt1, pt2;
 	ui08 dataSize;
@@ -29,30 +26,38 @@ void Makeobj_Hex1( Code& obj, TxtA& block, int& l, int& lEnd )
 	bool isCopy = ( obj.type == HEX_CT_COPY );
 	bool isTest = ( obj.type == HEX_CT_TEST );
 	bool isInc = ( !isList && !isTest && !isCopy && obj.loop > 0u );
-	bool dataBig = ( ( dataSize & 0x3 ) == 0x3 );
-	bool addrBig = ( isList || ( dataSize & 0x8 ) == 0x8 || dataBig );
+	bool dataBig = false;
+	bool addrBig = ( isList || ( dataSize & 0x8 ) == 0x8 );
 	if ( isCopy )
-	{
-		dataSize = addrBig ? 8u : 4u;
 		dataBig = addrBig;
-	}
-	else
+	if ( isInc && ( dataSize & 0x4 ) == 0x4 )
+		isInc = false;
+	dataSize &= 0x3;
+	switch ( dataSize )
 	{
-		dataSize &= 0x3;
-		switch ( dataSize )
-		{
-			case 3u: dataSize = 8u; break;
-			case 2u: dataSize = 4u; break;
-			case 1u: dataSize = 2u; break;
-			default: dataSize = 1u;
-		}
+		case 3u:
+			dataSize = 8u;
+			dataBig = true;
+			addrBig = true;
+			break;
+		case 2u: dataSize = 4u; break;
+		case 1u: dataSize = 2u; break;
+		default: dataSize = 1u;
 	}
 	obj.bytes = dataSize;
 	L_MO_HEX_GETPARTS;
+	obj.resize( 2, 0u );
 	if ( isList )
 	{
 		obj.addr[ 0 ] = hex;
 		int v = 0, vEnd = obj.info, vAdd = (8u / dataSize), b = 0;
+		while ( v < vEnd )
+		{
+			v += vAdd;
+			++b;
+		}
+		obj.resize( b, 0uLL );
+		v = 0; b = 0;
 		while ( v < vEnd )
 		{
 			L_MO_HEX_GETPARTS;
@@ -66,13 +71,11 @@ void Makeobj_Hex1( Code& obj, TxtA& block, int& l, int& lEnd )
 		obj.addr[ 0 ] = hex;
 		L_MO_HEX_GETPARTS;
 		obj[ 0 ] = hex;
-		if ( !isInc )
+		if ( isInc )
 		{
 			L_MO_HEX_GETPARTS;
 			obj[1] = hex;
 		}
-		else
-			obj[1] = 0u;
 	}
 	else if ( addrBig )
 	{

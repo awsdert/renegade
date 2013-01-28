@@ -15,11 +15,11 @@ void hexDB::m_saveCodes( ui08* data, Text& path, TxtA& block, TxtF& file, ui32& 
 			temp.Open( path + xsDirSep + name );
 			if ( !temp.IsOpened() )
 				continue;
-			cEnd = temp.Length() / 2100;
+			cEnd = (temp.Length() / m_codeBytes);
 			codes.resize( cEnd );
 			for ( c = 0u; c < cEnd; ++c )
 			{
-				temp.Read( data, 2100 );
+				temp.Read( data, m_codeBytes );
 				m_getCode( codes[ c ], data );
 			}
 			temp.Close();
@@ -46,7 +46,7 @@ void hexDB::saveCodes( bool addObj )
 	if ( addObj )
 		m_setCodes();
 	ui32 hEnd = hacks.size();
-	ui08* data = new ui08[ 2100 ];
+	ui08* data = new ui08[ m_codeBytes ];
 	TxtA block;
 	m_saveCodes( data, path, block, file, hEnd, 0u );
 	delete [] data;

@@ -206,4 +206,4 @@ bool xsDLL GetHexFromSF_IEEE754( void* to, Text  from, ui08 tSize )
 	delete [] dbv;
 	return r;
 }
-bool xsDLL GetTxtFromSF_IEEE754( Text& to, void* from, ui08 fSize ) { return false; }
+void xsDLL GetTxtFromSF_IEEE754( Text& to, void* from, ui08 fSize ) {}

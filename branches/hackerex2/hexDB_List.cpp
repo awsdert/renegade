@@ -48,27 +48,28 @@ void Listcodes( TrCO* tree, Codes& data, Code& obj, int i, int iEnd )
 		}
 	}
 }
-void xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& data, int format, int listCode, bool relist )
+void xsDLL ListCodes( TrCO* tree, LBox* lbox, Codes& data, int format, int listCode )
 {
-	int i = -1;
+	int c = listCode;
 	Code obj;
 	int cEnd = data.size();
-	if ( relist )
+	if ( c < 0 )
 	{
+		c = 0;
 		tree->DeleteAllItems();
 		TrId rItem = tree->AppendItem( tree->GetRootItem(), _("(Codes)") );
-		tree->SetItemData( rItem, new TrID( i ) );
+		tree->SetItemData( rItem, new TrID( c ) );
 		obj.item = rItem;
-		Listcodes( tree, data, obj, 0, cEnd );
+		Listcodes( tree, data, obj, c, cEnd );
 		tree->Expand( rItem );
 	}
 	lbox->Clear();
-	if ( listCode >= 0 && listCode < cEnd )
+	if ( c < cEnd )
 	{
 		TxtA block;
 		switch ( format )
 		{
-			case HL_HEX1: Maketxt_Hex1( data[ listCode ], block ); break;
+			case HL_HEX1: Maketxt_Hex1( data[ c ], block ); break;
 		}
 		lbox->Append( block );
 	}

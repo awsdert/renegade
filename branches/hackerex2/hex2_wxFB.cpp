@@ -374,49 +374,52 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexPfl_LFV->Fit( HexPfl_P );
 	HexBody_LV->Add( HexPfl_P, 0, wxEXPAND | wxALL, 5 );
 	
-	HexHck_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	HexHck_P->Hide();
+	HexFormat_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexFormat_P->Hide();
 	
-	wxStaticBoxSizer* HexHck_LFV;
-	HexHck_LFV = new wxStaticBoxSizer( new wxStaticBox( HexHck_P, wxID_ANY, _("Hack") ), wxVERTICAL );
+	wxStaticBoxSizer* HexFormat_LFV;
+	HexFormat_LFV = new wxStaticBoxSizer( new wxStaticBox( HexFormat_P, wxID_ANY, _("Format") ), wxVERTICAL );
 	
-	HexUse_RB = new wxRadioButton( HexHck_P, HexUse_RB_ID, _("Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexUse_RB->Hide();
+	wxBoxSizer* bSizer8;
+	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
 	
-	HexHck_LFV->Add( HexUse_RB, 0, wxALL, 5 );
+	HexExt_S = new wxStaticText( HexFormat_P, wxID_ANY, _("Ext"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexExt_S->Wrap( -1 );
+	bSizer8->Add( HexExt_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	HexUse_CB = new wxCheckBox( HexHck_P, HexUse_CB_ID, _("Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexHck_LFV->Add( HexUse_CB, 0, wxALL, 5 );
+	HexExt_TXT = new wxTextCtrl( HexFormat_P, HexExt_TXT_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer8->Add( HexExt_TXT, 1, wxALL, 5 );
 	
-	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer8->AddGrowableCol( 1 );
-	fgSizer8->SetFlexibleDirection( wxBOTH );
-	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	HexFormat_LFV->Add( bSizer8, 0, wxEXPAND, 5 );
 	
-	HexHackKids_S = new wxStaticText( HexHck_P, wxID_ANY, _("Can Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexHackKids_S->Wrap( -1 );
-	fgSizer8->Add( HexHackKids_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	wxGridSizer* HexFormat_LG;
+	HexFormat_LG = new wxGridSizer( 0, 2, 0, 0 );
 	
-	wxString HexHackKids_DDChoices[] = { _("One Child"), _("All Children") };
-	int HexHackKids_DDNChoices = sizeof( HexHackKids_DDChoices ) / sizeof( wxString );
-	HexHackKids_DD = new wxChoice( HexHck_P, HexHackKids_DD_ID, wxDefaultPosition, wxSize( 50,-1 ), HexHackKids_DDNChoices, HexHackKids_DDChoices, 0 );
-	HexHackKids_DD->SetSelection( 1 );
-	HexHackKids_DD->SetMinSize( wxSize( 50,-1 ) );
+	HexFAdd_B = new wxButton( HexFormat_P, HexFAdd_B_ID, _("Add Format"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexFormat_LG->Add( HexFAdd_B, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
-	fgSizer8->Add( HexHackKids_DD, 0, wxALL|wxEXPAND, 5 );
+	HexFLine_HR = new wxStaticLine( HexFormat_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	HexFLine_HR->Hide();
 	
-	HexHck_LFV->Add( fgSizer8, 0, wxEXPAND, 5 );
+	HexFormat_LG->Add( HexFLine_HR, 0, wxEXPAND | wxALL, 5 );
 	
-	HexBinHack_B = new wxButton( HexHck_P, HexBinHack_B_ID, _("Hack"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
-	HexBinHack_B->SetMinSize( wxSize( 70,-1 ) );
+	HexConvert_B = new wxButton( HexFormat_P, HexConvert_B_ID, _("Convert to"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexFormat_LG->Add( HexConvert_B, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
-	HexHck_LFV->Add( HexBinHack_B, 0, wxALIGN_CENTER|wxALL, 5 );
+	HexMerge_B = new wxButton( HexFormat_P, HexMerge_B_ID, _("Merge with"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexFormat_LG->Add( HexMerge_B, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
-	HexHck_P->SetSizer( HexHck_LFV );
-	HexHck_P->Layout();
-	HexHck_LFV->Fit( HexHck_P );
-	HexBody_LV->Add( HexHck_P, 0, wxEXPAND | wxALL, 5 );
+	HexFormat_LFV->Add( HexFormat_LG, 0, wxEXPAND, 5 );
+	
+	HexFormat_LB = new wxListBox( HexFormat_P, wxID_ANY, wxDefaultPosition, wxSize( 100,-1 ), 0, NULL, 0 ); 
+	HexFormat_LB->SetMinSize( wxSize( 100,-1 ) );
+	
+	HexFormat_LFV->Add( HexFormat_LB, 1, wxALL|wxEXPAND, 5 );
+	
+	HexFormat_P->SetSizer( HexFormat_LFV );
+	HexFormat_P->Layout();
+	HexFormat_LFV->Fit( HexFormat_P );
+	HexBody_LV->Add( HexFormat_P, 1, wxEXPAND | wxALL, 5 );
 	
 	HexCode_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	HexCode_P->Hide();
@@ -461,109 +464,49 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexCode_LFV->Fit( HexCode_P );
 	HexBody_LV->Add( HexCode_P, 0, wxEXPAND | wxALL, 5 );
 	
-	HexAddr_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	HexAddr_P->Hide();
+	HexHck_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexHck_P->Hide();
 	
-	wxStaticBoxSizer* HexAddr_LFV;
-	HexAddr_LFV = new wxStaticBoxSizer( new wxStaticBox( HexAddr_P, wxID_ANY, _("Address / Pointer") ), wxVERTICAL );
+	wxStaticBoxSizer* HexHck_LFV;
+	HexHck_LFV = new wxStaticBoxSizer( new wxStaticBox( HexHck_P, wxID_ANY, _("Hack") ), wxVERTICAL );
 	
-	HexAddr_TXT = new wxTextCtrl( HexAddr_P, HexAddr_TXT_ID, _("0"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
-	HexAddr_TXT->SetMinSize( wxSize( 100,-1 ) );
+	HexUse_RB = new wxRadioButton( HexHck_P, HexUse_RB_ID, _("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexUse_RB->Hide();
 	
-	HexAddr_LFV->Add( HexAddr_TXT, 0, wxALL|wxEXPAND, 5 );
+	HexHck_LFV->Add( HexUse_RB, 0, wxALL, 5 );
 	
-	HexDepth_S = new wxStaticText( HexAddr_P, wxID_ANY, _("Pointer Depth"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexDepth_S->Wrap( -1 );
-	HexAddr_LFV->Add( HexDepth_S, 0, wxALL, 5 );
+	HexUse_CB = new wxCheckBox( HexHck_P, HexUse_CB_ID, _("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexHck_LFV->Add( HexUse_CB, 0, wxALL, 5 );
 	
-	HexDepth_SL = new wxSlider( HexAddr_P, wxID_ANY, 0, 0, 15, wxDefaultPosition, wxDefaultSize, wxSL_AUTOTICKS|wxSL_BOTTOM|wxSL_HORIZONTAL|wxSL_LABELS );
-	HexDepth_SL->SetMinSize( wxSize( 100,-1 ) );
+	wxFlexGridSizer* fgSizer8;
+	fgSizer8 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer8->AddGrowableCol( 1 );
+	fgSizer8->SetFlexibleDirection( wxBOTH );
+	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	HexAddr_LFV->Add( HexDepth_SL, 0, wxALL|wxEXPAND, 5 );
+	HexHackKids_S = new wxStaticText( HexHck_P, wxID_ANY, _("Can Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexHackKids_S->Wrap( -1 );
+	fgSizer8->Add( HexHackKids_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	HexAddr_P->SetSizer( HexAddr_LFV );
-	HexAddr_P->Layout();
-	HexAddr_LFV->Fit( HexAddr_P );
-	HexBody_LV->Add( HexAddr_P, 0, wxEXPAND | wxALL, 5 );
+	wxString HexHackKids_DDChoices[] = { _("One Child"), _("All Children") };
+	int HexHackKids_DDNChoices = sizeof( HexHackKids_DDChoices ) / sizeof( wxString );
+	HexHackKids_DD = new wxChoice( HexHck_P, HexHackKids_DD_ID, wxDefaultPosition, wxSize( 50,-1 ), HexHackKids_DDNChoices, HexHackKids_DDChoices, 0 );
+	HexHackKids_DD->SetSelection( 1 );
+	HexHackKids_DD->SetMinSize( wxSize( 50,-1 ) );
 	
-	HexVal_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	HexVal_P->Hide();
-	HexVal_P->SetMinSize( wxSize( 100,-1 ) );
+	fgSizer8->Add( HexHackKids_DD, 0, wxALL|wxEXPAND, 5 );
 	
-	wxStaticBoxSizer* HexVal_LFV;
-	HexVal_LFV = new wxStaticBoxSizer( new wxStaticBox( HexVal_P, wxID_ANY, _("Value") ), wxVERTICAL );
+	HexHck_LFV->Add( fgSizer8, 0, wxEXPAND, 5 );
 	
-	wxString HexTest_DDChoices[] = { _("Contains"), _("Does Not Contain"), _("Equal To"), _("Not Equal To"), _("More Than"), _("More Than Or Equal To"), _("Less Than"), _("Less Than Or Equal To") };
-	int HexTest_DDNChoices = sizeof( HexTest_DDChoices ) / sizeof( wxString );
-	HexTest_DD = new wxChoice( HexVal_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, HexTest_DDNChoices, HexTest_DDChoices, 0 );
-	HexTest_DD->SetSelection( 0 );
-	HexTest_DD->Hide();
-	HexTest_DD->SetMinSize( wxSize( 50,-1 ) );
+	HexBinHack_B = new wxButton( HexHck_P, HexBinHack_B_ID, _("Hack"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	HexBinHack_B->SetMinSize( wxSize( 70,-1 ) );
 	
-	HexVal_LFV->Add( HexTest_DD, 0, wxALL|wxEXPAND, 5 );
+	HexHck_LFV->Add( HexBinHack_B, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	wxFlexGridSizer* HexVal_LF;
-	HexVal_LF = new wxFlexGridSizer( 0, 2, 0, 0 );
-	HexVal_LF->AddGrowableCol( 0 );
-	HexVal_LF->SetFlexibleDirection( wxBOTH );
-	HexVal_LF->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	HexVal_TXT = new wxTextCtrl( HexVal_P, HexVal_ID, _("0"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
-	HexVal_LF->Add( HexVal_TXT, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
-	
-	HexVal_SPB = new wxSpinButton( HexVal_P, wxID_ANY, wxDefaultPosition, wxSize( 15,-1 ), wxSP_ARROW_KEYS );
-	HexVal_SPB->SetMinSize( wxSize( 15,-1 ) );
-	
-	HexVal_LF->Add( HexVal_SPB, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP, 5 );
-	
-	HexVal_LFV->Add( HexVal_LF, 0, wxEXPAND, 5 );
-	
-	wxFlexGridSizer* HexVInfo_LF;
-	HexVInfo_LF = new wxFlexGridSizer( 0, 2, 0, 0 );
-	HexVInfo_LF->AddGrowableCol( 1 );
-	HexVInfo_LF->SetFlexibleDirection( wxBOTH );
-	HexVInfo_LF->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxString HexInc_DDChoices[] = { _("+="), _("-="), _("*="), _("/=") };
-	int HexInc_DDNChoices = sizeof( HexInc_DDChoices ) / sizeof( wxString );
-	HexInc_DD = new wxChoice( HexVal_P, HexInc_DD_ID, wxDefaultPosition, wxDefaultSize, HexInc_DDNChoices, HexInc_DDChoices, 0 );
-	HexInc_DD->SetSelection( 0 );
-	HexInc_DD->SetMinSize( wxSize( 40,-1 ) );
-	
-	HexVInfo_LF->Add( HexInc_DD, 0, wxALL, 5 );
-	
-	HexInc_TXT = new wxTextCtrl( HexVal_P, HexVal_ID, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	HexInc_TXT->SetMinSize( wxSize( 50,-1 ) );
-	
-	HexVInfo_LF->Add( HexInc_TXT, 0, wxALL|wxEXPAND, 5 );
-	
-	HexVType_S = new wxStaticText( HexVal_P, wxID_ANY, _("Type"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexVType_S->Wrap( -1 );
-	HexVInfo_LF->Add( HexVType_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
-	wxString HexVType_DDChoices[] = { _("Hex"), _("Text"), _("Signed Integer"), _("Unsigned Integer"), _("Float - IEEE754") };
-	int HexVType_DDNChoices = sizeof( HexVType_DDChoices ) / sizeof( wxString );
-	HexVType_DD = new wxChoice( HexVal_P, HexVType_DD_ID, wxDefaultPosition, wxDefaultSize, HexVType_DDNChoices, HexVType_DDChoices, 0 );
-	HexVType_DD->SetSelection( 0 );
-	HexVType_DD->SetMinSize( wxSize( 50,-1 ) );
-	
-	HexVInfo_LF->Add( HexVType_DD, 0, wxALL|wxEXPAND, 5 );
-	
-	HexVSize_S = new wxStaticText( HexVal_P, wxID_ANY, _("Size"), wxDefaultPosition, wxDefaultSize, 0 );
-	HexVSize_S->Wrap( -1 );
-	HexVInfo_LF->Add( HexVSize_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
-	HexVSize_SB = new wxSpinCtrl( HexVal_P, HexVSize_SB_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16, 1 );
-	HexVSize_SB->SetMinSize( wxSize( 50,-1 ) );
-	
-	HexVInfo_LF->Add( HexVSize_SB, 0, wxALL|wxEXPAND, 5 );
-	
-	HexVal_LFV->Add( HexVInfo_LF, 0, wxEXPAND, 5 );
-	
-	HexVal_P->SetSizer( HexVal_LFV );
-	HexVal_P->Layout();
-	HexVal_LFV->Fit( HexVal_P );
-	HexBody_LV->Add( HexVal_P, 0, wxEXPAND | wxALL, 5 );
+	HexHck_P->SetSizer( HexHck_LFV );
+	HexHck_P->Layout();
+	HexHck_LFV->Fit( HexHck_P );
+	HexBody_LV->Add( HexHck_P, 0, wxEXPAND | wxALL, 5 );
 	
 	HexQ_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	HexQ_P->Hide();
@@ -720,22 +663,162 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexBody_LV->Add( HexQ_P, 0, wxEXPAND | wxALL, 5 );
 	
 	HexOut_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexOut_P->Hide();
+	
 	HexBody_LV->Add( HexOut_P, 0, wxEXPAND | wxALL, 5 );
+	
+	HexEdit_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxStaticBoxSizer* HexEdit_LFV;
+	HexEdit_LFV = new wxStaticBoxSizer( new wxStaticBox( HexEdit_P, wxID_ANY, _("Editor Base Address") ), wxVERTICAL );
+	
+	HexJump_B = new wxButton( HexEdit_P, HeJump_B_ID, _("Jump"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexEdit_LFV->Add( HexJump_B, 0, wxALL, 5 );
+	
+	HexEdit_TXT = new wxTextCtrl( HexEdit_P, HexEdit_TXT_ID, _("0"), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+	HexEdit_TXT->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexEdit_LFV->Add( HexEdit_TXT, 0, wxALL|wxEXPAND, 5 );
+	
+	HexEdit_P->SetSizer( HexEdit_LFV );
+	HexEdit_P->Layout();
+	HexEdit_LFV->Fit( HexEdit_P );
+	HexBody_LV->Add( HexEdit_P, 0, wxEXPAND | wxALL, 5 );
+	
+	HexAddr_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxStaticBoxSizer* HexAddr_LFV;
+	HexAddr_LFV = new wxStaticBoxSizer( new wxStaticBox( HexAddr_P, wxID_ANY, _("Address / Pointer") ), wxVERTICAL );
+	
+	HexAddr_TXT = new wxTextCtrl( HexAddr_P, HexAddr_TXT_ID, _("0"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
+	HexAddr_TXT->SetMinSize( wxSize( 100,-1 ) );
+	
+	HexAddr_LFV->Add( HexAddr_TXT, 0, wxALL|wxEXPAND, 5 );
+	
+	HexEAddr_P = new wxPanel( HexAddr_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxGridSizer* HexEAddr_LG;
+	HexEAddr_LG = new wxGridSizer( 0, 2, 0, 0 );
+	
+	HexEGet_B = new wxButton( HexEAddr_P, HexEGet_B_iD, _("Read"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexEAddr_LG->Add( HexEGet_B, 0, wxALL, 5 );
+	
+	HexESet_B = new wxButton( HexEAddr_P, HexESet_B_ID, _("Write"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexEAddr_LG->Add( HexESet_B, 0, wxALL, 5 );
+	
+	HexEAddr_P->SetSizer( HexEAddr_LG );
+	HexEAddr_P->Layout();
+	HexEAddr_LG->Fit( HexEAddr_P );
+	HexAddr_LFV->Add( HexEAddr_P, 0, wxEXPAND | wxALL, 5 );
+	
+	HexDepth_P = new wxPanel( HexAddr_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxStaticBoxSizer* HexDepth_LFV;
+	HexDepth_LFV = new wxStaticBoxSizer( new wxStaticBox( HexDepth_P, wxID_ANY, _("Pointer Depth") ), wxVERTICAL );
+	
+	HexDepth_SL = new wxSlider( HexDepth_P, wxID_ANY, 0, 0, 15, wxDefaultPosition, wxDefaultSize, wxSL_AUTOTICKS|wxSL_BOTTOM|wxSL_HORIZONTAL|wxSL_LABELS );
+	HexDepth_SL->SetMinSize( wxSize( 100,-1 ) );
+	
+	HexDepth_LFV->Add( HexDepth_SL, 0, wxALL|wxEXPAND, 5 );
+	
+	HexDepth_P->SetSizer( HexDepth_LFV );
+	HexDepth_P->Layout();
+	HexDepth_LFV->Fit( HexDepth_P );
+	HexAddr_LFV->Add( HexDepth_P, 1, wxEXPAND | wxALL, 5 );
+	
+	HexAddr_P->SetSizer( HexAddr_LFV );
+	HexAddr_P->Layout();
+	HexAddr_LFV->Fit( HexAddr_P );
+	HexBody_LV->Add( HexAddr_P, 0, wxEXPAND | wxALL, 5 );
+	
+	HexVal_P = new wxPanel( HexBody_SW, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	HexVal_P->Hide();
+	HexVal_P->SetMinSize( wxSize( 100,-1 ) );
+	
+	wxStaticBoxSizer* HexVal_LFV;
+	HexVal_LFV = new wxStaticBoxSizer( new wxStaticBox( HexVal_P, wxID_ANY, _("Value") ), wxVERTICAL );
+	
+	wxString HexTest_DDChoices[] = { _("Contains"), _("Does Not Contain"), _("Equal To"), _("Not Equal To"), _("More Than"), _("More Than Or Equal To"), _("Less Than"), _("Less Than Or Equal To") };
+	int HexTest_DDNChoices = sizeof( HexTest_DDChoices ) / sizeof( wxString );
+	HexTest_DD = new wxChoice( HexVal_P, wxID_ANY, wxDefaultPosition, wxDefaultSize, HexTest_DDNChoices, HexTest_DDChoices, 0 );
+	HexTest_DD->SetSelection( 0 );
+	HexTest_DD->Hide();
+	HexTest_DD->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexVal_LFV->Add( HexTest_DD, 0, wxALL|wxEXPAND, 5 );
+	
+	wxFlexGridSizer* HexVal_LF;
+	HexVal_LF = new wxFlexGridSizer( 0, 2, 0, 0 );
+	HexVal_LF->AddGrowableCol( 0 );
+	HexVal_LF->SetFlexibleDirection( wxBOTH );
+	HexVal_LF->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	HexVal_TXT = new wxTextCtrl( HexVal_P, HexVal_ID, _("0"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
+	HexVal_LF->Add( HexVal_TXT, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
+	
+	HexVal_SPB = new wxSpinButton( HexVal_P, wxID_ANY, wxDefaultPosition, wxSize( 15,-1 ), wxSP_ARROW_KEYS );
+	HexVal_SPB->SetMinSize( wxSize( 15,-1 ) );
+	
+	HexVal_LF->Add( HexVal_SPB, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP, 5 );
+	
+	HexVal_LFV->Add( HexVal_LF, 0, wxEXPAND, 5 );
+	
+	wxFlexGridSizer* HexVInfo_LF;
+	HexVInfo_LF = new wxFlexGridSizer( 0, 2, 0, 0 );
+	HexVInfo_LF->AddGrowableCol( 1 );
+	HexVInfo_LF->SetFlexibleDirection( wxBOTH );
+	HexVInfo_LF->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxString HexInc_DDChoices[] = { _("+="), _("-="), _("*="), _("/=") };
+	int HexInc_DDNChoices = sizeof( HexInc_DDChoices ) / sizeof( wxString );
+	HexInc_DD = new wxChoice( HexVal_P, HexInc_DD_ID, wxDefaultPosition, wxDefaultSize, HexInc_DDNChoices, HexInc_DDChoices, 0 );
+	HexInc_DD->SetSelection( 0 );
+	HexInc_DD->SetMinSize( wxSize( 40,-1 ) );
+	
+	HexVInfo_LF->Add( HexInc_DD, 0, wxALL, 5 );
+	
+	HexInc_TXT = new wxTextCtrl( HexVal_P, HexVal_ID, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	HexInc_TXT->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexVInfo_LF->Add( HexInc_TXT, 0, wxALL|wxEXPAND, 5 );
+	
+	HexVType_S = new wxStaticText( HexVal_P, wxID_ANY, _("Type"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexVType_S->Wrap( -1 );
+	HexVInfo_LF->Add( HexVType_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	wxString HexVType_DDChoices[] = { _("Hex"), _("Text"), _("Signed Integer"), _("Unsigned Integer"), _("Float - IEEE754") };
+	int HexVType_DDNChoices = sizeof( HexVType_DDChoices ) / sizeof( wxString );
+	HexVType_DD = new wxChoice( HexVal_P, HexVType_DD_ID, wxDefaultPosition, wxDefaultSize, HexVType_DDNChoices, HexVType_DDChoices, 0 );
+	HexVType_DD->SetSelection( 0 );
+	HexVType_DD->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexVInfo_LF->Add( HexVType_DD, 0, wxALL|wxEXPAND, 5 );
+	
+	HexVSize_S = new wxStaticText( HexVal_P, wxID_ANY, _("Size"), wxDefaultPosition, wxDefaultSize, 0 );
+	HexVSize_S->Wrap( -1 );
+	HexVInfo_LF->Add( HexVSize_S, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	HexVSize_SB = new wxSpinCtrl( HexVal_P, HexVSize_SB_ID, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16, 1 );
+	HexVSize_SB->SetMinSize( wxSize( 50,-1 ) );
+	
+	HexVInfo_LF->Add( HexVSize_SB, 0, wxALL|wxEXPAND, 5 );
+	
+	HexVal_LFV->Add( HexVInfo_LF, 0, wxEXPAND, 5 );
+	
+	HexVal_P->SetSizer( HexVal_LFV );
+	HexVal_P->Layout();
+	HexVal_LFV->Fit( HexVal_P );
+	HexBody_LV->Add( HexVal_P, 0, wxEXPAND | wxALL, 5 );
 	
 	HexBody_SW->SetSizer( HexBody_LV );
 	HexBody_SW->Layout();
 	HexBody_LV->Fit( HexBody_SW );
-	HexList_SW = new wxScrolledWindow( HexGUI_SP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxSUNKEN_BORDER|wxVSCROLL );
-	HexList_SW->SetScrollRate( 5, 5 );
+	HexList_P = new wxPanel( HexGUI_SP, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* HexList_LV;
 	HexList_LV = new wxBoxSizer( wxVERTICAL );
 	
-	HexList_LB = new wxListBox( HexList_SW, HexList_LB_ID, wxDefaultPosition, wxSize( -1,-1 ), 0, NULL, wxLB_NEEDED_SB|wxLB_SINGLE|wxNO_BORDER|wxSUNKEN_BORDER ); 
-	HexList_LB->SetMinSize( wxSize( 0,-1 ) );
+	HexList_LB = new wxListBox( HexList_P, HexList_LB_ID, wxDefaultPosition, wxSize( 100,100 ), 0, NULL, wxLB_NEEDED_SB|wxLB_SINGLE|wxNO_BORDER|wxSUNKEN_BORDER ); 
+	HexList_LB->SetMinSize( wxSize( 100,100 ) );
 	
 	HexList_LV->Add( HexList_LB, 1, wxEXPAND|wxLEFT, 5 );
 	
-	HexTree_P = new wxPanel( HexList_SW, wxID_ANY, wxDefaultPosition, wxSize( -1,200 ), wxTAB_TRAVERSAL );
+	HexTree_P = new wxPanel( HexList_P, wxID_ANY, wxDefaultPosition, wxSize( -1,200 ), wxTAB_TRAVERSAL );
 	HexTree_P->Hide();
 	HexTree_P->SetMinSize( wxSize( -1,200 ) );
 	
@@ -757,26 +840,38 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	HexTree_P->SetSizer( HexTree_LH );
 	HexTree_P->Layout();
-	HexList_LV->Add( HexTree_P, 0, wxEXPAND | wxALL, 5 );
+	HexList_LV->Add( HexTree_P, 1, wxEXPAND | wxALL, 5 );
 	
-	HexGrid_P = new wxPanel( HexList_SW, wxID_ANY, wxDefaultPosition, wxSize( -1,200 ), wxTAB_TRAVERSAL );
-	HexGrid_P->Hide();
-	HexGrid_P->SetMinSize( wxSize( -1,200 ) );
+	HexGrid_G = new wxGrid( HexList_P, HexGrid_G_ID, wxDefaultPosition, wxDefaultSize, 0 );
 	
-	HexGrid_LF = new wxFlexGridSizer( 0, 0, 0, 0 );
-	HexGrid_LF->AddGrowableCol( 0 );
-	HexGrid_LF->SetFlexibleDirection( wxBOTH );
-	HexGrid_LF->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	// Grid
+	HexGrid_G->CreateGrid( 0, 0 );
+	HexGrid_G->EnableEditing( true );
+	HexGrid_G->EnableGridLines( true );
+	HexGrid_G->EnableDragGridSize( false );
+	HexGrid_G->SetMargins( 0, 0 );
 	
-	HexGrid_LF->SetMinSize( wxSize( -1,200 ) ); 
-	HexGrid_P->SetSizer( HexGrid_LF );
-	HexGrid_P->Layout();
-	HexList_LV->Add( HexGrid_P, 0, wxEXPAND | wxALL, 5 );
+	// Columns
+	HexGrid_G->EnableDragColMove( false );
+	HexGrid_G->EnableDragColSize( true );
+	HexGrid_G->SetColLabelSize( 15 );
+	HexGrid_G->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
-	HexList_SW->SetSizer( HexList_LV );
-	HexList_SW->Layout();
-	HexList_LV->Fit( HexList_SW );
-	HexGUI_SP->SplitVertically( HexBody_SW, HexList_SW, 200 );
+	// Rows
+	HexGrid_G->EnableDragRowSize( true );
+	HexGrid_G->SetRowLabelSize( 150 );
+	HexGrid_G->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	HexGrid_G->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
+	HexList_LV->Add( HexGrid_G, 1, wxEXPAND, 5 );
+	
+	HexList_P->SetSizer( HexList_LV );
+	HexList_P->Layout();
+	HexList_LV->Fit( HexList_P );
+	HexGUI_SP->SplitVertically( HexBody_SW, HexList_P, 200 );
 	HexGUI_LV->Add( HexGUI_SP, 1, wxEXPAND, 5 );
 	
 	this->SetSizer( HexGUI_LV );
@@ -800,12 +895,15 @@ HexGUI::HexGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	HexState_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
 	HexBinExec_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinExec_B_OnClick ), NULL, this );
 	HexBinKill_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinKill_B_OnClick ), NULL, this );
-	HexBinHack_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
+	HexFAdd_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexFAdd_B_OnClick ), NULL, this );
+	HexConvert_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexConvert_B_OnClick ), NULL, this );
+	HexMerge_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexMerge_B_OnClick ), NULL, this );
 	HexLoop_SPB->Connect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexLoop_SBC ), NULL, this );
+	HexBinHack_B->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
+	HexQCT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_SPB->Connect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexVal_OnSpin ), NULL, this );
 	HexInc_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
-	HexQCT_TXT->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexList_LB->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( HexGUI::HexList_LB_OnSelect ), NULL, this );
 	HexHack_TC->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexHack_TC_OnSelect ), NULL, this );
 	HexCode_TC->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexCode_TC_OnSelect ), NULL, this );
@@ -828,12 +926,15 @@ HexGUI::~HexGUI()
 	HexState_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexState_B_OnClick ), NULL, this );
 	HexBinExec_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinExec_B_OnClick ), NULL, this );
 	HexBinKill_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinKill_B_OnClick ), NULL, this );
-	HexBinHack_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
+	HexFAdd_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexFAdd_B_OnClick ), NULL, this );
+	HexConvert_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexConvert_B_OnClick ), NULL, this );
+	HexMerge_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexMerge_B_OnClick ), NULL, this );
 	HexLoop_SPB->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexLoop_SBC ), NULL, this );
+	HexBinHack_B->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HexGUI::HexBinHack_B_OnClick ), NULL, this );
+	HexQCT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexVal_SPB->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxSpinEventHandler( HexGUI::HexVal_OnSpin ), NULL, this );
 	HexInc_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
-	HexQCT_TXT->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( HexGUI::HexVal_OnChange ), NULL, this );
 	HexList_LB->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( HexGUI::HexList_LB_OnSelect ), NULL, this );
 	HexHack_TC->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexHack_TC_OnSelect ), NULL, this );
 	HexCode_TC->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( HexGUI::HexCode_TC_OnSelect ), NULL, this );

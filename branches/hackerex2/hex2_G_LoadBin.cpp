@@ -1,42 +1,44 @@
 #include "wx_pch.h"
-#include "hex2_G.h"
-Bin  G::LoadBins( Bin& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
+#include "hexDB_main.h"
+void LoadBinD( Bin& obj, TxtF& file, bool isTmpFile );
+void SaveBinD( Bin& obj, TxtF& file, bool isTmpFile );
+xsDLL Bin  LoadBins( Bin& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
 {
 	Bin bin, tmp;
 	Text txt;
 	const Text Def = getGlobalName();
 	const wxChar hOpen = wxT('[');
 	data.Add( Def );
-	bool dBin = false, dObj = false;
+	bool dNow = false, dOld = false;
 	int i = 0;
 	for ( txt = file.GetFirstLine(); !file.Eof(); ++i, txt = file.GetNextLine() )
 	{
 		if ( txt[ 0u ] == hOpen )
 		{
 			LoadBinD( tmp, file, isFileTmp );
-			if ( !dObj && obj.nameOld == tmp.nameOld )
+			if ( !dOld && obj.nameOld == tmp.nameOld )
 			{
 				tmp  = obj;
-				dObj = true;
+				dOld = true;
 			}
 			data.Add( tmp.nameNow );
-			if ( !dBin && tmp.nameNow == name )
+			if ( !dNow && tmp.nameNow == name )
 			{
 				bin  = tmp;
-				dBin = true;
+				dNow = true;
 			}
 			SaveBinD( tmp, temp, isTempTmp );
 		}
 	}
 	i = HEX_LIST_BIN;
-	if ( !dObj && obj.nameOld != Def && addObj )
+	if ( !dOld && obj.nameOld != Def && addObj )
 	{
 		SaveBinD( obj, file, isTempTmp );
 		data.Add( obj.nameNow );
 	}
 	return bin;
 }
-void G::LoadBinD( Bin& obj, TxtF& file, bool isTmpFile )
+void LoadBinD( Bin& obj, TxtF& file, bool isTmpFile )
 {
 	Ram  ram;
 	TxtT tzr;
@@ -112,7 +114,7 @@ void G::LoadBinD( Bin& obj, TxtF& file, bool isTmpFile )
 	obj.fileOld = oldF;
 	file.GetPrevLine();
 }
-void G::SaveBinD( Bin& obj, TxtF& file, bool isTmpFile )
+void SaveBinD( Bin& obj, TxtF& file, bool isTmpFile )
 {
 	Ram ram;
 	Text txt, val;

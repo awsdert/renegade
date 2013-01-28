@@ -9,7 +9,7 @@ void xsDLL Maketxt_Hex1( Code& obj, TxtA& block )
 		isTest = ( obj.type == HEX_CT_TEST ),
 		isList = ( obj.type == HEX_CT_LIST ),
 		isCopy = ( obj.type == HEX_CT_COPY ),
-		isInc  = ( !isList && !isTest && !isCopy && obj.loop > 0u );
+		isInc  = ( !isList && !isTest && !isCopy && obj.loop > 0u && obj[1] > 0uLL );
 	Text hLine, aLine, vLine, iLine, txt;
 	const wxChar* text = wxT("%08X %08X");
 	ui32 val = 0u, h1 = 0u, h2 = 0u, a1 = 0u, a2 = 0u, v1 = 0u, v2 = 0u, i1 = 0u, i2 = 0u, t1 = 0u, t2 = 0u;
@@ -32,6 +32,7 @@ void xsDLL Maketxt_Hex1( Code& obj, TxtA& block )
 		default: val = 0u; break;
 	}
 	val	+= big ? 8u : 0u;
+	val += isInc ? 0u : 4u;
 	h1	+= ( val << 24u );
 	h1	+= ( obj.depth	<< 20u	);
 	h1	+= ( obj.ram	<< 16u	);
@@ -85,15 +86,8 @@ void xsDLL Maketxt_Hex1( Code& obj, TxtA& block )
 	else if ( big )
 	{
 		block.Add( aLine );
-		if ( isTest )
-			block.Add( vLine );
-		else
-		{
-			v1 = v2;
-			v2 = i2;
-			txt.Printf( text, v1, v2 );
-			block.Add( txt );
-		}
+		txt.Printf( text, v2, i2 );
+		block.Add( txt );
 	}
 	else
 	{

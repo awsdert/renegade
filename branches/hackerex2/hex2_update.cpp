@@ -3,21 +3,22 @@
 void G::UpdatePanels( void )
 {
 // TODO(awsdert) Search, Results and Editor still needed
-	int inMode = m_siListNow, atMode = m_db.mode[ inMode ];
+	hexDB& db = m_gui.m_db;
+	int inMode = db.nowL, atMode = db.mode[ inMode ];
 	bool act = false;
-	if ( !m_bListCfg && inMode != m_siListOld )
+	if ( !m_bListCfg && inMode != db.oldL )
 		act = true;
 	else if ( m_bListCfg )
 		act = true;
 	if ( !act )
 		return;
-	m_db.tmpCfg		= m_bListCfg;
-	m_db.tmpLB		= HexList_LB;
-	m_db.showAllApps= ( inMode == HEX_LIST_APP );
-	m_db.tmpMode	= inMode;
-	UpdateList( m_db, HexList_LB, m_db.getNowN( inMode ) );
+	db.tmpCfg		= m_bListCfg;
+	db.tmpLB		= HexList_LB;
+	db.showAllApps	= ( inMode == HEX_LIST_APP );
+	db.tmpMode		= inMode;
+	UpdateList( db, db.getNowN( inMode ) );
 	if ( !m_bListCfg )
-		m_db.oldP[ atMode ] = m_db.nowP[ atMode ];
+		db.oldP[ atMode ] = db.nowP[ atMode ];
 	bool doRam = false;
 	switch ( inMode )
 	{
@@ -28,27 +29,20 @@ void G::UpdatePanels( void )
 		doRam = true;
 		break;
 	}
-	ShowData( m_db );
+	ShowData( db );
 	if ( doRam )
 	{
-		m_db.tmpCfg		= false;
-		m_db.tmpMode	= HEX_LIST_RAM;
-		UpdateList( m_db, HexRam_LB );
+		db.tmpCfg	= false;
+		db.tmpMode	= HEX_LIST_RAM;
+		db.tmpLB	= HexRam_LB;
+		UpdateList( db );
 	}
 }
-void G::UpdateList( hexDB& db, LBox* lb, Text name )
+void G::UpdateList( hexDB& db, Text name )
 {
-	/**
-		@param lb
-		Where the list is being sent
-		@param isCfg
-		Should the list be of the mode selection type or the data selection / manipulation type
-		@param inMode
-		Ignored if isCfg is true
-	**/
 	int i = 0;
 	bool listSel = false;
-	LoadData( db, lb, HEX_LOAD_LIST, name );
+	db.loadData( HEX_LOAD_LIST, name );
 	if ( db.tmpCfg )
 	{
 		listSel = true;
@@ -58,10 +52,10 @@ void G::UpdateList( hexDB& db, LBox* lb, Text name )
 	{
 		listSel = ( db.tmpMode < HEX_LIST_HACK );
 		if ( listSel )
-			i = lb->FindString( name );
+			i = db.tmpLB->FindString( name );
 	}
 	if ( listSel )
-		lb->SetSelection( ( i < 0 ) ? 0 : i );
+		db.tmpLB->SetSelection( ( i < 0 ) ? 0 : i );
 }
 void G::UpdateTheme( Text name, int size )
 {

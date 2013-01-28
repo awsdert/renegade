@@ -1,39 +1,9 @@
 #include "wx_pch.h"
-#ifdef HACKEREX2
-	#include "hex2_G.h"
-#else
-	#include "hex1_G.h"
-#endif
-void G::LoadStateD( State& obj )
-{
-	Text oldP, nowP;
-	TxtA name;
-	const int iEnd = 5;
-	int i, j, mode[ iEnd ];
-	name.SetCount( iEnd );
-	mode[0] = HEX_LIST_ORG;		name[0] = obj.orgName;
-	mode[1] = HEX_LIST_PFM;		name[1] = obj.pfmName;
-	mode[2] = HEX_LIST_BIN;		name[2] = obj.binName;
-	mode[3] = HEX_LIST_PFL;		name[3] = obj.pflName;
-	mode[4] = HEX_LIST_FORMAT;	name[4] = obj.hckFormat;
-	m_db.tmpCfg = false;
-	for ( i = 0; i < iEnd; ++i )
-	{
-		j = mode[ i ];
-		m_db.tmpMode = j;
-		m_db.tmpLB	 = HexList_LB;
-		LoadData( m_db,  HexList_LB, HEX_LOAD_SAVE2TEMP, name[ i ] );
-		oldP = m_db.oldP[ j ] + cTild;
-		nowP = m_db.nowP[ j ] + cTild;
-		if ( oldP != nowP )
-		{
-			if ( wxFileExists( oldP ) )
-				wxRemoveFile( oldP );
-			m_db.oldP[ j ] = m_db.nowP[ j ];
-		}
-	}
-}
-State G::LoadStates( State& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
+#include "hexDB_main.h"
+void LoadStateD( State& obj, CfgF& file );
+void LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile );
+void SaveStateD( State& obj, CfgF& file, bool isTmpFile );
+xsDLL State LoadStates( State& old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp )
 {
 	Text key, val, txt, noname;
 	bool dOld = false, dNow = false;
@@ -89,7 +59,15 @@ State G::LoadStates( State& old, CfgF& file, CfgF& temp, TxtA& data, Text name, 
 	}
 	return now;
 }
-void G::LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile )
+void LoadStateD( State& obj, CfgF& file )
+{
+	const Text Def = getGlobalName();
+	file.Read( wxT("Organisation"),	&obj.orgName, Def );
+	file.Read( wxT("Platform"),		&obj.pfmName, Def );
+	file.Read( wxT("Binary"),		&obj.binName, Def );
+	file.Read( wxT("Profile"),		&obj.pflName, Def );
+}
+void LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile )
 {
 	TxtT tzr;
 	Text now;
@@ -109,15 +87,7 @@ void G::LoadStateD( State& obj, Text& key, Text& val, bool isTmpFile )
 	obj.nameNow = now;
 	obj.nameOld = key;
 }
-void G::LoadStateD( State& obj, CfgF& file )
-{
-	const Text Def = getGlobalName();
-	file.Read( wxT("Organisation"),	&obj.orgName, Def );
-	file.Read( wxT("Platform"),		&obj.pfmName, Def );
-	file.Read( wxT("Binary"),		&obj.binName, Def );
-	file.Read( wxT("Profile"),		&obj.pflName, Def );
-}
-void G::SaveStateD( State& obj, CfgF& file, bool isTmpFile )
+void SaveStateD( State& obj, CfgF& file, bool isTmpFile )
 {
 	Text txt = obj.orgName;
 	txt += cSemC + obj.pfmName;

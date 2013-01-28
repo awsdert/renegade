@@ -22,17 +22,11 @@
     <ClInclude Include="hexDB_main.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hex2_dbCheck.cpp" />
     <ClCompile Include="hex2_dbShow.cpp" />
     <ClCompile Include="hex2_Edit.cpp" />
     <ClCompile Include="hex2_G.cpp" />
-    <ClCompile Include="hex2_G_LoadBin.cpp" />
-    <ClCompile Include="hex2_G_LoadData.cpp" />
-    <ClCompile Include="hex2_G_LoadOrg.cpp" />
-    <ClCompile Include="hex2_G_LoadPfl.cpp" />
-    <ClCompile Include="hex2_G_LoadPfm.cpp" />
-    <ClCompile Include="hex2_G_LoadState.cpp" />
     <ClCompile Include="hex2_main.cpp" />
+    <ClCompile Include="hex2_State.cpp" />
     <ClCompile Include="hex2_update.cpp" />
     <ClCompile Include="hex2_wxFB.cpp" />
   </ItemGroup>
@@ -110,7 +104,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjDir)\lib\vc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>user32.lib;wxmsw28d_core.lib;wxbase28d.lib;$(OutDir)mswHackerEXDLL_vc_dbg.lib;$(OutDir)mswHackerEXDB_vc_dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;wxbase28d.lib;wxmsw28d_adv.lib;wxmsw28d_core.lib;$(OutDir)mswHackerEXDLL_vc_dbg.lib;$(OutDir)mswHackerEXDB_vc_dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -132,7 +126,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjDir)\lib\vc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>user32.lib;wxmsw28_core.lib;wxbase28.lib;$(OutDir)mswHackerEXDLL_vc.lib;$(OutDir)mswHackerEXDB_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;wxbase28.lib;wxmsw28_adv.lib;wxmsw28_core.lib;$(OutDir)mswHackerEXDLL_vc.lib;$(OutDir)mswHackerEXDB_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>

@@ -95,4 +95,16 @@ public:
 	Text notes;
 };
 
+xsDLL State	LoadStates(	State&	old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp );
+xsDLL Org	LoadOrgs(	Org&	old, CfgF& file, CfgF& temp, TxtA& data, Text name, bool isFileTmp, bool isTempTmp );
+xsDLL Pfm	LoadPfms(	Pfm&	old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
+xsDLL Bin	LoadBins(	Bin&	old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
+
+xsDLL int	getRegionCount( void );
+xsDLL void	getRegionData( TxtA& data );
+xsDLL void	getRegions( ui32* data );
+xsDLL ui32	CheckRegion( Text region );
+xsDLL Text	CheckRegion( ui32 region );
+xsDLL Pfl	LoadPfls(	Pfl&	old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
+
 #endif

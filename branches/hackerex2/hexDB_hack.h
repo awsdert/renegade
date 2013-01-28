@@ -67,7 +67,7 @@ public:
 	ui32	first;
 	ui32    next;
 	ui08	info;
-	size_t	line;
+	bool	used;
 	TrId	item;
 };
 
@@ -102,18 +102,22 @@ public:
 	int codeOld;
 	int codeNow;
 };
-xsDLL Text		getFormatName( int format );
 xsDLL int		getFormat( Text	name );
+xsDLL TxtA		getFormats( void );
 xsDLL Text		getFormatName( int	format );
 xsDLL Format	LoadFormats( Format& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp );
 xsDLL void		ListHacks( TrCO* tree, Hacks& hacks );
-xsDLL void		ListCodes( TrCO* tree, LBox* lbox, Codes& codes, int format, int listCode, bool relist );
-xsDLL Codes		LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, bool addObj, int format );
-xsDLL Codes		LoadHacks_Hex( Codes& old,	TxtF& file, TxtF& temp, Hacks& data, bool addObj, int version );
+xsDLL void		ListCodes( TrCO* tree, LBox* lbox, Codes& codes, int format, int listCode );
+//xsDLL Codes		LoadHacks( Codes& old, TxtF& file, TxtF& temp, Hacks& data, ui16 pid, bool addObj, int format );
+//xsDLL Codes		LoadHacks_Hex( Codes& old,	TxtF& file, TxtF& temp, Hacks& data, bool addObj, int version );
 xsDLL void		LoadHack_Hex( TxtF& file,	Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
 xsDLL void		SaveHack_Hex( TxtF& file,	Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
 xsDLL void		MakeTxt_Hex1( Codes& data,	TxtA& block );
 xsDLL void		Maketxt_Hex1( Code& obj,	TxtA& block );
 xsDLL void		MakeObj_Hex1( Codes& data,	TxtA& block );
-
+xsDLL void		LoadHack_Sony_PS2_ARMAX( TxtF& file,	Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
+xsDLL void		SaveHack_Sony_PS2_ARMAX( TxtF& file,	Hack& hack, ui32& hackIndex, ui16& codeCount, TxtA& block );
+xsDLL void		MakeTxt_Sony_PS2_ARMAX( Codes& data,	TxtA& block );
+xsDLL void		Maketxt_Sony_PS2_ARMAX( Code& obj,		TxtA& block );
+xsDLL void		MakeObj_Sony_PS2_ARMAX( Codes& data,	TxtA& block );
 #endif // HEXDB_HACK_H

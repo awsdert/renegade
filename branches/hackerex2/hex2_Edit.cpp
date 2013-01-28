@@ -8,7 +8,7 @@ bool G::EditHasInvalidName( Text& name )
 void G::EditData( hexDB& db )
 {
 	bool use = false;
-	int inMode = m_siListNow;
+	int inMode = db.nowL;
 	switch ( inMode )
 	{
 	case HEX_LIST_ORG:
@@ -22,7 +22,7 @@ void G::EditData( hexDB& db )
 		break;
 	case HEX_LIST_RAM:
 		use = true;
-		EditRamD( db.bin[ db.ramNo ] );
+		EditRamD( db.bin[ db.bin.ramNo ] );
 		break;
 	case HEX_LIST_PFL:
 		use = EditPflD( db.pfl );
@@ -38,7 +38,7 @@ void G::EditData( hexDB& db )
 bool G::EditOrgD( Org* obj )
 {
 	Text name = HexName_TXT->GetValue();
-	if ( name == m_db.getDefN() )
+	if ( name == m_gui.m_db.getDefN() )
 		return EditHasInvalidName( name );
 	obj->nameNow = name;
 	obj->fileNow = HexFile_TXT->GetValue();
@@ -105,7 +105,7 @@ bool G::EditHack( Hacks& data, int hackNo )
 	Text name = HexName_TXT->GetValue();
 	if ( hackNo > 0 )
 	{
-		if ( name == m_db.getDefN( HEX_LIST_HACK ) )
+		if ( name == m_gui.m_db.getDefN( HEX_LIST_HACK ) )
 			return EditHasInvalidName( name );
 		else
 			obj.name = name;

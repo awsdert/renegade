@@ -16,7 +16,7 @@ xsDLL BOOL CALLBACK mswEnumWin( HWND hWin, LPARAM ptr2hexdb )
 	txt.Printf( wxT(" (%s) %04X"), title, pid );
 	exe.Left( exe.Length() - 5 );
 	lb->Append( exe + txt );
-	lb->SetSelection( -1 );
+	//lb->SetSelection( -1 );
 	return TRUE;
 }
 #endif // xsMSW

@@ -24,53 +24,56 @@ xsDLL Text GetAppExe( DWORD pid )
 #endif
 	return txt;
 }
-xsDLL bool NewAppHandle( osHdl& hApp, Text exe )
+xsDLL osHdl NewAppHandle( Text exe )
 {
 	Text tmp;
-	hApp = NULL;
+	if ( exe.IsNull() )
+		return NULL;
+	exe.LowerCase();
 #ifdef xsMSW
 	PROCESSENTRY32 pe32;
-	bool got = false;
 	pe32.dwSize = sizeof( PROCESSENTRY32 );
 	HANDLE shot = CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0 );
 	Process32First( shot, &pe32 );
 	do
 	{
 		tmp.Printf( wxT("%s"), pe32.szExeFile );
-		got = ( tmp == exe );
-		if ( got )
+		if ( tmp.CmpNoCase( exe ) == 0 )
 		{
-			hApp = OpenProcess(
+			return OpenProcess(
 				PROCESS_SUSPEND_RESUME | PROCESS_VM_OPERATION |
 				PROCESS_VM_READ | PROCESS_VM_WRITE,
-				TRUE, pe32.th32ProcessID );
-			return true;
+				FALSE, pe32.th32ProcessID );
 		}
 	}
-	while ( !got && Process32Next( shot, &pe32 ) );
+	while ( Process32Next( shot, &pe32 ) );
 #endif
-	return false;
+	return NULL;
 }
-xsDLL void DelAppHandle( osHdl& hApp )
+xsDLL void DelAppHandle( osHdl hApp )
 {
 #ifdef xsMSW
 	CloseHandle( hApp );
 #endif
 	hApp = NULL;
 }
-xsDLL size_t GetAppRam( osHdl& hApp, void* address, void* value, size_t bytes )
+xsDLL size_t GetAppRam( osHdl hApp, size_t address, void* value, ui32 bytes )
 {
 	size_t rbytes = 0;
 #ifdef xsMSW
-	ReadProcessMemory( hApp, address, value, bytes, (SIZE_T*)(&rbytes) );
+	DWORD RBYTES = 0;
+	ReadProcessMemory( hApp, (void*)address, value, bytes, &RBYTES );
+	rbytes = RBYTES;
 #endif
 	return rbytes;
 }
-xsDLL size_t SetAppRam( osHdl& hApp, void* address, void* value, size_t bytes )
+xsDLL size_t SetAppRam( osHdl hApp, size_t address, void* value, ui32 bytes )
 {
 	size_t wbytes = 0;
 #ifdef xsMSW
-	WriteProcessMemory( hApp, address, value, bytes, (SIZE_T*)(&wbytes) );
+	DWORD WBYTES = 0;
+	WriteProcessMemory( hApp, (void*)address, value, bytes, &WBYTES );
+	wbytes = WBYTES;
 #endif
 	return wbytes;
 }

@@ -1,31 +1,54 @@
 #include "wx_pch.h"
 #include "hex2_G.h"
-void G::ShowPanels()
+void G::ShowPanels( int inMode, bool inCfg )
 {
-	int i = 0, iEnd = g_iPanelCount, inMode = m_siListNow;
-	if ( m_bListCfg )
-	{
-		for ( i = 0; i < iEnd; ++i )
-			m_aPanels[ i ]->Show( false );
+	int i = 0, iEnd = NO_OF_PANELS;
+	hexDB& db = m_gui.m_db;
+	bool en = ( db.getNowN( inMode ) != db.getDefN( inMode ) );
+	for ( i = 0; i < iEnd; ++i )
+		m_aPanels[ i ]->Show( false );
+	if ( inCfg )
 		HexList_LB->Show();
-	}
-	else if ( inMode != m_siListOld )
+	else
 	{
-		for ( i = 0; i < iEnd; ++i )
-			m_aPanels[ i ]->Show( false );
-		HexList_LB->Show( false );
 		HexInc_DD->Show( false );
 		HexInc_TXT->Show( false );
 		i = HEX_LIST_FORMAT;
-		if ( inMode < HEX_LIST_CODE )
+		switch ( inMode )
 		{
-			HexName_P->Show();
+		case HEX_LIST_FIND:
+		case HEX_LIST_OUT:
+		case HEX_LIST_EDIT:
+			HexList_LB->Show( false );
+			HexHack_TC->Show( false );
+			break;
+		default:
+			HexHack_TC->Show();
 			HexList_LB->Show();
-			if ( inMode >= HEX_LIST_ORG && inMode < HEX_LIST_HACK )
-				HexFile_P->Show();
 		}
-		if ( inMode == HEX_LIST_HACK || inMode == HEX_LIST_CODE )
+		switch ( inMode )
+		{
+		case HEX_LIST_ORG:
+		case HEX_LIST_PFM:
+		case HEX_LIST_BIN:
+		case HEX_LIST_APP:
+		case HEX_LIST_WIN:
+		case HEX_LIST_PFL:
+			HexName_P->Show();
+			HexFile_P->Show();
+			break;
+		case HEX_LIST_RAM:
+			HexName_P->Show();
+			HexRam_P->Show();
+			HexRamData_P->Show();
+			HexAddr_P->Show();
+			break;
+		case HEX_LIST_HACK:
+		case HEX_LIST_CODE:
+		case HEX_LIST_OUT:
 			HexTree_P->Show();
+			break;
+		}
 		switch ( inMode )
 		{
 		case HEX_LIST_SESSION:
@@ -39,50 +62,61 @@ void G::ShowPanels()
 		case HEX_LIST_WIN:
 			HexBin_P->Show();
 			break;
-		case HEX_LIST_RAM:
-			HexFile_P->Show( false );
-			HexRam_P->Show();
-			HexRamData_P->Show();
-			HexAddr_P->Show();
-			break;
 		case HEX_LIST_PFL:
 			HexPfl_P->Show();
+			break;
+		case HEX_LIST_FORMAT:
+			HexFormat_P->Show();
 			break;
 		case HEX_LIST_HACK:
 			HexHook_P->Show();
 			HexHck_P->Show();
 			break;
 		case HEX_LIST_CODE:
-			HexList_LB->Show();
+		case HEX_LIST_OUT:
 			HexCode_P->Show();
 			HexAddr_P->Show();
+			HexDepth_P->Show();
+			HexInc_DD->Show();
+			HexInc_TXT->Show();
 			HexVal_P->Show();
 			break;
+		case HEX_LIST_EDIT:
+			db.eAddr = 0u;
+			db.eGrid( 0x30 );
+			HexAddr_P->Show();
+			HexDepth_P->Show( false );
+			HexVal_P->Show();
+			HexHook_P->Show();
+			HexGrid_G->Show();
+			HexEdit_P->Show();
+			break;
 		}
-		m_siListOld = inMode;
 	}
-	HexBody_SW->FitInside();
-	HexList_SW->FitInside();
-	bool en = ( m_db.getNowN( inMode ) != m_db.getDefN( inMode ) );
+	HexBody_SW->Layout();
+	HexList_P->Layout();
 	switch ( inMode )
 	{
 	case HEX_LIST_APP:
 	case HEX_LIST_WIN:
 	case HEX_LIST_RAM:
 	case HEX_LIST_HACK:
+	case HEX_LIST_FIND:
+	case HEX_LIST_OUT:
+	case HEX_LIST_EDIT:
 		en = true;
 		break;
 	case HEX_LIST_CODE:
-		en = ( m_db.codeNo >= 0 );
+		en = ( m_gui.m_db.codeNo >= 0 );
 		break;
 	}
-	iEnd = g_iPanelCount - 2;
-	for ( int i = 0; i < iEnd; ++i )
+	iEnd = NO_OF_PANELS - 2;
+	for ( i = 0; i < iEnd; ++i )
 		m_aPanels[ i ]->Enable( en );
 }
 void G::ShowData( hexDB& db )
 {
-	ShowPanels();
+	ShowPanels( db.nowL, m_bListCfg );
 	int inMode = db.tmpMode;
 	switch ( inMode )
 	{
@@ -105,6 +139,9 @@ void G::ShowData( hexDB& db )
 			break;
 		case HEX_LIST_PFL:
 			ShowPflD( db.pfl );
+			break;
+		case HEX_LIST_FORMAT:
+			ShowFormat( db.format );
 			break;
 		case HEX_LIST_HACK:
 		{
@@ -186,6 +223,10 @@ void G::ShowRegion( ui32 region )
 	HexRegionAll_RB->SetValue( all );
 	HexRegionSel_RB->SetValue( !all );
 	HexRegion_CLB->Enable( !all );
+}
+void G::ShowFormat( Format& obj )
+{
+	HexExt_TXT->ChangeValue( obj.fileOld );
 }
 void G::ShowHack( Hacks& data, int hackNo )
 {

@@ -3,7 +3,7 @@
 
 #ifndef xsArray_H
 #define xsArray_H
-template< typename T, const ui32 TC = 0 >
+template< typename T, const ui32 TC >
 class xsDLL xsArray
 {
 protected:
@@ -18,12 +18,12 @@ public:
 	ui32	end(	void ) { return ( ( m_count > 0u ) ? m_count - 1 : 0u ); }
 	ui32	rbegin(	void ) { return end(); }
 	ui32	rend(	void ) { return begin(); }
-	const int cbegin(	void ) { return begin(); }
-	const int cend(		void ) { return end(); }
-	const int crbegin(	void ) { return end(); }
-	const int crend(	void ) { return begin(); }
+	const ui32 cbegin(	void ) { return begin(); }
+	const ui32 cend(	void ) { return end(); }
+	const ui32 crbegin(	void ) { return end(); }
+	const ui32 crend(	void ) { return begin(); }
 	bool	empty(	void ) { return ( m_count == 0u ); }
-	int		size(	void ) { return m_count; }
+	ui32	size(	void ) { return m_count; }
 	size_t	capacity( void ) { return (m_Tsize * TC); }
 	ui32	max_size( void ) { return TC; }
 	void	resize( ui32 set_count )
@@ -35,13 +35,11 @@ public:
 		m_count = set_count;
 		m_size  = m_Tsize * m_count;
 	}
-	void	resize( int set_count, const T& default_value )
+	void	resize( ui32 set_count, const T& default_value )
 	{
 		ui32 i = m_count;
-		resize( set_count );
-		for ( ; i < m_count; ++i )
-			m_data[ i ] = default_value;
 		m_obj = default_value;
+		resize( set_count );
 	}
 	void	insert( ui32 b4i, T& value )
 	{
@@ -66,7 +64,7 @@ public:
 		m_data	= d;
 	}
 	void swap( xsArray& obj ) { swap( &obj ); }
-	void assign( int set_count, const T& default_value ) { resize( set_count, default_value ); }
+	void assign( ui32 set_count, const T& default_value ) { resize( set_count, default_value ); }
 	void reserve( size_t min_size )
 	{
 		if ( min_size > m_size )
@@ -101,14 +99,16 @@ public:
 	xsArray( xsArray& obj )
 	{
 		m_clear();
-		m_size	= obj.m_size;
+		if ( m_size > obj.m_size )
+			m_size	= obj.m_size;
 		m_count	= obj.m_count;
 		memcpy( m_data, obj.m_data, m_size );
 	}
 	xsArray( xsArray* obj )
 	{
 		m_clear();
-		m_size	= obj->m_size;
+		if ( m_size > obj->m_size )
+			m_size	= obj->m_size;
 		m_count	= obj->m_count;
 		memcpy( m_data, obj->m_data, m_size );
 	}
@@ -118,9 +118,9 @@ public:
 		resize( TC, set_values );
 	}
 	~xsArray( void ) { clear(); }
-	T& at( ui32 index ) { return ( index < m_count ) ? m_data[ index ] : m_obj; }
+	T& at( ui32 index ) { return ( index < TC ) ? m_data[ index ] : m_obj; }
 	T& front( void ) { return ( m_count > 0u ) ? m_data[ 0u ] : m_obj; }
 	T& back( void ) { return ( m_count > 0u ) ? m_data[ m_count - 1u ] : m_obj; }
-	T& operator[] ( ui32 index ) { return ( index < m_count ) ? m_data[ index ] : m_obj; }
+	T& operator[] ( ui32 index ) { return ( index < TC ) ? m_data[ index ] : m_obj; }
 };
 #endif

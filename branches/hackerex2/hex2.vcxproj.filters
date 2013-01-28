@@ -36,9 +36,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hex2_dbCheck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hex2_dbShow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,24 +45,6 @@
     <ClCompile Include="hex2_G.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hex2_G_LoadBin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hex2_G_LoadData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hex2_G_LoadOrg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hex2_G_LoadPfl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hex2_G_LoadPfm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hex2_G_LoadState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hex2_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +52,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hex2_wxFB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hex2_State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

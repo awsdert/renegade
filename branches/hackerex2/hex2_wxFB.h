@@ -32,13 +32,14 @@
 #include <wx/radiobut.h>
 #include <wx/listbox.h>
 #include <wx/checklst.h>
-#include <wx/checkbox.h>
+#include <wx/statline.h>
 #include <wx/spinbutt.h>
 #include <wx/gbsizer.h>
+#include <wx/checkbox.h>
 #include <wx/slider.h>
 #include <wx/scrolwin.h>
 #include <wx/treectrl.h>
-#include <wx/statline.h>
+#include <wx/grid.h>
 #include <wx/splitter.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
@@ -95,22 +96,31 @@ class HexGUI : public wxFrame
 			HexRegion_CLB_ID,
 			HexRegionAll_RB_ID,
 			HexRegionSel_RB_ID,
+			HexExt_TXT_ID,
+			HexFAdd_B_ID,
+			HexConvert_B_ID,
+			HexMerge_B_ID,
+			HexCType_DD_ID,
+			HexLoop_TXT_ID,
 			HexUse_RB_ID,
 			HexUse_CB_ID,
 			HexHackKids_DD_ID,
 			HexBinHack_B_ID,
-			HexCType_DD_ID,
-			HexLoop_TXT_ID,
+			HexVSize_CLB_ID,
+			HexQInfo_DD_ID,
+			HeJump_B_ID,
+			HexEdit_TXT_ID,
 			HexAddr_TXT_ID,
+			HexEGet_B_iD,
+			HexESet_B_ID,
 			HexVal_ID,
 			HexInc_DD_ID,
 			HexVType_DD_ID,
 			HexVSize_SB_ID,
-			HexVSize_CLB_ID,
-			HexQInfo_DD_ID,
 			HexList_LB_ID,
 			HexHack_TC_ID,
 			HexCode_TC_ID,
+			HexGrid_G_ID,
 			HexGUI_ST_ID,
 		};
 		
@@ -162,32 +172,26 @@ class HexGUI : public wxFrame
 		wxCheckListBox* HexRegion_CLB;
 		wxRadioButton* HexRegionAll_RB;
 		wxRadioButton* HexRegionSel_RB;
-		wxPanel* HexHck_P;
-		wxRadioButton* HexUse_RB;
-		wxCheckBox* HexUse_CB;
-		wxStaticText* HexHackKids_S;
-		wxChoice* HexHackKids_DD;
-		wxButton* HexBinHack_B;
+		wxPanel* HexFormat_P;
+		wxStaticText* HexExt_S;
+		wxTextCtrl* HexExt_TXT;
+		wxButton* HexFAdd_B;
+		wxStaticLine* HexFLine_HR;
+		wxButton* HexConvert_B;
+		wxButton* HexMerge_B;
+		wxListBox* HexFormat_LB;
 		wxPanel* HexCode_P;
 		wxStaticText* HexCType_S;
 		wxChoice* HexCType_DD;
 		wxStaticText* HexLoop_S;
 		wxTextCtrl* HexLoop_TXT;
 		wxSpinButton* HexLoop_SPB;
-		wxPanel* HexAddr_P;
-		wxTextCtrl* HexAddr_TXT;
-		wxStaticText* HexDepth_S;
-		wxSlider* HexDepth_SL;
-		wxPanel* HexVal_P;
-		wxChoice* HexTest_DD;
-		wxTextCtrl* HexVal_TXT;
-		wxSpinButton* HexVal_SPB;
-		wxChoice* HexInc_DD;
-		wxTextCtrl* HexInc_TXT;
-		wxStaticText* HexVType_S;
-		wxChoice* HexVType_DD;
-		wxStaticText* HexVSize_S;
-		wxSpinCtrl* HexVSize_SB;
+		wxPanel* HexHck_P;
+		wxRadioButton* HexUse_RB;
+		wxCheckBox* HexUse_CB;
+		wxStaticText* HexHackKids_S;
+		wxChoice* HexHackKids_DD;
+		wxButton* HexBinHack_B;
 		wxPanel* HexQ_P;
 		wxStaticText* HexQOut_S;
 		wxCheckListBox* HexVSize_CLB;
@@ -217,14 +221,33 @@ class HexGUI : public wxFrame
 		wxCheckBox* HexQLE_CB;
 		wxTextCtrl* HexQLE_TXT;
 		wxPanel* HexOut_P;
-		wxScrolledWindow* HexList_SW;
+		wxPanel* HexEdit_P;
+		wxButton* HexJump_B;
+		wxTextCtrl* HexEdit_TXT;
+		wxPanel* HexAddr_P;
+		wxTextCtrl* HexAddr_TXT;
+		wxPanel* HexEAddr_P;
+		wxButton* HexEGet_B;
+		wxButton* HexESet_B;
+		wxPanel* HexDepth_P;
+		wxSlider* HexDepth_SL;
+		wxPanel* HexVal_P;
+		wxChoice* HexTest_DD;
+		wxTextCtrl* HexVal_TXT;
+		wxSpinButton* HexVal_SPB;
+		wxChoice* HexInc_DD;
+		wxTextCtrl* HexInc_TXT;
+		wxStaticText* HexVType_S;
+		wxChoice* HexVType_DD;
+		wxStaticText* HexVSize_S;
+		wxSpinCtrl* HexVSize_SB;
+		wxPanel* HexList_P;
 		wxListBox* HexList_LB;
 		wxPanel* HexTree_P;
 		wxTreeCtrl* HexHack_TC;
 		wxStaticLine* HexTree_SL;
 		wxTreeCtrl* HexCode_TC;
-		wxPanel* HexGrid_P;
-		wxFlexGridSizer* HexGrid_LF;
+		wxGrid* HexGrid_G;
 		wxStatusBar* HexGUI_ST;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -235,8 +258,11 @@ class HexGUI : public wxFrame
 		virtual void HexState_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexBinExec_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexBinKill_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void HexBinHack_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexFAdd_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexConvert_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HexMerge_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexLoop_SBC( wxSpinEvent& event ) { event.Skip(); }
+		virtual void HexBinHack_B_OnClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexVal_OnChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void HexVal_OnSpin( wxSpinEvent& event ) { event.Skip(); }
 		virtual void HexList_LB_OnSelect( wxCommandEvent& event ) { event.Skip(); }

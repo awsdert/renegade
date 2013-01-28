@@ -18,7 +18,7 @@ void Hack::clear( void )
 	first	= 0xFFFFF;
 	next	= 0xFFFFF;
 	info	= 0u;
-	line	= 0;
+	used	= false;
 }
 Hacks::Hacks()
 {

@@ -6,44 +6,48 @@ G::G( wxWindow* parent, bool user ) :
 {
 // NOTE: Quick link to GUI constructor
 	// Lists
-	m_bCwd		= true;
+	m_bCwd		= wxFileExists( wxT( "hex.ini" ) );
 	m_bListCfg	= true;
-	m_siListNow	= HEX_LIST_SESSION;
-	m_siListOld = -1;
-	int i = 0;
-	m_db.pb = HexProgress_PB;
-	m_aPanels[ i ]	= HexName_P;
+	hexDB& db = m_gui.m_db;
+	db.nowL	= HEX_LIST_SESSION;
+	db.oldL	= -1;
+	db.SetGui( &m_gui );
+	ui32 i = 0;
+	HexFormat_LB->Append( getFormats() );
+	db.pb = HexProgress_PB;
+	m_aPanels[ i ]		= HexName_P;
 	m_aPanels[ ++i ]	= HexFile_P;
-	m_aPanels[ ++i ]	= HexEndian_P;
+	m_aPanels[ ++i ]	= HexState_P;
 	m_aPanels[ ++i ]	= HexBin_P;
 	m_aPanels[ ++i ]	= HexRam_P;
+	m_aPanels[ ++i ]	= HexRamData_P;
 	m_aPanels[ ++i ]	= HexPfl_P;
+	m_aPanels[ ++i ]	= HexEndian_P;
 	m_aPanels[ ++i ]	= HexHook_P;
+	m_aPanels[ ++i ]	= HexFormat_P;
 	m_aPanels[ ++i ]	= HexHck_P;
-	m_aPanels[ ++i ]	= HexAddr_P;
-	m_aPanels[ ++i ]	= HexVal_P;
+	m_aPanels[ ++i ]	= HexCode_P;
 	m_aPanels[ ++i ]	= HexQ_P;
 	m_aPanels[ ++i ]	= HexOut_P;
-	m_aPanels[ ++i ]	= HexRamData_P;
-	m_aPanels[ ++i ]	= HexState_P;
-	m_aPanels[ ++i ]	= HexCode_P;
-	m_aPanels[ ++i ]	= HexGrid_P;
+	m_aPanels[ ++i ]	= HexEdit_P;
+	m_aPanels[ ++i ]	= HexAddr_P;
+	m_aPanels[ ++i ]	= HexVal_P;
+	m_aPanels[ ++i ]	= HexGrid_G;
 	m_aPanels[ ++i ]	= HexTree_P;
-	m_db.appsLB		= HexList_LB;
-	m_db.codesTree	= HexCode_TC;
-	m_db.hacksTree	= HexHack_TC;
-	m_db.tmpCfg		= false;
-	m_db.tmpMode	= HEX_LIST_SESSION;
-	wxStandardPaths stdPaths;
-	Text path		= m_bCwd ? wxGetCwd() : stdPaths.GetUserDataDir(), val, txt;
+	db.appsLB		= HexList_LB;
+	db.codesTree	= HexCode_TC;
+	db.hacksTree	= HexHack_TC;
+	db.tmpCfg		= false;
+	db.tmpMode	= HEX_LIST_SESSION;
+	Text path		= m_bCwd ? db.cwd : db.stdPaths.GetUserDataDir(), val, txt;
 	path += xsDirSep + wxT("hex.ini");
-	m_db.nowP[ HEX_LIST_ORG ] = path;
-	m_db.oldP[ HEX_LIST_ORG ] = path;
+	db.nowP[ HEX_LIST_ORG ] = path;
+	db.oldP[ HEX_LIST_ORG ] = path;
 	CfgF* cfg = new CfgF( wxT("HackerEX2"), wxT("Awsdert"), path );
-	m_db.ini = cfg;
+	db.ini = cfg;
 	cfg->SetPath( wxT("/Configuration") );
-	cfg->Read( wxT("Session" ), &val, m_db.getDefN() );
-	LoadData( m_db, HexList_LB, HEX_LOAD_SAVE2TEMP, val );
+	cfg->Read( wxT("Session" ), &val, db.getDefN() );
+	db.loadData( HEX_LOAD_SAVE2TEMP, val );
 //#define TEST_HEXSFIEEE754
 #ifdef TEST_HEXSFIEEE754
 	ui32 v32 = 0u;
@@ -51,39 +55,44 @@ G::G( wxWindow* parent, bool user ) :
 	txt.Printf( wxT("%08X: %01e"), v32, v32 );
 	wxMessageBox( txt );
 #endif
-	LoadStateD( m_db.state );
+	LoadStateD( db.state ); 
 	UpdatePanels();
 	const Text DefTheme = wxT("crystal-clear-icons-by-everaldo");
 	cfg->Read( wxT("Theme"), &val, DefTheme );
 	UpdateTheme( val );
+	db.eGrid_Connect( HexGrid_G, HexHook_DD, HexVSize_SB, HexEdit_TXT, HexAddr_TXT, HexVal_TXT, HexJump_B, HexEGet_B, HexESet_B );
 }
 G::~G()
 {
-	m_db.killThreads = true;
-	CfgF* cfgN = m_db.ini;
+	hexDB& db = m_gui.m_db;
+	db.eGrid_Disconnect();
+	m_gui.m_hackAdd = 0;
+	m_gui.m_editAdd = 0;
+	db.killThreads = true;
+	CfgF* cfgN = db.ini;
 	Text name;
 	if ( cfgN != NULL )
 	{
-		Text path = m_db.nowP[ HEX_LIST_ORG ] + cTild;
+		Text path = db.nowP[ HEX_LIST_ORG ] + cTild;
 		const Text Def		= getGlobalName();
 		const Text appName	= wxT("HackerEX");
 		const Text vendor	= wxT("Awsdert");
 		CfgF cfgT( appName, vendor, path );
 		cfgN->SetPath( wxT("/Configuration") );
-		cfgN->Write( wxT( "Session" ), m_db.state.nameOld );
+		cfgN->Write( wxT( "Session" ), db.state.nameOld );
 		cfgN->Write( wxT( "Theme" ), wxT("crystal-clear-icons-by-everaldo") );
 		if ( cfgN->HasEntry( wxT("TotalSessions") ) )
 			cfgN->DeleteEntry( wxT("TotalSessions") );
 		TxtA data;
-		LoadStates(	m_db.state,	cfgT, *cfgN, data, Def, true, false );
-		LoadOrgs(	m_db.org, 	cfgT, *cfgN, data, Def, true, false );
+		LoadStates(	db.state,	cfgT, *cfgN, data, Def, true, false );
+		LoadOrgs(	db.org, 	cfgT, *cfgN, data, Def, true, false );
 	}
 	for ( int i = 0; i < HEX_LIST_COUNT; ++i )
 	{
-		name = m_db.nowP[ i ] + cTild;
+		name = db.nowP[ i ] + cTild;
 		if ( wxFileExists(	name ) )
 			wxRemoveFile(	name );
-		name = m_db.oldP[ i ] + cTild;
+		name = db.oldP[ i ] + cTild;
 		if ( wxFileExists(	name ) )
 			wxRemoveFile(	name );
 	}
@@ -91,6 +100,9 @@ G::~G()
 void G::HexGUI_TB_OnToolExec( wxCommandEvent& event )
 {
 // TODO(awsdert) Still need to add other tool bar actions
+	hexDB& db = m_gui.m_db;
+	db.tmpLB	= HexList_LB;
+	db.tmpMode	= db.nowL;
 	switch ( event.GetId() )
 	{
 	case HexMain_TT_ID:
@@ -102,14 +114,12 @@ void G::HexGUI_TB_OnToolExec( wxCommandEvent& event )
 		UpdatePanels();
 		break;
 	case HexSave_TT_ID:
-		m_db.tmpCfg		= false;
-		m_db.tmpMode	= m_siListNow;
-		LoadData( m_db, HexList_LB, HEX_LOAD_SAVE2FILE, m_db.getNowN( m_siListNow ) );
+		db.tmpCfg		= false;
+		db.loadData( HEX_LOAD_SAVE2FILE, db.getNowN( db.nowL ) );
 		break;
 	case HexNew_TT_ID:
-		m_db.tmpCfg		= false;
-		m_db.tmpMode	= m_siListNow;
-		LoadData( m_db, HexList_LB, HEX_LOAD_SAVE2FILE, m_db.getNowN( -1 ) );
+		db.tmpCfg		= false;
+		db.loadData( HEX_LOAD_SAVE2FILE, db.getNowN( -1 ) );
 		break;
 	}
 }
@@ -117,82 +127,91 @@ void G::HexBinExec_B_OnClick( wxCommandEvent& event )
 {
 	// TODO: Implement Launcher
 }
-bool l_hack = false;
-time_t l_hackNext = 0, l_hackAdd = 0;
-void SetGTime( time_t& v, int i )
+void G::HexFAdd_B_OnClick( wxCommandEvent& event )
 {
-	time_t sec = 1000, min = sec * 60;
-	switch ( i )
+	int i = HexFormat_LB->GetSelection();
+	if ( i >= 0 )
 	{
-	case 1: v = 500; break;
-	case 2: v = sec; break;
-	case 3: v = sec * 5; break;
-	case 4: v = sec * 30; break;
-	case 5: v = min; break;
-	case 6: v = min * 5; break;
-	case 7: v = min * 30; break;
-	case 8: v = min * 60; break;
-	default: v = 0;
+		hexDB& db = m_gui.m_db;
+		db.tmpCfg	= false;
+		db.tmpMode	= HEX_LIST_FORMAT;
+		db.tmpLB	= HexList_LB;
+		db.loadData( HEX_LOAD_LIST, HexFormat_LB->GetString( i ) );
+		ShowFormat( db.format );
+	}
+}
+void G::HexConvert_B_OnClick( wxCommandEvent& event )
+{
+	int i = HexFormat_LB->GetSelection();
+	if ( i >= 0 )
+	{
+		hexDB& db	= m_gui.m_db;
+		Text name	= HexFormat_LB->GetString( i );
+		db.tmpCfg	= false;
+		db.tmpMode	= HEX_LIST_FORMAT;
+		db.tmpLB	= HexList_LB;
+		db.convertF2F( getFormat( name ) );
+		db.loadData( HEX_LOAD_LIST, name );
+		ShowFormat( db.format );
 	}
 }
 void G::HexBinHack_B_OnClick( wxCommandEvent& event )
 {
-	m_db.useCodes();
 	int i = HexHook_DD->GetSelection();
-	SetGTime( l_hackAdd, i );
-	l_hack = ( i > 0 );
-	l_hackNext = ( i > 0 ) ? time(NULL) + l_hackAdd : 0;
+	m_gui.m_hackAdd = m_gui.SetGTime( i );
+	m_gui.NewCodeThread();
 }
 void G::G_OnIdle( wxIdleEvent& event )
 {
-	time_t now = time(NULL);
-	if ( l_hack && now >= l_hackNext )
-	{
-		m_db.useCodes();
-		l_hackNext = now + l_hackAdd;
-	}
+	// TODO: Implement G::G_OnIdle event
 }
 void G::HexList_LB_OnSelect( wxCommandEvent& event )
 {
+	hexDB& db = m_gui.m_db;
 	LBox* lb = HexList_LB;
 	int i = lb->GetSelection();
 	Text name = lb->GetString( i );
 	if ( m_bListCfg )
-		m_siListNow = i;
-	else if ( m_siListNow < HEX_LIST_HACK )
+		db.nowL = i;
+	else if ( db.nowL < HEX_LIST_HACK )
 	{
-		m_db.tmpCfg		= false;
-		m_db.tmpMode	= m_siListNow;
-		m_db.bin.ramNo = HexRam_LB->GetSelection();
-		UpdateList( m_db, lb, name );
-		ShowData( m_db );
+		db.tmpCfg	= false;
+		db.tmpMode	= db.nowL;
+		db.tmpLB	= lb;
+		db.bin.ramNo = HexRam_LB->GetSelection();
+		UpdateList( db, name );
+		ShowData( db );
 	}
 }
 void G::HexHack_TC_OnSelect( wxTreeEvent& event )
 {
+	hexDB& db = m_gui.m_db;
 	TrID* data = (TrID*)HexHack_TC->GetItemData( event.GetItem() );
-	EditHack( m_db.hacks, m_db.hacks.hackOld );
-	m_db.getCodes( data->index );
-	m_siListNow = HEX_LIST_HACK;
-	ShowPanels();
+	EditHack( db.hacks, db.hacks.hackOld );
+	if ( db.nowL != HEX_LIST_HACK )
+		ShowPanels( HEX_LIST_HACK, false );
+	db.nowL = HEX_LIST_HACK;
 	//*
-	ShowHack( m_db.hacks, data->index );
-	ListCodes( HexCode_TC, m_db.appsLB, m_db.codes, m_db.format.format, 0, true );
-	m_db.hacks.hackOld = data->index;
+	ShowHack( db.hacks, data->index );
+	db.getCodes( data->index );
+	ListCodes( HexCode_TC, HexList_LB, db.codes, db.format.format, -1 );
+	db.hacks.hackOld = data->index;
 	//*/
 }
 void G::HexCode_TC_OnSelect( wxTreeEvent& event )
 {
-	m_siListNow	= HEX_LIST_CODE;
+	hexDB& db	= m_gui.m_db;
 	TrID* data	= (TrID*)HexCode_TC->GetItemData( event.GetItem() );
-	m_db.codeNo	= data->index;
-	ShowPanels();
+	db.codeNo	= data->index;
+	if ( db.nowL != HEX_LIST_CODE )
+		ShowPanels( HEX_LIST_CODE, false );
+	db.nowL	= HEX_LIST_CODE;
 	//*
-	ShowCode( m_db.codes[ data->index ] );
-	ListCodes( HexCode_TC, m_db.appsLB, m_db.codes, m_db.format.format, data->index, false );
+	ShowCode( db.codes[ data->index ] );
+	ListCodes( HexCode_TC, HexList_LB, db.codes, db.format.format, data->index );
 	//*/
 }
 void G::HexState_B_OnClick( wxCommandEvent& event )
 {
-	LoadStateD( m_db.state );
+	LoadStateD( m_gui.m_db.state );
 }

@@ -15,12 +15,14 @@
 
 // basic wxWidgets headers
 #include <wx/wxprec.h>
+#include <wx/thread.h>
 #include <wx/stdpaths.h>
 #include <wx/tokenzr.h>
 #include <wx/dir.h>
 #include <wx/fileconf.h>
 #include <wx/textfile.h>
 
+#include <wx/scrolwin.h>
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
@@ -49,6 +51,7 @@
 #include <wx/listbox.h>
 #include <wx/treectrl.h>
 #include <wx/statline.h>
+#include <wx/grid.h>
 #include <wx/splitter.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>

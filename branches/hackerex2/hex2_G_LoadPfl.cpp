@@ -1,6 +1,8 @@
 #include "wx_pch.h"
-#include "hex2_G.h"
-Pfl  G::LoadPfls( Pfl& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
+#include "hexDB_main.h"
+void LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile );
+void SavePflD( Pfl& obj, TxtF& file, bool isTmpFile );
+xsDLL Pfl  LoadPfls( Pfl& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
 {
 	Pfl now, tmp;
 	Text txt;
@@ -33,7 +35,7 @@ Pfl  G::LoadPfls( Pfl& old, TxtF& file, TxtF& temp, TxtA& data, Text name, bool 
 	}
 	return now;
 }
-void G::LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile )
+void LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile )
 {
 	Text txt	= file.GetLine( file.GetCurrentLine() );
 	Text oldN	= txt.SubString( 1, txt.Length() - 2 );
@@ -74,7 +76,7 @@ void G::LoadPflD( Pfl& obj, TxtF& file, bool isTmpFile )
 	obj.nameOld = oldN;
 	file.GetPrevLine();
 }
-void G::SavePflD( Pfl& obj, TxtF& file, bool isTmpFile )
+void SavePflD( Pfl& obj, TxtF& file, bool isTmpFile )
 {
 	TxtT tzr;
 	Text txt, val;
@@ -91,8 +93,7 @@ void G::SavePflD( Pfl& obj, TxtF& file, bool isTmpFile )
 		txt += cSemC + obj.nameNow + cSemC + obj.fileNow;
 	file.AddLine( txt, wxTextFileType_Dos );
 	// Notes
-	val = HexNotes_TA->GetValue();
-	tzr.SetString( val, nl );
+	tzr.SetString( obj.notes, nl );
 	for ( txt = tzr.GetNextToken(); tzr.HasMoreTokens(); txt = tzr.GetNextToken() )
 	{
 		if ( txt[ 0 ] == cBS || txt[ 0 ] == cBrS || txt[ 0 ] == cSemC )

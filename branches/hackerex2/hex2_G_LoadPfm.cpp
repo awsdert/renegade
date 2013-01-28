@@ -1,6 +1,8 @@
 #include "wx_pch.h"
 #include "hex2_G.h"
-Pfm  G::LoadPfms( Pfm& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
+void LoadPfmD( Pfm& obj, TxtF& file, bool isTmpFile );
+void SavePfmD( Pfm& obj, TxtF& file, bool isTmpFile );
+xsDLL Pfm	LoadPfms( Pfm& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool addObj, bool isFileTmp, bool isTempTmp )
 {
 	Text txt;
 	const Text Def = getGlobalName();
@@ -37,7 +39,7 @@ Pfm  G::LoadPfms( Pfm& obj, TxtF& file, TxtF& temp, TxtA& data, Text name, bool 
 	}
 	return pfm;
 }
-void G::LoadPfmD( Pfm& obj, TxtF& file, bool isTmpFile )
+void LoadPfmD( Pfm& obj, TxtF& file, bool isTmpFile )
 {
 	TxtT tzr;
 	ui08 edn = 0u;
@@ -65,7 +67,7 @@ void G::LoadPfmD( Pfm& obj, TxtF& file, bool isTmpFile )
 	obj.fileNow = nowF;
 	obj.endian	= edn;
 }
-void G::SavePfmD( Pfm& obj, TxtF& file, bool isTmpFile )
+void SavePfmD( Pfm& obj, TxtF& file, bool isTmpFile )
 {
 	Text txt, eTxt;
 	eTxt.Printf( wxT( "%u" ), obj.endian );
