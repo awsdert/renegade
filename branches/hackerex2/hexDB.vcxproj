@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1BFA5152-B021-403A-90D8-FA2362917499}</ProjectGuid>
+    <RootNamespace>hexDB</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(WXWIN)\include\msvc;$(WXWIN)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ReferencePath>$(WXWIN)\lib\vc_dll\mswud;$(ReferencePath);$(WXWIN)\lib\vc_dll;$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(LibraryPath);$(WXWIN)\lib\vc_dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <SourcePath>$(SourcePath)</SourcePath>
+    <TargetName>mswHackerEXDB_vc_dbg</TargetName>
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
+    <IntDir>$(ProjectDir)\lib\vc\dbg\hexDB\</IntDir>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(WXWIN)\include\msvc;$(WXWIN)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ReferencePath>$(ReferencePath);$(WXWIN)\lib\vc_dll;$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(WXWIN)\lib\vc_dll\mswu;$(LibraryPath);$(WXWIN)\lib\vc_dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <SourcePath>$(SourcePath)</SourcePath>
+    <TargetName>mswHackerEXDB_vc</TargetName>
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
+    <IntDir>$(ProjectDir)\lib\vc\app\hexDB\</IntDir>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <UseUnicodeForAssemblerListing>true</UseUnicodeForAssemblerListing>
+      <PreprocessorDefinitions>xsDLL_BUILD;WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;WXUSINGDLL;wxUSE_GUI=1;_DEBUG;__WXDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>wx_pch.h</PrecompiledHeaderFile>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PrecompiledHeaderOutputFile>$(IntDir)wx_pch.pch</PrecompiledHeaderOutputFile>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>user32.lib;wxbase28d.lib;wxmsw28d_adv.lib;wxmsw28d_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <UseUnicodeForAssemblerListing>true</UseUnicodeForAssemblerListing>
+      <PreprocessorDefinitions>xsDLL_BUILD;WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;WXUSINGDLL;wxUSE_GUI=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>wx_pch.h</PrecompiledHeaderFile>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PrecompiledHeaderOutputFile>$(IntDir)wx_pch.pch</PrecompiledHeaderOutputFile>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>user32.lib;wxbase28.lib;wxmsw28_adv.lib;wxmsw28_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="hexDB-hacks.cpp" />
+    <ClCompile Include="hexDB_av_onchange.cpp" />
+    <ClCompile Include="editThread.cpp" />
+    <ClCompile Include="hex2_db.cpp" />
+    <ClCompile Include="hex2_dbCheck.cpp" />
+    <ClCompile Include="hex2_G_LoadBin.cpp" />
+    <ClCompile Include="hex2_G_LoadData.cpp" />
+    <ClCompile Include="hex2_G_LoadOrg.cpp" />
+    <ClCompile Include="hex2_G_LoadPfl.cpp" />
+    <ClCompile Include="hex2_G_LoadPfm.cpp" />
+    <ClCompile Include="hex2_G_LoadState.cpp" />
+    <ClCompile Include="hexDB_app.cpp" />
+    <ClCompile Include="hexDB_checkDirFile.cpp" />
+    <ClCompile Include="hexDB_code.cpp" />
+    <ClCompile Include="hexDB_eGridEvents.cpp" />
+    <ClCompile Include="hexDB_EnumWin.cpp" />
+    <ClCompile Include="hexDB_eGrid.cpp" />
+    <ClCompile Include="hexDB_getFormat.cpp" />
+    <ClCompile Include="hexDB_hack.cpp" />
+    <ClCompile Include="hexDB_hexLib.cpp" />
+    <ClCompile Include="hexDB_hexLib_M_FIND.cpp" />
+    <ClCompile Include="hexDb_hexLib_M_FIND_find.cpp" />
+    <ClCompile Include="hexDB_hexLib_M_TREE_Codes.cpp" />
+    <ClCompile Include="hexDB_hexLib_M_TREE_Formats.cpp" />
+    <ClCompile Include="hexDB_hexLib_M_TREE_Hacks.cpp" />
+    <ClCompile Include="hexDB_hexLib_M__BIN.cpp" />
+    <ClCompile Include="hexDB_hexLib_M__ORG.cpp" />
+    <ClCompile Include="hexDB_hexLib_M__PFL.cpp" />
+    <ClCompile Include="hexDB_hexLib_M__PFM.cpp" />
+    <ClCompile Include="hexDB_List.cpp" />
+    <ClCompile Include="hexDB_ListApps.cpp" />
+    <ClCompile Include="hexDB_LoadFormat.cpp" />
+    <ClCompile Include="hexDB_LoadHack_Hex.cpp" />
+    <ClCompile Include="hexDB_LSHack_Sony_PS2_ARMAX.cpp" />
+    <ClCompile Include="hexDB_main.cpp" />
+    <ClCompile Include="hexDB_MakeObj_Hex.cpp" />
+    <ClCompile Include="hexDB_MakeTxt_Hex.cpp" />
+    <ClCompile Include="hexDB_oGrid.cpp" />
+    <ClCompile Include="hexDB_oGrid_out.cpp" />
+    <ClCompile Include="hexDB_useCodes.cpp" />
+    <ClCompile Include="hexG_db.cpp" />
+    <ClCompile Include="hexG_hexDB_convertF2F.cpp" />
+    <ClCompile Include="hexG_hexDB_GetSetCode.cpp" />
+    <ClCompile Include="hexG_hexDB_loadCodes.cpp" />
+    <ClCompile Include="hexG_hexDB_saveCodes.cpp" />
+    <ClCompile Include="hexIO_GetHex.cpp" />
+    <ClCompile Include="hexIO_GetHexFromSF_IEEE754.cpp" />
+    <ClCompile Include="hexIO_GetHexFromSI.cpp" />
+    <ClCompile Include="hexIO_GetHexFromUI.cpp" />
+    <ClCompile Include="hexDB_oGrid_find.cpp" />
+    <ClCompile Include="zxInt.cpp" />
+    <ClCompile Include="zxInt_add.cpp" />
+    <ClCompile Include="zxInt_and.cpp" />
+    <ClCompile Include="zxInt_b2b.cpp" />
+    <ClCompile Include="zxInt_clear.cpp" />
+    <ClCompile Include="zxInt_cmp.cpp" />
+    <ClCompile Include="zxInt_div.cpp" />
+    <ClCompile Include="zxInt_mul.cpp" />
+    <ClCompile Include="zxInt_not.cpp" />
+    <ClCompile Include="zxInt_rem.cpp" />
+    <ClCompile Include="zxInt_setPtr.cpp" />
+    <ClCompile Include="zxInt_shiftL.cpp" />
+    <ClCompile Include="zxInt_shiftR.cpp" />
+    <ClCompile Include="zxInt_xor.cpp" />
+    <ClCompile Include="zxInt__or.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hex2_db.h" />
+    <ClInclude Include="hexDB_app.h" />
+    <ClInclude Include="hexDB_enum.h" />
+    <ClInclude Include="hexDB_hack.h" />
+    <ClInclude Include="hexDB_hexIO.h" />
+    <ClInclude Include="hexDB_hexLib.h" />
+    <ClInclude Include="hexDB_main.h" />
+    <ClInclude Include="hexG_db.h" />
+    <ClInclude Include="wx_pch.h" />
+    <ClInclude Include="xsArray.h" />
+    <ClInclude Include="xsVector.h" />
+    <ClInclude Include="zxInt.h" />
+    <ClInclude Include="zxTypes.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
