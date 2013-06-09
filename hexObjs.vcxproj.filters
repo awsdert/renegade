@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Project Files">
+      <UniqueIdentifier>{378df7ab-d768-43be-8fe0-f4440cc643f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\code">
+      <UniqueIdentifier>{b66c0f65-4b5e-4fcc-aa9b-587ff12dd5de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hexObjs_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_base_region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wx_pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_hack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_fmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_lang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexObjs_code.h">
+      <Filter>Project Files\code</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hexObjs_base_operator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexObjs_base_constructor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexObjs_base_other.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexObjs_pfl_region.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexObjs_code_fileIO.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexObjs_code_GetSetCode.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

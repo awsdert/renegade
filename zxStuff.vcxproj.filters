@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\zxInt">
+      <UniqueIdentifier>{c29e6063-c40a-4d3d-98dd-aafaf42ca2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\zxText">
+      <UniqueIdentifier>{a5279e9d-a92d-43b7-937d-0081f2758260}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="zxVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxInt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zxText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="zxInt.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_add.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_and.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_b2b.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_clear.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_cmp.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_div.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_mul.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_not.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_rem.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_setPtr.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_shiftL.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_shiftR.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_xor.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt__or.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxInt_getInt.cpp">
+      <Filter>Source Files\zxInt</Filter>
+    </ClCompile>
+    <ClCompile Include="zxProc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_printf.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_itoa.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_case.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_append.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_substr.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_operator.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_atoi.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+    <ClCompile Include="zxText_zxGetVal.cpp">
+      <Filter>Source Files\zxText</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

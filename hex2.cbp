@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hex2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Load\;" />
+		<Build>
+			<Target title="r_MSW">
+				<Option platforms="Windows;" />
+				<Option output="bin/app/mswHackerEX2" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
+				<Option object_output="obj/app" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libwxmsw28u.a" />
+					<Add library="bin\app\libmswHackerEX_gcc.a" />
+					<Add library="bin\app\libmswHackerEXDB_gcc.a" />
+					<Add directory="$(#wx)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="d_MSW">
+				<Option platforms="Windows;" />
+				<Option output="bin/dbg/mswHackerEX2" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
+				<Option object_output="obj/gcc/dbg" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw28ud.a" />
+					<Add library="bin\dbg\libmswHackerEX_gcc.a" />
+					<Add library="bin\dbg\libmswHackerEXDB_gcc.a" />
+					<Add directory="$(#wx)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-O3" />
+			<Add option="-Wall" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option='[[if (PLATFORM == PLATFORM_MSW &amp;&amp; (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;))) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-Winvalid-pch" />
+			<Add option="-include wx_pch.h" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DWX_PRECOMP" />
+			<Add option="-DHACKEREX2" />
+			<Add directory="$(CPP_INC)" />
+			<Add directory="$(#wx)/contrib/include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(CPP_INC)" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-mthreads" />
+		</Linker>
+		<Unit filename="bin/hex.ini" />
+		<Unit filename="bin/org/sony.hexp" />
+		<Unit filename="bin/org/sony/ps2.hexb" />
+		<Unit filename="bin/org/sony/ps2/default.hexdb" />
+		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12.hexf" />
+		<Unit filename="bin/org/sony/ps2/default/Final-Fantasy-12/Final-Fantasy-12.hexcl" />
+		<Unit filename="bin/org/sony/ps2/default/Star-Ocean-3-TTEOT/Star-Ocean-3-TTEOT.hexcl" />
+		<Unit filename="hex2_Edit.cpp" />
+		<Unit filename="hex2_G.cpp" />
+		<Unit filename="hex2_G.h" />
+		<Unit filename="hex2_G_LoadBin.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_G_LoadData.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_G_LoadOrg.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_G_LoadPfl.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_G_LoadPfm.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_G_LoadState.cpp">
+			<Option virtualFolder="Load/" />
+		</Unit>
+		<Unit filename="hex2_app.h" />
+		<Unit filename="hex2_dbCheck.cpp" />
+		<Unit filename="hex2_dbShow.cpp" />
+		<Unit filename="hex2_global.h" />
+		<Unit filename="hex2_main.cpp" />
+		<Unit filename="hex2_update.cpp" />
+		<Unit filename="hex2_wxFB.cpp" />
+		<Unit filename="hex2_wxFB.h" />
+		<Unit filename="hex2_wxFBv3.2.fbp" />
+		<Unit filename="hexDLL_global.hpp" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="wx_pch.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="4" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="x86dbg|Win32">
+      <Configuration>x86dbg</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="x86|Win32">
+      <Configuration>x86</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1BFA5152-B021-403A-90D8-FA2362917499}</ProjectGuid>
+    <RootNamespace>hexDB</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86dbg|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='x86dbg|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='x86|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86dbg|Win32'">
+    <IncludePath>$(WXDIR)\include\msvc;$(WXDIR)\include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(WXDIR)\lib\vc_dll;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(WXDIR)\lib\vc_dll\mswd;$(WXDIR)\lib\vc_dll;%(LibraryPath);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <TargetName>$(ProjectName)_vc_$(Configuration)</TargetName>
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86|Win32'">
+    <IncludePath>$(WXDIR)\include\msvc;$(WXDIR)\include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(WXDIR)\lib\vc_dll;$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(WXDIR)\lib\vc_dll\msw;$(WXDIR)\lib\vc_dll;%(LibraryPath);$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <TargetName>$(ProjectName)_vc_$(Configuration)</TargetName>
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86dbg|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <UseUnicodeForAssemblerListing>true</UseUnicodeForAssemblerListing>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;WXUSINGDLL;wxUSE_GUI=1;hexLib_BUILD;_DEBUG;__WXDEBUG;zxDLL_BILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(INCLUDE)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>wx_pch.h</PrecompiledHeaderFile>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PrecompiledHeaderOutputFile>$(IntDir)wx_pch.pch</PrecompiledHeaderOutputFile>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>user32.lib;$(OutDir)zxStuff_vc_$(Configuration).lib;$(OutDir)hexObjs_vc_$(Configuration).lib;wxbase28d.lib;wxmsw28d_adv.lib;wxmsw28d_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <UseUnicodeForAssemblerListing>true</UseUnicodeForAssemblerListing>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;WXUSINGDLL;wxUSE_GUI=1;hexLib_BUILD;zxDLL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(INCLUDE)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>wx_pch.h</PrecompiledHeaderFile>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PrecompiledHeaderOutputFile>$(IntDir)wx_pch.pch</PrecompiledHeaderOutputFile>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>user32.lib;$(OutDir)zxStuff_vc_$(Configuration).lib;$(OutDir)hexObjs_vc_$(Configuration).lib;wxbase28.lib;wxmsw28_adv.lib;wxmsw28_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="hexLib_btnArray.cpp" />
+    <ClCompile Include="hexLib_code_list.cpp" />
+    <ClCompile Include="hexLib_editThread.cpp" />
+    <ClCompile Include="hexLib_bin_load.cpp" />
+    <ClCompile Include="hexLib_M_FILE.cpp" />
+    <ClCompile Include="hexLib_M_LOAD.cpp" />
+    <ClCompile Include="hexLib_M_NAME.cpp" />
+    <ClCompile Include="hexLib_M__VAL.cpp" />
+    <ClCompile Include="hexLib_org_load.cpp" />
+    <ClCompile Include="hexLib_pfl_load.cpp" />
+    <ClCompile Include="hexLib_pfm_load.cpp" />
+    <ClCompile Include="hexLib_ram.cpp" />
+    <ClCompile Include="hexLib_setCfgTheme.cpp" />
+    <ClCompile Include="hexLib_state_load.cpp" />
+    <ClCompile Include="hexLib_app.cpp" />
+    <ClCompile Include="hexLib_checkDirFile.cpp" />
+    <ClCompile Include="hexLib_code.cpp" />
+    <ClCompile Include="hexLib_M_FIND_edit_events.cpp" />
+    <ClCompile Include="hexLib_EnumWin.cpp" />
+    <ClCompile Include="hexLib_M_FIND_edit.cpp" />
+    <ClCompile Include="hexLib_fmt.cpp" />
+    <ClCompile Include="hexLib_hack.cpp" />
+    <ClCompile Include="hexLib.cpp" />
+    <ClCompile Include="hexLib_M_FIND.cpp" />
+    <ClCompile Include="hexLib_M_FIND_find.cpp" />
+    <ClCompile Include="hexLib_M_TREE_Codes.cpp" />
+    <ClCompile Include="hexLib_bin.cpp" />
+    <ClCompile Include="hexLib_org.cpp" />
+    <ClCompile Include="hexLib_pfl.cpp" />
+    <ClCompile Include="hexLib_pfm.cpp" />
+    <ClCompile Include="hexLib_state.cpp" />
+    <ClCompile Include="hexLib_listHacks.cpp" />
+    <ClCompile Include="hexLib_listApps.cpp" />
+    <ClCompile Include="hexLib_fmt_load.cpp" />
+    <ClCompile Include="hexLib_main.cpp" />
+    <ClCompile Include="hexLib_M_FIND_out.cpp" />
+    <ClCompile Include="hexLib_codeThread.cpp" />
+    <ClCompile Include="hexLib_convertF2F.cpp" />
+    <ClCompile Include="hexLib_loadCodes.cpp" />
+    <ClCompile Include="hexLib_saveCodes.cpp" />
+    <ClCompile Include="hexLib_hexIO_GetHexFromSF_IEEE754.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hexLib_app.h" />
+    <ClInclude Include="hexLib_codeThread.h" />
+    <ClInclude Include="hexLib_editThread.h" />
+    <ClInclude Include="hexLib_enum.h" />
+    <ClInclude Include="hexLib_hexIO.h" />
+    <ClInclude Include="hexLib.h" />
+    <ClInclude Include="hexLib_main.h" />
+    <ClInclude Include="hexLib_gui.h" />
+    <ClInclude Include="hexLib_base.h" />
+    <ClInclude Include="hexLib_bin.h" />
+    <ClInclude Include="hexLib_code.h" />
+    <ClInclude Include="hexLib_find.h" />
+    <ClInclude Include="hexLib_fmt.h" />
+    <ClInclude Include="hexLib_hack.h" />
+    <ClInclude Include="hexLib_M_FILE.h" />
+    <ClInclude Include="hexLib_M_LOAD.h" />
+    <ClInclude Include="hexLib_M_NAME.h" />
+    <ClInclude Include="hexLib_org.h" />
+    <ClInclude Include="hexLib_pfl.h" />
+    <ClInclude Include="hexLib_pfm.h" />
+    <ClInclude Include="hexLib_ram.h" />
+    <ClInclude Include="hexLib_state.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,7 @@
+#include "zxDLL.h"
+#include "zxTypes.h"
+#include "zxArray.h"
+#include "zxVector.h"
+#include "zxText.h"
+#include "zxProc.h"
+#include "zxInt.h"

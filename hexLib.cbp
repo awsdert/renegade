@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hexDB_DLL" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="r_MSW">
+				<Option platforms="Windows;" />
+				<Option output="bin/app/mswHackerEXDB_gcc" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
+				<Option object_output="obj/gcc/app/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="user32" />
+					<Add library="libwxmsw28u.a" />
+					<Add directory="$(#wx)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="d_MSW">
+				<Option platforms="Windows;" />
+				<Option output="bin/dbg/mswHackerEXDB_gcc" imp_lib="lib/dbg/$(TARGET_OUTPUT_BASENAME).a" def_file="lib/dbg/$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(TARGET_OUTPUT_DIR)" />
+				<Option object_output="obj/gcc/dbg/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-D__GNUWIN32__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="user32" />
+					<Add library="libwxmsw28ud.a" />
+					<Add directory="$(#wx)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option='[[if (PLATFORM == PLATFORM_MSW &amp;&amp; (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;))) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-Winvalid-pch" />
+			<Add option="-include wx_pch.h" />
+			<Add option="-DxsDLL_BUILD" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DWX_PRECOMP" />
+			<Add directory="$(#wx)/include" />
+			<Add directory="$(#wx)/contrib/include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(#wx)/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-mthreads" />
+		</Linker>
+		<Unit filename="hex2_db.cpp" />
+		<Unit filename="hex2_db.h" />
+		<Unit filename="hexDB_EnumWin.cpp" />
+		<Unit filename="hexDB_List.cpp" />
+		<Unit filename="hexDB_ListApps.cpp" />
+		<Unit filename="hexDB_LoadFormat.cpp" />
+		<Unit filename="hexDB_LoadHack_Hex.cpp" />
+		<Unit filename="hexDB_MakeObj_Hex.cpp" />
+		<Unit filename="hexDB_MakeTxt_Hex.cpp" />
+		<Unit filename="hexDB_app.cpp" />
+		<Unit filename="hexDB_app.h" />
+		<Unit filename="hexDB_code.cpp" />
+		<Unit filename="hexDB_enum.h" />
+		<Unit filename="hexDB_getFormat.cpp" />
+		<Unit filename="hexDB_hack.cpp" />
+		<Unit filename="hexDB_hack.h" />
+		<Unit filename="hexDB_hexIO.h" />
+		<Unit filename="hexDB_main.cpp" />
+		<Unit filename="hexDB_main.h" />
+		<Unit filename="hexDLL_global.hpp" />
+		<Unit filename="hexG_db.cpp" />
+		<Unit filename="hexG_db.h" />
+		<Unit filename="hexG_hexDB_loadCodes.cpp" />
+		<Unit filename="hexG_hexDB_saveCodes.cpp" />
+		<Unit filename="hexIO_GetHex.cpp" />
+		<Unit filename="hexIO_GetHexFromSF_IEEE754.cpp" />
+		<Unit filename="hexIO_GetHexFromSI.cpp" />
+		<Unit filename="hexIO_GetHexFromUI.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="HackerEX">
+		<Project filename="hex2.cbp">
+			<Depends filename="hexDLL.cbp" />
+			<Depends filename="hexLib.cbp" />
+		</Project>
+		<Project filename="hexDLL.cbp" />
+		<Project filename="hexLib.cbp" />
+		<Project filename="hex1.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Project Files">
+      <UniqueIdentifier>{1625ad31-b257-49eb-b8e5-646a4035f6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\cfg">
+      <UniqueIdentifier>{4a325134-2e1b-4393-b8a3-621386d50321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\hexIO">
+      <UniqueIdentifier>{6305e84f-a82d-4915-8822-28ad910c53d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\state">
+      <UniqueIdentifier>{8ca1716c-a050-4cba-91f8-55f722fd03ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\M_LOAD">
+      <UniqueIdentifier>{dce9ddbc-1e05-4ac2-8ec9-ac1484af9c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\M_FILE">
+      <UniqueIdentifier>{502e9c98-9fcd-4246-8a4f-5b5e0dda6d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\M_NAME">
+      <UniqueIdentifier>{2b6b4bd7-1fdd-42cc-9d6e-4850ac431b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\ram">
+      <UniqueIdentifier>{f96aa3a3-607f-49d7-90ba-b792fe4bd609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\pfm">
+      <UniqueIdentifier>{5077c8a2-04fc-4275-81e8-12fe58cf2174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\pfl">
+      <UniqueIdentifier>{817dedc6-291b-494f-95bc-37f56386b751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\bin">
+      <UniqueIdentifier>{8129ab86-40c6-4420-a278-9b7637397329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\code">
+      <UniqueIdentifier>{bc3f6a61-4bd5-4a12-90b4-1590a522fff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\edit">
+      <UniqueIdentifier>{8803fffb-4a51-43c7-8cc8-55e2fe75f7ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\find">
+      <UniqueIdentifier>{adbddbf3-3b26-451b-99fd-0c9e035324cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\fmt">
+      <UniqueIdentifier>{f6429c77-185e-4c83-8e48-f60d1780ab42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\hack">
+      <UniqueIdentifier>{83663fd4-29fc-47a9-9b94-0f3c69b78cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\org">
+      <UniqueIdentifier>{73af755f-25ce-4699-b563-fc79e8624eb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\M__VAL">
+      <UniqueIdentifier>{7757811a-ac57-4b94-8133-4aaf57e74d2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hexLib_org_load.cpp">
+      <Filter>Project Files\org</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_org.cpp">
+      <Filter>Project Files\org</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_pfm_load.cpp">
+      <Filter>Project Files\pfm</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_pfm.cpp">
+      <Filter>Project Files\pfm</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_bin_load.cpp">
+      <Filter>Project Files\bin</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_bin.cpp">
+      <Filter>Project Files\bin</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_pfl_load.cpp">
+      <Filter>Project Files\pfl</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_pfl.cpp">
+      <Filter>Project Files\pfl</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_code.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_codeThread.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_TREE_Codes.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_app.cpp">
+      <Filter>Project Files\bin</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_listHacks.cpp">
+      <Filter>Project Files\hack</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_hack.cpp">
+      <Filter>Project Files\hack</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_listApps.cpp">
+      <Filter>Project Files\bin</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_editThread.cpp">
+      <Filter>Project Files\edit</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FIND_edit.cpp">
+      <Filter>Project Files\edit</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FIND_edit_events.cpp">
+      <Filter>Project Files\edit</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FIND.cpp">
+      <Filter>Project Files\find</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FIND_find.cpp">
+      <Filter>Project Files\find</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_fmt.cpp">
+      <Filter>Project Files\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_loadCodes.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_saveCodes.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_ram.cpp">
+      <Filter>Project Files\ram</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_NAME.cpp">
+      <Filter>Project Files\M_NAME</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FILE.cpp">
+      <Filter>Project Files\M_FILE</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_LOAD.cpp">
+      <Filter>Project Files\M_LOAD</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_state.cpp">
+      <Filter>Project Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_state_load.cpp">
+      <Filter>Project Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_checkDirFile.cpp">
+      <Filter>Project Files\M_LOAD</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_hexIO_GetHexFromSF_IEEE754.cpp">
+      <Filter>Project Files\hexIO</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M_FIND_out.cpp">
+      <Filter>Project Files\find</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_setCfgTheme.cpp">
+      <Filter>Project Files\cfg</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_main.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_convertF2F.cpp">
+      <Filter>Project Files\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_fmt_load.cpp">
+      <Filter>Project Files\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_code_list.cpp">
+      <Filter>Project Files\code</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_M__VAL.cpp">
+      <Filter>Project Files\M__VAL</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_EnumWin.cpp">
+      <Filter>Project Files\bin</Filter>
+    </ClCompile>
+    <ClCompile Include="hexLib_btnArray.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hexLib_bin.h">
+      <Filter>Project Files\bin</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_ram.h">
+      <Filter>Project Files\ram</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_code.h">
+      <Filter>Project Files\code</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_codeThread.h">
+      <Filter>Project Files\code</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_find.h">
+      <Filter>Project Files\find</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_hack.h">
+      <Filter>Project Files\hack</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_fmt.h">
+      <Filter>Project Files\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_org.h">
+      <Filter>Project Files\org</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_pfl.h">
+      <Filter>Project Files\pfl</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_pfm.h">
+      <Filter>Project Files\pfm</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_M_NAME.h">
+      <Filter>Project Files\M_NAME</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_M_FILE.h">
+      <Filter>Project Files\M_FILE</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_M_LOAD.h">
+      <Filter>Project Files\M_LOAD</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_state.h">
+      <Filter>Project Files\state</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_hexIO.h">
+      <Filter>Project Files\hexIO</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_enum.h">
+      <Filter>Project Files\bin</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_base.h">
+      <Filter>Project Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_gui.h">
+      <Filter>Project Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_main.h">
+      <Filter>Project Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_app.h">
+      <Filter>Project Files\bin</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib.h">
+      <Filter>Project Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hexLib_editThread.h">
+      <Filter>Project Files\edit</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
