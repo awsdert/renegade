@@ -1,0 +1,11 @@
+﻿  fmtGetCode-fromObj.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+  fmtGetHack.cpp
+  fmtGetCodes.cpp
+  fmtGetCode-fromTxt.cpp
+  Generating Code...
+  LINK : C:\Me\Prjs\cpp\HackerEX\Main\bin\formats\HACKEREX1_vc_x86dbg.dll not found or not built by the last incremental link; performing full link
+     Creating library C:\Me\Prjs\cpp\HackerEX\Main\bin\formats\HACKEREX1_vc_x86dbg.lib and object C:\Me\Prjs\cpp\HackerEX\Main\bin\formats\HACKEREX1_vc_x86dbg.exp
+  HACKEREX1.vcxproj -> C:\Me\Prjs\cpp\HackerEX\Main\bin\formats\HACKEREX1_vc_x86dbg.dll

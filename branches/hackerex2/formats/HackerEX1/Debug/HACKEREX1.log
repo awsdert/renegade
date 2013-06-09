@@ -1,0 +1,56 @@
+﻿Environment at start of build:
+MSBuildExtensionsPath32 = C:\Program Files (x86)\MSBuild
+MSBuildExtensionsPath64 = C:\Program Files\MSBuild
+MSBuildExtensionsPath = C:\Program Files (x86)\MSBuild
+LOCALAPPDATA = C:\Users\Lee\AppData\Local
+ALLUSERSPROFILE = C:\ProgramData
+AMDAPPSDKROOT = C:\Program Files (x86)\AMD APP\
+APPDATA = C:\Users\Lee\AppData\Roaming
+CommonProgramFiles = C:\Program Files (x86)\Common Files
+CommonProgramW6432 = C:\Program Files\Common Files
+COMPUTERNAME = AWSDERT-PC-NEW
+ComSpec = C:\Windows\system32\cmd.exe
+FP_NO_HOST_CHECK = NO
+HOMEDRIVE = C:
+HOMEPATH = \Users\Lee
+LOGONSERVER = \\AWSDERT-PC-NEW
+MINGW = C:\Apps86\Tools\CodeBlocks12-11\MinGW
+MOZ_PLUGIN_PATH = C:\Apps64\Tools\PDF-XChangeViewer\PDF Viewer\Win32\
+NUMBER_OF_PROCESSORS = 4
+OS = Windows_NT
+Path = C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Apps64\System\AMD\ATI_Tech\ATI.ACE\Core-Static;C:\Program Files\TortoiseSVN\bin
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+PROCESSOR_ARCHITECTURE = x86
+PROCESSOR_ARCHITEW6432 = AMD64
+PROCESSOR_IDENTIFIER = AMD64 Family 21 Model 1 Stepping 2, AuthenticAMD
+PROCESSOR_LEVEL = 21
+PROCESSOR_REVISION = 0102
+ProgramData = C:\ProgramData
+ProgramFiles = C:\Program Files (x86)
+ProgramW6432 = C:\Program Files
+PSModulePath = C:\Windows\system32\WindowsPowerShell\v1.0\Modules\
+PUBLIC = C:\Users\Public
+SAL_ACCESSIBILITY_ENABLED = 1
+SESSIONNAME = Console
+SystemDrive = C:
+SystemRoot = C:\Windows
+TEMP = C:\Users\Lee\AppData\Local\Temp
+TMP = C:\Users\Lee\AppData\Local\Temp
+USERDOMAIN = AWSDERT-PC-NEW
+USERNAME = Lee
+USERPROFILE = C:\Users\Lee
+VisualStudioDir = C:\Users\Lee\Documents\Visual Studio 2010
+VS100COMNTOOLS = C:\Apps86\Tools\VS2010C++\Common7\Tools\
+VS2010_32 = c:\apps86\tools\vs2010c++\vc
+windir = C:\Windows
+WXADDITIONS = C:\Me\Prjs\cpp\wxWidgets2.8\additions
+WXDIR = C:\Me\Prjs\cpp\wxWidgets2.8
+WXWIN = C:\Me\Prjs\cpp\wxWidgets2.8
+
+     Creating library C:\Me\Prjs\cpp\HackerEX\Main\Debug\HACKEREX1.lib and object C:\Me\Prjs\cpp\HackerEX\Main\Debug\HACKEREX1.exp
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall Ram::Ram(void)" (??0Ram@@QAE@XZ) referenced in function "public: __thiscall zxArray<struct Ram,16>::zxArray<struct Ram,16>(struct zxArray<struct Ram,16> &)" (??0?$zxArray@URam@@$0BA@@@QAE@AAU0@@Z)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall Code::Code(void)" (??0Code@@QAE@XZ) referenced in function "public: __thiscall zxArray<struct Code,256>::zxArray<struct Code,256>(void)" (??0?$zxArray@UCode@@$0BAA@@@QAE@XZ)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall Hack::Hack(void)" (??0Hack@@QAE@XZ) referenced in function "public: __thiscall zxArray<struct Hack,65536>::zxArray<struct Hack,65536>(struct zxArray<struct Hack,65536> &)" (??0?$zxArray@UHack@@$0BAAAA@@@QAE@AAU0@@Z)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall N_REGION::N_REGION(void)" (??0N_REGION@@QAE@XZ) referenced in function "void __cdecl `dynamic initializer for 'N_REGION_OBJ''(void)" (??__EN_REGION_OBJ@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall N__FMT::N__FMT(void)" (??0N__FMT@@QAE@XZ) referenced in function "void __cdecl `dynamic initializer for 'G__FMT''(void)" (??__EG__FMT@@YAXXZ)
+C:\Me\Prjs\cpp\HackerEX\Main\Debug\HACKEREX1.dll : fatal error LNK1120: 5 unresolved externals
